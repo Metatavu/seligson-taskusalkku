@@ -1,0 +1,17 @@
+{
+
+  "generic": {
+    "notImplemented": "Ei vielä toteutettu",
+    "close": "Sulje"
+  },
+
+  "errorHandling": {
+    "title": "Virhe"
+  },
+
+  "auth": {
+    "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
+    "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään."
+  }
+
+}

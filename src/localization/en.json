@@ -1,0 +1,17 @@
+{
+
+  "generic": {
+    "notImplemented": "Not yet implemented",
+    "close": "Close"
+  },
+
+  "errorHandling": {
+    "title": "Error"
+  },
+
+  "auth": {
+    "loginSessionExpiredTitle": "Login session has expired",
+    "loginSessionExpiredContent": "Login session has expired. Please login again."
+  }
+
+}
