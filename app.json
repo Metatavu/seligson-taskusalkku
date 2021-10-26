@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "example",
-    "slug": "example",
+    "name": "Taskusalkku",
+    "slug": "taskusalkku",
     "version": "1.0.0",
     "orientation": "portrait",
     "entryPoint": "./index.tsx",
@@ -22,7 +22,7 @@
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app optionally uses the camera (Face ID) to authenticate users."
       },
-      "bundleIdentifier": "fi.metatavu.example.app"
+      "bundleIdentifier": "fi.metatavu.seligson.taskusalkku.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,6 +37,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "fi.metatavu.example"
+    "privacy": "unlisted",
+    "scheme": "fi.metatavu.seligson.taskusalkku"
   }
 }

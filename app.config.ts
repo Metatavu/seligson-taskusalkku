@@ -10,13 +10,10 @@ import "dotenv/config";
  */
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "example",
-  slug: "example",
+  name: config.name || "Taskusalkku",
+  slug: config.slug || "taskusalkku",
   extra: {
     ...config.extra,
     ...process.env
-  },
-  version: "1.0.0",
-  privacy: "unlisted",
-  scheme: "fi.metatavu.example"
+  }
 });
