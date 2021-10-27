@@ -5,7 +5,7 @@ import { RootNavigationRoutes, ScreenProps } from "./src/types/navigation";
 import moment from "moment";
 import "moment/locale/fi";
 import strings from "./src/localization/strings";
-import { getBaseRoutes } from "./src/routes/base";
+import getBaseRoutes from "./src/routes/base";
 
 /**
  * Initialized root stack navigator
@@ -51,6 +51,6 @@ const App: React.FC = () => {
       </RootStack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default App;
