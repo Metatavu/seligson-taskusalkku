@@ -6,7 +6,7 @@ import { Provider as StoreProvider } from "react-redux";
 import AuthRefresh from "./src/components/containers/auth-refresh";
 import ErrorHandler from "./src/components/error-handler/error-handler";
 import { store } from "./src/app/store";
-import { theme } from "./src/theme";
+import theme from "./src/theme";
 import App from "./App";
 
 /**

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import { Authentication } from "../../types";
-import AuthUtils from "../../utils/auth-utils";
+import AuthUtils from "../../utils/auth";
 
 /**
  * Interface describing auth state in Redux

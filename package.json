@@ -11,8 +11,9 @@
     "build-client": "openapi-generator-cli generate -i api-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
   },
   "dependencies": {
+    "@expo-google-fonts/noto-sans": "^0.2.0",
     "@react-native-async-storage/async-storage": "~1.15.0",
-    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/material-bottom-tabs": "^6.0.9",
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.4",
@@ -24,6 +25,7 @@
     "expo-app-auth": "~10.2.2",
     "expo-auth-session": "~3.3.1",
     "expo-blur": "~9.0.3",
+    "expo-font": "~9.2.1",
     "expo-linear-gradient": "^9.2.0",
     "expo-random": "~11.2.0",
     "expo-secure-store": "~10.2.0",
@@ -42,7 +44,8 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.6.2",
-    "react-redux": "^7.2.5"
+    "react-redux": "^7.2.5",
+    "expo-app-loading": "1.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
