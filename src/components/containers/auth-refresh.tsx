@@ -2,7 +2,7 @@ import React from "react";
 
 import { authUpdate, selectAuth } from "../../features/auth/auth-slice";
 import { AppState, AppStateStatus, Alert, View } from "react-native";
-import AuthUtils from "../../utils/auth-utils";
+import AuthUtils from "../../utils/auth";
 import strings from "../../localization/strings";
 import { useAppDispatch, useAppSelector, useInterval } from "../../app/hooks";
 import Config from "../../app/config";

@@ -12,6 +12,21 @@
   "auth": {
     "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
     "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään."
+  },
+
+  "screenTitles": {
+    "portfolio": "Salkku",
+    "funds": "Rahastot",
+    "publications": "Julkaisut",
+    "others": "Muut",
+    "statistics": "Tilastot",
+    "distributions": "Jakaumat",
+    "ownFunds": "Omat rahastot",
+    "events": "Tapahtumat",
+    "passiveFunds": "Passiiviset osake rahastot",
+    "activeFunds": "Aktiiviset osake rahastot",
+    "interestFunds": "Korko rahastot",
+    "combinationFunds": "Yhdistelmä rahastot"
   }
 
 }

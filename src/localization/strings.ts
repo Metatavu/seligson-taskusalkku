@@ -30,6 +30,25 @@ export interface Strings extends LocalizedStringsMethods {
     loginSessionExpiredContent: string;
   };
 
+
+  /**
+   * Translations related to screen titles
+   */
+  screenTitles: {
+    portfolio: string;
+    funds: string;
+    publications: string;
+    others: string;
+    statistics: string;
+    distributions: string;
+    ownFunds: string;
+    events: string;
+    passiveFunds: string;
+    activeFunds: string;
+    interestFunds: string;
+    combinationFunds: string;
+  };
+
 }
 
 const strings: Strings = new LocalizedStrings({ en: en, fi: fi });

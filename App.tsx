@@ -1,54 +1,103 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { RootNavigationRoutes, ScreenProps } from "./src/types/navigation";
+import { getFocusedRouteNameFromRoute, NavigationContainer, Route } from "@react-navigation/native";
+import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import moment from "moment";
 import "moment/locale/fi";
 import strings from "./src/localization/strings";
-import getBaseRoutes from "./src/routes/base";
+import { IconButton, useTheme } from "react-native-paper";
+import AppLoading from "expo-app-loading";
+import { NotoSans_400Regular, NotoSans_700Bold, useFonts } from "@expo-google-fonts/noto-sans";
+import RootNavigator from "./src/types/navigators/root";
+import HomeScreen from "./src/components/screens/home-screen";
+import AccountScreen from "./src/components/screens/account-screen";
+import AuthenticationScreen from "./src/components/screens/authentication-screen";
+import RegistrationScreen from "./src/components/screens/registration-screen";
+
+strings.setLanguage("fi");
+moment.locale(strings.getLanguage());
 
 /**
- * Initialized root stack navigator
+ * App root stack navigator
  */
-const RootStack = createNativeStackNavigator<RootNavigationRoutes>();
+const RootNavigation = createNativeStackNavigator<RootNavigator.Routes>();
 
 /**
  * Application component
  */
 const App: React.FC = () => {
-  /**
-   * Effects that need to be executed when application starts
-   */
-  React.useEffect(() => {
-    moment.locale(strings.getLanguage());
-  }, []);
+  const { colors } = useTheme();
+
+  const [ fontsLoaded ] = useFonts({
+    NotoSans_400Regular: NotoSans_400Regular,
+    NotoSans_700Bold: NotoSans_700Bold
+  });
 
   /**
-   * Renders screen
+   * Returns localized header title from current route
    *
-   * @param screenProps screen props
-   * @param index list index
+   * @param route route
    */
-  const renderScreen = (screenProps: ScreenProps, index: number) => (
-    <RootStack.Screen key={ index } { ...screenProps }/>
-  );
+  const getHeaderTitle = (route: Route<any>) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (!routeName) return strings.screenTitles.portfolio;
+    return strings.screenTitles[routeName as keyof typeof strings.screenTitles];
+  };
 
   /**
-   * Renders all application screens
-   * Include all application screens here to register them to the navigator
+   * Returns screen options
+   *
+   * @param props root navigation properties
    */
-  const renderScreens = () => [
-    ...getBaseRoutes().map(renderScreen)
-  ];
+  const getScreenOptions = ({ navigation, route }: RootNavigator.ScreenProps): NativeStackNavigationOptions => ({
+    gestureEnabled: false,
+    headerShown: false,
+    title: getHeaderTitle(route),
+    headerTitleAlign: "center",
+    headerTitleStyle: {
+      color: colors.primary,
+      fontFamily: "NotoSans_700Bold",
+      fontSize: 16
+    },
+    headerRight: () => (
+      <IconButton
+        icon="account-outline"
+        color={ colors.primary }
+        onPress={ () => navigation.navigate("account") }
+      />
+    )
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading/>;
+  }
 
   /**
    * Component render
    */
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Home">
-        { renderScreens() }
-      </RootStack.Navigator>
+      <RootNavigation.Navigator
+        initialRouteName="home"
+        screenOptions={ getScreenOptions }
+      >
+        <RootNavigation.Screen
+          name="home"
+          component={ HomeScreen }
+          options={{ headerShown: true }}
+        />
+        <RootNavigation.Screen
+          name="account"
+          component={ AccountScreen }
+        />
+        <RootNavigation.Screen
+          name="authentication"
+          component={ AuthenticationScreen }
+        />
+        <RootNavigation.Screen
+          name="registration"
+          component={ RegistrationScreen }
+        />
+      </RootNavigation.Navigator>
     </NavigationContainer>
   );
 };

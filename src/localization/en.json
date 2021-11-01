@@ -12,6 +12,21 @@
   "auth": {
     "loginSessionExpiredTitle": "Login session has expired",
     "loginSessionExpiredContent": "Login session has expired. Please login again."
+  },
+
+  "screenTitles": {
+    "portfolio": "Portfolio",
+    "funds": "Funds",
+    "publications": "Publications",
+    "others": "Others",
+    "statistics": "Statistics",
+    "distributions": "Distributions",
+    "ownFunds": "Own funds",
+    "events": "Events",
+    "passiveFunds": "Passive share funds",
+    "activeFunds": "Active share funds",
+    "interestFunds": "Interest funds",
+    "combinationFunds": "Combination funds"
   }
 
 }

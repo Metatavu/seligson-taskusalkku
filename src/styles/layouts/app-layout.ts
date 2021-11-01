@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { theme } from "../../theme";
+import theme from "../../theme";
 
 // Screen width used to calculate drawer width
 const { width } = Dimensions.get("window");
