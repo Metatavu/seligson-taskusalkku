@@ -30,6 +30,10 @@ export interface Strings extends LocalizedStringsMethods {
     loginSessionExpiredContent: string;
   };
 
+
+  /**
+   * Translations related to screen titles
+   */
   screenTitles: {
     portfolio: string;
     funds: string;
