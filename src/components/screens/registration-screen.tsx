@@ -14,30 +14,28 @@ const RegistrationNavigation = createNativeStackNavigator<RegistrationNavigator.
 /**
  * Registration screen
  */
-const RegistrationScreen: React.FC = () => {
-  return (
-    <RegistrationNavigation.Navigator
-      initialRouteName="basicInfo"
-      screenOptions={{ headerShown: false }}
-    >
-      <RegistrationNavigation.Screen
-        name="basicInfo"
-        component={ PortfolioScreen }
-      />
-      <RegistrationNavigation.Screen
-        name="taxLiabilityInfo"
-        component={ FundsScreen }
-      />
-      <RegistrationNavigation.Screen
-        name="mandatoryCustomerInfo"
-        component={ PublicationsScreen }
-      />
-      <RegistrationNavigation.Screen
-        name="consents"
-        component={ OthersScreen }
-      />
-    </RegistrationNavigation.Navigator>
-  );
-};
+const RegistrationScreen: React.FC = () => (
+  <RegistrationNavigation.Navigator
+    initialRouteName="basicInfo"
+    screenOptions={{ headerShown: false }}
+  >
+    <RegistrationNavigation.Screen
+      name="basicInfo"
+      component={ PortfolioScreen }
+    />
+    <RegistrationNavigation.Screen
+      name="taxLiabilityInfo"
+      component={ FundsScreen }
+    />
+    <RegistrationNavigation.Screen
+      name="mandatoryCustomerInfo"
+      component={ PublicationsScreen }
+    />
+    <RegistrationNavigation.Screen
+      name="consents"
+      component={ OthersScreen }
+    />
+  </RegistrationNavigation.Navigator>
+);
 
 export default RegistrationScreen;
