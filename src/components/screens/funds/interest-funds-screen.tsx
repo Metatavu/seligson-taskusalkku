@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * InterestFunds screen
+ * Interest funds screen
  */
 const InterestFundsScreen: React.FC = () => {
   /**
