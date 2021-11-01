@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * PassiveFunds screen
+ * Passive funds screen
  */
 const PassiveFundsScreen: React.FC = () => {
   /**
