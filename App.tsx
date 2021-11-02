@@ -84,10 +84,11 @@ const App: React.FC = () => {
           name="home"
           component={ HomeScreen }
           options={{ headerShown: true }}
-        />
+          />
         <RootNavigation.Screen
           name="account"
           component={ AccountScreen }
+          options={{ headerShown: true, title: "Profiili" }}
         />
         <RootNavigation.Screen
           name="authentication"
