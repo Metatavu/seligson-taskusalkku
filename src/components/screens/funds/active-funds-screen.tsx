@@ -1,27 +1,31 @@
 import React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import strings from "../../../localization/strings";
+import { ScrollView, View } from "react-native";
+import { FundType } from "../../../types";
 import FundCard from "../../generic/fund-card";
+import fakeFunds from "../../../resources/fake-funds";
 
 /**
  * Active funds screen
  */
 const ActiveFundsScreen: React.FC = () => {
+  const filteredFunds = fakeFunds
+    .filter(({ fundType }) => fundType === FundType.ACTIVE)
+    .sort((a, b) => a.fundName.localeCompare(b.fundName));
   /**
    * Component render
    */
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "flex-start",
-        alignItems: "center"
-      }}
-    >
-      <FundCard fundId={ 0 }/>
-      <FundCard fundId={ 1 }/>
-    </View>
+    <ScrollView>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "center"
+        }}
+      >
+        { filteredFunds.map(fund => <FundCard fund={ fund }/>) }
+      </View>
+    </ScrollView>
   );
 };
 

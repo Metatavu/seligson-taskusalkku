@@ -1,14 +1,17 @@
 import { StyleSheet } from "react-native";
 import defaultTheme from "../../theme";
 
+/**
+ * Styles for FundCard component
+ */
 const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSheet.create({
 
-  fundViewWrapper: {
-    margin: 10,
+  cardWrapper: {
+    marginTop: 10,
     width: 350,
-    height:100,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    height: 100,
+    alignItems: "center",
+    justifyContent: "flex-start",
     elevation: 8,
     flexDirection: "row",
     borderRadius: 25,
@@ -20,21 +23,21 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
     backgroundColor: "#fff"
   },
   
-  fundViewContent: {
+  cardContent: {
     flexDirection: "column",
     height: "100%",
     width: "95%",
-    padding: 10,
+    padding: 10
   },
 
-  fundViewRow: {
+  cardRow: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    fontSize: 12,
+    fontSize: 12
   },
 
-  fundViewDateRow: {
+  cardDate: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -42,9 +45,9 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
     color: "gray"
   },
   
-  fundViewColumn: {
+  cardColumn: {
     alignItems: "flex-start",
-    flex: 1,
+    flex: 1
   },
 
   fundViewName: {
@@ -53,7 +56,7 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
   },
 
   priceHistoryRow: {
-    width:"100%",
+    width: "100%",
     flex: 1,
     textAlign: "center",
     fontSize: 12,
@@ -61,14 +64,14 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
   },
 
   priceHistoryText: {
-    width:"100%",
+    width: "100%",
     flex: 1,
-    textAlign: "center",
+    textAlign: "center"
   },
 
-  riskContainer: {
+  cardRisk: {
     height: "100%",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   riskMeterOn: {
@@ -90,7 +93,7 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
   tinyLogo: {
     height: 20,
     width: 20,
-    resizeMode: "cover",
+    resizeMode: "cover"
   },
 
   priceHistoryPercentage: {

@@ -84,7 +84,7 @@ const App: React.FC = () => {
           name="home"
           component={ HomeScreen }
           options={{ headerShown: true }}
-          />
+        />
         <RootNavigation.Screen
           name="account"
           component={ AccountScreen }

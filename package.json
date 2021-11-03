@@ -8,7 +8,7 @@
     "eject": "expo eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src",
     "eas-build-post-install": "npm run build-client",
-    "build-client": "openapi-generator-cli generate -i api-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
+    "build-client": "openapi-generator-cli generate -i taskusalkku-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans": "^0.2.0",
