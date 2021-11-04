@@ -20,7 +20,8 @@ const InterestFundsScreen: React.FC = () => {
         style={{
           flex: 1,
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
+          padding: 10
         }}
       >
         { filteredFunds.map(fund => <FundCard fund={ fund }/>) }

@@ -51,21 +51,32 @@ const FundCard: React.FC<Props> = ({ fund }) => {
     return (
       <View style={{
         flex: 1,
-        flexDirection: "row"
+        flexDirection: "column",
+        alignItems: "flex-end"
       }}
       >
-        {Array(riskLevel).fill(
-          <LinearGradient
-            colors={["transparent", "rgba(0,0,0,0.5)"]}
-            style={ styles.riskMeterOn }
-          />
-        )}
-        {Array(7 - Number(riskLevel)).fill(
-          <LinearGradient
-            colors={["transparent", "rgba(0,0,0,0.5)"]}
-            style={ styles.riskMeterOff }
-          />
-        )}
+        <View style={{
+          flex: 1,
+          flexDirection: "row"
+        }}
+        >
+          {Array(riskLevel).fill(
+            <LinearGradient
+              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              style={ styles.riskMeterOn }
+            />
+          )}
+          {Array(7 - Number(riskLevel)).fill(
+            <LinearGradient
+              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              style={ styles.riskMeterOff }
+            />
+          )}
+        </View>
+        <Text>
+          {"Riskitaso "}
+          { riskLevel }
+        </Text>
       </View>
     );
   };
@@ -98,22 +109,16 @@ const FundCard: React.FC<Props> = ({ fund }) => {
                 />
               ) : null}
             </View>
-            <View style={ styles.cardDate }>
+            <View style={ styles.cardRow }>
               <Icon name="calendar" size={12} color={ color }/>
               <Text style={{ paddingLeft: 5 }}>
                 { lastUpdated }
               </Text>
             </View>
           </View>
-          <View style={ styles.cardRisk }>
-            <RiskMeter/>
-            <Text>
-              {"Riskitaso "}
-              { riskLevel }
-            </Text>
-          </View>
+          <RiskMeter/>
         </View>
-        <Divider/>
+        <Divider style={{ marginVertical: 5 }}/>
         <View style={ styles.cardRow }>
           { renderPriceHistory("1pv", priceHistory.oneDay) }
           { renderPriceHistory("1kk", priceHistory.oneMonth) }

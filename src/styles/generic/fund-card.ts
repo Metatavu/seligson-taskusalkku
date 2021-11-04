@@ -7,71 +7,31 @@ import defaultTheme from "../../theme";
 const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSheet.create({
 
   cardWrapper: {
+    width: "100%",
+    backgroundColor: "#fff",
     marginTop: 10,
-    width: 350,
-    height: 100,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    elevation: 8,
     flexDirection: "row",
-    borderRadius: 25,
-    borderTopRightRadius: 0,
+    elevation: 8,
+    borderBottomRightRadius: 25,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
-    backgroundColor: "#fff"
+    shadowRadius: 5
   },
   
   cardContent: {
     flexDirection: "column",
-    height: "100%",
     width: "95%",
     padding: 10
   },
 
   cardRow: {
-    flex: 1,
     flexDirection: "row",
-    alignItems: "center",
-    fontSize: 12
-  },
-
-  cardDate: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    fontSize: 12,
-    color: "gray"
+    alignItems: "center"
   },
   
   cardColumn: {
-    alignItems: "flex-start",
     flex: 1
-  },
-
-  fundViewName: {
-    flex: 1,
-    width: "100%"
-  },
-
-  priceHistoryRow: {
-    width: "100%",
-    flex: 1,
-    textAlign: "center",
-    fontSize: 12,
-    color: "gray"
-  },
-
-  priceHistoryText: {
-    width: "100%",
-    flex: 1,
-    textAlign: "center"
-  },
-
-  cardRisk: {
-    height: "100%",
-    alignItems: "center"
   },
 
   riskMeterOn: {
