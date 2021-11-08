@@ -93,7 +93,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           height: "100%"
         }}
       />
-      <View style={styles.cardContent}>
+      <View style={ styles.cardContent }>
         <View style={ styles.cardRow }>
           <View style={ styles.cardColumn }>
             <View style={{ flexDirection: "row" }}>
