@@ -109,7 +109,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
               ) : null}
             </View>
             <View style={ styles.cardRow }>
-              <Icon name="calendar" size={12} color={ color }/>
+              <Icon name="calendar" size={ 12 } color={ color }/>
               <Text style={{ paddingLeft: 5 }}>
                 { lastUpdated }
               </Text>
