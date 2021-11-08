@@ -100,13 +100,13 @@ const FundCard: React.FC<Props> = ({ fund }) => {
               <Text style={ theme.fonts.medium }>
                 { fundName }
               </Text>
-              {lahiTapiola ? (
+              { lahiTapiola &&
                 <Image
                   // eslint-disable-next-line global-require
                   source={ require("../../../assets/ltLogo.jpg") }
                   style={ styles.tinyLogo }
                 />
-              ) : null}
+              }
             </View>
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>
