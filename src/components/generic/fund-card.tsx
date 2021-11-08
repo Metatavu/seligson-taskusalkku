@@ -60,15 +60,15 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           flexDirection: "row"
         }}
         >
-          {Array(riskLevel).fill(
+          { Array(riskLevel).fill(
             <LinearGradient
-              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
               style={ styles.riskMeterOn }
             />
           )}
-          {Array(7 - Number(riskLevel)).fill(
+          { Array(7 - Number(riskLevel)).fill(
             <LinearGradient
-              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
               style={ styles.riskMeterOff }
             />
           )}
