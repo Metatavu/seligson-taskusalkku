@@ -8,7 +8,7 @@ import fundCardStyles from "../../styles/generic/fund-card";
 import { FundData } from "../../types";
 
 /**
- * Interface describing component properties
+ * Component properties
  */
 interface Props {
   fund: FundData;
