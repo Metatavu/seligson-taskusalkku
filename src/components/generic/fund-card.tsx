@@ -15,7 +15,7 @@ interface Props {
 }
 
 /**
- * Component for a fund card
+ * Fund card
  *
  * @param props component properties
  */
