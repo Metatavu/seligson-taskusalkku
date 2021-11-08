@@ -50,6 +50,8 @@ export interface FundData {
   fundName: string;
   fundType: FundType;
   lahiTapiola: boolean;
+  aShare: number;
+  bShare: number;
   priceHistory: PriceHistory;
   lastUpdated: string;
   riskLevel: number;

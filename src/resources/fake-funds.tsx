@@ -9,6 +9,8 @@ const fakeFunds: FundData[] = [
     fundName: "USA Markkina",
     fundType: FundType.PASSIVE,
     lahiTapiola: true,
+    aShare: 18.947,
+    bShare: 0,
     priceHistory: {
       oneDay: 10,
       oneMonth: 20,
@@ -21,10 +23,12 @@ const fakeFunds: FundData[] = [
     color: "#0077b3"
   },
   {
-    id: 123456788,
+    id: 123456785,
     fundName: "Aasia indeksirahasto",
     fundType: FundType.PASSIVE,
     lahiTapiola: false,
+    aShare: 18.947,
+    bShare: 0,
     priceHistory: {
       oneDay: 10,
       oneMonth: 20,
@@ -41,6 +45,8 @@ const fakeFunds: FundData[] = [
     fundName: "Tropico LatAm",
     fundType: FundType.ACTIVE,
     lahiTapiola: false,
+    aShare: 18.947,
+    bShare: 0,
     priceHistory: {
       oneDay: 10,
       oneMonth: 20,
@@ -57,6 +63,8 @@ const fakeFunds: FundData[] = [
     fundName: "Euro-obligaatio",
     fundType: FundType.INTEREST,
     lahiTapiola: false,
+    aShare: 18.947,
+    bShare: 0,
     priceHistory: {
       oneDay: 10,
       oneMonth: 20,
@@ -73,6 +81,8 @@ const fakeFunds: FundData[] = [
     fundName: "Pharos",
     fundType: FundType.COMPINATION,
     lahiTapiola: false,
+    aShare: 18.947,
+    bShare: 0,
     priceHistory: {
       oneDay: 10,
       oneMonth: 20,

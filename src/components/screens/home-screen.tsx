@@ -7,6 +7,7 @@ import { useTheme } from "react-native-paper";
 import FundsScreen from "./home/funds-screen";
 import PublicationsScreen from "./home/publications-screen";
 import OthersScreen from "./home/others-screen";
+import FundDetailsScreen from "./home/fund-details-screen";
 
 /**
  * Home screen bottom tab navigation
@@ -60,8 +61,8 @@ const HomeScreen: React.FC = () => {
           }}
         />
         <HomeNavigation.Screen
-          name="others"
-          component={ OthersScreen }
+          name="fundDetails"
+          component={ FundDetailsScreen }
           options={{
             tabBarIcon: "apps",
             tabBarLabel: strings.screenTitles.others,
