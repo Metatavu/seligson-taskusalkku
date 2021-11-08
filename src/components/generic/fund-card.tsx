@@ -86,7 +86,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   return (
     <View style={ styles.cardWrapper }>
       <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.5)"]}
+        colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
         style={{
           backgroundColor: color,
           width: "5%",
