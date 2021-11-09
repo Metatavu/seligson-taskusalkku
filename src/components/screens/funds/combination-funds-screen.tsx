@@ -18,7 +18,6 @@ const CombinationFundsScreen: React.FC = () => {
   return (
     <ScrollView>
       <View style={ styles.fundList }>
-
         { filteredFunds.map(fund => <FundCard fund={ fund }/>) }
       </View>
     </ScrollView>
