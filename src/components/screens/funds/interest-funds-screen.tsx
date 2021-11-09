@@ -3,6 +3,7 @@ import { ScrollView, View } from "react-native";
 import { FundType } from "../../../types";
 import FundCard from "../../generic/fund-card";
 import fakeFunds from "../../../resources/fake-funds";
+import styles from "../../../styles/screens/funds/interest-funds";
 
 /**
  * Interest funds screen
@@ -16,14 +17,7 @@ const InterestFundsScreen: React.FC = () => {
    */
   return (
     <ScrollView>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          alignItems: "center",
-          padding: 10
-        }}
-      >
+      <View style={ styles.fundList }>
         { filteredFunds.map(fund => <FundCard fund={ fund }/>) }
       </View>
     </ScrollView>
