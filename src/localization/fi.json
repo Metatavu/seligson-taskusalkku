@@ -26,7 +26,17 @@
     "passiveFunds": "Passiiviset osake rahastot",
     "activeFunds": "Aktiiviset osake rahastot",
     "interestFunds": "Korko rahastot",
-    "combinationFunds": "Yhdistelmä rahastot"
+    "combinationFunds": "Yhdistelmä rahastot",
+    "profile": "Profiili"
+  },
+
+  "fundCard": {
+    "riskLevel": "Riskitaso",
+    "historyOneDay": "1pv",
+    "historyOneMonth": "1kk",
+    "historyOneYear": "1v",
+    "historyFiveYears": "5v",
+    "historyTwentyYears": "20v"
   }
 
 }

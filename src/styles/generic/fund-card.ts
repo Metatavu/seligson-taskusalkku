@@ -4,12 +4,12 @@ import defaultTheme from "../../theme";
 /**
  * Styles for FundCard component
  */
-const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSheet.create({
+const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: string) => StyleSheet.create({
 
   cardWrapper: {
     width: "100%",
     backgroundColor: "#fff",
-    marginTop: 10,
+    marginTop: theme.spacing(1),
     flexDirection: "row",
     elevation: 8,
     borderBottomRightRadius: 25,
@@ -18,20 +18,41 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
     shadowOpacity: 0.3,
     shadowRadius: 5
   },
-  
+
+  gradient: {
+    backgroundColor: color,
+    width: "5%",
+    height: "100%"
+  },
+ 
   cardContent: {
     flexDirection: "column",
     width: "95%",
-    padding: 10
+    padding: theme.spacing(1)
   },
 
   cardRow: {
     flexDirection: "row",
     alignItems: "center"
   },
+
+  fundName: {
+    flexDirection: "row"
+  },
   
   cardColumn: {
     flex: 1
+  },
+
+  riskMeterContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "flex-end"
+  },
+
+  riskMeterBars: {
+    flex: 1,
+    flexDirection: "row"
   },
 
   riskMeterOn: {
@@ -53,12 +74,21 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme) => StyleSh
   tinyLogo: {
     height: 20,
     width: 20,
-    resizeMode: "cover"
+    resizeMode: "cover",
+    marginLeft: theme.spacing(1)
   },
 
   priceHistoryPercentage: {
     color: theme.colors.primary,
     ...theme.fonts.medium
+  },
+
+  divider: {
+    marginVertical: theme.spacing(1)
+  },
+
+  lastUpdated: {
+    paddingLeft: theme.spacing(1)
   }
 
 });

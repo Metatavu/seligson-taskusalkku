@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundCardStyles from "../../styles/generic/fund-card";
 import { FundData } from "../../types";
+import strings from "../../localization/strings";
 
 /**
  * Component properties
@@ -20,8 +21,8 @@ interface Props {
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const styles = fundCardStyles(useTheme());
   const { color, fundName, priceHistory, lahiTapiola, lastUpdated, riskLevel } = fund;
+  const styles = fundCardStyles(useTheme(), color);
 
   /**
    * Component for price history
@@ -46,34 +47,26 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   /**
    * Risk meter
    */
-  const RiskMeter = () => {
+  const renderRiskMeter = () => {
     return (
-      <View style={{
-        flex: 1,
-        flexDirection: "column",
-        alignItems: "flex-end"
-      }}
-      >
-        <View style={{
-          flex: 1,
-          flexDirection: "row"
-        }}
-        >
+      <View style={ styles.riskMeterContainer }>
+        <View style={ styles.riskMeterBars }>
           { Array(riskLevel).fill(
             <LinearGradient
-              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+              colors={ ["transparent", "rgba(0,0,0,0.5)"] }
               style={ styles.riskMeterOn }
             />
           )}
           { Array(7 - Number(riskLevel)).fill(
             <LinearGradient
-              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+              colors={ ["transparent", "rgba(0,0,0,0.5)"] }
               style={ styles.riskMeterOff }
             />
           )}
         </View>
         <Text>
-          {"Riskitaso "}
+          { strings.fundCard.riskLevel }
+          {" "}
           { riskLevel }
         </Text>
       </View>
@@ -86,17 +79,13 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   return (
     <View style={ styles.cardWrapper }>
       <LinearGradient
-        colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-        style={{
-          backgroundColor: color,
-          width: "5%",
-          height: "100%"
-        }}
+        colors={ ["transparent", "rgba(0,0,0,0.5)"] }
+        style={ styles.gradient }
       />
       <View style={ styles.cardContent }>
         <View style={ styles.cardRow }>
           <View style={ styles.cardColumn }>
-            <View style={{ flexDirection: "row" }}>
+            <View style={ styles.fundName }>
               <Text style={ theme.fonts.medium }>
                 { fundName }
               </Text>
@@ -110,20 +99,20 @@ const FundCard: React.FC<Props> = ({ fund }) => {
             </View>
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>
-              <Text style={{ paddingLeft: 5 }}>
+              <Text style={ styles.lastUpdated }>
                 { lastUpdated }
               </Text>
             </View>
           </View>
-          <RiskMeter/>
+          { renderRiskMeter() }
         </View>
-        <Divider style={{ marginVertical: 5 }}/>
+        <Divider style={ styles.divider }/>
         <View style={ styles.cardRow }>
-          { renderPriceHistory("1pv", priceHistory.oneDay) }
-          { renderPriceHistory("1kk", priceHistory.oneMonth) }
-          { renderPriceHistory("1v", priceHistory.oneYear) }
-          { renderPriceHistory("5v", priceHistory.fiveYears) }
-          { renderPriceHistory("20v", priceHistory.twentyYears) }
+          { renderPriceHistory(strings.fundCard.historyOneDay, priceHistory.oneDay) }
+          { renderPriceHistory(strings.fundCard.historyOneMonth, priceHistory.oneMonth) }
+          { renderPriceHistory(strings.fundCard.historyOneYear, priceHistory.oneYear) }
+          { renderPriceHistory(strings.fundCard.historyFiveYears, priceHistory.fiveYears) }
+          { renderPriceHistory(strings.fundCard.historyTwentyYears, priceHistory.twentyYears) }
         </View>
       </View>
     </View>
