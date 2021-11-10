@@ -7,29 +7,29 @@ import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundCardStyles from "../../styles/generic/fund-card";
 import { Fund } from "../../generated/client/models/Fund";
+import strings from "../../localization/strings";
 
 /**
- * Interface describing component properties
+ * Component properties
  */
 interface Props {
   fund: Fund;
 }
 
 /**
- * Component for a fund card
+ * Fund card
  *
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const styles = fundCardStyles(useTheme());
   const { color, name, risk, changeData, priceDate } = fund;
+  const styles = fundCardStyles(useTheme(), color || "#FFF");
 
   /**
    * Component for price history
    *
    * @param label price history label
    * @param percentage price history percentage
-   * @param lastUpdated last update date on price history
    */
   const renderPriceHistory = (label: string, percentage: number | undefined) => {
     return (
@@ -48,28 +48,19 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   /**
    * Risk meter
    */
-  const RiskMeter = () => {
+  const renderRiskMeter = () => {
     return (
-      <View style={{
-        flex: 1,
-        flexDirection: "column",
-        alignItems: "flex-end"
-      }}
-      >
-        <View style={{
-          flex: 1,
-          flexDirection: "row"
-        }}
-        >
-          {Array(risk).fill(
+      <View style={ styles.riskMeterContainer }>
+        <View style={ styles.riskMeterBars }>
+          { Array(risk).fill(
             <LinearGradient
-              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              colors={ ["transparent", "rgba(0,0,0,0.5)"] }
               style={ styles.riskMeterOn }
             />
           )}
           {Array(7 - Number(risk)).fill(
             <LinearGradient
-              colors={["transparent", "rgba(0,0,0,0.5)"]}
+              colors={ ["transparent", "rgba(0,0,0,0.5)"] }
               style={ styles.riskMeterOff }
             />
           )}
@@ -88,44 +79,40 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   return (
     <View style={ styles.cardWrapper }>
       <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.5)"]}
-        style={{
-          backgroundColor: color,
-          width: "5%",
-          height: "100%"
-        }}
+        colors={ ["transparent", "rgba(0,0,0,0.5)"] }
+        style={ styles.gradient }
       />
-      <View style={styles.cardContent}>
+      <View style={ styles.cardContent }>
         <View style={ styles.cardRow }>
           <View style={ styles.cardColumn }>
-            <View style={{ flexDirection: "row" }}>
+            <View style={ styles.fundName }>
               <Text style={ theme.fonts.medium }>
                 { name.fi }
               </Text>
-              {/* {lahiTapiola ? (
+              {/*               { lahiTapiola &&
                 <Image
                   // eslint-disable-next-line global-require
                   source={ require("../../../assets/ltLogo.jpg") }
                   style={ styles.tinyLogo }
                 />
-              ) : null} */}
+              } */}
             </View>
             <View style={ styles.cardRow }>
-              <Icon name="calendar" size={12} color={ color }/>
-              <Text style={{ paddingLeft: 5 }}>
+              <Icon name="calendar" size={ 12 } color={ color }/>
+              <Text style={ styles.lastUpdated }>
                 { priceDate }
               </Text>
             </View>
           </View>
-          <RiskMeter/>
+          { renderRiskMeter() }
         </View>
-        <Divider style={{ marginVertical: 5 }}/>
+        <Divider style={ styles.divider }/>
         <View style={ styles.cardRow }>
-          { renderPriceHistory("1pv", changeData?._1dChange) }
-          { renderPriceHistory("1kk", changeData?._1mChange) }
-          { renderPriceHistory("1v", changeData?._1yChange) }
-          { renderPriceHistory("5v", changeData?._5yChange) }
-          { renderPriceHistory("20v", changeData?._20yChange) }
+          { renderPriceHistory(strings.fundCard.historyOneDay, changeData?._1dChange) }
+          { renderPriceHistory(strings.fundCard.historyOneMonth, changeData?._1dChange) }
+          { renderPriceHistory(strings.fundCard.historyOneYear, changeData?._1dChange) }
+          { renderPriceHistory(strings.fundCard.historyFiveYears, changeData?._1dChange) }
+          { renderPriceHistory(strings.fundCard.historyTwentyYears, changeData?._1dChange) }
         </View>
       </View>
     </View>

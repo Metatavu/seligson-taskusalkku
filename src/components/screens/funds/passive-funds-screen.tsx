@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import { FundGroup } from "../../../generated/client";
+import styles from "../../../styles/screens/funds/passive-funds";
 
 /**
  * Passive funds screen
@@ -32,14 +33,7 @@ const PassiveFundsScreen: React.FC = () => {
    */
   return (
     <ScrollView>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          alignItems: "center",
-          padding: 10
-        }}
-      >
+      <View style={ styles.fundList }>
         { filteredFunds.map(renderFund) }
       </View>
     </ScrollView>
