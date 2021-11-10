@@ -4,10 +4,9 @@ import HomeNavigator from "../../types/navigators/home";
 import PortfolioScreen from "./home/portfolio-screen";
 import strings from "../../localization/strings";
 import { useTheme } from "react-native-paper";
-import FundsScreen from "./home/funds-screen";
 import PublicationsScreen from "./home/publications-screen";
 import OthersScreen from "./home/others-screen";
-import FundDetailsScreen from "./home/fund-details-screen";
+import FundsScreen from "./home/funds-screen";
 
 /**
  * Home screen bottom tab navigation
@@ -61,8 +60,8 @@ const HomeScreen: React.FC = () => {
           }}
         />
         <HomeNavigation.Screen
-          name="fundDetails"
-          component={ FundDetailsScreen }
+          name="others"
+          component={ OthersScreen }
           options={{
             tabBarIcon: "apps",
             tabBarLabel: strings.screenTitles.others,

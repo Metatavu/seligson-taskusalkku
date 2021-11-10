@@ -1,27 +1,22 @@
 import React from "react";
 import { Dimensions, View } from "react-native";
-import { Button, Divider, Text, useTheme } from "react-native-paper";
-import { LinearGradient } from "expo-linear-gradient";
-import theme from "../../theme";
-import fundDetailsStyles from "../../styles/generic/fund-details";
-import { FundData } from "../../types";
-import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart } from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
+import { Fund } from "../../generated/client/models/Fund";
 
 /**
- * Interface describing component properties
+ * Component properties
  */
 interface Props {
-  fund: FundData;
+  fund: Fund;
 }
 
 /**
- * Component for a fund chart
+ * Fnd chart
  *
  * @param props component properties
  */
 const FundChart: React.FC<Props> = ({ fund }) => {
-  const styles = fundDetailsStyles(useTheme());
-  const { color, aShare, bShare } = fund;
+  const { color } = fund;
     
   /**
    * Component render
@@ -46,7 +41,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
             ]
           }}
           width={ Dimensions.get("window").width } // from react-native
-          height={300}
+          height={ 300 }
           yAxisLabel=""
           yAxisSuffix="€"
           yAxisInterval={1} // optional, defaults to 1
@@ -55,7 +50,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
             backgroundGradientFrom: "#3E3F44",
             backgroundGradientTo: "#3E3F44",
             decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            color: () => `${color}`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
               borderRadius: 0
@@ -63,7 +58,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
             propsForDots: {
               r: "6",
               strokeWidth: "2",
-              stroke: "#FFF"
+              stroke: color
             }
           }}
           bezier

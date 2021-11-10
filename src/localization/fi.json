@@ -27,6 +27,17 @@
     "activeFunds": "Aktiiviset osake rahastot",
     "interestFunds": "Korko rahastot",
     "combinationFunds": "Yhdistelmä rahastot"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Määrä",
+    "value": "Arvo",
+    "change": "Muutos",
+    "buyFund": "Tee merkintä",
+    "downloadBrochure": "Avaintietoesite",
+    "aShare": "A-osuus",
+    "bShare": "B-osuus",
+    "ownShare": "Oma osuus"
   }
 
 }

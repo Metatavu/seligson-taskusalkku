@@ -27,6 +27,17 @@
     "activeFunds": "Active share funds",
     "interestFunds": "Interest funds",
     "combinationFunds": "Combination funds"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Amount",
+    "value": "Value",
+    "change": "Muutos",
+    "buyFund": "Buy fund",
+    "downloadBrochure": "Brochure",
+    "aShare": "A-share",
+    "bShare": "B-share",
+    "ownShare": "Oen share"
   }
 
 }

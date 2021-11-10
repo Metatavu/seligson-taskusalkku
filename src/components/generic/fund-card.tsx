@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from "react";
 import { View, Image } from "react-native";
 import { Divider, Text, useTheme } from "react-native-paper";
@@ -5,13 +6,13 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundCardStyles from "../../styles/generic/fund-card";
-import { FundData } from "../../types";
+import { Fund } from "../../generated/client/models/Fund";
 
 /**
  * Interface describing component properties
  */
 interface Props {
-  fund: FundData;
+  fund: Fund;
 }
 
 /**
@@ -21,7 +22,7 @@ interface Props {
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
   const styles = fundCardStyles(useTheme());
-  const { color, fundName, priceHistory, lahiTapiola, lastUpdated, riskLevel } = fund;
+  const { color, name, risk, changeData, priceDate } = fund;
 
   /**
    * Component for price history
@@ -30,7 +31,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param percentage price history percentage
    * @param lastUpdated last update date on price history
    */
-  const renderPriceHistory = (label: string, percentage: number) => {
+  const renderPriceHistory = (label: string, percentage: number | undefined) => {
     return (
       <View style={ styles.cardColumn }>
         <Text>
@@ -60,13 +61,13 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           flexDirection: "row"
         }}
         >
-          {Array(riskLevel).fill(
+          {Array(risk).fill(
             <LinearGradient
               colors={["transparent", "rgba(0,0,0,0.5)"]}
               style={ styles.riskMeterOn }
             />
           )}
-          {Array(7 - Number(riskLevel)).fill(
+          {Array(7 - Number(risk)).fill(
             <LinearGradient
               colors={["transparent", "rgba(0,0,0,0.5)"]}
               style={ styles.riskMeterOff }
@@ -75,7 +76,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         </View>
         <Text>
           {"Riskitaso "}
-          { riskLevel }
+          { risk }
         </Text>
       </View>
     );
@@ -99,20 +100,20 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           <View style={ styles.cardColumn }>
             <View style={{ flexDirection: "row" }}>
               <Text style={ theme.fonts.medium }>
-                { fundName }
+                { name.fi }
               </Text>
-              {lahiTapiola ? (
+              {/* {lahiTapiola ? (
                 <Image
                   // eslint-disable-next-line global-require
                   source={ require("../../../assets/ltLogo.jpg") }
                   style={ styles.tinyLogo }
                 />
-              ) : null}
+              ) : null} */}
             </View>
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={12} color={ color }/>
               <Text style={{ paddingLeft: 5 }}>
-                { lastUpdated }
+                { priceDate }
               </Text>
             </View>
           </View>
@@ -120,11 +121,11 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         </View>
         <Divider style={{ marginVertical: 5 }}/>
         <View style={ styles.cardRow }>
-          { renderPriceHistory("1pv", priceHistory.oneDay) }
-          { renderPriceHistory("1kk", priceHistory.oneMonth) }
-          { renderPriceHistory("1v", priceHistory.oneYear) }
-          { renderPriceHistory("5v", priceHistory.fiveYears) }
-          { renderPriceHistory("20v", priceHistory.twentyYears) }
+          { renderPriceHistory("1pv", changeData?._1dChange) }
+          { renderPriceHistory("1kk", changeData?._1mChange) }
+          { renderPriceHistory("1v", changeData?._1yChange) }
+          { renderPriceHistory("5v", changeData?._5yChange) }
+          { renderPriceHistory("20v", changeData?._20yChange) }
         </View>
       </View>
     </View>

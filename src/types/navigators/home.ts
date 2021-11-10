@@ -13,7 +13,7 @@ namespace HomeNavigator {
     portfolio: undefined;
     funds: undefined;
     publications: undefined;
-    fundDetails: undefined;
+    others: undefined;
   };
 
   /**

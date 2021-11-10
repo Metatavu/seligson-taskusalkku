@@ -1,98 +1,83 @@
-import { FundData, FundType } from "../types";
+import { FundGroup } from "../generated/client";
+import { Fund } from "../generated/client/models/Fund";
 
 /**
  * Fake data for the fund card component
  */
-const fakeFunds: FundData[] = [
+const fakeFunds: Fund[] = [
   {
-    id: 123456788,
-    fundName: "USA Markkina",
-    fundType: FundType.PASSIVE,
-    lahiTapiola: true,
-    aShare: 18.947,
-    bShare: 0,
-    priceHistory: {
-      oneDay: 10,
-      oneMonth: 20,
-      oneYear: 30,
-      fiveYears: 40,
-      twentyYears: 50
+    id: "123456788",
+    name: {
+      fi: "USA Markkina",
+      sv: "USA Markkina"
     },
-    lastUpdated: "2010/01/01",
-    riskLevel: 6,
-    color: "#0077b3"
+    longName: {
+      fi: "USA Markkina",
+      sv: "USA Markkina"
+    },
+    shortName: {
+      fi: "USA Markkina",
+      sv: "USA Markkina"
+    },
+    bankReceiverName: "Nordea",
+    group: FundGroup.Passive,
+    priceDate: undefined,
+    aShareValue: 18.947,
+    bShareValue: 0,
+    changeData: {
+      _1dChange: 10,
+      _1mChange: 20,
+      _1yChange: 30,
+      _3yChange: 40,
+      _5yChange: 50,
+      _15yChange: 50,
+      _20yChange: 50
+    },
+    profitProjection: 10,
+    profitProjectionDate: undefined,
+    color: "#0077b3",
+    risk: 6,
+    kIID: {
+      fi: "",
+      sv: ""
+    }
   },
   {
-    id: 123456785,
-    fundName: "Aasia indeksirahasto",
-    fundType: FundType.PASSIVE,
-    lahiTapiola: false,
-    aShare: 18.947,
-    bShare: 0,
-    priceHistory: {
-      oneDay: 10,
-      oneMonth: 20,
-      oneYear: 30,
-      fiveYears: 40,
-      twentyYears: 50
+    id: "123456789",
+    name: {
+      fi: "Aasia indeksirahasto",
+      sv: "Aasia indeksirahasto"
     },
-    lastUpdated: "2010/01/01",
-    riskLevel: 5,
-    color: "#E76A21"
-  },
-  {
-    id: 123456789,
-    fundName: "Tropico LatAm",
-    fundType: FundType.ACTIVE,
-    lahiTapiola: false,
-    aShare: 18.947,
-    bShare: 0,
-    priceHistory: {
-      oneDay: 10,
-      oneMonth: 20,
-      oneYear: 30,
-      fiveYears: 40,
-      twentyYears: 50
+    longName: {
+      fi: "Aasia indeksirahasto",
+      sv: "Aasia indeksirahasto"
     },
-    lastUpdated: "2010/01/01",
-    riskLevel: 7,
-    color: "#723A1C"
-  },
-  {
-    id: 123456787,
-    fundName: "Euro-obligaatio",
-    fundType: FundType.INTEREST,
-    lahiTapiola: false,
-    aShare: 18.947,
-    bShare: 0,
-    priceHistory: {
-      oneDay: 10,
-      oneMonth: 20,
-      oneYear: 30,
-      fiveYears: 40,
-      twentyYears: 50
+    shortName: {
+      fi: "Aasia indeksirahasto",
+      sv: "Aasia indeksirahasto"
     },
-    lastUpdated: "2010/01/01",
-    riskLevel: 3,
-    color: "#261CBE"
-  },
-  {
-    id: 123456786,
-    fundName: "Pharos",
-    fundType: FundType.COMPINATION,
-    lahiTapiola: false,
-    aShare: 18.947,
-    bShare: 0,
-    priceHistory: {
-      oneDay: 10,
-      oneMonth: 20,
-      oneYear: 30,
-      fiveYears: 40,
-      twentyYears: 50
+    bankReceiverName: "Nordea",
+    group: FundGroup.Passive,
+    priceDate: undefined,
+    aShareValue: 18.947,
+    bShareValue: 1000,
+    changeData: {
+      _1dChange: 100,
+      _1mChange: 200,
+      _1yChange: 300,
+      _3yChange: 400,
+      _5yChange: 500,
+      _15yChange: 500,
+      _20yChange: 500
     },
-    lastUpdated: "2010/01/01",
-    riskLevel: 4,
-    color: "#7E801A"
+    profitProjection: 10,
+    profitProjectionDate: undefined,
+    color: "#E76A21",
+    risk: 3,
+    kIID: {
+      fi: "",
+      sv: ""
+    }
   }
 ];
 

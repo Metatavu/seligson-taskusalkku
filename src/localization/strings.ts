@@ -47,6 +47,20 @@ export interface Strings extends LocalizedStringsMethods {
     interestFunds: string;
     combinationFunds: string;
   };
+  
+  /**
+   * Translations related funde details screen
+   */
+  fundDetailsScreen: {
+    amount: string;
+    value: string;
+    change: string;
+    buyFund: string;
+    downloadBrochure: string;
+    aShare: string;
+    bShare: string;
+    ownShare: string;
+  };
 
 }
 

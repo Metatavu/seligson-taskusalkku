@@ -4,41 +4,77 @@ import { Button, Divider, Text, useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
-import { FundData } from "../../types";
+import strings from "../../localization/strings";
+import { Fund } from "../../generated/client/models/Fund";
 
 /**
  * Interface describing component properties
  */
 interface Props {
-  fund: FundData;
+  fund: Fund;
 }
 
 /**
- * Component for a fund details
+ * Fund details
  *
  * @param props component properties
  */
 const FundDetails: React.FC<Props> = ({ fund }) => {
-  const styles = fundDetailsStyles(useTheme());
-  const { color, aShare, bShare, lahiTapiola } = fund;
+  const { color, aShareValue, bShareValue } = fund;
+  const styles = fundDetailsStyles(useTheme(), color || "#fff");
 
   /**
-   * Component for own share
+   * Own share
    *
    * @param label price history label
    * @param value price history percentage
    */
   const renderOwnShare = (label: string, value: number) => {
     return (
-      <View style={{ flex: 1, alignItems: "center" }}>
+      <View style={ styles.shareColumn }>
         <Text>
           { label }
         </Text>
         <Text style={ styles.priceHistoryPercentage } >
           { value }
-          { label === "Muutos" ? ("%") : null }
+          { label === strings.fundDetailsScreen.change ? ("%") : null }
         </Text>
       </View>
+    );
+  };
+
+  /**
+   * Button row
+   */
+  const buttonRow = () => {
+    return (
+      <>
+        <View style={ styles.buttonRow }>
+          <Button
+            uppercase={ false }
+            style={ styles.button }
+          >
+            { strings.fundDetailsScreen.buyFund }
+          </Button>
+        </View>
+        <View style={ styles.buttonRow }>
+          {/* {lahiTapiola ? (
+            <Image
+            // eslint-disable-next-line global-require
+              source={ require("../../../assets/ltLogoWide.png") }
+              resizeMode="contain"
+              style={ styles.logoWide }
+            />
+          ) : null} */}
+          <Button
+            icon="download"
+            uppercase={ false }
+            style={ styles.button }
+          >
+            { strings.fundDetailsScreen.downloadBrochure }
+          </Button>
+        </View>
+      </>
     );
   };
     
@@ -46,64 +82,42 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
    * Component render
    */
   return (
-    <View style={ styles.cardWrapper }>
-      <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.5)"]}
-        style={{
-          backgroundColor: color,
-          width: "5%",
-          height: "100%"
-        }}
-      />
-      <View style={styles.cardContent}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View>
-            <Text style={ theme.fonts.medium }>
-              { "A-osuus: " }
-              { aShare }
-            </Text>
+    <>
+      <View style={ styles.cardWrapper }>
+        <LinearGradient
+          colors={ ["transparent", "rgba(0,0,0,0.5)"] }
+          style={ styles.gradient }
+        />
+        <View style={ styles.cardContent }>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <View>
+              <Text style={ theme.fonts.medium }>
+                { strings.fundDetailsScreen.aShare }
+                { ": " }
+                { aShareValue }
+              </Text>
+            </View>
+            <View>
+              <Text style={ theme.fonts.medium }>
+                { strings.fundDetailsScreen.bShare }
+                { ": " }
+                { bShareValue }
+              </Text>
+            </View>
           </View>
-          <View>
+          <Divider style={{ marginVertical: 5 }}/>
+          <View style={ styles.cardRow }>
             <Text style={ theme.fonts.medium }>
-              { "B-osuus: " }
-              { bShare }
+              { strings.fundDetailsScreen.ownShare }
             </Text>
+            { renderOwnShare(strings.fundDetailsScreen.amount, 10) }
+            { renderOwnShare(strings.fundDetailsScreen.value, Number(aShareValue || 0 * 10)) }
+            { renderOwnShare(strings.fundDetailsScreen.change, 25) }
           </View>
         </View>
-        <Divider style={{ marginVertical: 5 }}/>
-        <View style={ styles.cardRow }>
-          <Text style={ theme.fonts.medium }>
-            { "Omat osuudet: " }
-          </Text>
-          { renderOwnShare("Kpl", 10) }
-          { renderOwnShare("Arvo", Number(aShare * 10)) }
-          { renderOwnShare("Muutos", 25) }
-        </View>
       </View>
-      <Button
-        uppercase={ false }
-        style={ styles.button }
-      >
-        Tee rahastomerkintä
-      </Button>
-      <View style={{ width: "100%", flexDirection: "row", flexWrap: "wrap" }}>
-        {lahiTapiola ? (
-          <Image
-            // eslint-disable-next-line global-require
-            source={ require("../../../assets/ltLogoWide.png") }
-            resizeMode="contain"
-            style={ styles.logoWide }
-          />
-        ) : null}
-        <Button
-          icon="download"
-          uppercase={ false }
-          style={ styles.button }
-        >
-          Avaintietoesite
-        </Button>
-      </View>
-    </View>
+      { buttonRow() }
+    </>
   );
 };
 
