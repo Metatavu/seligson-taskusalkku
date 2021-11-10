@@ -8,7 +8,7 @@
     "eject": "expo eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src",
     "eas-build-post-install": "npm run build-client",
-    "build-client": "openapi-generator-cli generate -i api-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
+    "build-client": "openapi-generator-cli generate -i taskusalkku-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans": "^0.2.0",
@@ -23,8 +23,10 @@
     "eslint-config-airbnb-typescript": "^14.0.1",
     "expo": "~42.0.1",
     "expo-app-auth": "~10.2.2",
+    "expo-app-loading": "1.1.2",
     "expo-auth-session": "~3.3.1",
     "expo-blur": "~9.0.3",
+    "expo-cli": "^4.12.10",
     "expo-font": "~9.2.1",
     "expo-linear-gradient": "^9.2.0",
     "expo-random": "~11.2.0",
@@ -37,21 +39,23 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-pager-view": "^5.4.8",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
     "react-native-tab-view": "^3.1.1",
+    "react-native-vector-icons": "^9.0.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.6.2",
-    "react-redux": "^7.2.5",
-    "expo-app-loading": "1.1.2"
+    "react-redux": "^7.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@openapitools/openapi-generator-cli": "^2.4.12",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "@types/react-native-vector-icons": "^6.4.9",
     "@types/react-redux": "^7.1.19",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",

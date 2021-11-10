@@ -26,7 +26,17 @@
     "passiveFunds": "Passive share funds",
     "activeFunds": "Active share funds",
     "interestFunds": "Interest funds",
-    "combinationFunds": "Combination funds"
+    "combinationFunds": "Combination funds",
+    "profile": "Profile"
+  },
+
+  "fundCard": {
+    "riskLevel": "Risk level",
+    "historyOneDay": "1d",
+    "historyOneMonth": "1m",
+    "historyOneYear": "1y",
+    "historyFiveYears": "5y",
+    "historyTwentyYears": "20y"
   }
 
 }

@@ -88,6 +88,7 @@ const App: React.FC = () => {
         <RootNavigation.Screen
           name="account"
           component={ AccountScreen }
+          options={{ headerShown: true, title: strings.screenTitles.profile }}
         />
         <RootNavigation.Screen
           name="authentication"

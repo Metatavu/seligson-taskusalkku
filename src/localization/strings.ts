@@ -30,7 +30,6 @@ export interface Strings extends LocalizedStringsMethods {
     loginSessionExpiredContent: string;
   };
 
-
   /**
    * Translations related to screen titles
    */
@@ -47,6 +46,19 @@ export interface Strings extends LocalizedStringsMethods {
     activeFunds: string;
     interestFunds: string;
     combinationFunds: string;
+    profile: string;
+  };
+  
+  /**
+   * Translations related to fund card
+   */
+  fundCard: {
+    riskLevel: string;
+    historyOneDay: string;
+    historyOneMonth: string;
+    historyOneYear: string;
+    historyFiveYears: string;
+    historyTwentyYears: string;
   };
 
 }
