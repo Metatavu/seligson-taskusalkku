@@ -21,7 +21,7 @@ const fakeFunds: Fund[] = [
     },
     bankReceiverName: "Nordea",
     group: FundGroup.Passive,
-    priceDate: undefined,
+    priceDate: new Date("2021-01-01"),
     aShareValue: 18.947,
     bShareValue: 0,
     changeData: {
@@ -34,7 +34,7 @@ const fakeFunds: Fund[] = [
       _20yChange: 50
     },
     profitProjection: 10,
-    profitProjectionDate: undefined,
+    profitProjectionDate: new Date("2021-01-01"),
     color: "#0077b3",
     risk: 6,
     kIID: {
@@ -58,7 +58,7 @@ const fakeFunds: Fund[] = [
     },
     bankReceiverName: "Nordea",
     group: FundGroup.Passive,
-    priceDate: undefined,
+    priceDate: new Date("2021-01-01"),
     aShareValue: 18.947,
     bShareValue: 1000,
     changeData: {
@@ -71,7 +71,7 @@ const fakeFunds: Fund[] = [
       _20yChange: 500
     },
     profitProjection: 10,
-    profitProjectionDate: undefined,
+    profitProjectionDate: new Date("2021-01-01"),
     color: "#E76A21",
     risk: 3,
     kIID: {
