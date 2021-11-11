@@ -1,7 +1,10 @@
 import React from "react";
 import { Dimensions, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import { Button, Text } from "react-native-paper";
 import { Fund } from "../../generated/client/models/Fund";
+import styles from "../../styles/generic/fund-chart";
+import strings from "../../localization/strings";
 
 /**
  * Component properties
@@ -17,13 +20,40 @@ interface Props {
  */
 const FundChart: React.FC<Props> = ({ fund }) => {
   const { color } = fund;
-    
+
+  /**
+   * Date range button
+   */
+  const renderDateRangeButton = (range: string, icon?: string) => {
+    return (
+      <Button
+        icon={ icon }
+        uppercase={ false }
+        compact={ true }
+        style={ styles.dateRangeButton }
+      >
+        <Text style={ styles.dateRangeButtonText }>
+          { range }
+        </Text>
+      </Button>
+    );
+  };
+
   /**
    * Component render
    */
   return (
     <>
       <View>
+        <View style={ styles.dateRangeButtonRow }>
+          { renderDateRangeButton(strings.fundCard.historyOneDay) }
+          { renderDateRangeButton(strings.fundCard.historyOneMonth) }
+          { renderDateRangeButton(strings.fundCard.historyOneYear) }
+          { renderDateRangeButton(strings.fundCard.historyFiveYears) }
+          { renderDateRangeButton(strings.fundCard.historyTwentyYears) }
+          { renderDateRangeButton("Max") }
+          <Button icon="calendar" compact={ true } color="#fff"/>
+        </View>
         <LineChart
           data={{
             labels: ["Tammi", "Helmi", "Maalis", "Huhti", "Touko", "Kesä"],
