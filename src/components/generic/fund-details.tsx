@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import { Button, Divider, Text, useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";

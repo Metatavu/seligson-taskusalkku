@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import { Divider, Text, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
