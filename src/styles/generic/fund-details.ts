@@ -8,41 +8,47 @@ const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: 
 
   cardWrapper: {
     width: "100%",
-    backgroundColor: "#fff",
     marginTop: theme.spacing(1),
     flexDirection: "row",
     elevation: 8,
     borderBottomRightRadius: 25,
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 5
+    backgroundColor: "#fff",
+    shadowRadius: 5,
+    marginBottom: theme.spacing(1)
   },
 
+  gradientContainer: {
+    width: "5%",
+    borderRadius: 0,
+    overflow: "hidden",
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15
+  },
+  
   gradient: {
     backgroundColor: color,
-    width: "5%",
-    height: "100%"
+    flex: 1
   },
 
   buttonRow: {
     width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
+    marginTop: theme.spacing(1),
     alignItems: "center"
   },
 
   button: {
     backgroundColor: "#FFF",
-    marginTop: theme.spacing(1),
     borderRadius: 25,
     borderWidth: 1,
     borderColor: theme.colors.primary,
-    elevation: 8,
-    borderBottomRightRadius: 25,
-    shadowColor: theme.colors.primary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+
     flex: 1,
     minWidth: "50%"
   },

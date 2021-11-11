@@ -84,10 +84,12 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
   return (
     <>
       <View style={ styles.cardWrapper }>
-        <LinearGradient
-          colors={ ["transparent", "rgba(0,0,0,0.5)"] }
-          style={ styles.gradient }
-        />
+        <View style={ styles.gradientContainer }>
+          <LinearGradient
+            colors={ ["transparent", "rgba(0,0,0,0.5)"] }
+            style={ styles.gradient }
+          />
+        </View>
         <View style={ styles.cardContent }>
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View>
