@@ -13,6 +13,7 @@ export interface Strings extends LocalizedStringsMethods {
   generic: {
     notImplemented: string;
     close: string;
+    back: string;
   };
 
   /**

@@ -2,7 +2,8 @@
 
   "generic": {
     "notImplemented": "Not yet implemented",
-    "close": "Close"
+    "close": "Close",
+    "back": "Back"
   },
 
   "errorHandling": {

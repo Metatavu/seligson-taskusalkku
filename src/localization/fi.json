@@ -2,7 +2,8 @@
 
   "generic": {
     "notImplemented": "Ei vielä toteutettu",
-    "close": "Sulje"
+    "close": "Sulje",
+    "back": "Takaisin"
   },
 
   "errorHandling": {
