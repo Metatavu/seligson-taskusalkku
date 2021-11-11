@@ -20,7 +20,7 @@ const PassiveFundsScreen: React.FC = () => {
     .sort((a, b) => a.name.fi.localeCompare(b.name.fi));
 
   /**
-   * Passive funds screen
+   * Render fund
    */
   const renderFund = (fund: Fund) => (
     <TouchableOpacity onPress={ () => navigation.navigate("fundsDetails", { fund: fund })}>
