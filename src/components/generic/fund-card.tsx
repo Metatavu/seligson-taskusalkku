@@ -58,7 +58,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
               style={ styles.riskMeterOn }
             />
           )}
-          {Array(7 - Number(risk)).fill(
+          { Array(7 - Number(risk)).fill(
             <LinearGradient
               colors={ ["transparent", "rgba(0,0,0,0.5)"] }
               style={ styles.riskMeterOff }
@@ -66,7 +66,8 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           )}
         </View>
         <Text>
-          {"Riskitaso "}
+          { strings.fundCard.riskLevel }
+          { " " }
           { risk }
         </Text>
       </View>
