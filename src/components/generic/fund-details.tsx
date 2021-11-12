@@ -8,7 +8,7 @@ import strings from "../../localization/strings";
 import { Fund } from "../../generated/client/models/Fund";
 
 /**
- * Interface describing component properties
+ * Component properties
  */
 interface Props {
   fund: Fund;
