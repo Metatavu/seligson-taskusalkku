@@ -23,6 +23,9 @@ const FundChart: React.FC<Props> = ({ fund }) => {
 
   /**
    * Date range button
+   *
+   * @param range range
+   * @param icon icon
    */
   const renderDateRangeButton = (range: string, icon?: string) => {
     return (
