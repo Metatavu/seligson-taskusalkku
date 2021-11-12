@@ -1,11 +1,10 @@
 import { Dimensions, StyleSheet } from "react-native";
 import theme from "../../theme";
 
-const screenWidth = Dimensions.get("window").width;
 export default StyleSheet.create({
 
   dateRangeButtonRow: {
-    maxWidth: screenWidth,
+    maxWidth: Dimensions.get("window").width,
     overflow: "hidden",
     backgroundColor: "#3E3F44",
     flexDirection: "row",
