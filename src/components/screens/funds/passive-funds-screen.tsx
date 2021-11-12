@@ -21,9 +21,11 @@ const PassiveFundsScreen: React.FC = () => {
 
   /**
    * Render fund
+   *
+   * @param fund fund
    */
   const renderFund = (fund: Fund) => (
-    <TouchableOpacity onPress={ () => navigation.navigate("fundsDetails", { fund: fund })}>
+    <TouchableOpacity onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }>
       <FundCard fund={ fund }/>
     </TouchableOpacity>
   );
