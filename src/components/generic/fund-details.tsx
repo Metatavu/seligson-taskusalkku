@@ -109,7 +109,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
               { strings.fundDetailsScreen.ownShare }
             </Text>
             { renderOwnShare(strings.fundDetailsScreen.amount, 10) }
-            { renderOwnShare(strings.fundDetailsScreen.value, Number(aShareValue || 0 * 10)) }
+            { renderMyShare(strings.fundDetailsScreen.value, Number((aShareValue || 0) * 10)) }
             { renderOwnShare(strings.fundDetailsScreen.change, 25) }
           </View>
         </View>
