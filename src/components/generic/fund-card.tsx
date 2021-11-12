@@ -31,7 +31,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param label price history label
    * @param percentage price history percentage
    */
-  const renderPriceHistory = (label: string, percentage: number | undefined) => {
+  const renderPriceHistory = (label: string, percentage?: number) => {
     return (
       <View style={ styles.cardColumn }>
         <Text>
