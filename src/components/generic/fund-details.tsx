@@ -22,6 +22,8 @@ interface Props {
 const FundDetails: React.FC<Props> = ({ fund }) => {
   const { color, aShareValue, bShareValue } = fund;
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
+  const aShareValueText = `${strings.fundDetailsScreen.aShare} ${aShareValue}`;
+  const bShareValueText = `${strings.fundDetailsScreen.bShare} ${bShareValue}`;
 
   /**
    * My share
@@ -94,12 +96,12 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View>
               <Text style={ theme.fonts.medium }>
-                { strings.fundDetailsScreen.aShare }: { aShareValue }
+                { aShareValueText }
               </Text>
             </View>
             <View>
               <Text style={ theme.fonts.medium }>
-                { strings.fundDetailsScreen.bShare }: { bShareValue }                
+                { bShareValueText }
               </Text>
             </View>
           </View>
@@ -108,9 +110,9 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
             <Text style={ theme.fonts.medium }>
               { strings.fundDetailsScreen.myShare }
             </Text>
-            { renderOwnShare(strings.fundDetailsScreen.amount, 10) }
+            { renderMyShare(strings.fundDetailsScreen.amount, 10) }
             { renderMyShare(strings.fundDetailsScreen.value, Number((aShareValue || 0) * 10)) }
-            { renderOwnShare(strings.fundDetailsScreen.change, 25) }
+            { renderMyShare(strings.fundDetailsScreen.change, 25) }
           </View>
         </View>
       </View>
