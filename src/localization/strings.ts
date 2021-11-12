@@ -73,7 +73,7 @@ export interface Strings extends LocalizedStringsMethods {
     downloadBrochure: string;
     aShare: string;
     bShare: string;
-    ownShare: string;
+    myShare: string;
   };
 
 }
