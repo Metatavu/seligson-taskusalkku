@@ -106,7 +106,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           <Divider style={{ marginVertical: 5 }}/>
           <View style={ styles.cardRow }>
             <Text style={ theme.fonts.medium }>
-              { strings.fundDetailsScreen.ownShare }
+              { strings.fundDetailsScreen.myShare }
             </Text>
             { renderOwnShare(strings.fundDetailsScreen.amount, 10) }
             { renderMyShare(strings.fundDetailsScreen.value, Number((aShareValue || 0) * 10)) }
