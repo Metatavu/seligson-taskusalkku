@@ -25,13 +25,14 @@ const fakeFunds: Fund[] = [
     aShareValue: 18.947,
     bShareValue: 0,
     changeData: {
-      _1dChange: 10,
-      _1mChange: 20,
-      _1yChange: 30,
-      _3yChange: 40,
-      _5yChange: 50,
-      _15yChange: 50,
-      _20yChange: 50
+      change1d: 1,
+      change1m: 2,
+      change1y: 3,
+      change3y: 4,
+      change5y: 5,
+      change10y: 6,
+      change15y: 7,
+      change20y: 8
     },
     profitProjection: 10,
     profitProjectionDate: new Date("2021-01-01"),
@@ -62,13 +63,14 @@ const fakeFunds: Fund[] = [
     aShareValue: 18.947,
     bShareValue: 1000,
     changeData: {
-      _1dChange: 100,
-      _1mChange: 200,
-      _1yChange: 300,
-      _3yChange: 400,
-      _5yChange: 500,
-      _15yChange: 500,
-      _20yChange: 500
+      change1d: 1,
+      change1m: 2,
+      change1y: 3,
+      change3y: 4,
+      change5y: 5,
+      change10y: 6,
+      change15y: 7,
+      change20y: 8
     },
     profitProjection: 10,
     profitProjectionDate: new Date("2021-01-01"),
