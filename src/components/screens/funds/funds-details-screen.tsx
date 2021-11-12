@@ -25,7 +25,7 @@ const FundsDetailsScreen: React.FC = () => {
     <>
       <Button
         icon="arrow-left-circle"
-        onPress={ () => navigation.goBack() }
+        onPress={ navigation.goBack }
         labelStyle={{ color: "#fff" }}
         style={ styles.backButton }
       >
