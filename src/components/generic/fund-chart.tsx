@@ -32,7 +32,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
       <Button
         icon={ icon }
         uppercase={ false }
-        compact={ true }
+        compact
         style={ styles.dateRangeButton }
       >
         <Text style={ styles.dateRangeButtonText }>
