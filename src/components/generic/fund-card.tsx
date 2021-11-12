@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundCardStyles from "../../styles/generic/fund-card";
-import { Fund } from "../../generated/client/models/Fund";
+import { Fund } from "../../generated/client";
 import strings from "../../localization/strings";
 
 /**
