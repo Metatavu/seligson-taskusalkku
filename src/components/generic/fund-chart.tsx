@@ -55,7 +55,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
           { renderDateRangeButton(strings.fundCard.historyFiveYears) }
           { renderDateRangeButton(strings.fundCard.historyTwentyYears) }
           { renderDateRangeButton("Max") }
-          <Button icon="calendar" compact={ true } color="#fff"/>
+          <Button icon="calendar" color="#fff"/>
         </View>
         <LineChart
           data={{
