@@ -2,7 +2,8 @@
 
   "generic": {
     "notImplemented": "Not yet implemented",
-    "close": "Close"
+    "close": "Close",
+    "back": "Back"
   },
 
   "errorHandling": {
@@ -37,6 +38,17 @@
     "historyOneYear": "1y",
     "historyFiveYears": "5y",
     "historyTwentyYears": "20y"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Amount",
+    "value": "Value",
+    "change": "Muutos",
+    "buyFund": "Buy fund",
+    "downloadBrochure": "Brochure",
+    "aShare": "A-share",
+    "bShare": "B-share",
+    "myShare": "My share"
   }
 
 }

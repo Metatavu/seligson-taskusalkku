@@ -2,7 +2,8 @@
 
   "generic": {
     "notImplemented": "Ei vielä toteutettu",
-    "close": "Sulje"
+    "close": "Sulje",
+    "back": "Takaisin"
   },
 
   "errorHandling": {
@@ -29,7 +30,7 @@
     "combinationFunds": "Yhdistelmä rahastot",
     "profile": "Profiili"
   },
-
+  
   "fundCard": {
     "riskLevel": "Riskitaso",
     "historyOneDay": "1pv",
@@ -37,6 +38,17 @@
     "historyOneYear": "1v",
     "historyFiveYears": "5v",
     "historyTwentyYears": "20v"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Määrä",
+    "value": "Arvo",
+    "change": "Muutos",
+    "buyFund": "Tee merkintä",
+    "downloadBrochure": "Avaintietoesite",
+    "aShare": "A-osuus",
+    "bShare": "B-osuus",
+    "myShare": "Oma osuus"
   }
 
 }
