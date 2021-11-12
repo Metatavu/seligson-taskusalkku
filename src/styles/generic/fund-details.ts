@@ -3,6 +3,9 @@ import defaultTheme from "../../theme";
 
 /**
  * Styles for FundCard component
+ *
+ * @param theme theme
+ * @param color color
  */
 const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: string) => StyleSheet.create({
 
