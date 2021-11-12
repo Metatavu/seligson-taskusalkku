@@ -7,12 +7,14 @@ import * as AuthSession from "expo-auth-session";
 import { useAppDispatch } from "../../../app/hooks";
 import { authUpdate } from "../../../features/auth/auth-slice";
 import AuthUtils from "../../../utils/auth";
+import { URL } from "react-native-url-polyfill";
+import { useNavigation } from "@react-navigation/native";
+import RootNavigator from "../../../types/navigators/root";
 
 /**
  * Interface describing component properties
  */
 interface Props {
-  onProceed: (success: boolean) => void;
   demoLogin?: boolean;
 }
 
@@ -21,7 +23,9 @@ interface Props {
  *
  * @param props component properties
  */
-const StrongAuthView: React.FC<Props> = ({ onProceed, demoLogin }) => {
+const StrongAuthView: React.FC<Props> = ({ demoLogin }) => {
+  const navigation = useNavigation<RootNavigator.NavigationProps<"home">>();
+
   const dispatch = useAppDispatch();
   const { auth } = Config.getStatic();
   const discovery = AuthSession.useAutoDiscovery(auth.issuer);
@@ -40,7 +44,8 @@ const StrongAuthView: React.FC<Props> = ({ onProceed, demoLogin }) => {
     url.searchParams.append("client_id", auth.clientId);
     url.searchParams.append("scope", auth.scopes.join(" "));
     url.searchParams.append("redirect_uri", auth.redirectUrl);
-    url.searchParams.append("kc_idp_hint", "telia");
+    // TODO: Remove this one Telia Tunnistus is working
+    // url.searchParams.append("kc_idp_hint", "telia");
 
     setAuthUrl(url.href);
   }, []);
@@ -65,13 +70,12 @@ const StrongAuthView: React.FC<Props> = ({ onProceed, demoLogin }) => {
 
       if (result?.accessToken) {
         dispatch(authUpdate(AuthUtils.createAuth(result)));
-        onProceed(true);
+        navigation.navigate("home");
       } else {
         throw new Error("Login failed");
       }
     } catch (error) {
       console.error(error);
-      onProceed(false);
     }
   };
 
@@ -86,7 +90,7 @@ const StrongAuthView: React.FC<Props> = ({ onProceed, demoLogin }) => {
     }
 
     const code = new URL(url).searchParams.get("code");
-    code ? exchangeCode(code) : onProceed(false);
+    code && exchangeCode(code);
   };
 
   if (!authUrl) {

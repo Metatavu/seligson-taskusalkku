@@ -34,7 +34,7 @@ class Config {
     return {
       developmentBuild: env.REACT_APP_DEVELOP_BUILD,
       apiBasePath: env.REACT_APP_API_BASE_PATH,
-      authLogoutEndpoint: `${issuer}/protocol/openid-connect/logout?redirect_uri=${Config.createRedirectUrl("Home", true)}`,
+      authLogoutEndpoint: `${issuer}/protocol/openid-connect/logout?redirect_uri=${Config.createRedirectUrl("home", true)}`,
       auth: {
         clientId: env.REACT_APP_KEYCLOAK_CLIENT_ID,
         scopes: [ "openid", "profile", "offline_access" ],

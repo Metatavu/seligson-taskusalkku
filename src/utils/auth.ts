@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as AuthSession from "expo-auth-session";
 import * as SecureStore from "expo-secure-store";
 import moment from "moment";
@@ -46,7 +47,6 @@ class AuthUtils {
         expiresAt: moment().add(expiresIn, "seconds").toDate()
       };
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
       return undefined;
     }
@@ -61,7 +61,6 @@ class AuthUtils {
     try {
       await SecureStore.setItemAsync(OFFLINE_TOKEN_KEY, token);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -75,7 +74,6 @@ class AuthUtils {
     try {
       return await SecureStore.getItemAsync(OFFLINE_TOKEN_KEY) ?? undefined;
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
       return undefined;
     }
@@ -88,7 +86,6 @@ class AuthUtils {
     try {
       await SecureStore.deleteItemAsync(OFFLINE_TOKEN_KEY);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -123,7 +120,6 @@ class AuthUtils {
 
       return refreshedAuth;
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.warn(JSON.stringify(error, null, 2));
       return Promise.reject(error);
     }

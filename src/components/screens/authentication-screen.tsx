@@ -1,21 +1,18 @@
 import React from "react";
-import { useTheme } from "react-native-paper";
-import strings from "../../localization/strings";
 import AuthNavigator from "../../types/navigators/auth";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import WelcomeScreen from "./auth/welcome-screen";
 import StrongAuthView from "./auth/strong-auth-view";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 /**
- * 
+ * Auth stack navigator
  */
-const AuthNavigation = createMaterialTopTabNavigator<AuthNavigator.Routes>();
+const AuthNavigation = createNativeStackNavigator<AuthNavigator.Routes>();
 
 /**
  * Authentication screen
  */
 const AuthenticationScreen: React.FC = () => {
-  const { colors } = useTheme();
-
   /**
    * Component render
    */
@@ -23,22 +20,16 @@ const AuthenticationScreen: React.FC = () => {
     <AuthNavigation.Navigator
       initialRouteName="welcome"
       screenOptions={{
-        tabBarActiveTintColor: colors.surface,
-        tabBarPressColor: colors.surface,
-        tabBarStyle: { backgroundColor: colors.primary, elevation: 8 },
-        tabBarIndicatorStyle: { backgroundColor: colors.surface },
-        tabBarLabelStyle: {
-          fontSize: 10,
-          textTransform: "none",
-          flexWrap: "nowrap",
-          fontFamily: "NotoSans_400Regular"
-        }
+        headerShown: false
       }}
     >
       <AuthNavigation.Screen
+        name="welcome"
+        component={ WelcomeScreen }
+      />
+      <AuthNavigation.Screen
         name="login"
         component={ StrongAuthView }
-        options={{ title: strings.screenTitles.passiveFunds }}
       />
     </AuthNavigation.Navigator>
   );
