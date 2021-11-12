@@ -77,7 +77,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
           height={ 300 }
           yAxisLabel=""
           yAxisSuffix="€"
-          yAxisInterval={1} // optional, defaults to 1
+          yAxisInterval={ 1 } // optional, defaults to 1
           chartConfig={{
             backgroundColor: "#3E3F44",
             backgroundGradientFrom: "#3E3F44",
