@@ -35,7 +35,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
         <Text>
           { label }
         </Text>
-        <Text style={ styles.priceHistoryPercentage } >
+        <Text style={ styles.priceHistoryPercentage }>
           { value }
           { label === strings.fundDetailsScreen.change ? "%" : null }
         </Text>
