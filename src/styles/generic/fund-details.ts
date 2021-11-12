@@ -3,8 +3,11 @@ import defaultTheme from "../../theme";
 
 /**
  * Styles for FundCard component
+ *
+ * @param theme theme
+ * @param color color
  */
-const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: string) => StyleSheet.create({
+const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: string) => StyleSheet.create({
 
   cardWrapper: {
     width: "100%",
@@ -18,7 +21,8 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     backgroundColor: "#fff",
-    shadowRadius: 5
+    shadowRadius: 5,
+    marginBottom: theme.spacing(1)
   },
 
   gradientContainer: {
@@ -33,6 +37,24 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     backgroundColor: color,
     flex: 1
   },
+
+  buttonRow: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: theme.spacing(1),
+    alignItems: "center"
+  },
+
+  button: {
+    backgroundColor: "#FFF",
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+
+    flex: 1,
+    minWidth: "50%"
+  },
   
   cardContent: {
     flexDirection: "column",
@@ -44,47 +66,14 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     flexDirection: "row",
     alignItems: "center"
   },
-
-  fundName: {
-    flexDirection: "row"
-  },
   
   cardColumn: {
     flex: 1
   },
 
-  riskMeterContainer: {
+  shareColumn: {
     flex: 1,
-    flexDirection: "column",
-    alignItems: "flex-end"
-  },
-
-  riskMeterBars: {
-    flex: 1,
-    flexDirection: "row"
-  },
-
-  riskMeterOn: {
-    backgroundColor: "#899C35",
-    height: "100%",
-    width: 8,
-    borderRadius: 2,
-    marginLeft: 2
-  },
-  
-  riskMeterOff: {
-    backgroundColor: "#BDBDBD",
-    height: "100%",
-    width: 8,
-    borderRadius: 2,
-    marginLeft: 2
-  },
-
-  tinyLogo: {
-    height: 20,
-    width: 20,
-    resizeMode: "cover",
-    marginLeft: theme.spacing(1)
+    alignItems: "center"
   },
 
   priceHistoryPercentage: {
@@ -92,14 +81,12 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     ...theme.fonts.medium
   },
 
-  divider: {
-    marginVertical: theme.spacing(1)
-  },
-
-  lastUpdated: {
-    paddingLeft: theme.spacing(1)
+  logoWide: {
+    width: "50%",
+    maxHeight: 40,
+    alignSelf: "center"
   }
 
 });
 
-export default fundCardStyles;
+export default fundDetailsStyles;

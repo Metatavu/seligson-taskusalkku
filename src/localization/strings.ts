@@ -13,6 +13,7 @@ export interface Strings extends LocalizedStringsMethods {
   generic: {
     notImplemented: string;
     close: string;
+    back: string;
   };
 
   /**
@@ -59,6 +60,20 @@ export interface Strings extends LocalizedStringsMethods {
     historyOneYear: string;
     historyFiveYears: string;
     historyTwentyYears: string;
+  };
+  
+  /**
+   * Translations related funde details screen
+   */
+  fundDetailsScreen: {
+    amount: string;
+    value: string;
+    change: string;
+    buyFund: string;
+    downloadBrochure: string;
+    aShare: string;
+    bShare: string;
+    myShare: string;
   };
 
 }

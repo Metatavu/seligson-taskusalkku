@@ -4,9 +4,9 @@ import HomeNavigator from "../../types/navigators/home";
 import PortfolioScreen from "./home/portfolio-screen";
 import strings from "../../localization/strings";
 import { useTheme } from "react-native-paper";
-import FundsScreen from "./home/funds-screen";
 import PublicationsScreen from "./home/publications-screen";
 import OthersScreen from "./home/others-screen";
+import FundsScreen from "./home/funds-screen";
 
 /**
  * Home screen bottom tab navigation

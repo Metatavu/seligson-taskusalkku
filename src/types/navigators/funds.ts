@@ -1,8 +1,9 @@
 import { RouteProp } from "@react-navigation/native";
-import { MaterialTopTabBarProps, MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
+import { Fund } from "../../generated/client/models/Fund";
+import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 
 /**
- * Funds navigator
+ * Fund selection navigator
  */
 namespace FundsNavigator {
 
@@ -10,26 +11,24 @@ namespace FundsNavigator {
    * Routes
    */
   export type Routes = {
-    passiveFunds: undefined;
-    activeFunds: undefined;
-    interestFunds: undefined;
-    combinationFunds: undefined;
+    fundsList: undefined;
+    fundsDetails: { fund: Fund; };
   };
 
   /**
    * Navigation properties
    */
-  export type NavigationProps = MaterialTopTabBarProps;
+  export type NavigationProps<RouteName extends keyof Routes = keyof Routes> = NativeStackNavigationProp<Routes, RouteName>;
 
   /**
    * Route properties
    */
   export type RouteProps<RouteName extends keyof Routes = keyof Routes> = RouteProp<Routes, RouteName>;
-
+ 
   /**
    * Screen properties
    */
-  export type ScreenProps<RouteName extends keyof Routes = keyof Routes> = MaterialTopTabScreenProps<Routes, RouteName>;
+  export type ScreenProps<RouteName extends keyof Routes = keyof Routes> = NativeStackScreenProps<Routes, RouteName>;
 
 }
 
