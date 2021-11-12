@@ -24,12 +24,12 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
 
   /**
-   * Own share
+   * My share
    *
    * @param label price history label
    * @param value price history percentage
    */
-  const renderOwnShare = (label: string, value: number) => {
+  const renderMyShare = (label: string, value: number) => {
     return (
       <View style={ styles.shareColumn }>
         <Text>
