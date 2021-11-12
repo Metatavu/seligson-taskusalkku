@@ -94,9 +94,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View>
               <Text style={ theme.fonts.medium }>
-                { strings.fundDetailsScreen.aShare }
-                { ": " }
-                { aShareValue }
+                { strings.fundDetailsScreen.aShare }: { aShareValue }
               </Text>
             </View>
             <View>
