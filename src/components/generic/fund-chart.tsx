@@ -59,7 +59,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
         </View>
         <LineChart
           data={{
-            labels: ["Tammi", "Helmi", "Maalis", "Huhti", "Touko", "Kesä"],
+            labels: [ "Tammi", "Helmi", "Maalis", "Huhti", "Touko", "Kesä" ],
             datasets: [
               {
                 data: [
