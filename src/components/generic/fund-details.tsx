@@ -99,9 +99,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
             </View>
             <View>
               <Text style={ theme.fonts.medium }>
-                { strings.fundDetailsScreen.bShare }
-                { ": " }
-                { bShareValue }
+                { strings.fundDetailsScreen.bShare }: { bShareValue }                
               </Text>
             </View>
           </View>
