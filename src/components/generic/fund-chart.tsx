@@ -14,7 +14,7 @@ interface Props {
 }
 
 /**
- * Fnd chart
+ * Fund chart
  *
  * @param props component properties
  */
