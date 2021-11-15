@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans": "^0.2.0",
-    "@expo/ngrok": "^2.4.3",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-navigation/material-bottom-tabs": "^6.0.9",
     "@react-navigation/material-top-tabs": "^6.0.6",
@@ -55,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@expo/ngrok": "^2.5.0",
     "@openapitools/openapi-generator-cli": "^2.4.12",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",

@@ -44,8 +44,7 @@ const StrongAuthView: React.FC<Props> = ({ demoLogin }) => {
     url.searchParams.append("client_id", auth.clientId);
     url.searchParams.append("scope", auth.scopes.join(" "));
     url.searchParams.append("redirect_uri", auth.redirectUrl);
-    // TODO: Remove this one Telia Tunnistus is working
-    // url.searchParams.append("kc_idp_hint", "telia");
+    url.searchParams.append("kc_idp_hint", "telia");
 
     setAuthUrl(url.href);
   }, []);
