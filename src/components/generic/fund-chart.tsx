@@ -5,6 +5,10 @@ import { Button, Text } from "react-native-paper";
 import { Fund } from "../../generated/client/models/Fund";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
+import { ErrorContext } from "../error-handler/error-handler";
+import Api from "../../api/api";
+import { useAppSelector } from "../../app/hooks";
+import { selectAuth } from "../../features/auth/auth-slice";
 
 /**
  * Component properties
@@ -20,6 +24,29 @@ interface Props {
  */
 const FundChart: React.FC<Props> = ({ fund }) => {
   const { color } = fund;
+  const errorContext = React.useContext(ErrorContext);
+  const auth = useAppSelector(selectAuth);
+  const [ historicalValues, setHistoricalValues ] = React.useState<HistoricalValue[]>([]);
+
+  /**
+   * Loads fund history
+   */
+  const loadFundHistory = async () => {
+    if (!auth || !fund.id) {
+      return;
+    }
+
+    console.log("fund", fund);
+
+    try {
+      const historyData = await Api.getFundsApi(auth).listHistoricalValues({ fundId: fund.id });
+      setHistoricalValues(historyData);
+    } catch (error) {
+      errorContext.setError("Error while loading fund history", error);
+    }
+  };
+
+  React.useEffect(() => { loadFundHistory(); }, []);
 
   /**
    * Date range button
@@ -90,11 +117,10 @@ const FundChart: React.FC<Props> = ({ fund }) => {
             },
             propsForDots: {
               r: "6",
-              strokeWidth: "2",
+              strokeWidth: "1",
               stroke: color
             }
           }}
-          bezier
           style={{
             marginVertical: 0
           }}

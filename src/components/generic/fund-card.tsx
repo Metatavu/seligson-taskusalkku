@@ -23,7 +23,7 @@ interface Props {
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const { color, name, risk, changeData, priceDate } = fund;
+  const { color, name, longName, risk, changeData, priceDate } = fund;
   const styles = fundCardStyles(useTheme(), color || "#FFF");
 
   /**
@@ -33,12 +33,16 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param percentage price history percentage
    */
   const renderPriceHistory = (label: string, percentage?: number) => {
+    let percentageStyle = styles.priceHistoryPercentage;
+    if (percentage && percentage < 0) {
+      percentageStyle = styles.priceHistoryPercentageNegative;
+    }
     return (
       <View style={ styles.cardColumn }>
         <Text>
           { label }
         </Text>
-        <Text style={ styles.priceHistoryPercentage } >
+        <Text style={ percentageStyle} >
           { percentage }
           %
         </Text>
@@ -91,7 +95,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           <View style={ styles.cardColumn }>
             <View style={ styles.fundName }>
               <Text style={ theme.fonts.medium }>
-                { GenericUtils.getLocalizedValue(name) }
+                { GenericUtils.getLocalizedValue(longName) }
               </Text>
               {/*               { lahiTapiola &&
                 <Image
@@ -104,7 +108,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>
               <Text style={ styles.lastUpdated }>
-                { priceDate?.toLocaleDateString() }
+                {/* { priceDate?.toLocaleDateString() } */}
               </Text>
             </View>
           </View>

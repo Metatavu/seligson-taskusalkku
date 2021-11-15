@@ -7,6 +7,11 @@ import PassiveFundsScreen from "./passive-funds-screen";
 import ActiveFundsScreen from "./active-funds-screen";
 import InterestFundsScreen from "./interest-funds-screen";
 import CombinationFundsScreen from "./combination-funds-screen";
+import { useAppSelector } from "../../../app/hooks";
+import { selectAuth } from "../../../features/auth/auth-slice";
+import Api from "../../../api/api";
+import { ErrorContext } from "../../error-handler/error-handler";
+import { Fund, FundGroup } from "../../../generated/client";
 
 /**
  * Funds screen tab navigation
@@ -18,6 +23,68 @@ const FundsNavigation = createMaterialTopTabNavigator<FundsNavigator.Routes>();
  */
 const FundsListScreen: React.FC = () => {
   const { colors } = useTheme();
+  const auth = useAppSelector(selectAuth);
+  const errorContext = React.useContext(ErrorContext);
+
+  const [ funds, setFunds ] = React.useState<Fund[]>([]);
+
+  /**
+   * 
+   */
+  const loadFunds = async () => {
+    if (!auth) {
+      return;
+    }
+
+    try {
+      const allFunds = await Api.getFundsApi(auth).listFunds({ maxResults: 200 });
+      setFunds(allFunds);
+    } catch (error) {
+      errorContext.setError("", error);
+    }
+  };
+
+  React.useEffect(() => { loadFunds(); }, []);
+
+  /**
+   * Passive funds
+   */
+  const filteredFundsPassive = () => (
+    <PassiveFundsScreen
+      key="passiveFundsScreen"
+      funds={ funds.filter(fund => fund.group === FundGroup.Passive) }
+    />
+  );
+
+  /**
+   * Active funds
+   */
+  const filteredFundsActive = () => (
+    <ActiveFundsScreen
+      key="activeFundsScreen"
+      funds={ funds.filter(fund => fund.group === FundGroup.Active) }
+    />
+  );
+
+  /**
+   * Interest funds
+   */
+  const filteredFundsInterest = () => (
+    <InterestFundsScreen
+      key="interestFundsScreen"
+      funds={ funds.filter(fund => fund.group === FundGroup.FixedIncome) }
+    />
+  );
+
+  /**
+   * Combination funds
+   */
+  const filteredFundsCombination = () => (
+    <CombinationFundsScreen
+      key="combinationFundsScreen"
+      funds={ funds.filter(fund => fund.group === FundGroup.Balanced) }
+    />
+  );
 
   return (
     <FundsNavigation.Navigator
@@ -37,24 +104,28 @@ const FundsListScreen: React.FC = () => {
     >
       <FundsNavigation.Screen
         name="passiveFunds"
-        component={ PassiveFundsScreen }
         options={{ title: strings.screenTitles.passiveFunds }}
-      />
+      >
+        { filteredFundsPassive }
+      </FundsNavigation.Screen>
       <FundsNavigation.Screen
         name="activeFunds"
-        component={ ActiveFundsScreen }
         options={{ title: strings.screenTitles.activeFunds }}
-      />
+      >
+        { filteredFundsActive }
+      </FundsNavigation.Screen>
       <FundsNavigation.Screen
         name="interestFunds"
-        component={ InterestFundsScreen }
         options={{ title: strings.screenTitles.interestFunds }}
-      />
+      >
+        { filteredFundsInterest }
+      </FundsNavigation.Screen>
       <FundsNavigation.Screen
         name="combinationFunds"
-        component={ CombinationFundsScreen }
         options={{ title: strings.screenTitles.combinationFunds }}
-      />
+      >
+        { filteredFundsCombination }
+      </FundsNavigation.Screen>
     </FundsNavigation.Navigator>
   );
 };

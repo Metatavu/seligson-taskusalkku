@@ -22,8 +22,8 @@ interface Props {
 const FundDetails: React.FC<Props> = ({ fund }) => {
   const { color, aShareValue, bShareValue } = fund;
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
-  const aShareValueText = `${strings.fundDetailsScreen.aShare} ${aShareValue}`;
-  const bShareValueText = `${strings.fundDetailsScreen.bShare} ${bShareValue}`;
+  const aShareValueText = `${strings.fundDetailsScreen.aShare} ${aShareValue}€`;
+  const bShareValueText = `${strings.fundDetailsScreen.bShare} ${bShareValue}€`;
 
   /**
    * My share
@@ -38,7 +38,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           { label }
         </Text>
         <Text style={ styles.priceHistoryPercentage }>
-          { value }
+          { value.toFixed(4) }
           { label === strings.fundDetailsScreen.change ? "%" : null }
         </Text>
       </View>

@@ -1,23 +1,22 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import FundCard from "../../generic/fund-card";
-import fakeFunds from "../../../resources/fake-funds";
 import { Fund } from "../../../generated/client/models/Fund";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { FundGroup } from "../../../generated/client";
 import styles from "../../../styles/screens/funds/active-funds";
+
+interface Props {
+  funds: Fund[];
+}
 
 /**
  * Active funds screen
  */
-const ActiveFundsScreen: React.FC = () => {
+const ActiveFundsScreen: React.FC<Props> = ({ funds }) => {
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
-
-  const filteredFunds = fakeFunds
-    .filter(({ group }) => group === FundGroup.Active)
-    .sort((a, b) => a.name.fi.localeCompare(b.name.fi));
+  const sortedFunds = funds.sort((a, b) => a.name.fi.localeCompare(b.name.fi));
 
   /**
    * Render fund
@@ -36,7 +35,7 @@ const ActiveFundsScreen: React.FC = () => {
   return (
     <ScrollView>
       <View style={ styles.fundList }>
-        { filteredFunds.map(renderFund) }
+        { sortedFunds.map(renderFund) }
       </View>
     </ScrollView>
   );
