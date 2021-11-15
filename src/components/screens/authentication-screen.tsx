@@ -1,7 +1,13 @@
 import React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import strings from "../../localization/strings";
+import AuthNavigator from "../../types/navigators/auth";
+import WelcomeScreen from "./auth/welcome-screen";
+import StrongAuthView from "./auth/strong-auth-view";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+/**
+ * Auth stack navigator
+ */
+const AuthNavigation = createNativeStackNavigator<AuthNavigator.Routes>();
 
 /**
  * Authentication screen
@@ -11,15 +17,21 @@ const AuthenticationScreen: React.FC = () => {
    * Component render
    */
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+    <AuthNavigation.Navigator
+      initialRouteName="welcome"
+      screenOptions={{
+        headerShown: false
       }}
     >
-      <Text>{ strings.generic.notImplemented }</Text>
-    </View>
+      <AuthNavigation.Screen
+        name="welcome"
+        component={ WelcomeScreen }
+      />
+      <AuthNavigation.Screen
+        name="login"
+        component={ StrongAuthView }
+      />
+    </AuthNavigation.Navigator>
   );
 };
 

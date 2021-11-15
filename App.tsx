@@ -77,7 +77,7 @@ const App: React.FC = () => {
   return (
     <NavigationContainer>
       <RootNavigation.Navigator
-        initialRouteName="home"
+        initialRouteName="authentication"
         screenOptions={ getScreenOptions }
       >
         <RootNavigation.Screen

@@ -8,6 +8,7 @@ export interface StaticConfig {
   apiBasePath: string;
   authLogoutEndpoint: string;
   auth: OAuthProps;
+  demoLoginUrl: string;
 }
 
 /**
