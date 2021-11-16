@@ -1,10 +1,15 @@
-import { FundGroup } from "../generated/client";
+import moment from "moment";
+import { Fund, FundGroup, HistoricalValue } from "../generated/client";
 
+/**
+ * Class for test data
+ */
 class TestData {
+
   /**
    * Test data for the fund card component
    */
-  public static getTestFunds: Fund[] = [
+  public static getTestFunds = (): Fund[] => [
     {
       id: "123456788",
       name: {
@@ -84,13 +89,31 @@ class TestData {
   ];
 
   /**
-   * 
+   * Generates random number list with given parameters
+   *
+   * @param length length of the created list
+   * @param min min value
+   * @param max max value
+   * @param multiplier multiplier
+   * @returns list of generated numbers
    */
-  public static getTestHistoricalValues: HistoricalValue[] = [
-    {
+  public static randomNumberList = (length: number, min: number = 1, max: number = 100, multiplier: number = 1) => {
+    return [ ...Array(length).keys() ].map((_, i) => Math.floor((Math.random() * (max - min) + min) + i * multiplier));
+  };
 
-    }
-  ];
+  /**
+   * Gets test data for historical values
+   *
+   * @param amount of values to generate
+   * @returns list of generate HistoricalValue objects
+   */
+  public static getTestHistoricalValues = (amount: number): HistoricalValue[] => (
+    TestData.randomNumberList(amount, 1, 10, 0.5).map((value, i) => ({
+      date: moment().subtract(amount - i, "days").toDate(),
+      value: value
+    }))
+  );
+
 }
 
 export default TestData;

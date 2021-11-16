@@ -58,8 +58,11 @@ export interface Strings extends LocalizedStringsMethods {
     historyOneDay: string;
     historyOneMonth: string;
     historyOneYear: string;
+    historyThreeYears: string;
     historyFiveYears: string;
+    historyTenYears: string;
     historyTwentyYears: string;
+    historyMax: string;
   };
   
   /**
