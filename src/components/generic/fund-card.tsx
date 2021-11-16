@@ -23,7 +23,7 @@ interface Props {
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const { color, name, longName, risk, changeData, priceDate } = fund;
+  const { color, longName, risk, changeData, priceDate } = fund;
   const styles = fundCardStyles(useTheme(), color || "#FFF");
 
   /**
@@ -108,7 +108,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>
               <Text style={ styles.lastUpdated }>
-                {/* { priceDate?.toLocaleDateString() } */}
+                { priceDate?.toLocaleDateString() }
               </Text>
             </View>
           </View>
