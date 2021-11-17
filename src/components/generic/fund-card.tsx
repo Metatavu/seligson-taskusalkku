@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React from "react";
 import { View } from "react-native";
 import { Divider, Text, useTheme } from "react-native-paper";
@@ -56,21 +55,27 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   const renderRiskMeter = () => {
     const riskLevelText = `${strings.fundCard.riskLevel} ${risk}`;
 
+    if (!risk) {
+      return null;
+    }
+
+    const riskArray: JSX.Element[] = Array(7);
+
+    for (let index = 0; index < 7; index++) {
+      riskArray.push(
+        <LinearGradient
+          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+          style={ index < risk ? styles.riskMeterOn : styles.riskMeterOff }
+          // eslint-disable-next-line react/no-array-index-key
+          key={ `fundRiskGradient-${fund.id}-${index}` }
+        />
+      );
+    }
+
     return (
       <View style={ styles.riskMeterContainer }>
         <View style={ styles.riskMeterBars }>
-          { Array(risk).fill(
-            <LinearGradient
-              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-              style={ styles.riskMeterOn }
-            />
-          )}
-          { Array(7 - Number(risk)).fill(
-            <LinearGradient
-              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-              style={ styles.riskMeterOff }
-            />
-          )}
+          { riskArray }
         </View>
         <Text>
           { riskLevelText }
@@ -95,15 +100,8 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           <View style={ styles.cardColumn }>
             <View style={ styles.fundName }>
               <Text style={ theme.fonts.medium }>
-                { GenericUtils.getLocalizedValue(longName) }
+                { longName && GenericUtils.getLocalizedValue(longName) }
               </Text>
-              {/*               { lahiTapiola &&
-                <Image
-                  // eslint-disable-next-line global-require
-                  source={ require("../../../assets/ltLogo.jpg") }
-                  style={ styles.tinyLogo }
-                />
-              } */}
             </View>
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>

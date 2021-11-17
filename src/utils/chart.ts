@@ -35,15 +35,17 @@ export default class ChartUtils {
 
   /**
    * Converts historical values to victory chart data
+   * 
+   * TODO: What to do in a case where there is no value or date?
    *
    * @param historicValues list of historical values
    * @returns list of VictoryChartData objects
    */
-  public static convertToVictoryChartData = (historicValues: HistoricalValue[]): VictoryChartData[] => {
-    return historicValues.map(value => ({
+  public static convertToVictoryChartData = (historicValues: HistoricalValue[]): VictoryChartData[] => (
+    historicValues.map(value => ({
       x: value.date || new Date(),
-      y: (value.value || 0)
-    }));
-  };
+      y: value.value || 0
+    }))
+  );
 
 }

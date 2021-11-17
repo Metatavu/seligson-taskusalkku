@@ -21,6 +21,15 @@ export interface Strings extends LocalizedStringsMethods {
    */
   errorHandling: {
     title: string;
+    funds: {
+      list: string;
+    };
+    fundHistory: {
+      list: string;
+    };
+    auth: {
+      login: string;
+    };
   };
 
   /**

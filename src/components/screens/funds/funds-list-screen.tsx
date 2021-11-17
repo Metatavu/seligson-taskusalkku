@@ -29,7 +29,7 @@ const FundsListScreen: React.FC = () => {
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
 
   /**
-   * 
+   * Loads funds from API
    */
   const loadFunds = async () => {
     if (!auth) {
@@ -40,10 +40,13 @@ const FundsListScreen: React.FC = () => {
       const allFunds = await Api.getFundsApi(auth).listFunds({ maxResults: 200 });
       setFunds(allFunds);
     } catch (error) {
-      errorContext.setError("", error);
+      errorContext.setError(strings.errorHandling.funds.list, error);
     }
   };
 
+  /**
+   * Effect for loading funds
+   */
   React.useEffect(() => { loadFunds(); }, []);
 
   /**

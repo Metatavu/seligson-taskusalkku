@@ -8,9 +8,10 @@ import Config from "../app/config";
 export default class Api {
   
   /**
+   * Gets initialized funds api
    * 
    * @param auth authentication
-   * @returns new
+   * @returns initialized funds api
    */
   public static getFundsApi = (auth: Authentication) => {
     return new FundsApi(Api.getConfiguration(auth));

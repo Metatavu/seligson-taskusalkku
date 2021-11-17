@@ -7,7 +7,16 @@
   },
 
   "errorHandling": {
-    "title": "Error"
+    "title": "Error",
+    "funds": {
+      "list": "Error while loading fund list"
+    },
+    "fundHistory": {
+      "list": "Error while loading fund history data"
+    },
+    "auth": {
+      "login": "Error while logging in"
+    }
   },
 
   "auth": {

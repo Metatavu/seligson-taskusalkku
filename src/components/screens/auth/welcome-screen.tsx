@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Button } from "react-native-paper";
 import { useAppDispatch } from "../../../app/hooks";
 import { authUpdate } from "../../../features/auth/auth-slice";
+import strings from "../../../localization/strings";
 import AuthNavigator from "../../../types/navigators/auth";
 import RootNavigator from "../../../types/navigators/root";
 import AuthUtils from "../../../utils/auth";
@@ -34,7 +35,7 @@ const WelcomeScreen: React.FC = () => {
         dispatch(authUpdate(auth));
         navigation.navigate("home");
       } catch (error) {
-        errorContext.setError("ERROR WHEN LOGIN IN WITH OFFLINE TOKEN", error);
+        errorContext.setError(strings.errorHandling.auth.login, error);
       }
     }
   };

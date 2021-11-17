@@ -33,7 +33,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
   const auth = useAppSelector(selectAuth);
 
   const [ loading, setLoading ] = React.useState(true);
-  const [ historicalValues, setHistoricalValues ] = React.useState<HistoricalValue[] | undefined>();
+  const [ historicalValues, setHistoricalValues ] = React.useState<HistoricalValue[]>([]);
   const [ selectedRange, setSelectedRange ] = React.useState<ChartRange>(ChartRange.MONTH);
 
   /**
@@ -59,12 +59,15 @@ const FundChart: React.FC<Props> = ({ fund }) => {
       });
       setHistoricalValues(historyData);
     } catch (error) {
-      errorContext.setError("Error while loading fund history", error);
+      errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
 
     setLoading(false);
   };
 
+  /**
+   * Effect for loading fund history. Triggered when selected chart range is changed
+   */
   React.useEffect(() => { loadFundHistory(); }, [ selectedRange ]);
 
   /**
@@ -104,10 +107,6 @@ const FundChart: React.FC<Props> = ({ fund }) => {
    * Renders chart
    */
   const renderChart = () => {
-    if (!historicalValues) {
-      return null;
-    }
-
     return (
       <VictoryChart
         scale={{ x: "time" }}
@@ -146,7 +145,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
             tickLabels: { fontSize: 10, fill: "white" },
             axis: { strokeWidth: 0 }
           }}
-          tickFormat={ y => `${y} €` }
+          tickFormat={ yValue => `${yValue} €` }
         />
       </VictoryChart>
     );

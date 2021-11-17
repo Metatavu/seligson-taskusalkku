@@ -7,6 +7,9 @@ import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/interest-funds";
 
+/**
+ * Component properties
+ */
 interface Props {
   funds: Fund[];
 }

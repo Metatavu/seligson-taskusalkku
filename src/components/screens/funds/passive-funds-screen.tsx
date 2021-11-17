@@ -7,6 +7,9 @@ import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/passive-funds";
 
+/**
+ * Component properties
+ */
 interface Props {
   funds: Fund[];
 }
@@ -26,9 +29,9 @@ const PassiveFundsScreen: React.FC<Props> = ({ funds }) => {
   const renderFund = (fund: Fund) => (
     <TouchableOpacity
       onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }
-      key={ `pactiveFundsTouchable${fund.id}` }
+      key={ `passiveFundsTouchable${fund.id}` }
     >
-      <FundCard fund={ fund }/>
+      <FundCard fund={ fund } key={`fund${fund.id}`}/>
     </TouchableOpacity>
   );
 
