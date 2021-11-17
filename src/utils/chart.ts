@@ -42,7 +42,7 @@ export default class ChartUtils {
   public static convertToVictoryChartData = (historicValues: HistoricalValue[]): VictoryChartData[] => {
     return historicValues.map(value => ({
       x: value.date || new Date(),
-      y: (value.value || 0) / 100
+      y: (value.value || 0)
     }));
   };
 

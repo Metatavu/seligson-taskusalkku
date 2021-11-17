@@ -12,7 +12,6 @@ export default StyleSheet.create({
   dateRangeButtonRow: {
     maxWidth: Dimensions.get("window").width,
     overflow: "hidden",
-    backgroundColor: "#3E3F44",
     flexDirection: "row",
     padding: theme.spacing(1)
   },

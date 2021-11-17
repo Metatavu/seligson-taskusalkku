@@ -59,5 +59,5 @@ export enum ChartRange {
  */
 export interface VictoryChartData {
   x: Date;
-  y: number
+  y: number;
 }

@@ -13,8 +13,6 @@ import { ChartRange } from "../../types";
 import ChartUtils from "../../utils/chart";
 import { VictoryChart, VictoryAxis, VictoryArea } from "victory-native";
 import moment from "moment";
-import Config from "../../app/config";
-import TestData from "../../resources/test-data";
 import theme from "../../theme";
 
 /**
@@ -46,11 +44,12 @@ const FundChart: React.FC<Props> = ({ fund }) => {
       return;
     }
 
-    if (Config.getStatic().developmentBuild) {
-      setHistoricalValues(TestData.getTestHistoricalValues(365));
-      setLoading(false);
-      return;
-    }
+    // TODO: Add proper demo user functionalities
+    // if (Config.getStatic().developmentBuild) {
+    //   setHistoricalValues(TestData.getTestHistoricalValues(365));
+    //   setLoading(false);
+    //   return;
+    // }
 
     try {
       const historyData = await Api.getFundsApi(auth).listHistoricalValues({
@@ -66,7 +65,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
     setLoading(false);
   };
 
-  React.useEffect(() => { loadFundHistory(); }, []);
+  React.useEffect(() => { loadFundHistory(); }, [ selectedRange ]);
 
   /**
    * Event handler for date range change
@@ -76,7 +75,6 @@ const FundChart: React.FC<Props> = ({ fund }) => {
   const onDateRangeChange = (range: ChartRange) => () => {
     setSelectedRange(range);
     setLoading(true);
-    loadFundHistory();
   };
 
   /**
@@ -121,7 +119,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
           style={{
             data: {
               stroke: color,
-              strokeWidth: 1,
+              strokeWidth: 0.5,
               fill: color,
               fillOpacity: 0.3
             }
@@ -136,7 +134,8 @@ const FundChart: React.FC<Props> = ({ fund }) => {
           scale={{ x: "time" }}
           style={{
             grid: { stroke: "lightgrey" },
-            tickLabels: { fontSize: 10 }
+            tickLabels: { fontSize: 10, fill: "white" },
+            axis: { strokeWidth: 0 }
           }}
           tickFormat={ xValue => ChartUtils.getDisplayDate(xValue, "DD.MM.YYYY") }
         />
@@ -144,8 +143,10 @@ const FundChart: React.FC<Props> = ({ fund }) => {
           dependentAxis
           style={{
             grid: { stroke: "lightgrey" },
-            tickLabels: { fontSize: 10 }
+            tickLabels: { fontSize: 10, fill: "white" },
+            axis: { strokeWidth: 0 }
           }}
+          tickFormat={ y => `${y} €` }
         />
       </VictoryChart>
     );
@@ -163,14 +164,18 @@ const FundChart: React.FC<Props> = ({ fund }) => {
       );
     }
 
-    return renderChart();
+    return (
+      <View>
+        { renderChart() }
+      </View>
+    );
   };
 
   /**
    * Component render
    */
   return (
-    <View style={{ minHeight: 353 }}>
+    <View style={{ minHeight: 353, backgroundColor: "#3E3F44" }}>
       <View style={ styles.dateRangeButtonRow }>
         { renderDateRangeButton(ChartRange.MONTH, strings.fundCard.historyOneMonth) }
         { renderDateRangeButton(ChartRange.YEAR, strings.fundCard.historyOneYear) }
