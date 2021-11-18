@@ -47,8 +47,12 @@ const WelcomeScreen: React.FC = () => {
 
   return (
     <View style={{ marginTop: 200 }}>
-      <Button onPress={ () => navigation.navigate("login") }>
+      <Button onPress={ () => navigation.navigate("login", {}) }>
         LOGIN
+      </Button>
+      {/* TODO: Hide demo login access */}
+      <Button onPress={ () => navigation.navigate("login", { demoLogin: true }) }>
+        DEMO LOGIN
       </Button>
     </View>
   );

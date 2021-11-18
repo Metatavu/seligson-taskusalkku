@@ -14,6 +14,8 @@ import ChartUtils from "../../utils/chart";
 import { VictoryChart, VictoryAxis, VictoryArea } from "victory-native";
 import moment from "moment";
 import theme from "../../theme";
+import AuthUtils from "../../utils/auth";
+import TestData from "../../resources/test-data";
 
 /**
  * Component properties
@@ -44,21 +46,16 @@ const FundChart: React.FC<Props> = ({ fund }) => {
       return;
     }
 
-    // TODO: Add proper demo user functionalities
-    // if (Config.getStatic().developmentBuild) {
-    //   setHistoricalValues(TestData.getTestHistoricalValues(365));
-    //   setLoading(false);
-    //   return;
-    // }
-
     try {
-      const historyData = await Api.getFundsApi(auth).listHistoricalValues({
-        fundId: fund.id,
-        startDate: ChartUtils.getStartDate(selectedRange),
-        endDate: moment().toDate()
-      });
-
-      setHistoricalValues(historyData);
+      AuthUtils.isDemoUser(auth) ?
+        setHistoricalValues(TestData.getTestHistoricalValues(365)) :
+        setHistoricalValues(
+          await Api.getFundsApi(auth).listHistoricalValues({
+            fundId: fund.id,
+            startDate: ChartUtils.getStartDate(selectedRange),
+            endDate: moment().toDate()
+          })
+        );
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }

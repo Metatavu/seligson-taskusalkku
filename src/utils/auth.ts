@@ -164,6 +164,16 @@ class AuthUtils {
     }
   };
 
+  /**
+   * Checks if user roles includes demo role
+   *
+   * @param auth auth state
+   * @returns does user have demo role
+   */
+  public static isDemoUser = (auth?: Authentication): boolean => {
+    return auth?.roles.realm.includes("demo") || false;
+  };
+
 }
 
 export default AuthUtils;
