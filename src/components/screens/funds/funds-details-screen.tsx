@@ -16,7 +16,9 @@ const FundsDetailsScreen: React.FC = () => {
   const { params } = useRoute<FundsNavigator.RouteProps>();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
 
-  if (!params?.fund) return null;
+  if (!params?.fund) {
+    return null;
+  }
 
   /**
    * Component render

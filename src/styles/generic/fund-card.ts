@@ -54,7 +54,6 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
   },
 
   riskMeterContainer: {
-    flex: 1,
     flexDirection: "column",
     alignItems: "flex-end"
   },
@@ -89,6 +88,11 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
 
   priceHistoryPercentage: {
     color: theme.colors.primary,
+    ...theme.fonts.medium
+  },
+
+  priceHistoryPercentageNegative: {
+    color: theme.colors.error,
     ...theme.fonts.medium
   },
 

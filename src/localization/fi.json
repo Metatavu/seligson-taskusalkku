@@ -7,7 +7,16 @@
   },
 
   "errorHandling": {
-    "title": "Virhe"
+    "title": "Virhe",
+    "funds": {
+      "list": "Virhe listattaessa rahastoja"
+    },
+    "fundHistory": {
+      "list": "Virhe listattaessa rahaston historia tietoja"
+    },
+    "auth": {
+      "login": "Kirjautumisessa tapahtui virhe"
+    }
   },
 
   "auth": {
@@ -36,8 +45,11 @@
     "historyOneDay": "1pv",
     "historyOneMonth": "1kk",
     "historyOneYear": "1v",
+    "historyThreeYears": "3v",
     "historyFiveYears": "5v",
-    "historyTwentyYears": "20v"
+    "historyTenYears": "10v",
+    "historyTwentyYears": "20v",
+    "historyMax": "max"
   },
 
   "fundDetailsScreen": {

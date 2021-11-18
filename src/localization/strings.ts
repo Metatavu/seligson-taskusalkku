@@ -21,6 +21,15 @@ export interface Strings extends LocalizedStringsMethods {
    */
   errorHandling: {
     title: string;
+    funds: {
+      list: string;
+    };
+    fundHistory: {
+      list: string;
+    };
+    auth: {
+      login: string;
+    };
   };
 
   /**
@@ -58,8 +67,11 @@ export interface Strings extends LocalizedStringsMethods {
     historyOneDay: string;
     historyOneMonth: string;
     historyOneYear: string;
+    historyThreeYears: string;
     historyFiveYears: string;
+    historyTenYears: string;
     historyTwentyYears: string;
+    historyMax: string;
   };
   
   /**

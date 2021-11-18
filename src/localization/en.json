@@ -7,7 +7,16 @@
   },
 
   "errorHandling": {
-    "title": "Error"
+    "title": "Error",
+    "funds": {
+      "list": "Error while loading fund list"
+    },
+    "fundHistory": {
+      "list": "Error while loading fund history data"
+    },
+    "auth": {
+      "login": "Error while logging in"
+    }
   },
 
   "auth": {
@@ -36,8 +45,11 @@
     "historyOneDay": "1d",
     "historyOneMonth": "1m",
     "historyOneYear": "1y",
+    "historyThreeYears": "3y",
     "historyFiveYears": "5y",
-    "historyTwentyYears": "20y"
+    "historyTenYears": "10y",
+    "historyTwentyYears": "20y",
+    "historyMax": "max"
   },
 
   "fundDetailsScreen": {

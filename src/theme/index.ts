@@ -38,6 +38,7 @@ const theme: ReactNativePaper.Theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#899C35",
+    error: "red",
     grey: {
       100: "#F5F5F5",
       200: "#EEEEEE",
