@@ -50,7 +50,7 @@ const WelcomeScreen: React.FC = () => {
       <Button onPress={ () => navigation.navigate("login", {}) }>
         LOGIN
       </Button>
-      {/* TODO: Add hidden demo login access */}
+      {/* TODO: Hide demo login access */}
       <Button onPress={ () => navigation.navigate("login", { demoLogin: true }) }>
         DEMO LOGIN
       </Button>
