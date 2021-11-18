@@ -57,6 +57,7 @@ const FundChart: React.FC<Props> = ({ fund }) => {
         startDate: ChartUtils.getStartDate(selectedRange),
         endDate: moment().toDate()
       });
+
       setHistoricalValues(historyData);
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);

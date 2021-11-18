@@ -32,16 +32,15 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param percentage price history percentage
    */
   const renderPriceHistory = (label: string, percentage?: number) => {
-    let percentageStyle = styles.priceHistoryPercentage;
-    if (percentage && percentage < 0) {
-      percentageStyle = styles.priceHistoryPercentageNegative;
-    }
+    const percentageStyle = percentage && percentage < 0 ?
+      styles.priceHistoryPercentageNegative :
+      styles.priceHistoryPercentage;
     return (
       <View style={ styles.cardColumn }>
         <Text>
           { label }
         </Text>
-        <Text style={ percentageStyle} >
+        <Text style={ percentageStyle }>
           { percentage }
           %
         </Text>
@@ -59,18 +58,14 @@ const FundCard: React.FC<Props> = ({ fund }) => {
       return null;
     }
 
-    const riskArray: JSX.Element[] = Array(7);
-
-    for (let index = 0; index < 7; index++) {
-      riskArray.push(
-        <LinearGradient
-          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-          style={ index < risk ? styles.riskMeterOn : styles.riskMeterOff }
-          // eslint-disable-next-line react/no-array-index-key
-          key={ `fundRiskGradient-${fund.id}-${index}` }
-        />
-      );
-    }
+    const riskArray = Array.from({ length: 7 }, (_, index) => (
+      <LinearGradient
+        // eslint-disable-next-line react/no-array-index-key
+        key={ index }
+        colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+        style={ index < risk ? styles.riskMeterOn : styles.riskMeterOff }
+      />
+    ));
 
     return (
       <View style={ styles.riskMeterContainer }>
