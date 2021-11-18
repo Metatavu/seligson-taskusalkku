@@ -8,23 +8,19 @@ import { useAppDispatch } from "../../../app/hooks";
 import { authUpdate } from "../../../features/auth/auth-slice";
 import AuthUtils from "../../../utils/auth";
 import { URL } from "react-native-url-polyfill";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import RootNavigator from "../../../types/navigators/root";
-
-/**
- * Interface describing component properties
- */
-interface Props {
-  demoLogin?: boolean;
-}
+import AuthNavigator from "../../../types/navigators/auth";
 
 /**
  * Strong authentication view
  *
  * @param props component properties
  */
-const StrongAuthView: React.FC<Props> = ({ demoLogin }) => {
+const StrongAuthView: React.FC = () => {
   const navigation = useNavigation<RootNavigator.NavigationProps<"home">>();
+  const { params } = useRoute<AuthNavigator.RouteProps>();
+  const demoLogin = params?.demoLogin;
 
   const dispatch = useAppDispatch();
   const { auth } = Config.getStatic();
@@ -44,7 +40,7 @@ const StrongAuthView: React.FC<Props> = ({ demoLogin }) => {
     url.searchParams.append("client_id", auth.clientId);
     url.searchParams.append("scope", auth.scopes.join(" "));
     url.searchParams.append("redirect_uri", auth.redirectUrl);
-    url.searchParams.append("kc_idp_hint", "telia");
+    url.searchParams.append("kc_idp_hint", "taskusalkku");
 
     setAuthUrl(url.href);
   }, []);
