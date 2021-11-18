@@ -1,23 +1,27 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import FundCard from "../../generic/fund-card";
-import fakeFunds from "../../../resources/fake-funds";
 import { Fund } from "../../../generated/client/models/Fund";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { FundGroup } from "../../../generated/client";
 import styles from "../../../styles/screens/funds/combination-funds";
 
 /**
- * Combination funds screen
+ * Component properties
  */
-const CombinationFundsScreen: React.FC = () => {
-  const navigation = useNavigation<FundsNavigator.NavigationProps>();
+interface Props {
+  funds: Fund[];
+}
 
-  const filteredFunds = fakeFunds
-    .filter(({ group }) => group === FundGroup.Balanced)
-    .sort((a, b) => a.name.fi.localeCompare(b.name.fi));
+/**
+ * Combination funds screen
+ *
+ * @param props component properties
+ */
+const CombinationFundsScreen: React.FC<Props> = ({ funds }) => {
+  const navigation = useNavigation<FundsNavigator.NavigationProps>();
+  const sortedFunds = funds.sort((a, b) => a.name.fi.localeCompare(b.name.fi));
 
   /**
    * Render fund
@@ -25,7 +29,10 @@ const CombinationFundsScreen: React.FC = () => {
    * @param fund fund
    */
   const renderFund = (fund: Fund) => (
-    <TouchableOpacity onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }>
+    <TouchableOpacity
+      onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }
+      key={ `combinationFundsTouchable${fund.id}` }
+    >
       <FundCard fund={ fund }/>
     </TouchableOpacity>
   );
@@ -36,7 +43,7 @@ const CombinationFundsScreen: React.FC = () => {
   return (
     <ScrollView>
       <View style={ styles.fundList }>
-        { filteredFunds.map(renderFund) }
+        { sortedFunds.map(renderFund) }
       </View>
     </ScrollView>
   );

@@ -41,3 +41,23 @@ export interface ErrorContextType {
   error?: string;
   setError: (message: string, error?: any) => void;
 }
+
+/**
+ * Enum for chart range select
+ */
+export enum ChartRange {
+  MONTH = "MONTH",
+  YEAR = "YEAR",
+  THREE_YEARS = "THREE_YEARS",
+  FIVE_YEARS = "FIVE_YEARS",
+  TEN_YEARS = "TEN_YEARS",
+  MAX = "MAX"
+}
+
+/**
+ * Interface for victory chart data
+ */
+export interface VictoryChartData {
+  x: Date;
+  y: number;
+}

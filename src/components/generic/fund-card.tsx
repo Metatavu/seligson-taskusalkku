@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React from "react";
 import { View } from "react-native";
 import { Divider, Text, useTheme } from "react-native-paper";
@@ -23,7 +22,7 @@ interface Props {
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const { color, name, risk, changeData, priceDate } = fund;
+  const { color, longName, risk, changeData, priceDate } = fund;
   const styles = fundCardStyles(useTheme(), color || "#FFF");
 
   /**
@@ -33,12 +32,15 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param percentage price history percentage
    */
   const renderPriceHistory = (label: string, percentage?: number) => {
+    const percentageStyle = percentage && percentage < 0 ?
+      styles.priceHistoryPercentageNegative :
+      styles.priceHistoryPercentage;
     return (
       <View style={ styles.cardColumn }>
         <Text>
           { label }
         </Text>
-        <Text style={ styles.priceHistoryPercentage } >
+        <Text style={ percentageStyle }>
           { percentage }
           %
         </Text>
@@ -52,21 +54,23 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   const renderRiskMeter = () => {
     const riskLevelText = `${strings.fundCard.riskLevel} ${risk}`;
 
+    if (!risk) {
+      return null;
+    }
+
+    const riskArray = Array.from({ length: 7 }, (_, index) => (
+      <LinearGradient
+        // eslint-disable-next-line react/no-array-index-key
+        key={ index }
+        colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+        style={ index < risk ? styles.riskMeterOn : styles.riskMeterOff }
+      />
+    ));
+
     return (
       <View style={ styles.riskMeterContainer }>
         <View style={ styles.riskMeterBars }>
-          { Array(risk).fill(
-            <LinearGradient
-              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-              style={ styles.riskMeterOn }
-            />
-          )}
-          { Array(7 - Number(risk)).fill(
-            <LinearGradient
-              colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-              style={ styles.riskMeterOff }
-            />
-          )}
+          { riskArray }
         </View>
         <Text>
           { riskLevelText }
@@ -91,15 +95,8 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           <View style={ styles.cardColumn }>
             <View style={ styles.fundName }>
               <Text style={ theme.fonts.medium }>
-                { GenericUtils.getLocalizedValue(name) }
+                { longName && GenericUtils.getLocalizedValue(longName) }
               </Text>
-              {/*               { lahiTapiola &&
-                <Image
-                  // eslint-disable-next-line global-require
-                  source={ require("../../../assets/ltLogo.jpg") }
-                  style={ styles.tinyLogo }
-                />
-              } */}
             </View>
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>

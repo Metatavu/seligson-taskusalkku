@@ -1,23 +1,27 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import FundCard from "../../generic/fund-card";
-import fakeFunds from "../../../resources/fake-funds";
 import { Fund } from "../../../generated/client/models/Fund";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { FundGroup } from "../../../generated/client";
 import styles from "../../../styles/screens/funds/passive-funds";
 
 /**
- * Passive funds screen
+ * Component properties
  */
-const PassiveFundsScreen: React.FC = () => {
-  const navigation = useNavigation<FundsNavigator.NavigationProps>();
+interface Props {
+  funds: Fund[];
+}
 
-  const filteredFunds = fakeFunds
-    .filter(({ group }) => group === FundGroup.Passive)
-    .sort((a, b) => a.name.fi.localeCompare(b.name.fi));
+/**
+ * Passive funds screen
+ *
+ * @param props component properties
+ */
+const PassiveFundsScreen: React.FC<Props> = ({ funds }) => {
+  const navigation = useNavigation<FundsNavigator.NavigationProps>();
+  const sortedFunds = funds.sort((a, b) => a.name.fi.localeCompare(b.name.fi));
 
   /**
    * Render fund
@@ -25,8 +29,11 @@ const PassiveFundsScreen: React.FC = () => {
    * @param fund fund
    */
   const renderFund = (fund: Fund) => (
-    <TouchableOpacity onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }>
-      <FundCard fund={ fund }/>
+    <TouchableOpacity
+      onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }
+      key={ `passiveFundsTouchable${fund.id}` }
+    >
+      <FundCard fund={ fund } key={`fund${fund.id}`}/>
     </TouchableOpacity>
   );
 
@@ -36,7 +43,7 @@ const PassiveFundsScreen: React.FC = () => {
   return (
     <ScrollView>
       <View style={ styles.fundList }>
-        { filteredFunds.map(renderFund) }
+        { sortedFunds.map(renderFund) }
       </View>
     </ScrollView>
   );

@@ -69,7 +69,7 @@ const StrongAuthView: React.FC<Props> = ({ demoLogin }) => {
 
       if (result?.accessToken) {
         dispatch(authUpdate(AuthUtils.createAuth(result)));
-        navigation.navigate("home");
+        navigation.reset({ routes: [{ name: "home" }] });
       } else {
         throw new Error("Login failed");
       }
