@@ -16,6 +16,8 @@ interface Props {
 
 /**
  * Interest funds screen
+ *
+ * @param props component properties
  */
 const InterestFundsScreen: React.FC<Props> = ({ funds }) => {
   const navigation = useNavigation<FundsNavigator.NavigationProps>();

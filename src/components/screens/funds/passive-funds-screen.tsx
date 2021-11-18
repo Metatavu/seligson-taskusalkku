@@ -16,6 +16,8 @@ interface Props {
 
 /**
  * Passive funds screen
+ *
+ * @param props component properties
  */
 const PassiveFundsScreen: React.FC<Props> = ({ funds }) => {
   const navigation = useNavigation<FundsNavigator.NavigationProps>();

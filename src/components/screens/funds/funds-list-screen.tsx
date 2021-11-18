@@ -37,8 +37,8 @@ const FundsListScreen: React.FC = () => {
     }
 
     try {
-      const allFunds = await Api.getFundsApi(auth).listFunds({ maxResults: 200 });
-      setFunds(allFunds);
+      /** TODO: add pagination support */
+      setFunds(await Api.getFundsApi(auth).listFunds({ maxResults: 200 }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.funds.list, error);
     }
