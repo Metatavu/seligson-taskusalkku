@@ -14,6 +14,9 @@
     "fundHistory": {
       "list": "Virhe listattaessa rahaston historia tietoja"
     },
+    "portfolio": {
+      "list": "Virhe listattaessa portfolion historiatietoja"
+    },
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
     }
@@ -61,6 +64,18 @@
     "aShare": "A-osuus",
     "bShare": "B-osuus",
     "myShare": "Oma osuus"
+  },
+
+  "portfolio": {
+    "statistics": {
+      "marketValueTotal": "Kokonaisarvo",
+      "purchaseTotal": "Hankinta-arvo",
+      "change": "Muutos",
+      "totalChange": "Kokonaisarvon muutos",
+      "redemptions": "Lunastukset",
+      "markings": "Merkinnät",
+      "total": "Yhteensä"
+    }
   }
 
 }

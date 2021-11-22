@@ -1,15 +1,17 @@
+import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";
-import { Fund, FundGroup, HistoricalValue } from "../generated/client";
+import { Fund, FundGroup, HistoricalValue, Portfolio } from "../generated/client";
+import { ChartRange } from "../types";
 
 /**
- * Class for test data
+ * Customer namespace for test data
  */
-class TestData {
+namespace TestData {
 
   /**
    * Test data for the fund card component
    */
-  public static getTestFunds = (): Fund[] => [
+  export const getTestFunds = (): Fund[] => [
     {
       id: "123456788",
       name: {
@@ -97,8 +99,38 @@ class TestData {
    * @param multiplier multiplier
    * @returns list of generated numbers
    */
-  public static randomNumberList = (length: number, min: number = 1, max: number = 100, multiplier: number = 1) => {
+  export const randomNumberList = (length: number, min: number = 1, max: number = 100, multiplier: number = 1) => {
     return [ ...Array(length).keys() ].map((_, i) => Math.floor((Math.random() * (max - min) + min) + i * multiplier));
+  };
+
+  /**
+   * Gets amount to generate values based on chart range value
+   *
+   * @param range chart range
+   * @returns amount
+   */
+  const getAmount = (dateRange: ChartRange): number => ({
+    [ChartRange.MONTH]: 30,
+    [ChartRange.YEAR]: 365,
+    [ChartRange.THREE_YEARS]: (3 * 365),
+    [ChartRange.FIVE_YEARS]: (5 * 365),
+    [ChartRange.TEN_YEARS]: (10 * 365),
+    [ChartRange.MAX]: (20 * 365)
+  })[dateRange];
+
+  /**
+   * Gets test data for historical values
+   *
+   * @param amount of values to generate
+   * @returns list of generate HistoricalValue objects
+   */
+  export const getTestHistoricalValues = (range?: ChartRange): HistoricalValue[] => {
+    const amount = range ? getAmount(range) : 365;
+
+    return TestData.randomNumberList(amount, 1, 10, 0.5).map((value, i) => ({
+      date: moment().subtract(amount - i, "days").toDate(),
+      value: value
+    }));
   };
 
   /**
@@ -107,12 +139,20 @@ class TestData {
    * @param amount of values to generate
    * @returns list of generate HistoricalValue objects
    */
-  public static getTestHistoricalValues = (amount: number): HistoricalValue[] => (
-    TestData.randomNumberList(amount, 1, 10, 0.5).map((value, i) => ({
-      date: moment().subtract(amount - i, "days").toDate(),
-      value: value
-    }))
-  );
+  export const getTestPortfolio = (amount: number): Portfolio[] => {
+    const portfolios: Portfolio[] = [];
+
+    for (let i = 0; i < amount; i++) {
+      portfolios.push({
+        id: nanoid(),
+        marketValueTotal: Math.floor((Math.random() * 1000)),
+        purchaseTotal: Math.floor((Math.random() * 1000)),
+        totalAmount: Math.floor((Math.random() * 10000))
+      });
+    }
+
+    return portfolios;
+  };
 
 }
 

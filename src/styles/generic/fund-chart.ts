@@ -9,44 +9,45 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
 
+  chartContainer: {
+    minHeight: 353,
+    backgroundColor: "#3E3F44"
+  },
+
   dateRangeButtonRow: {
     maxWidth: Dimensions.get("window").width,
     overflow: "hidden",
     flexDirection: "row",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
+    justifyContent: "space-evenly"
   },
 
   dateRangeButton: {
-    justifyContent: "flex-start",
     alignItems: "center",
     borderColor: "#fff",
     borderStyle: "solid",
-    borderWidth: 1,
-    borderRadius: 25,
-    flex: 1,
-    marginRight: 5
+    margin: 0,
+    minWidth: 40
   },
 
   dateRangeButtonSelected: {
-    justifyContent: "flex-start",
     alignItems: "center",
     borderColor: "#fff",
     borderStyle: "solid",
-    borderWidth: 1,
-    borderRadius: 25,
-    flex: 1,
     marginRight: 5,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    margin: 0,
+    minWidth: 40
   },
 
   dateRangeButtonText: {
     color: "#fff",
-    fontSize: 8
+    fontSize: 12
   },
   
   dateRangeButtonTextSelected: {
     color: "#3E3F44",
-    fontSize: 8
+    fontSize: 12
   }
 
 });
