@@ -53,19 +53,17 @@ const DataChart: React.FC<Props> = ({
    * @param range chart range
    * @param title display title
    */
-  const renderDateRangeButton = (range: ChartRange, title: string) => {
-    return (
-      <Button
-        uppercase={ false }
-        compact
-        onPress={ onDateRangeChange(range) }
-        style={ selectedRange === range ? styles.dateRangeButtonSelected : styles.dateRangeButton }
-        labelStyle={ selectedRange === range ? styles.dateRangeButtonTextSelected : styles.dateRangeButtonText }
-      >
-        { title }
-      </Button>
-    );
-  };
+  const renderDateRangeButton = (range: ChartRange, title: string) => (
+    <Button
+      uppercase={ false }
+      compact
+      onPress={ onDateRangeChange(range) }
+      style={ selectedRange === range ? styles.dateRangeButtonSelected : styles.dateRangeButton }
+      labelStyle={ selectedRange === range ? styles.dateRangeButtonTextSelected : styles.dateRangeButtonText }
+    >
+      { title }
+    </Button>
+  );
 
   /**
    * Renders chart
