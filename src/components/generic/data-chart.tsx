@@ -31,7 +31,7 @@ const DataChart: React.FC<Props> = ({
   color,
   onRangeChange
 }) => {
-  const [ selectedRange, setSelectedRange ] = React.useState<ChartRange>(ChartRange.MONTH);
+  const [ selectedRange, setSelectedRange ] = React.useState(ChartRange.MONTH);
 
   /**
    * Event handler for date range change
