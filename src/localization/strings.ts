@@ -27,6 +27,9 @@ export interface Strings extends LocalizedStringsMethods {
     fundHistory: {
       list: string;
     };
+    portfolio: {
+      list: string;
+    };
     auth: {
       login: string;
     };
@@ -75,7 +78,7 @@ export interface Strings extends LocalizedStringsMethods {
   };
   
   /**
-   * Translations related funde details screen
+   * Translations related fund details screen
    */
   fundDetailsScreen: {
     amount: string;
@@ -86,6 +89,21 @@ export interface Strings extends LocalizedStringsMethods {
     aShare: string;
     bShare: string;
     myShare: string;
+  };
+
+  /**
+   * Translations related to portfolio
+   */
+  portfolio: {
+    statistics: {
+      marketValueTotal: string;
+      purchaseTotal: string;
+      change: string;
+      totalChange: string;
+      redemptions: string;
+      markings: string;
+      total: string;
+    }
   };
 
 }
