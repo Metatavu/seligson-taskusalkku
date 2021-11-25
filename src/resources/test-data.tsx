@@ -1,6 +1,5 @@
-import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";
-import { Fund, FundGroup, HistoricalValue, Portfolio } from "../generated/client";
+import { Fund, FundGroup, HistoricalValue, Portfolio, PortfolioFund, PortfolioSummary } from "../generated/client";
 import { ChartRange } from "../types";
 
 /**
@@ -9,86 +8,62 @@ import { ChartRange } from "../types";
 namespace TestData {
 
   /**
+   * Generates fund
+   *
+   * @param id fund id
+   * @returns generated fund
+   */
+  const generateFund = (id: string) => ({
+    id: id,
+    name: {
+      fi: "USA Markkina",
+      sv: "USA Markkina"
+    },
+    longName: {
+      fi: "USA Markkina",
+      sv: "USA Markkina"
+    },
+    shortName: {
+      fi: "USA Markkina",
+      sv: "USA Markkina"
+    },
+    bankReceiverName: "Nordea",
+    group: FundGroup.Passive,
+    priceDate: new Date("2021-01-01"),
+    aShareValue: 18.947,
+    bShareValue: 0,
+    changeData: {
+      change1d: 1,
+      change1m: 2,
+      change1y: 3,
+      change3y: 4,
+      change5y: 5,
+      change10y: 6,
+      change15y: 7,
+      change20y: 8
+    },
+    profitProjection: 10,
+    profitProjectionDate: new Date("2021-01-01"),
+    color: "#0077b3",
+    risk: 6,
+    kIID: {
+      fi: "",
+      sv: ""
+    }
+  });
+
+  /**
    * Test data for the fund card component
    */
-  export const getTestFunds = (): Fund[] => [
-    {
-      id: "123456788",
-      name: {
-        fi: "USA Markkina",
-        sv: "USA Markkina"
-      },
-      longName: {
-        fi: "USA Markkina",
-        sv: "USA Markkina"
-      },
-      shortName: {
-        fi: "USA Markkina",
-        sv: "USA Markkina"
-      },
-      bankReceiverName: "Nordea",
-      group: FundGroup.Passive,
-      priceDate: new Date("2021-01-01"),
-      aShareValue: 18.947,
-      bShareValue: 0,
-      changeData: {
-        change1d: 1,
-        change1m: 2,
-        change1y: 3,
-        change3y: 4,
-        change5y: 5,
-        change10y: 6,
-        change15y: 7,
-        change20y: 8
-      },
-      profitProjection: 10,
-      profitProjectionDate: new Date("2021-01-01"),
-      color: "#0077b3",
-      risk: 6,
-      kIID: {
-        fi: "",
-        sv: ""
-      }
-    },
-    {
-      id: "123456789",
-      name: {
-        fi: "Aasia indeksirahasto",
-        sv: "Aasia indeksirahasto"
-      },
-      longName: {
-        fi: "Aasia indeksirahasto",
-        sv: "Aasia indeksirahasto"
-      },
-      shortName: {
-        fi: "Aasia indeksirahasto",
-        sv: "Aasia indeksirahasto"
-      },
-      bankReceiverName: "Nordea",
-      group: FundGroup.Passive,
-      priceDate: new Date("2021-01-01"),
-      aShareValue: 18.947,
-      bShareValue: 1000,
-      changeData: {
-        change1d: 1,
-        change1m: 2,
-        change1y: 3,
-        change3y: 4,
-        change5y: 5,
-        change10y: 6,
-        change15y: 7,
-        change20y: 8
-      },
-      profitProjection: 10,
-      profitProjectionDate: new Date("2021-01-01"),
-      color: "#E76A21",
-      risk: 3,
-      kIID: {
-        fi: "",
-        sv: ""
-      }
+  export const getTestFunds = (amount: number): Fund[] => {
+    const funds: Fund[] = [];
+
+    for (let i = 0; i < amount; i++) {
+      funds.push(generateFund(i.toString()));
     }
-  ];
+
+    return funds;
+  };
 
   /**
    * Generates random number list with given parameters
@@ -144,7 +119,7 @@ namespace TestData {
 
     for (let i = 0; i < amount; i++) {
       portfolios.push({
-        id: nanoid(),
+        id: i.toString(),
         marketValueTotal: Math.floor((Math.random() * 1000)),
         purchaseTotal: Math.floor((Math.random() * 1000)),
         totalAmount: Math.floor((Math.random() * 10000))
@@ -152,6 +127,37 @@ namespace TestData {
     }
 
     return portfolios;
+  };
+
+  /**
+   * Gets test data for portfolio summary
+   *
+   * @returns random portfolio summary
+   */
+  export const getTestPortfolioSummary = (): PortfolioSummary => ({
+    redemptions: Math.floor((Math.random() * 10000)),
+    subscriptions: Math.floor((Math.random() * 10000))
+  });
+
+  /**
+   * Test data for the portfolio funds
+   *
+   * @param amount amount of portfolio funds to generate
+   * @returns list of generated portfolio funds
+   */
+  export const getTestPortfolioFunds = (amount: number): PortfolioFund[] => {
+    const portfolioFunds: PortfolioFund[] = [];
+
+    for (let i = 0; i < amount; i++) {
+      portfolioFunds.push({
+        id: i.toString(),
+        amount: Math.random() * 100,
+        purchaseValue: Math.random() * 10000,
+        totalValue: Math.random() * 10000
+      });
+    }
+
+    return portfolioFunds;
   };
 
 }

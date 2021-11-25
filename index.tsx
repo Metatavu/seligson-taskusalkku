@@ -8,6 +8,15 @@ import ErrorHandler from "./src/components/error-handler/error-handler";
 import { store } from "./src/app/store";
 import theme from "./src/theme";
 import App from "./App";
+import ApiProvider from "./src/components/providers/api-provider";
+import PortfolioFundsProvider from "./src/components/providers/portfolio-funds-api-provider";
+import PortfoliosApiProvider from "./src/components/providers/portfolios-api-provider";
+import FundsApiProvider from "./src/components/providers/funds-api-provider";
+
+/**
+ * API context provides
+ */
+const providers = [ FundsApiProvider, PortfoliosApiProvider, PortfolioFundsProvider ];
 
 /**
  * Root component
@@ -16,8 +25,10 @@ const Root: React.FC = () => (
   <StoreProvider store={ store }>
     <PaperProvider theme={ theme }>
       <ErrorHandler>
-        <AuthRefresh/>
-        <App/>
+        <ApiProvider providers={ providers }>
+          <AuthRefresh/>
+          <App/>
+        </ApiProvider>
       </ErrorHandler>
     </PaperProvider>
   </StoreProvider>

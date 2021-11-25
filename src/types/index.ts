@@ -1,3 +1,5 @@
+import { FindFundRequest, Fund, GetPortfolioHSummaryRequest, HistoricalValue, ListFundsRequest, ListHistoricalValuesRequest, ListPortfolioFundsRequest, ListPortfolioHistoryValuesRequest, Portfolio, PortfolioFund, PortfolioHistoryValue, PortfolioSummary } from "../generated/client";
+
 /**
  * Parsed access token
  */
@@ -40,6 +42,39 @@ export interface UserRoles {
 export interface ErrorContextType {
   error?: string;
   setError: (message: string, error?: any) => void;
+}
+
+/**
+ * Interface for portfolio context
+ */
+export interface PortfolioContextType {
+  selectedPortfolio?: Portfolio;
+  onChange: (portfolio?: Portfolio) => void;
+}
+
+/**
+ * Interface for portfolios API context
+ */
+export interface PortfoliosApiContextType {
+  listPortfolios: () => Promise<Portfolio[]>;
+  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest, range?: ChartRange) => Promise<PortfolioHistoryValue[]>;
+  getPortfolioHSummary: (params: GetPortfolioHSummaryRequest) => Promise<PortfolioSummary>;
+}
+
+/**
+ * Interface for funds API context type
+ */
+export interface FundsApiContextType {
+  listFunds: (params: ListFundsRequest) => Promise<Fund[]>;
+  findFund: (params: FindFundRequest) => Promise<Fund>;
+  listHistoricalValues: (params: ListHistoricalValuesRequest, range?: ChartRange) => Promise<HistoricalValue[]>
+}
+
+/**
+ * Interface for portfolio funds API context
+ */
+export interface PortfolioFundsApiContextType {
+  listPortfolioFunds: (params: ListPortfolioFundsRequest) => Promise<PortfolioFund[]>;
 }
 
 /**

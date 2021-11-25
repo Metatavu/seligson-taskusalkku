@@ -16,6 +16,7 @@ import theme from "../../theme";
 interface Props {
   data: (HistoricalValue | PortfolioHistoryValue)[];
   loading: boolean;
+  selectedRange: ChartRange;
   color?: string;
   onRangeChange: (range: ChartRange) => void;
 }
@@ -28,25 +29,10 @@ interface Props {
 const DataChart: React.FC<Props> = ({
   data,
   loading,
+  selectedRange,
   color,
   onRangeChange
 }) => {
-  const [ selectedRange, setSelectedRange ] = React.useState(ChartRange.MONTH);
-
-  /**
-   * Event handler for date range change
-   *
-   * @param range selected chart range
-   */
-  const onDateRangeChange = (range: ChartRange) => () => {
-    setSelectedRange(range);
-  };
-
-  /**
-   * Effect for calling onRangeChange when selectedRange has changed to state
-   */
-  React.useEffect(() => { onRangeChange(selectedRange); }, [ selectedRange ]);
-
   /**
    * Date range button
    *
@@ -57,7 +43,7 @@ const DataChart: React.FC<Props> = ({
     <Button
       uppercase={ false }
       compact
-      onPress={ onDateRangeChange(range) }
+      onPress={ () => onRangeChange(range) }
       style={ selectedRange === range ? styles.dateRangeButtonSelected : styles.dateRangeButton }
       labelStyle={ selectedRange === range ? styles.dateRangeButtonTextSelected : styles.dateRangeButtonText }
     >
