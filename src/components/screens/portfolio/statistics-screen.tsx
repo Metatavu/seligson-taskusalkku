@@ -159,7 +159,7 @@ const StatisticsScreen: React.FC = () => {
               { strings.portfolio.statistics.change }
             </Text>
             <Text style={ styles.purchasevalue }>
-              { `${totalChangeAmount}€ | ${totalChangePercentage}%` }
+              { `${totalChangeAmount} € | ${totalChangePercentage}%` }
             </Text>
           </View>
         </View>
