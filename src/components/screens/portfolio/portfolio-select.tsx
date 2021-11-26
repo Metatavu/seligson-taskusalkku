@@ -5,6 +5,7 @@ import { Portfolio } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { PortfolioContext } from "./portfolio-context-provider";
+import styles from "../../../styles/screens/portfolio/portfolio-select";
 
 /**
  * Component for portfolio select
@@ -65,6 +66,8 @@ const PortfolioSelect: React.FC = () => {
         showDropDown={ () => setShowDropDown(true) }
         visible={ showDropDown }
         mode="outlined"
+        dropDownContainerMaxHeight={ 500 }
+        dropDownStyle={{ marginTop: 45 }}
       />
     );
   };
@@ -73,13 +76,7 @@ const PortfolioSelect: React.FC = () => {
    * Component render
    */
   return (
-    <View
-      style={{
-        flex: 1,
-        width: "90%",
-        paddingBottom: 5
-      }}
-    >
+    <View style={ styles.portfolioSelect }>
       { renderContent() }
     </View>
   );

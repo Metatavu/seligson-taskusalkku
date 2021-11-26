@@ -136,25 +136,29 @@ const StatisticsScreen: React.FC = () => {
     return (
       <View style={ styles.totalContent }>
         <View style={ styles.totalTextContainer }>
-          <Icon name="briefcase-outline" size={ 26 } color="white"/>
+          <Text style={ styles.totalTitle }>
+            { selectedPortfolio?.id || strings.portfolio.select.all }
+          </Text>
           <Text style={ styles.totalText }>
-            { `${marketValueTotal || 0} €` }
+            <Icon name="briefcase-outline" size={ 26 } color="white"/>
+            { ` ${marketValueTotal || 0} €` }
           </Text>
         </View>
+        <Icon name="tune" size={ 26 } style={ styles.filterIcon }/>
         <View style={ styles.totalPurchaseContainer }>
-          <View style={{ alignItems: "center" }}>
+          <View>
             <Text style={ styles.purchaseText }>
               { strings.portfolio.statistics.purchaseTotal }
             </Text>
-            <Text style={ styles.purchaseText }>
+            <Text style={ styles.purchasevalue }>
               { `${purchaseTotal} €` }
             </Text>
           </View>
-          <View style={{ alignItems: "center" }}>
+          <View>
             <Text style={ styles.purchaseText }>
               { strings.portfolio.statistics.change }
             </Text>
-            <Text style={ styles.purchaseText }>
+            <Text style={ styles.purchasevalue }>
               { `${totalChangeAmount}€ | ${totalChangePercentage}%` }
             </Text>
           </View>

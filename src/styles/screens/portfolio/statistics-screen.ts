@@ -21,27 +21,40 @@ export default StyleSheet.create({
   },
 
   totalTextContainer: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: "column",
+    width: Dimensions.get("window").width,
+    paddingHorizontal: theme.spacing(2)
   },
 
   totalText: {
     color: "white",
-    fontSize: 25,
-    marginLeft: 5
+    fontSize: 25
+  },
+
+  totalTitle: {
+    color: "white",
+    fontSize: 15
   },
 
   totalPurchaseContainer: {
     display: "flex",
     flexDirection: "row",
     marginTop: 10,
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
+    paddingHorizontal: theme.spacing(2),
     width: Dimensions.get("window").width
   },
 
   purchaseText: {
     fontSize: 14,
     color: "white"
+  },
+
+  purchasevalue: {
+    fontSize: 14,
+    color: "white",
+    fontFamily: theme.fonts.medium.fontFamily,
+    fontWeight: theme.fonts.medium.fontWeight
   },
 
   cardWrapper: {
@@ -76,8 +89,16 @@ export default StyleSheet.create({
   },
 
   infoRowValue: {
-    fontWeight: "bold",
+    fontFamily: theme.fonts.medium.fontFamily,
+    fontWeight: theme.fonts.medium.fontWeight,
     fontSize: 14
+  },
+
+  filterIcon: {
+    position: "absolute",
+    right: theme.spacing(2),
+    color: "white",
+    opacity: 0.5
   }
 
 });
