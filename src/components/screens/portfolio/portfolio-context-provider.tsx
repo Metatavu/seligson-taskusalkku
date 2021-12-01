@@ -13,12 +13,16 @@ export const PortfolioContext = React.createContext<PortfolioContextType>({
 
 /**
  * Component for portfolio context provider
+ *
+ * @param props component properties
  */
 const PortfolioContextProvider: React.FC = ({ children }) => {
   const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
 
   /**
    * Event handler for on change
+   *
+   * @param portfolio selected portfolio
    */
   const onChange = (portfolio: Portfolio | undefined) => {
     if (portfolio?.id !== selectedPortfolio?.id) {
@@ -26,6 +30,9 @@ const PortfolioContextProvider: React.FC = ({ children }) => {
     }
   };
 
+  /**
+   * Component render
+   */
   return (
     <PortfolioContext.Provider value={{ onChange, selectedPortfolio }}>
       { children }

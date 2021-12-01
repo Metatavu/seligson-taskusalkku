@@ -28,8 +28,6 @@ const MyFundsScreen: React.FC = () => {
 
   /**
    * Loads my funds
-   *
-   * TODO: Add support for multiple portfolios
    */
   const loadMyFunds = async () => {
     if (!selectedPortfolio?.id) {

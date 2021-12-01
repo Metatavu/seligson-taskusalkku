@@ -21,6 +21,8 @@ export const PortfoliosApiContext = React.createContext<PortfoliosApiContextType
 
 /**
  * Portfolios API provider component
+ *
+ * @param props component properties
  */
 const PortfoliosApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);

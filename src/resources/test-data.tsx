@@ -58,11 +58,7 @@ namespace TestData {
   export const getTestFunds = (amount: number): Fund[] => {
     const funds: Fund[] = [];
 
-    for (let i = 0; i < amount; i++) {
-      funds.push(generateFund(i.toString()));
-    }
-
-    return funds;
+    return Array.from({ length: amount }, (_, i) => generateFund(i.toString()));
   };
 
   /**

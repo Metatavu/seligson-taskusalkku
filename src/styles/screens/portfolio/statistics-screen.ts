@@ -53,8 +53,7 @@ export default StyleSheet.create({
   purchasevalue: {
     fontSize: 14,
     color: "white",
-    fontFamily: theme.fonts.medium.fontFamily,
-    fontWeight: theme.fonts.medium.fontWeight
+    ...theme.fonts.medium
   },
 
   cardWrapper: {
@@ -89,8 +88,7 @@ export default StyleSheet.create({
   },
 
   infoRowValue: {
-    fontFamily: theme.fonts.medium.fontFamily,
-    fontWeight: theme.fonts.medium.fontWeight,
+    ...theme.fonts.medium,
     fontSize: 14
   },
 

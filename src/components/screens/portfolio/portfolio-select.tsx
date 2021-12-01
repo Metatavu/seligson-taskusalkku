@@ -47,15 +47,10 @@ const PortfolioSelect: React.FC = () => {
       return null;
     }
 
-    const options = portfolios.map(portfolio => ({
-      label: portfolio.id || "",
-      value: portfolio.id || ""
-    }));
-
-    options.splice(0, 0, {
-      label: strings.portfolio.select.all,
-      value: ""
-    });
+    const options = [
+      { label: strings.portfolio.select.all, value: "" },
+      ...portfolios.map(portfolio => ({ label: portfolio.id || "", value: portfolio.id || "" }))
+    ];
 
     return (
       <DropDown

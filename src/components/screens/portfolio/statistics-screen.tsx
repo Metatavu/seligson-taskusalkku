@@ -125,7 +125,9 @@ const StatisticsScreen: React.FC = () => {
    * Renders total
    */
   const renderTotal = () => {
-    const filteredPortfolios = selectedPortfolio ? portfolios.filter(portfolio => portfolio.id === selectedPortfolio.id) : portfolios;
+    const filteredPortfolios = selectedPortfolio ?
+      portfolios.filter(portfolio => portfolio.id === selectedPortfolio.id) :
+      portfolios;
     const {
       marketValueTotal,
       purchaseTotal,
@@ -204,7 +206,7 @@ const StatisticsScreen: React.FC = () => {
    * TODO: Add summary filter when API spec includes portfolio ID for summaries
    */
   const renderInfo = () => {
-    if (historicalData.length === 0) {
+    if (!historicalData.length) {
       return null;
     }
 

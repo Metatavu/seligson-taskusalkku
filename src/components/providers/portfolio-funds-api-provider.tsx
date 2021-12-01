@@ -17,6 +17,8 @@ export const PortfolioFundsApiContext = React.createContext<PortfolioFundsApiCon
 
 /**
  * Portfolio funds API provider component
+ *
+ * @param props component properties
  */
 const PortfolioFundsApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
