@@ -22,14 +22,15 @@ const MyFundsScreen: React.FC = () => {
   const portfolioFundsApiContext = React.useContext(PortfolioFundsApiContext);
 
   const [ loading, setLoading ] = React.useState(true);
-  const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
   const [ portfolioFunds, setPortfolioFunds ] = React.useState<PortfolioFund[]>([]);
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
 
   /**
    * Loads my funds
+   *
+   * @param selectedPortfolio selected portfolio from context
    */
-  const loadMyFunds = async () => {
+  const loadMyFunds = async (selectedPortfolio?: Portfolio) => {
     if (!selectedPortfolio?.id) {
       return;
     }
@@ -49,15 +50,8 @@ const MyFundsScreen: React.FC = () => {
    * Effect for loading my funds when selected portfolio changes in portfolio context
    */
   React.useEffect(() => {
-    setSelectedPortfolio(portfolioContext.selectedPortfolio);
+    loadMyFunds(portfolioContext.selectedPortfolio);
   }, [ portfolioContext.selectedPortfolio ]);
-
-  /**
-   * Effect for loading funds when selected portfolio is changed
-   */
-  React.useEffect(() => {
-    loadMyFunds();
-  }, [ selectedPortfolio ]);
 
   /**
    * Renders fund list
