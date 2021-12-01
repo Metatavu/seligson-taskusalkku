@@ -30,6 +30,9 @@ export interface Strings extends LocalizedStringsMethods {
     portfolio: {
       list: string;
     };
+    portfolioFunds: {
+      list: string;
+    };
     auth: {
       login: string;
     };
@@ -101,9 +104,15 @@ export interface Strings extends LocalizedStringsMethods {
       change: string;
       totalChange: string;
       redemptions: string;
-      markings: string;
+      subscriptions: string;
       total: string;
-    }
+    };
+    portfolioFunds: {
+      title: string;
+    };
+    select: {
+      all: string;
+    };
   };
 
 }

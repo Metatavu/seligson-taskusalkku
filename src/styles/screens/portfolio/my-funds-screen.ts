@@ -3,6 +3,12 @@ import theme from "../../../theme";
 
 export default StyleSheet.create({
 
+  loaderContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
   viewContainer: {
     display: "flex",
     alignItems: "center"
@@ -21,39 +27,27 @@ export default StyleSheet.create({
   },
 
   totalTextContainer: {
-    flexDirection: "column",
-    width: Dimensions.get("window").width,
-    paddingHorizontal: theme.spacing(2)
+    flexDirection: "row",
+    alignItems: "center"
   },
 
   totalText: {
     color: "white",
-    fontSize: 25
-  },
-
-  totalTitle: {
-    color: "white",
-    fontSize: 15
+    fontSize: 25,
+    marginLeft: 5
   },
 
   totalPurchaseContainer: {
     display: "flex",
     flexDirection: "row",
     marginTop: 10,
-    justifyContent: "space-between",
-    paddingHorizontal: theme.spacing(2),
+    justifyContent: "space-evenly",
     width: Dimensions.get("window").width
   },
 
   purchaseText: {
     fontSize: 14,
     color: "white"
-  },
-
-  purchasevalue: {
-    fontSize: 14,
-    color: "white",
-    ...theme.fonts.medium
   },
 
   cardWrapper: {
@@ -88,15 +82,8 @@ export default StyleSheet.create({
   },
 
   infoRowValue: {
-    ...theme.fonts.medium,
+    fontWeight: "bold",
     fontSize: 14
-  },
-
-  filterIcon: {
-    position: "absolute",
-    right: theme.spacing(2),
-    color: "white",
-    opacity: 0.5
   }
 
 });

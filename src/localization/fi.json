@@ -17,6 +17,9 @@
     "portfolio": {
       "list": "Virhe listattaessa portfolion historiatietoja"
     },
+    "portfolioFunds": {
+      "list": "Virhe listattaessa oman portfolion rahastoja"
+    },
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
     }
@@ -73,8 +76,14 @@
       "change": "Muutos",
       "totalChange": "Kokonaisarvon muutos",
       "redemptions": "Lunastukset",
-      "markings": "Merkinnät",
+      "subscriptions": "Merkinnät",
       "total": "Yhteensä"
+    },
+    "portfolioFunds": {
+      "title": "Omat rahastot"
+    },
+    "select": {
+      "all": "Kaikki portfoliot"
     }
   }
 

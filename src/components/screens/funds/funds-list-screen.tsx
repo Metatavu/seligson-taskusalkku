@@ -9,9 +9,9 @@ import InterestFundsScreen from "./interest-funds-screen";
 import CombinationFundsScreen from "./combination-funds-screen";
 import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
-import Api from "../../../api/api";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { Fund, FundGroup } from "../../../generated/client";
+import { FundsApiContext } from "../../providers/funds-api-provider";
 
 /**
  * Funds screen tab navigation
@@ -24,7 +24,9 @@ const FundsNavigation = createMaterialTopTabNavigator<FundsNavigator.Routes>();
 const FundsListScreen: React.FC = () => {
   const { colors } = useTheme();
   const auth = useAppSelector(selectAuth);
+
   const errorContext = React.useContext(ErrorContext);
+  const fundsApiContext = React.useContext(FundsApiContext);
 
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
 
@@ -38,7 +40,7 @@ const FundsListScreen: React.FC = () => {
 
     try {
       /** TODO: add pagination support */
-      setFunds(await Api.getFundsApi(auth).listFunds({ maxResults: 200 }));
+      setFunds(await fundsApiContext.listFunds({ maxResults: 200 }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.funds.list, error);
     }

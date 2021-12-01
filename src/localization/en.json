@@ -17,6 +17,9 @@
     "portfolio": {
       "list": "Error while loading portfolio data"
     },
+    "portfolioFunds": {
+      "list": "Error while loading portfolio funds"
+    },
     "auth": {
       "login": "Error while logging in"
     }
@@ -73,8 +76,14 @@
       "change": "Change",
       "totalChange": "Total change",
       "redemptions": "Redemptions",
-      "markings": "Markings",
+      "subscriptions": "Subscriptions",
       "total": "Total"
+    },
+    "portfolioFunds": {
+      "title": "Own funds"
+    },
+    "select": {
+      "all": "All portfolios"
     }
   }
 
