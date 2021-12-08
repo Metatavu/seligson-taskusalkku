@@ -113,6 +113,9 @@ export interface Strings extends LocalizedStringsMethods {
     select: {
       all: string;
     };
+    transactions: {
+      rate: string;
+    };
   };
 
 }

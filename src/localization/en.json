@@ -84,6 +84,9 @@
     },
     "select": {
       "all": "All portfolios"
+    },
+    "transactions": {
+      "rate": "Rate"
     }
   }
 
