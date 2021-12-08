@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-console */
 import * as AuthSession from "expo-auth-session";
 import * as SecureStore from "expo-secure-store";
@@ -5,6 +6,7 @@ import moment from "moment";
 import jwtDecode from "jwt-decode";
 import { Authentication, ParsedToken } from "../types";
 import Config from "../app/config";
+import * as querystring from "query-string";
 
 /** Offline token key in Expo secure store */
 const OFFLINE_TOKEN_KEY = "offline-token";
@@ -18,21 +20,37 @@ const ACCESS_TOKEN_REFRESH_SLACK = 60;
 class AuthUtils {
 
   /**
-   * Create authentication object from authentication token response
+   * Create authentication object from fetch response
    *
    * @param tokenResponse token response
    * @returns authentication object or undefined if token response does not contain access or refresh token
    */
-  public static createAuth = (tokenResponse?: AuthSession.TokenResponse): Authentication | undefined => {
+  public static createAuthFromKeycloakTokenFetchResponse = (tokenResponse?: any): Authentication | undefined => {
     if (!tokenResponse) {
       return undefined;
     }
 
-    const { accessToken, refreshToken, expiresIn } = tokenResponse;
-    if (!accessToken || !refreshToken || !expiresIn) {
+    const { access_token, refresh_token, expires_in } = tokenResponse;
+    if (!access_token || !refresh_token || !expires_in) {
       return undefined;
     }
 
+    return AuthUtils.createAuthentication(access_token, refresh_token, expires_in);
+  };
+
+  /**
+   * Creates authentication from given parameters
+   *
+   * @param accessToken access token
+   * @param refreshToken refresh token
+   * @param expiresIn expires in
+   * @returns created authentication object or undefined
+   */
+  public static createAuthentication = (
+    accessToken: string,
+    refreshToken: string,
+    expiresIn: number
+  ): Authentication | undefined => {
     try {
       const parsedToken = jwtDecode<ParsedToken>(accessToken);
 
@@ -50,6 +68,25 @@ class AuthUtils {
       console.error(e);
       return undefined;
     }
+  };
+
+  /**
+   * Create authentication object from expo token response
+   *
+   * @param tokenResponse token response
+   * @returns authentication object or undefined if token response does not contain access or refresh token
+   */
+  public static createAuthFromExpoTokenResponse = (tokenResponse?: AuthSession.TokenResponse): Authentication | undefined => {
+    if (!tokenResponse) {
+      return undefined;
+    }
+
+    const { accessToken, refreshToken, expiresIn } = tokenResponse;
+    if (!accessToken || !refreshToken || !expiresIn) {
+      return undefined;
+    }
+
+    return AuthUtils.createAuthentication(accessToken, refreshToken, expiresIn);
   };
 
   /**
@@ -91,6 +128,35 @@ class AuthUtils {
   };
 
   /**
+   * Login with anonymous user account
+   *
+   * @returns promise of Authentication object or undefined
+   */
+  public static anonymousLogin = async (): Promise<Authentication | undefined> => {
+    const { auth, anonymousPassword } = Config.getStatic();
+    const tokenEndpoint = auth.serviceConfiguration?.tokenEndpoint.toString();
+
+    try {
+      const response = await fetch(tokenEndpoint || "", {
+        method: "POST",
+        body: querystring.stringify({
+          grant_type: "password",
+          username: "anonymous",
+          password: anonymousPassword,
+          client_id: auth.clientId
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      });
+
+      return AuthUtils.createAuthFromKeycloakTokenFetchResponse(await response.json());
+    } catch (error) {
+      throw new Error("Login with anonymous user failed");
+    }
+  };
+
+  /**
    * Tries to refresh token and returns authentication with fresh token if successful
    *
    * @param auth authentication
@@ -112,7 +178,7 @@ class AuthUtils {
         serviceConfiguration
       );
 
-      const refreshedAuth = AuthUtils.createAuth(tokenResponse);
+      const refreshedAuth = AuthUtils.createAuthFromExpoTokenResponse(tokenResponse);
 
       if (!refreshedAuth) {
         throw new Error("Token refreshing failed");
@@ -120,6 +186,7 @@ class AuthUtils {
 
       return refreshedAuth;
     } catch (error) {
+      AuthUtils.removeOfflineToken();
       console.warn(JSON.stringify(error, null, 2));
       return Promise.reject(error);
     }
@@ -172,6 +239,17 @@ class AuthUtils {
    */
   public static isDemoUser = (auth?: Authentication): boolean => {
     return auth?.roles.realm.includes("demo") || false;
+  };
+
+  /**
+   * Checks if user roles includes anonymous role and does not have user role
+   *
+   * @param auth auth state
+   * @returns does user have anonymous role
+   */
+  public static isAnonymousUser = (auth?: Authentication): boolean => {
+    const realmRoles = auth?.roles.realm;
+    return (realmRoles && realmRoles.includes("Anonymous") && !realmRoles.includes("user")) || false;
   };
 
 }

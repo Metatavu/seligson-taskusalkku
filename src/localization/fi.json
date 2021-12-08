@@ -3,7 +3,9 @@
   "generic": {
     "notImplemented": "Ei vielä toteutettu",
     "close": "Sulje",
-    "back": "Takaisin"
+    "back": "Takaisin",
+    "login": "Kirjaudu sisään",
+    "webPage": "Lisätietoja verkkosivuillamme"
   },
 
   "errorHandling": {
@@ -27,7 +29,9 @@
 
   "auth": {
     "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
-    "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään."
+    "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään.",
+    "loginRequired": "Kirjaudu sovellukseen Oma Salkku -tunnuksillasi.",
+    "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?"
   },
 
   "screenTitles": {

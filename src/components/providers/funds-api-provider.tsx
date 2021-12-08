@@ -2,11 +2,9 @@
 import * as React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
-import { selectAuth } from "../../features/auth/auth-slice";
+import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
 import { FindFundRequest, Fund, HistoricalValue, ListFundsRequest, ListHistoricalValuesRequest } from "../../generated/client";
-import TestData from "../../resources/test-data";
-import { ChartRange, FundsApiContextType } from "../../types";
-import AuthUtils from "../../utils/auth";
+import { FundsApiContextType } from "../../types";
 
 const initialFund: Fund = { name: { fi: "", sv: "" } };
 
@@ -26,6 +24,7 @@ export const FundsApiContext = React.createContext<FundsApiContextType>({
  */
 const FundsApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
+  const anonymousAuth = useAppSelector(selectAnonymousAuth);
 
   /**
    * Lists funds with given request parameters
@@ -35,13 +34,11 @@ const FundsApiProvider: React.FC = ({ children }) => {
    */
   const listFunds = async (params: ListFundsRequest): Promise<Fund[]> => {
     try {
-      if (!auth) {
+      if (!anonymousAuth) {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
-        TestData.getTestFunds(20) :
-        await Api.getFundsApi(auth).listFunds(params);
+      return await Api.getFundsApi(auth || anonymousAuth).listFunds(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -55,18 +52,11 @@ const FundsApiProvider: React.FC = ({ children }) => {
    */
   const findFund = async (params: FindFundRequest): Promise<Fund> => {
     try {
-      if (!auth) {
+      if (!anonymousAuth) {
         throw new Error("No access token");
       }
 
-      if (AuthUtils.isDemoUser(auth)) {
-        const testFund = TestData.getTestFunds(20).find(fund => fund.id === params.fundId);
-        if (testFund) {
-          return testFund;
-        }
-      }
-
-      return await Api.getFundsApi(auth).findFund(params);
+      return await Api.getFundsApi(auth || anonymousAuth).findFund(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -79,15 +69,13 @@ const FundsApiProvider: React.FC = ({ children }) => {
    * @param range chart range
    * @returns list of fund historical values or promise reject
    */
-  const listHistoricalValues = async (params: ListHistoricalValuesRequest, range?: ChartRange): Promise<HistoricalValue[]> => {
+  const listHistoricalValues = async (params: ListHistoricalValuesRequest): Promise<HistoricalValue[]> => {
     try {
-      if (!auth) {
+      if (!anonymousAuth) {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
-        TestData.getTestHistoricalValues(range) :
-        await Api.getFundsApi(auth).listHistoricalValues(params);
+      return await Api.getFundsApi(auth || anonymousAuth).listHistoricalValues(params);
     } catch (error) {
       return Promise.reject(error);
     }

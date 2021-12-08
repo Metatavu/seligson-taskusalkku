@@ -1,9 +1,7 @@
 import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
-import { Button } from "react-native-paper";
 import { useAppDispatch } from "../../../app/hooks";
-import { authUpdate } from "../../../features/auth/auth-slice";
+import { anonymousAuthUpdate, authUpdate } from "../../../features/auth/auth-slice";
 import strings from "../../../localization/strings";
 import AuthNavigator from "../../../types/navigators/auth";
 import RootNavigator from "../../../types/navigators/root";
@@ -29,15 +27,23 @@ const WelcomeScreen: React.FC = () => {
   const checkOfflineToken = async () => {
     const offlineToken = await AuthUtils.retrieveOfflineToken();
 
+    try {
+      const auth = await AuthUtils.anonymousLogin();
+      auth && dispatch(anonymousAuthUpdate(auth));
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.auth.login, error);
+    }
+
     if (offlineToken) {
       try {
         const auth = await AuthUtils.tryToRefresh(offlineToken);
         dispatch(authUpdate(auth));
-        navigation.navigate("home");
       } catch (error) {
         errorContext.setError(strings.errorHandling.auth.login, error);
       }
     }
+
+    navigation.replace("home");
   };
 
   /**
@@ -45,17 +51,7 @@ const WelcomeScreen: React.FC = () => {
    */
   React.useEffect(() => { checkOfflineToken(); }, []);
 
-  return (
-    <View style={{ marginTop: 200 }}>
-      <Button onPress={ () => navigation.navigate("login", {}) }>
-        LOGIN
-      </Button>
-      {/* TODO: Hide demo login access */}
-      <Button onPress={ () => navigation.navigate("login", { demoLogin: true }) }>
-        DEMO LOGIN
-      </Button>
-    </View>
-  );
+  return null;
 };
 
 export default WelcomeScreen;

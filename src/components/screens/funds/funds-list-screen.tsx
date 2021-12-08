@@ -7,8 +7,6 @@ import PassiveFundsScreen from "./passive-funds-screen";
 import ActiveFundsScreen from "./active-funds-screen";
 import InterestFundsScreen from "./interest-funds-screen";
 import CombinationFundsScreen from "./combination-funds-screen";
-import { useAppSelector } from "../../../app/hooks";
-import { selectAuth } from "../../../features/auth/auth-slice";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { Fund, FundGroup } from "../../../generated/client";
 import { FundsApiContext } from "../../providers/funds-api-provider";
@@ -23,7 +21,6 @@ const FundsNavigation = createMaterialTopTabNavigator<FundsNavigator.Routes>();
  */
 const FundsListScreen: React.FC = () => {
   const { colors } = useTheme();
-  const auth = useAppSelector(selectAuth);
 
   const errorContext = React.useContext(ErrorContext);
   const fundsApiContext = React.useContext(FundsApiContext);
@@ -34,10 +31,6 @@ const FundsListScreen: React.FC = () => {
    * Loads funds from API
    */
   const loadFunds = async () => {
-    if (!auth) {
-      return;
-    }
-
     try {
       /** TODO: add pagination support */
       setFunds(await fundsApiContext.listFunds({ maxResults: 200 }));
