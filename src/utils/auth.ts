@@ -249,7 +249,7 @@ class AuthUtils {
    */
   public static isAnonymousUser = (auth?: Authentication): boolean => {
     const realmRoles = auth?.roles.realm;
-    return (realmRoles && realmRoles.includes("Anonymous") && !realmRoles.includes("user")) || false;
+    return (realmRoles && realmRoles.includes("anonymous") && !realmRoles.includes("user")) || false;
   };
 
 }
