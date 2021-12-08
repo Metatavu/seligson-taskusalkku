@@ -1,11 +1,62 @@
 import moment from "moment";
-import { Fund, FundGroup, HistoricalValue, Portfolio, PortfolioFund, PortfolioSummary } from "../generated/client";
+import { Fund, FundGroup, HistoricalValue, Portfolio, PortfolioFund, PortfolioSummary, PortfolioTransaction, TransactionType } from "../generated/client";
 import { ChartRange } from "../types";
 
 /**
  * Customer namespace for test data
  */
 namespace TestData {
+  
+  /**
+   * Generetes a random ENUM value
+   */
+  const randomEnumValue = (enumeration: any) => {
+    const values = Object.keys(enumeration);
+    const enumKey = values[Math.floor(Math.random() * values.length)];
+    return enumeration[enumKey];
+  };
+
+  /**
+   * Generetes a random date
+   */
+  const randomDate = (start: any, end: any) => {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  };
+
+  /**
+   * Generates transaction
+   *
+   * @param id fund id
+   * @returns generated transaction
+   */
+  const generateTransaction = (id: string): PortfolioTransaction => ({
+    id: id,
+    fundId: id,
+    marketValue: Math.floor((Math.random() * 100)),
+    paymentDate: randomDate(new Date(2012, 0, 1), new Date()),
+    provision: 1,
+    shareAmount: Math.floor((Math.random() * 100)),
+    totalValue: Math.floor((Math.random() * 100)),
+    type: randomEnumValue(TransactionType),
+    value: Math.floor((Math.random() * 100)),
+    valueDate: randomDate(new Date(2012, 0, 1), new Date())
+  });
+
+  /**
+   * Generetes a random color
+   */
+  const generateRandomColor = () => {
+    const colors = [ "olive", "blue", "orange", "pink", "gray" ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
+  /**
+   * Generetes a random name
+   */
+  const generateRandomName = () => {
+    const names = [ "USA Markkina", "Eurooppa", "Euro Corporate Bond", "Kehittyvät markkinat", "Kestävä Vaikuttajakorko" ];
+    return names[Math.floor(Math.random() * names.length)];
+  };
 
   /**
    * Generates fund
@@ -13,14 +64,14 @@ namespace TestData {
    * @param id fund id
    * @returns generated fund
    */
-  const generateFund = (id: string) => ({
+  const generateFund = (id: string): Fund => ({
     id: id,
     name: {
       fi: "USA Markkina",
       sv: "USA Markkina"
     },
     longName: {
-      fi: "USA Markkina",
+      fi: generateRandomName(),
       sv: "USA Markkina"
     },
     shortName: {
@@ -44,7 +95,7 @@ namespace TestData {
     },
     profitProjection: 10,
     profitProjectionDate: new Date("2021-01-01"),
-    color: "#0077b3",
+    color: generateRandomColor(),
     risk: 6,
     kIID: {
       fi: "",
@@ -53,11 +104,16 @@ namespace TestData {
   });
 
   /**
+   * Test data for the transactions card component
+   */
+  export const getTestPortfolioTransactions = (amount: number): PortfolioTransaction[] => {
+    return Array.from({ length: amount }, (_, i) => generateTransaction(i.toString()));
+  };
+
+  /**
    * Test data for the fund card component
    */
   export const getTestFunds = (amount: number): Fund[] => {
-    const funds: Fund[] = [];
-
     return Array.from({ length: amount }, (_, i) => generateFund(i.toString()));
   };
 

@@ -12,11 +12,12 @@ import ApiProvider from "./src/components/providers/api-provider";
 import PortfolioFundsProvider from "./src/components/providers/portfolio-funds-api-provider";
 import PortfoliosApiProvider from "./src/components/providers/portfolios-api-provider";
 import FundsApiProvider from "./src/components/providers/funds-api-provider";
+import PortfolioTransactionsApiProvider from "./src/components/providers/portfolio-transactions-api-provider";
 
 /**
  * API context provides
  */
-const providers = [ FundsApiProvider, PortfoliosApiProvider, PortfolioFundsProvider ];
+const providers = [ FundsApiProvider, PortfoliosApiProvider, PortfolioFundsProvider, PortfolioTransactionsApiProvider ];
 
 /**
  * Root component
