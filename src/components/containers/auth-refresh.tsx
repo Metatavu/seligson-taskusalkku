@@ -1,6 +1,6 @@
 import React from "react";
 
-import { authUpdate, selectAuth } from "../../features/auth/auth-slice";
+import { anonymousAuthUpdate, authUpdate, selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
 import { AppState, AppStateStatus, Alert, View } from "react-native";
 import AuthUtils from "../../utils/auth";
 import strings from "../../localization/strings";
@@ -22,6 +22,7 @@ interface Props {
  */
 const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   const auth = useAppSelector(selectAuth);
+  const anonymousAuth = useAppSelector(selectAnonymousAuth);
   const dispatch = useAppDispatch();
   const [ appState, setAppState ] = React.useState<AppStateStatus>(AppState.currentState);
   const [ previousSessionRevoked, setPreviousSessionRevoked ] = React.useState(false);
@@ -43,6 +44,21 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
       strings.auth.loginSessionExpiredContent,
       [{ text: "OK", onPress: handleTokenRefreshFailure }]
     );
+  };
+
+  /**
+   * Refresh anonymous authentication
+   */
+  const refreshAnonymousAuth = async () => {
+    try {
+      if (!anonymousAuth || !AuthUtils.needsRefresh(anonymousAuth)) {
+        return;
+      }
+
+      dispatch(anonymousAuthUpdate(await AuthUtils.tryToRefresh(anonymousAuth.refreshToken)));
+    } catch (e) {
+      showAuthExpiredAlert();
+    }
   };
 
   /**
@@ -76,7 +92,10 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   /**
    * Interval for refreshing authentication
    */
-  useInterval(refreshAuth, 20 * 1000);
+  useInterval(() => {
+    refreshAnonymousAuth();
+    refreshAuth();
+  }, 20 * 1000);
 
   /**
    * Adds and cleans up app state change listener

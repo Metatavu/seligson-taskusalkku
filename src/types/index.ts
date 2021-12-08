@@ -67,7 +67,7 @@ export interface PortfoliosApiContextType {
 export interface FundsApiContextType {
   listFunds: (params: ListFundsRequest) => Promise<Fund[]>;
   findFund: (params: FindFundRequest) => Promise<Fund>;
-  listHistoricalValues: (params: ListHistoricalValuesRequest, range?: ChartRange) => Promise<HistoricalValue[]>
+  listHistoricalValues: (params: ListHistoricalValuesRequest) => Promise<HistoricalValue[]>
 }
 
 /**

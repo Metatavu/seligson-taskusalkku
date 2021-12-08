@@ -1,6 +1,8 @@
-import { RouteProp } from "@react-navigation/native";
+import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
 import { MaterialBottomTabNavigationProp } from "@react-navigation/material-bottom-tabs";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
+import PortfolioNavigator from "./portfolio";
+import FundsNavigator from "./funds";
 
 /**
  * Home navigator
@@ -10,8 +12,8 @@ namespace HomeNavigator {
    * Home navigation routes
    */
   export type Routes = {
-    portfolio: undefined;
-    funds: undefined;
+    portfolio: NavigatorScreenParams<PortfolioNavigator.Routes> | undefined;
+    funds: NavigatorScreenParams<FundsNavigator.Routes> | undefined;
     publications: undefined;
     others: undefined;
   };

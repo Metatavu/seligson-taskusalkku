@@ -14,6 +14,8 @@ export interface Strings extends LocalizedStringsMethods {
     notImplemented: string;
     close: string;
     back: string;
+    login: string;
+    webPage: string;
   };
 
   /**
@@ -44,6 +46,8 @@ export interface Strings extends LocalizedStringsMethods {
   auth: {
     loginSessionExpiredTitle: string;
     loginSessionExpiredContent: string;
+    loginRequired: string;
+    newAccount: string;
   };
 
   /**

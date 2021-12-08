@@ -3,7 +3,9 @@
   "generic": {
     "notImplemented": "Not yet implemented",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "login": "Login",
+    "webPage": "More information on our website"
   },
 
   "errorHandling": {
@@ -27,7 +29,9 @@
 
   "auth": {
     "loginSessionExpiredTitle": "Login session has expired",
-    "loginSessionExpiredContent": "Login session has expired. Please login again."
+    "loginSessionExpiredContent": "Login session has expired. Please login again.",
+    "loginRequired": "Login with Oma Salkku credentials",
+    "newAccount": "Do you need (first or new) Oma Salkku credentials?"
   },
 
   "screenTitles": {
