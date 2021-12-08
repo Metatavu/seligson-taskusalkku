@@ -51,7 +51,7 @@ const FundsDetailsScreen: React.FC = () => {
         fundId: fund.id,
         startDate: ChartUtils.getStartDate(selectedRange),
         endDate: moment().toDate()
-      }, selectedRange));
+      }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }

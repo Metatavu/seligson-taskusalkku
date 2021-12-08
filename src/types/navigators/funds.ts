@@ -1,6 +1,7 @@
-import { RouteProp } from "@react-navigation/native";
+import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
 import { Fund } from "../../generated/client/models/Fund";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import FundsListNavigator from "./funds-list";
 
 /**
  * Fund selection navigator
@@ -11,7 +12,7 @@ namespace FundsNavigator {
    * Routes
    */
   export type Routes = {
-    fundsList: undefined;
+    fundsList: NavigatorScreenParams<FundsListNavigator.Routes> | undefined;
     fundsDetails: { fund: Fund; };
   };
 
@@ -24,7 +25,7 @@ namespace FundsNavigator {
    * Route properties
    */
   export type RouteProps<RouteName extends keyof Routes = keyof Routes> = RouteProp<Routes, RouteName>;
- 
+
   /**
    * Screen properties
    */

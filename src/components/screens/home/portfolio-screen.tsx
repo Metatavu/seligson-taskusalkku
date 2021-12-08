@@ -10,6 +10,9 @@ import DistributionsScreen from "../portfolio/distributions-screen";
 import MyFundsScreen from "../portfolio/my-funds-screen";
 import EventsScreen from "../portfolio/events-screen";
 import PortfolioContextProvider from "../portfolio/portfolio-context-provider";
+import { useAppSelector } from "../../../app/hooks";
+import { selectAuth } from "../../../features/auth/auth-slice";
+import LoginRequiredScreen from "../auth/login-required-screen";
 
 /**
  * Portfolio screen tab navigation
@@ -21,6 +24,11 @@ const PortfolioNavigation = createMaterialTopTabNavigator<PortfolioNavigator.Rou
  */
 const PortfolioScreen: React.FC = () => {
   const { colors } = useTheme();
+  const auth = useAppSelector(selectAuth);
+
+  if (!auth) {
+    return <LoginRequiredScreen/>;
+  }
 
   /**
    * Component render

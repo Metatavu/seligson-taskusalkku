@@ -1,5 +1,7 @@
-import { RouteProp } from "@react-navigation/native";
+import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import AuthNavigator from "./auth";
+import HomeNavigator from "./home";
 
 /**
  * Root navigator
@@ -10,9 +12,9 @@ namespace RootNavigator {
    * Routes
    */
   export type Routes = {
-    home: undefined;
+    home: NavigatorScreenParams<HomeNavigator.Routes> | undefined;
     account: undefined;
-    authentication: undefined;
+    authentication: NavigatorScreenParams<AuthNavigator.Routes> | undefined;
     registration: undefined;
   };
 

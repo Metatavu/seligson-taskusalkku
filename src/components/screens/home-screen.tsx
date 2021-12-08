@@ -7,6 +7,8 @@ import { useTheme } from "react-native-paper";
 import PublicationsScreen from "./home/publications-screen";
 import OthersScreen from "./home/others-screen";
 import FundsScreen from "./home/funds-screen";
+import { useAppSelector } from "../../app/hooks";
+import { selectAuth } from "../../features/auth/auth-slice";
 
 /**
  * Home screen bottom tab navigation
@@ -18,13 +20,14 @@ const HomeNavigation = createMaterialBottomTabNavigator<HomeNavigator.Routes>();
  */
 const HomeScreen: React.FC = () => {
   const { colors } = useTheme();
+  const auth = useAppSelector(selectAuth);
 
   /**
    * Component render
    */
   return (
     <HomeNavigation.Navigator
-      initialRouteName="portfolio"
+      initialRouteName={ auth ? "portfolio" : "funds" }
       shifting={ false }
       backBehavior="history"
       activeColor={ colors.primary }

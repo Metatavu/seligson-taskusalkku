@@ -9,6 +9,7 @@ export interface StaticConfig {
   authLogoutEndpoint: string;
   auth: OAuthProps;
   demoLoginUrl: string;
+  anonymousPassword: string;
 }
 
 /**

@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import WebView from "react-native-webview";
 import { WebViewErrorEvent, WebViewNavigationEvent } from "react-native-webview/lib/WebViewTypes";
 import Config from "../../../app/config";
@@ -11,6 +11,8 @@ import { URL } from "react-native-url-polyfill";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import RootNavigator from "../../../types/navigators/root";
 import AuthNavigator from "../../../types/navigators/auth";
+import { Button } from "react-native-paper";
+import strings from "../../../localization/strings";
 
 /**
  * Strong authentication view
@@ -64,7 +66,7 @@ const StrongAuthView: React.FC = () => {
       }, discovery);
 
       if (result?.accessToken) {
-        dispatch(authUpdate(AuthUtils.createAuth(result)));
+        dispatch(authUpdate(AuthUtils.createAuthFromExpoTokenResponse(result)));
         navigation.reset({ routes: [{ name: "home" }] });
       } else {
         throw new Error("Login failed");
@@ -97,6 +99,12 @@ const StrongAuthView: React.FC = () => {
    */
   return (
     <View style={{ flex: 1, marginTop: 40 }}>
+      {/* TODO: Fix styling */}
+      { Platform.OS === "ios" &&
+        <Button onPress={ () => navigation.goBack() }>
+          { strings.generic.back }
+        </Button>
+      }
       <WebView
         incognito
         style={{ height: "100%" }}
