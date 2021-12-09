@@ -108,6 +108,8 @@ namespace TestData {
 
   /**
    * Test data for the transactions card component
+   *
+   * @param amount amount
    */
   export const getTestPortfolioTransactions = (amount: number): PortfolioTransaction[] => {
     return Array.from({ length: amount }, (_, i) => generateTransaction(i.toString()));
