@@ -18,7 +18,7 @@ const TransactionsDetailsScreen: React.FC = () => {
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
   const { fund, portfolioTransaction } = params || {}:
   const { type, valueDate, paymentDate, shareAmount, marketValue, provision } = portfolioTransaction;
-  const transctionType = type === TransactionType.Redemption ?
+  const transactionType = type === TransactionType.Redemption ?
     strings.portfolio.transactions.redemption :
     strings.portfolio.transactions.subscription;
   const { longName, color } = fund;
@@ -59,7 +59,7 @@ const TransactionsDetailsScreen: React.FC = () => {
             { longName && GenericUtils.getLocalizedValue(longName) }
           </Text>
           <Divider style={{ marginVertical: 5 }}/>
-          { renderDetailsRow(strings.portfolio.transactions.type, transctionType) }
+          { renderDetailsRow(strings.portfolio.transactions.type, transactionType) }
           { renderDetailsRow(strings.portfolio.transactions.valueDate, valueDate.toLocaleDateString()) }
           { renderDetailsRow(strings.portfolio.transactions.paymentDate, paymentDate.toLocaleDateString()) }
           { renderDetailsRow(strings.portfolio.transactions.shareAmount, shareAmount) }
