@@ -13,7 +13,7 @@ namespace PortfolioNavigator {
     statistics: undefined;
     distributions: undefined;
     myFunds: undefined;
-    events: undefined;
+    transactions: undefined;
   };
 
   /**

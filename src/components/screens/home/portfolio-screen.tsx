@@ -8,11 +8,12 @@ import PortfolioNavigator from "../../../types/navigators/portfolio";
 import StatisticsScreen from "../portfolio/statistics-screen";
 import DistributionsScreen from "../portfolio/distributions-screen";
 import MyFundsScreen from "../portfolio/my-funds-screen";
-import EventsScreen from "../portfolio/events-screen";
+import EventsScreen from "../portfolio/transactions-list";
 import PortfolioContextProvider from "../portfolio/portfolio-context-provider";
 import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
+import TransactionsScreen from "../portfolio/transactions-screen";
 
 /**
  * Portfolio screen tab navigation
@@ -94,10 +95,10 @@ const PortfolioScreen: React.FC = () => {
           }}
         />
         <PortfolioNavigation.Screen
-          name="events"
-          component={ EventsScreen }
+          name="transactions"
+          component={ TransactionsScreen }
           options={{
-            title: strings.screenTitles.events,
+            title: strings.screenTitles.transactions,
             tabBarIcon: props => (
               <MaterialCommunityIcons
                 name="compare-horizontal"
