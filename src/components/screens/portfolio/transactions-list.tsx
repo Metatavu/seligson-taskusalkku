@@ -27,6 +27,8 @@ const TransactionsList: React.FC = () => {
 
   /**
  * Loads transactions from API
+ *
+ * @param selectedPortfolio selected portfolio
  */
   const loadTransactions = async (selectedPortfolio: Portfolio) => {
     if (!auth || !selectedPortfolio.id) {
