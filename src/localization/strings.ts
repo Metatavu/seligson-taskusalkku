@@ -61,7 +61,7 @@ export interface Strings extends LocalizedStringsMethods {
     statistics: string;
     distributions: string;
     ownFunds: string;
-    events: string;
+    transactions: string;
     passiveFunds: string;
     activeFunds: string;
     interestFunds: string;
@@ -118,7 +118,17 @@ export interface Strings extends LocalizedStringsMethods {
       all: string;
     };
     transactions: {
-      rate: string;
+      type: string;
+      redemption: string;
+      subscription: string;
+      valueDate: string,
+      paymentDate: string,
+      shareAmount: string,
+      value: string;
+      totalValue: string;
+      provision: string,
+      paidTotal: string,
+
     };
   };
 
