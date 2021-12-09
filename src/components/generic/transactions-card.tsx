@@ -29,7 +29,7 @@ interface Props {
  * @param props component properties
  */
 const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransactions }) => {
-  const styles = transactionsCardStyles(useTheme(), "#FFF");
+  const styles = transactionsCardStyles(useTheme(), "#fff");
   const sortedTransactions = portfolioTransactions.sort((a, b) => b.paymentDate.getTime() - a.paymentDate.getTime());
   const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
   const transactionsAmount = ` (${portfolioTransactions.length})`;
