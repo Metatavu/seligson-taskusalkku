@@ -3,6 +3,11 @@ import theme from "../../../theme";
 
 export default StyleSheet.create({
 
+  detailsScreen: {
+    flex: 1,
+    justifyContent: "center"
+  },
+
   detailsWrapper: {
     width: "95%",
     padding: theme.spacing(2)
