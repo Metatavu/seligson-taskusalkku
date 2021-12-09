@@ -24,6 +24,9 @@
     },
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
+    },
+    "portfolioTransactions": {
+      "list": "Virhe listattaessa oman portfolion tapahtumia"
     }
   },
 

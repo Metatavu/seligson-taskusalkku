@@ -38,6 +38,9 @@ export interface Strings extends LocalizedStringsMethods {
     auth: {
       login: string;
     };
+    portfolioTransactions: {
+      list: string;
+    }
   };
 
   /**

@@ -24,6 +24,9 @@
     },
     "auth": {
       "login": "Error while logging in"
+    },
+    "portfolioTransactions": {
+      "list": "Error while loading portfolio transactions data"
     }
   },
 
