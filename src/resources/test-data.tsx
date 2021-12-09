@@ -18,8 +18,11 @@ namespace TestData {
 
   /**
    * Generetes a random date
+   *
+   * start start date
+   * end end date
    */
-  const randomDate = (start: any, end: any) => {
+  const randomDate = (start: Date, end: Date) => {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   };
 
