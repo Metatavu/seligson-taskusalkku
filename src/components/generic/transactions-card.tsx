@@ -88,13 +88,13 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
    */
   const renderTransaction = (portfolioTransaction: PortfolioTransaction) => {
     const { fundId, id, paymentDate, marketValue, shareAmount } = portfolioTransaction;
-    const i = funds.findIndex(fund => fund.id === fundId);
-    const { color, longName } = funds[i];
+    const fund = funds.find(fund => fund.id === fundId);
+    const { color, longName } = fund;
 
     return (
       <TouchableOpacity
         key={ id }
-        onPress={ () => navigation.navigate("transactionsDetails", { portfolioTransaction: portfolioTransaction, fund: funds[i] }) }
+        onPress={ () => navigation.navigate("transactionsDetails", { portfolioTransaction: portfolioTransaction, fund: fund }) }
       >
         <View style={ styles.transactionWrapper }>
           <View style={[ styles.colorBar, { backgroundColor: color } ]}/>
@@ -116,7 +116,6 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
           </View>
         </View>
       </TouchableOpacity>
-
     );
   };
 
