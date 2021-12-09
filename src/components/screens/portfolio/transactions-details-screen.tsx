@@ -11,7 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
 
 /**
- * Transactions list
+ * Transactions details screen component
  */
 const TransactionsDetailsScreen: React.FC = () => {
   const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
