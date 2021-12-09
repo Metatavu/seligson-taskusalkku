@@ -138,7 +138,7 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
       <View style={ styles.cardWrapper }>
         <View style={ styles.cardContent }>
           <TouchableOpacity
-            onPress={ () => (!closed ? setClosed(true) : setClosed(false)) }
+            onPress={ () => setClosed(!closed) }
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={[ theme.fonts.medium, { fontSize: 16 } ]} >
