@@ -8,7 +8,7 @@ import { ChartRange } from "../types";
 namespace TestData {
   
   /**
-   * Generetes a random ENUM value
+   * Returns a random value from given enumerable
    */
   const randomEnumValue = (enumeration: any) => {
     const values = Object.keys(enumeration);
