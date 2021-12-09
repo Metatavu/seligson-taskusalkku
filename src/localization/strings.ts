@@ -129,9 +129,8 @@ export interface Strings extends LocalizedStringsMethods {
       shareAmount: string,
       value: string;
       totalValue: string;
-      provision: string,
-      paidTotal: string,
-
+      provision: string;
+      paidTotal: string;
     };
   };
 
