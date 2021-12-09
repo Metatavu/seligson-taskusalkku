@@ -147,7 +147,7 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
             </Text>
             <Icon name="angle-down" size={ 20 }/>
           </TouchableOpacity>
-          { closed ? <RenderTransactionList/> : null }
+          { closed && <RenderTransactionList/> }
         </View>
       </View>
     </>
