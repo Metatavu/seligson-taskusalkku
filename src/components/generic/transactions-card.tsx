@@ -141,7 +141,7 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
             onPress={ () => setClosed(!closed) }
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={[ theme.fonts.medium, { fontSize: 16 } ]} >
+            <Text style={[ theme.fonts.medium, { fontSize: 16 } ]}>
               { transactionTitle }
               { transactionsAmount }
             </Text>
