@@ -12,7 +12,10 @@ namespace TransactionsNavigator {
    */
   export type Routes = {
     transactionsList: undefined;
-    transactionsDetails: { portfolioTransaction: PortfolioTransaction; fund: Fund; };
+    transactionsDetails: {
+      portfolioTransaction: PortfolioTransaction;
+      fund: Fund;
+    };
   };
 
   /**
