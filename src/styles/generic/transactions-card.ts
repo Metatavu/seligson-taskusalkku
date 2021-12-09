@@ -14,7 +14,7 @@ const transactionsCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, co
     marginTop: theme.spacing(1),
     flexDirection: "row",
     elevation: 8,
-    borderBottomRightRadius: 25,
+    borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
     shadowColor: "#000",
