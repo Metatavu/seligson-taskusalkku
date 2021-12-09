@@ -25,8 +25,11 @@ const TransactionsDetailsScreen: React.FC = () => {
 
   /**
    * Render details row
+   *
+   * @param label label
+   * @param detailValue detail value
    */
-  const renderDetailsRow = (label: string, detailValue: any) => {
+  const renderDetailsRow = (label: string, detailValue: string | number) => {
     return (
       <View style={ styles.detailsRow }>
         <Text style={ theme.fonts.medium }>
