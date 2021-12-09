@@ -38,7 +38,7 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
   const errorContext = React.useContext(ErrorContext);
   
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
-  const [closed, setClosed] = React.useState(true);
+  const [ closed, setClosed ] = React.useState(true);
   
   /**
    * Loads funds from API
