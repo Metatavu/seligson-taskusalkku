@@ -18,7 +18,9 @@ const TransactionsDetailsScreen: React.FC = () => {
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
   const { fund, portfolioTransaction } = params || {}:
   const { type, valueDate, paymentDate, shareAmount, marketValue, provision } = portfolioTransaction;
-  const transctionType = type === TransactionType.Redemption ? strings.portfolio.transactions.redemption : strings.portfolio.transactions.subscription;
+  const transctionType = type === TransactionType.Redemption ?
+    strings.portfolio.transactions.redemption :
+    strings.portfolio.transactions.subscription;
   const { longName, color } = fund;
 
   /**
