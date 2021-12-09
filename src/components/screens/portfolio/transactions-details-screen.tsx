@@ -16,8 +16,7 @@ import { TransactionType } from "../../../generated/client";
 const TransactionsDetailsScreen: React.FC = () => {
   const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
-  const portfolioTransaction = params?.portfolioTransaction;
-  const fund = params?.fund;
+  const { fund, portfolioTransaction } = params || {}:
   const { type, valueDate, paymentDate, shareAmount, marketValue, provision } = portfolioTransaction;
   const transctionType = type === TransactionType.Redemption ? strings.portfolio.transactions.redemption : strings.portfolio.transactions.subscription;
   const { longName, color } = fund;
