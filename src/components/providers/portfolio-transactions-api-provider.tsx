@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import * as React from "react";
+import React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
