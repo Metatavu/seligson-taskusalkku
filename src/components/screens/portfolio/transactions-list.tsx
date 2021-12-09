@@ -48,11 +48,7 @@ const TransactionsList: React.FC = () => {
    */
   React.useEffect(() => {
     const { selectedPortfolio } = portfolioContext;
-    if (!selectedPortfolio) {
-      return;
-    }
-
-    loadTransactions(selectedPortfolio);
+    selectedPortfolio && loadTransactions(selectedPortfolio);
   }, [ portfolioContext.selectedPortfolio ]);
 
   /**
