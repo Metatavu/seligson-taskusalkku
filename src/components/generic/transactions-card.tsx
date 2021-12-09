@@ -11,6 +11,9 @@ import { FundsApiContext } from "../providers/funds-api-provider";
 import { ErrorContext } from "../error-handler/error-handler";
 import GenericUtils from "../../utils/generic";
 import Icon from "react-native-vector-icons/FontAwesome";
+import TestData from "../../resources/test-data";
+import { useNavigation } from "@react-navigation/native";
+import TransactionsNavigator from "../../types/navigators/transactions";
 
 /**
  * Component properties
@@ -26,8 +29,10 @@ interface Props {
  * @param props component properties
  */
 const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransactions }) => {
-  const styles = transactionsCardStyles(useTheme(), "#FFF" || "#FFF");
+  const styles = transactionsCardStyles(useTheme(), "#FFF");
   const sortedTransactions = portfolioTransactions.sort((a, b) => b.paymentDate.getTime() - a.paymentDate.getTime());
+  const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
+  const transactionsAmount = ` (${portfolioTransactions.length})`;
   
   const fundsApiContext = React.useContext(FundsApiContext);
   const errorContext = React.useContext(ErrorContext);
@@ -45,7 +50,9 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
 
     try {
       /** TODO: add pagination support */
-      setFunds(await fundsApiContext.listFunds({ maxResults: 200 }));
+      /** TODO: change test fund data to real data */
+      // setFunds(await fundsApiContext.listFunds({ maxResults: 200 }));
+      setFunds(TestData.getTestFunds(20));
     } catch (error) {
       errorContext.setError(strings.errorHandling.funds.list, error);
     }
@@ -85,7 +92,10 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
     const { color, longName } = funds[i];
 
     return (
-      <TouchableOpacity key={ id }>
+      <TouchableOpacity
+        key={ id }
+        onPress={ () => navigation.navigate("transactionsDetails", { portfolioTransaction: portfolioTransaction, fund: funds[i] }) }
+      >
         <View style={ styles.transactionWrapper }>
           <View style={[ styles.colorBar, { backgroundColor: color } ]}/>
           <View style={ styles.transactionContent }>
@@ -99,7 +109,7 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
             </View>
             <Divider style={{ marginVertical: 5 }}/>
             <View style={ styles.cardRow }>
-              { renderTransactionValue(strings.portfolio.transactions.rate, marketValue) }
+              { renderTransactionValue(strings.portfolio.transactions.value, marketValue) }
               { renderTransactionValue(strings.fundDetailsScreen.amount, shareAmount) }
               { renderTransactionValue(strings.portfolio.statistics.total, (marketValue * shareAmount)) }
             </View>
@@ -134,6 +144,7 @@ const TransactionsCard: React.FC<Props> = ({ transactionTitle, portfolioTransact
           >
             <Text style={[ theme.fonts.medium, { fontSize: 16 } ]} >
               { transactionTitle }
+              { transactionsAmount }
             </Text>
             <Icon name="angle-down" size={ 20 }/>
           </TouchableOpacity>
