@@ -17,7 +17,12 @@ import PortfolioTransactionsApiProvider from "./src/components/providers/portfol
 /**
  * API context provides
  */
-const providers = [ FundsApiProvider, PortfoliosApiProvider, PortfolioFundsProvider, PortfolioTransactionsApiProvider ];
+const providers = [
+  FundsApiProvider,
+  PortfoliosApiProvider,
+  PortfolioFundsProvider,
+  PortfolioTransactionsApiProvider
+];
 
 /**
  * Root component
