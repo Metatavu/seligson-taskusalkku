@@ -5,7 +5,7 @@ import PortfolioScreen from "./home/portfolio-screen";
 import strings from "../../localization/strings";
 import { useTheme } from "react-native-paper";
 import PublicationsScreen from "./home/publications-screen";
-import OthersScreen from "./home/others-screen";
+import MeetingsScreen from "./home/meetings-screen";
 import FundsScreen from "./home/funds-screen";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
@@ -63,12 +63,12 @@ const HomeScreen: React.FC = () => {
           }}
         />
         <HomeNavigation.Screen
-          name="others"
-          component={ OthersScreen }
+          name="meetings"
+          component={ MeetingsScreen }
           options={{
-            tabBarIcon: "apps",
-            tabBarLabel: strings.screenTitles.others,
-            title: strings.screenTitles.others
+            tabBarIcon: "calendar",
+            tabBarLabel: strings.screenTitles.meetings,
+            title: strings.screenTitles.meetings
           }}
         />
       </HomeNavigation.Group>

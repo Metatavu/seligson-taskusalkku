@@ -15,7 +15,7 @@ namespace HomeNavigator {
     portfolio: NavigatorScreenParams<PortfolioNavigator.Routes> | undefined;
     funds: NavigatorScreenParams<FundsNavigator.Routes> | undefined;
     publications: undefined;
-    others: undefined;
+    meetings: undefined;
   };
 
   /**

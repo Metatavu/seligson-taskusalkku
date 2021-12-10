@@ -4,9 +4,9 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Others screen
+ * Meetings screen
  */
-const OthersScreen: React.FC = () => {
+const MeetingsScreen: React.FC = () => {
   /**
    * Component render
    */
@@ -23,4 +23,4 @@ const OthersScreen: React.FC = () => {
   );
 };
 
-export default OthersScreen;
+export default MeetingsScreen;

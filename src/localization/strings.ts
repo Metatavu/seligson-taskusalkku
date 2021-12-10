@@ -57,7 +57,7 @@ export interface Strings extends LocalizedStringsMethods {
     portfolio: string;
     funds: string;
     publications: string;
-    others: string;
+    meetings: string;
     statistics: string;
     distributions: string;
     ownFunds: string;
