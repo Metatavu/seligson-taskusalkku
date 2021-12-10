@@ -89,6 +89,15 @@
     "select": {
       "all": "Kaikki portfoliot"
     }
-  }
+  },
 
+  "meetings": {
+    "bookTime": "Book time for a meeting",
+    "bookTimeDescription": "a very long description\n\nand it is multiline",
+    "datePicker": {
+      "title": "Date time picker",
+      "pickDateTime": "Pick a date",
+      "noAppointment": "There is no available meeting for this day"
+    }
+  }
 }

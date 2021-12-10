@@ -119,6 +119,19 @@ export interface Strings extends LocalizedStringsMethods {
     };
   };
 
+  /**
+   * Translations related to meetings screen
+   */
+  meetings: {
+    bookTime: string;
+    bookTimeDescription: string;
+    datePicker: {
+      title: string;
+      pickDateTime: string;
+      noAppointment: string;
+    }
+  };
+
 }
 
 const strings: Strings = new LocalizedStrings({ en: en, fi: fi });

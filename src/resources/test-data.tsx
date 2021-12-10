@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Fund, FundGroup, HistoricalValue, Portfolio, PortfolioFund, PortfolioSummary } from "../generated/client";
+import { Fund, FundGroup, HistoricalValue, Meeting, MeetingTime, MeetingType, Portfolio, PortfolioFund, PortfolioSummary } from "../generated/client";
 import { ChartRange } from "../types";
 
 /**
@@ -154,6 +154,42 @@ namespace TestData {
     }
 
     return portfolioFunds;
+  };
+
+  /**
+   * Test data for the portfolio funds
+   *
+   * @param amount amount of portfolio funds to generate
+   * @returns list of generated portfolio funds
+   */
+  export const getTestMeeting = (): Meeting => ({
+    contact: {
+      firstName: "",
+      lastName: ""
+    },
+    type: MeetingType.Meeting,
+    language: "fi",
+    participantCount: 0,
+    time: new Date()
+  });
+
+  /**
+   * Test data for the portfolio funds
+   *
+   * @param amount amount of portfolio funds to generate
+   * @returns list of generated portfolio funds
+   */
+  export const getTestMeetingTimes = (amount: number): MeetingTime[] => {
+    const meetingTimes: MeetingTime[] = [];
+    for (let startTime = 10; startTime < 16; startTime++) {
+      const meetingTime: MeetingTime = {
+        startTime: moment().hour(startTime).toDate(),
+        endTime: moment().hour(startTime + 1).toDate()
+      }
+      meetingTimes.push(meetingTime)
+    }
+
+    return meetingTimes;
   };
 
 }

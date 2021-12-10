@@ -1,4 +1,4 @@
-import { Configuration, FundsApi, PortfoliosApi } from "../generated/client";
+import { Configuration, FundsApi, MeetingsApi, PortfoliosApi } from "../generated/client";
 import { Authentication } from "../types";
 import Config from "../app/config";
 
@@ -25,6 +25,16 @@ export default class Api {
    */
   public static getPortfoliosApi = (auth: Authentication): PortfoliosApi => {
     return new PortfoliosApi(Api.getConfiguration(auth));
+  };
+
+  /**
+   * Gets initialized meetings api
+   * 
+   * @param auth authentication
+   * @returns initialized meetings api
+   */
+  public static getMeetingsApi = (auth: Authentication): MeetingsApi => {
+    return new MeetingsApi(Api.getConfiguration(auth));
   };
 
   /**
