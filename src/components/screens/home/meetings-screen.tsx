@@ -14,8 +14,6 @@ import { MeetingsApiContext } from "../../providers/meetings-api-provider";
  * Meetings screen
  */
 const MeetingsScreen: React.FC = () => {
-  const auth = useAppSelector(selectAuth);
-  const anonymousAuth = useAppSelector(selectAnonymousAuth);
   const [ selectedDate, setSelectedDate ] = React.useState<Date>()
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([])
   const [ datePickerOpen, setDatePickerOpen ] = React.useState(false)
@@ -26,12 +24,12 @@ const MeetingsScreen: React.FC = () => {
    */
   const fetchMeetingTimes = async () => {
     try {
-      if (!anonymousAuth) {
-        throw new Error("No access token");
+      if (!selectedDate) {
+        return;
       }
       setMeetingTimes(await meetingsApiContext.listMeetingTimes({
         startDate: selectedDate,
-        endDate: moment(selectedDate).add(1, "day").toDate()
+        endDate: selectedDate
       }));
     } catch (error) {
       // TODO error handling
@@ -49,6 +47,15 @@ const MeetingsScreen: React.FC = () => {
     setDatePickerOpen(Platform.OS === 'ios');
     setSelectedDate(pickedDate);
   }
+
+  /**
+   * Renders date picker dialog
+   */
+  const renderMeetingTime = (meetingTime: MeetingTime) => (
+    <View>
+      <Text>{ moment(meetingTime.startTime).format("DD/MM HH:mm") }</Text>
+    </View>
+  )
 
   /**
    * Renders date picker dialog
@@ -81,7 +88,7 @@ const MeetingsScreen: React.FC = () => {
               { moment(selectedDate).format("DD/MM/YYYY") }
             </Button>
           <Divider/>
-          { meetingTimes.map(meetingTime => meetingTime) }
+          { meetingTimes.map(renderMeetingTime) }
         </Card>
       </View>
       { renderDatePicker() }
