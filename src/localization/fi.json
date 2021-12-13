@@ -24,6 +24,9 @@
     },
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
+    },
+    "portfolioTransactions": {
+      "list": "Virhe listattaessa oman portfolion tapahtumia"
     }
   },
 
@@ -42,7 +45,7 @@
     "statistics": "Tilastot",
     "distributions": "Jakaumat",
     "ownFunds": "Omat rahastot",
-    "events": "Tapahtumat",
+    "transactions": "Tapahtumat",
     "passiveFunds": "Passiiviset osake rahastot",
     "activeFunds": "Aktiiviset osake rahastot",
     "interestFunds": "Korko rahastot",
@@ -88,6 +91,18 @@
     },
     "select": {
       "all": "Kaikki portfoliot"
+    },
+    "transactions": {
+      "type": "Tapahtumatyyppi",
+      "redemption": "Lunastus",
+      "subscription": "Merkintä",
+      "valueDate": "Arvopäivä",
+      "paymentDate": "Maksupäivä",
+      "shareAmount": "Osuuksien määrä",
+      "value": "Kurssi",
+      "totalValue": "Arvo yhteensä",
+      "provision": "Palkkio",
+      "paidTotal": "Maksettu yhteensä"
     }
   }
 

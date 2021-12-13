@@ -24,6 +24,9 @@ const LoginRequiredScreen: React.FC = () => {
       <Button onPress={ () => navigation.navigate("authentication", { screen: "login" }) }>
         { strings.generic.login }
       </Button>
+      <Button onPress={ () => navigation.navigate("authentication", { screen: "login", params: { demoLogin: true } }) }>
+        { strings.generic.login }
+      </Button>
       <View>
         <Text style={{ textAlign: "center", padding: theme.spacing(2) }}>
           { strings.auth.newAccount }
