@@ -6,24 +6,34 @@ import strings from "../../../localization/strings";
 import RootNavigator from "../../../types/navigators/root";
 import styles from "../../../styles/screens/auth/login-required-screen";
 import SeligsonLogo from "../../../../assets/seligsonLogo";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 /**
  * Login required screen component
- *
  */
 const LoginRequiredScreen: React.FC = () => {
   const navigation = useNavigation<RootNavigator.NavigationProps>();
+  const [ counter, setCounter ] = React.useState(0);
+
+  /**
+   * Login counter
+   */
+  const handlePress = () => {
+    if (counter >= 10) {
+      setCounter(0);
+      navigation.navigate("authentication", { screen: "login", params: { demoLogin: true } });
+    } else setCounter(counter + 1);
+  };
 
   return (
     <View style={ styles.loginScreen }>
       <View style={ styles.cardWrapper }>
         <View style={ styles.cardContent }>
-          <TouchableOpacity
-            onPress={ () => navigation.navigate("authentication", { screen: "login", params: { demoLogin: true } }) }
+          <TouchableWithoutFeedback
+            onPress={ handlePress }
           >
             <SeligsonLogo/>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
           <Text style={ styles.titleText }>
             { strings.auth.loginRequired }
           </Text>
