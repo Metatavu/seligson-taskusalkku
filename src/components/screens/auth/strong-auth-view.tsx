@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from "react";
 import { Platform, View } from "react-native";
 import WebView from "react-native-webview";

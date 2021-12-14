@@ -1,7 +1,7 @@
 /* eslint-disable object-shorthand */
-import * as React from "react";
-import { Portfolio } from "../../../generated/client";
-import { PortfolioContextType } from "../../../types";
+import React from "react";
+import { Portfolio } from "../../generated/client";
+import { PortfolioContextType } from "../../types";
 
 /**
  * Portfolio context initialization

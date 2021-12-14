@@ -16,10 +16,14 @@
     "fundHistory": {
       "list": "Virhe listattaessa rahaston historia tietoja"
     },
+    "securities": {
+      "list": "Virhe listattaessa rahastotietoja",
+      "find": "Virhe haettaessa rahastotietoja"
+    },
     "portfolio": {
       "list": "Virhe listattaessa portfolion historiatietoja"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "list": "Virhe listattaessa oman portfolion rahastoja"
     },
     "auth": {
@@ -52,7 +56,7 @@
     "combinationFunds": "Yhdistelmä rahastot",
     "profile": "Profiili"
   },
-  
+
   "fundCard": {
     "riskLevel": "Riskitaso",
     "historyOneDay": "1pv",
@@ -86,7 +90,7 @@
       "subscriptions": "Merkinnät",
       "total": "Yhteensä"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "title": "Omat rahastot"
     },
     "select": {

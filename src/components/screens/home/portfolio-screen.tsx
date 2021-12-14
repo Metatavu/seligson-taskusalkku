@@ -7,9 +7,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PortfolioNavigator from "../../../types/navigators/portfolio";
 import StatisticsScreen from "../portfolio/statistics-screen";
 import DistributionsScreen from "../portfolio/distributions-screen";
-import MyFundsScreen from "../portfolio/my-funds-screen";
-import EventsScreen from "../portfolio/transactions-list";
-import PortfolioContextProvider from "../portfolio/portfolio-context-provider";
+import MySecuritiesScreen from "../portfolio/my-securities-screen";
+import PortfolioContextProvider from "../../providers/portfolio-context-provider";
 import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
@@ -81,8 +80,8 @@ const PortfolioScreen: React.FC = () => {
           }}
         />
         <PortfolioNavigation.Screen
-          name="myFunds"
-          component={ MyFundsScreen }
+          name="mySecurities"
+          component={ MySecuritiesScreen }
           options={{
             title: strings.screenTitles.ownFunds,
             tabBarIcon: props => (

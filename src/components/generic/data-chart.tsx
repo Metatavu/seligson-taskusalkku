@@ -1,9 +1,9 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
-import { HistoricalValue, PortfolioHistoryValue } from "../../generated/client";
+import { FundHistoryValue, PortfolioHistoryValue } from "../../generated/client";
 import { ChartRange } from "../../types";
 import ChartUtils from "../../utils/chart";
 import { VictoryChart, VictoryAxis, VictoryArea } from "victory-native";
@@ -14,7 +14,7 @@ import theme from "../../theme";
  * Component properties
  */
 interface Props {
-  data: (HistoricalValue | PortfolioHistoryValue)[];
+  data: (FundHistoryValue | PortfolioHistoryValue)[];
   loading: boolean;
   selectedRange: ChartRange;
   color?: string;
@@ -128,7 +128,7 @@ const DataChart: React.FC<Props> = ({
         { renderDateRangeButton(ChartRange.FIVE_YEARS, strings.fundCard.historyFiveYears) }
         { renderDateRangeButton(ChartRange.TEN_YEARS, strings.fundCard.historyTenYears) }
         { renderDateRangeButton(ChartRange.MAX, strings.fundCard.historyMax) }
-        <Button icon="calendar" color="#fff" compact style={{ maxWidth: 25 }}/>
+        <IconButton icon="calendar" color="#fff" style={{ maxWidth: 25 }}/>
       </View>
       { renderContent() }
     </View>

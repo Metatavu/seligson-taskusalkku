@@ -12,29 +12,24 @@ const TransactionNavigation = createNativeStackNavigator<TransactionsNavigator.R
 /**
  * Transactions screen
  */
-const TransactionsScreen: React.FC = () => {
-  /**
-   * Component render
-   */
-  return (
-    <TransactionNavigation.Navigator
-      initialRouteName="transactionsList"
-      screenOptions={{
-        headerShown: false
-      }}
-    >
-      <TransactionNavigation.Group>
-        <TransactionNavigation.Screen
-          name="transactionsList"
-          component={ TransactionsList }
-        />
-        <TransactionNavigation.Screen
-          name="transactionsDetails"
-          component={ TransactionsDetailsScreen }
-        />
-      </TransactionNavigation.Group>
-    </TransactionNavigation.Navigator>
-  );
-};
+const TransactionsScreen: React.FC = () => (
+  <TransactionNavigation.Navigator
+    initialRouteName="transactionsList"
+    screenOptions={{
+      headerShown: false
+    }}
+  >
+    <TransactionNavigation.Group>
+      <TransactionNavigation.Screen
+        name="transactionsList"
+        component={ TransactionsList }
+      />
+      <TransactionNavigation.Screen
+        name="transactionsDetails"
+        component={ TransactionsDetailsScreen }
+      />
+    </TransactionNavigation.Group>
+  </TransactionNavigation.Navigator>
+);
 
 export default TransactionsScreen;

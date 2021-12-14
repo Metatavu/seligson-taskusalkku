@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { View } from "react-native";
 import { Button, Paragraph } from "react-native-paper";
 import strings from "../../localization/strings";

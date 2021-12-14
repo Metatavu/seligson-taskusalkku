@@ -46,9 +46,9 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
   };
 
   /**
-   * Button row
+   * Renders action buttons
    */
-  const buttonRow = () => {
+  const renderActionButtons = () => {
     return (
       <>
         <View style={ styles.buttonRow }>
@@ -79,7 +79,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
       </>
     );
   };
-    
+
   /**
    * Component render
    */
@@ -111,12 +111,12 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
               { strings.fundDetailsScreen.myShare }
             </Text>
             { renderMyShare(strings.fundDetailsScreen.amount, 10) }
-            { renderMyShare(strings.fundDetailsScreen.value, Number((aShareValue || 0) * 10)) }
+            { aShareValue && renderMyShare(strings.fundDetailsScreen.value, Number(aShareValue) * 10) }
             { renderMyShare(strings.fundDetailsScreen.change, 25) }
           </View>
         </View>
       </View>
-      { buttonRow() }
+      { renderActionButtons() }
     </>
   );
 };

@@ -1,5 +1,5 @@
-import { BlurView } from "expo-blur";
 import React from "react";
+import { BlurView } from "expo-blur";
 import { Modal, TouchableWithoutFeedback, View } from "react-native";
 import styles from "../../styles/generic/basic-modal";
 

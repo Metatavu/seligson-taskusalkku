@@ -13,7 +13,7 @@ import ChartUtils from "../../../utils/chart";
 import { LinearGradient } from "expo-linear-gradient";
 import Calculations from "../../../utils/calculations";
 import { useIsFocused } from "@react-navigation/native";
-import { PortfolioContext } from "./portfolio-context-provider";
+import { PortfolioContext } from "../../providers/portfolio-context-provider";
 import PortfolioSelect from "./portfolio-select";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import theme from "../../../theme";
@@ -82,7 +82,7 @@ const StatisticsScreen: React.FC = () => {
 
       const allSummaries = await Promise.all(
         allPortfolios.map(portfolio => (
-          portfoliosApiContext.getPortfolioHSummary({
+          portfoliosApiContext.getPortfolioSummary({
             portfolioId: portfolio.id!,
             startDate: ChartUtils.getStartDate(range),
             endDate: moment().toDate()
@@ -212,8 +212,8 @@ const StatisticsScreen: React.FC = () => {
 
     const currentValue = historicalData[historicalData.length - 1].value;
     const purchaseValue = historicalData[0].value;
-    const totalChangeAmount = Calculations.getTotalChangeAmount(purchaseValue, currentValue);
-    const totalChangePercentage = Calculations.getTotalChangePercentage(purchaseValue, currentValue);
+    const totalChangeAmount = Calculations.getTotalChangeAmount(Number(purchaseValue), Number(currentValue));
+    const totalChangePercentage = Calculations.getTotalChangePercentage(Number(purchaseValue), Number(currentValue));
     const [ subscriptionsSum, redemptionsSum ] = Calculations.getPortfolioSummaryInfo(summaries);
 
     return (

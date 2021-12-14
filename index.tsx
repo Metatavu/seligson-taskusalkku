@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import "react-native-gesture-handler";
 import { registerRootComponent } from "expo";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -9,10 +9,9 @@ import { store } from "./src/app/store";
 import theme from "./src/theme";
 import App from "./App";
 import ApiProvider from "./src/components/providers/api-provider";
-import PortfolioFundsProvider from "./src/components/providers/portfolio-funds-api-provider";
 import PortfoliosApiProvider from "./src/components/providers/portfolios-api-provider";
 import FundsApiProvider from "./src/components/providers/funds-api-provider";
-import PortfolioTransactionsApiProvider from "./src/components/providers/portfolio-transactions-api-provider";
+import SecuritiesApiProvider from "./src/components/providers/securities-api-provider";
 
 /**
  * API context provides
@@ -20,8 +19,7 @@ import PortfolioTransactionsApiProvider from "./src/components/providers/portfol
 const providers = [
   FundsApiProvider,
   PortfoliosApiProvider,
-  PortfolioFundsProvider,
-  PortfolioTransactionsApiProvider
+  SecuritiesApiProvider
 ];
 
 /**

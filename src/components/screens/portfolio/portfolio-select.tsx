@@ -4,7 +4,7 @@ import DropDown from "react-native-paper-dropdown";
 import { Portfolio } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
-import { PortfolioContext } from "./portfolio-context-provider";
+import { PortfolioContext } from "../../providers/portfolio-context-provider";
 import styles from "../../../styles/screens/portfolio/portfolio-select";
 
 /**

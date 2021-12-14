@@ -1,4 +1,4 @@
-import { Configuration, FundsApi, PortfoliosApi } from "../generated/client";
+import { Configuration, FundsApi, PortfoliosApi, SecuritiesApi } from "../generated/client";
 import { Authentication } from "../types";
 import Config from "../app/config";
 
@@ -6,10 +6,10 @@ import Config from "../app/config";
  * Utility class for loading api with predefined configuration
  */
 export default class Api {
-  
+
   /**
    * Gets initialized funds api
-   * 
+   *
    * @param auth authentication
    * @returns initialized funds api
    */
@@ -18,8 +18,18 @@ export default class Api {
   };
 
   /**
+   * Gets initialized securities api
+   *
+   * @param auth authentication
+   * @returns initialized securities api
+   */
+  public static getSecuritiesApi = (auth: Authentication): SecuritiesApi => {
+    return new SecuritiesApi(Api.getConfiguration(auth));
+  };
+
+  /**
    * Gets initialized portfolios api
-   * 
+   *
    * @param auth authentication
    * @returns initialized portfolios api
    */

@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import { Linking, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import strings from "../../../localization/strings";

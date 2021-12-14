@@ -11,35 +11,81 @@ import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
 
 /**
+ * Type for detail row
+ */
+type DetailRow = {
+  label: string;
+  value?: string | number;
+};
+
+/**
  * Transactions details screen component
  */
 const TransactionsDetailsScreen: React.FC = () => {
-  const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
+  const navigation = useNavigation<TransactionsNavigator.NavigationProps<"transactionsDetails">>();
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
-  const { fund, portfolioTransaction } = params || {}:
-  const { type, valueDate, paymentDate, shareAmount, marketValue, provision } = portfolioTransaction;
-  const transactionType = type === TransactionType.Redemption ?
-    strings.portfolio.transactions.redemption :
-    strings.portfolio.transactions.subscription;
-  const { longName, color } = fund;
+  const localized = strings.portfolio.transactions;
+
+  if (!params) {
+    return null;
+  }
+
+  const { security, portfolioTransaction } = params;
+  const { name } = security;
+  const { transactionType, valueDate, paymentDate, provision } = portfolioTransaction;
+  const shareAmount = Number(portfolioTransaction.shareAmount);
+  const marketValue = Number(portfolioTransaction.marketValue);
 
   /**
+   *
    * Render details row
    *
-   * @param label label
-   * @param detailValue detail value
+   * @param detailRow detail row
    */
-  const renderDetailsRow = (label: string, detailValue: string | number) => {
+  const renderDetailsRow = ({ label, value }: DetailRow) => {
     return (
       <View style={ styles.detailsRow }>
         <Text style={ theme.fonts.medium }>
           { label }
         </Text>
         <Text>
-          { detailValue }
+          { value }
         </Text>
       </View>
     );
+  };
+
+  /**
+   * Renders detail rows
+   */
+  const renderDetailRows = () => {
+    const rows = [{
+      label: localized.type,
+      value: localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"]
+    }, {
+      label: localized.valueDate,
+      value: valueDate.toLocaleDateString()
+    }, {
+      label: localized.paymentDate,
+      value: paymentDate?.toLocaleDateString()
+    }, {
+      label: localized.shareAmount,
+      value: shareAmount
+    }, {
+      label: localized.value,
+      value: marketValue
+    }, {
+      label: localized.totalValue,
+      value: Number(shareAmount) * Number(marketValue)
+    }, {
+      label: localized.provision,
+      value: provision
+    }, {
+      label: localized.paidTotal,
+      value: (shareAmount * marketValue) + provision
+    }];
+
+    return rows.map(renderDetailsRow);
   };
 
   /**
@@ -51,22 +97,15 @@ const TransactionsDetailsScreen: React.FC = () => {
         <View style={ styles.gradientContainer }>
           <LinearGradient
             colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-            style={[ styles.gradient, { backgroundColor: color } ]}
+            style={[ styles.gradient, { backgroundColor: "#fff" } ]}
           />
         </View>
         <View style={ styles.detailsWrapper }>
           <Text style={[ theme.fonts.medium, styles.transactionTitle ]}>
-            { longName && GenericUtils.getLocalizedValue(longName) }
+            { GenericUtils.getLocalizedValue(name) }
           </Text>
           <Divider style={{ marginVertical: 5 }}/>
-          { renderDetailsRow(strings.portfolio.transactions.type, transactionType) }
-          { renderDetailsRow(strings.portfolio.transactions.valueDate, valueDate.toLocaleDateString()) }
-          { renderDetailsRow(strings.portfolio.transactions.paymentDate, paymentDate.toLocaleDateString()) }
-          { renderDetailsRow(strings.portfolio.transactions.shareAmount, shareAmount) }
-          { renderDetailsRow(strings.portfolio.transactions.value, marketValue) }
-          { renderDetailsRow(strings.portfolio.transactions.totalValue, shareAmount * marketValue) }
-          { renderDetailsRow(strings.portfolio.transactions.provision, provision) }
-          { renderDetailsRow(strings.portfolio.transactions.paidTotal, (shareAmount * marketValue) + provision) }
+          { renderDetailRows() }
         </View>
       </View>
       <Button

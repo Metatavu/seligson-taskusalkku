@@ -13,7 +13,7 @@ class GenericUtils {
    * @returns localized string
    */
   static getLocalizedValue = (value: LocalizedValue) => value[strings.getLanguage() as keyof LocalizedValue] || value.fi;
-  
+
 }
 
 export default GenericUtils;

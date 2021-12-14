@@ -23,6 +23,7 @@ interface Props {
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
   const { color, longName, risk, changeData, priceDate } = fund;
+  const { change1d, change1m, change1y, change5y, change20y } = changeData || {};
   const styles = fundCardStyles(useTheme(), color || "#FFF");
 
   /**
@@ -47,7 +48,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
       </View>
     );
   };
-  
+
   /**
    * Risk meter
    */
@@ -78,7 +79,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
       </View>
     );
   };
-  
+
   /**
    * Component render
    */
@@ -109,11 +110,11 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         </View>
         <Divider style={ styles.divider }/>
         <View style={ styles.cardRow }>
-          { renderPriceHistory(strings.fundCard.historyOneDay, changeData?.change1d) }
-          { renderPriceHistory(strings.fundCard.historyOneMonth, changeData?.change1m) }
-          { renderPriceHistory(strings.fundCard.historyOneYear, changeData?.change1y) }
-          { renderPriceHistory(strings.fundCard.historyFiveYears, changeData?.change5y) }
-          { renderPriceHistory(strings.fundCard.historyTwentyYears, changeData?.change20y) }
+          { change1d && renderPriceHistory(strings.fundCard.historyOneDay, Number(change1d)) }
+          { change1m && renderPriceHistory(strings.fundCard.historyOneMonth, Number(change1m)) }
+          { change1y && renderPriceHistory(strings.fundCard.historyOneYear, Number(change1y)) }
+          { change5y && renderPriceHistory(strings.fundCard.historyFiveYears, Number(change5y)) }
+          { change20y && renderPriceHistory(strings.fundCard.historyTwentyYears, Number(change20y)) }
         </View>
       </View>
     </View>

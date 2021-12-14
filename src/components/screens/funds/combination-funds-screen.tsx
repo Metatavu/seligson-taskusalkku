@@ -24,7 +24,7 @@ const CombinationFundsScreen: React.FC<Props> = ({ funds }) => {
   const sortedFunds = funds.sort((a, b) => a.name.fi.localeCompare(b.name.fi));
 
   /**
-   * Render fund
+   * Renders fund
    *
    * @param fund fund
    */
