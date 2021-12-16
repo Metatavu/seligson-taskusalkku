@@ -98,6 +98,14 @@ export enum ChartRange {
 }
 
 /**
+ * Enum for meeting language select
+ */
+export enum MeetingLanguage {
+  FI = "fi",
+  EN = "en"
+}
+
+/**
  * Interface for victory chart data
  */
 export interface VictoryChartData {
