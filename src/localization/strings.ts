@@ -38,6 +38,12 @@ export interface Strings extends LocalizedStringsMethods {
     auth: {
       login: string;
     };
+    meetingTimes: {
+      list: string;
+    };
+    meeting: {
+      create: string
+    };
   };
 
   /**

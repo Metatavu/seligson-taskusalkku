@@ -24,6 +24,12 @@
     },
     "auth": {
       "login": "Error while logging in"
+    },
+    "meetingTimes": {
+      "list": "Error while loading meeting times"
+    },
+    "meeting": {
+      "create": "Error when creating meeting"
     }
   },
 

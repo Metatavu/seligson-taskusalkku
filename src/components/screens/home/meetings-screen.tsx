@@ -4,52 +4,62 @@ import { Platform, View } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Button, Card, Divider, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
-import { useAppSelector } from "../../../app/hooks";
-import { selectAnonymousAuth, selectAuth } from "../../../features/auth/auth-slice";
-import Api from "../../../api/api";
 import { MeetingTime } from "../../../generated/client";
 import { MeetingsApiContext } from "../../providers/meetings-api-provider";
+import { ErrorContext } from "../../error-handler/error-handler";
 
 /**
  * Meetings screen
  */
 const MeetingsScreen: React.FC = () => {
-  const [ selectedDate, setSelectedDate ] = React.useState<Date>()
-  const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([])
-  const [ datePickerOpen, setDatePickerOpen ] = React.useState(false)
+  const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date>();
+  const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date>();
+  const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
+  const [ startDatePickerOpen, setStartDatePickerOpen ] = React.useState(false);
+  const [ endDatePickerOpen, setEndDatePickerOpen ] = React.useState(false);
   const meetingsApiContext = React.useContext(MeetingsApiContext);
+  const errorContext = React.useContext(ErrorContext);
 
   /**
-   * Handler for date picker date change
+   * Handler for date picker range change
    */
   const fetchMeetingTimes = async () => {
     try {
-      if (!selectedDate) {
+      if (!selectedStartDate || !selectedEndDate) {
         return;
       }
       setMeetingTimes(await meetingsApiContext.listMeetingTimes({
-        startDate: selectedDate,
-        endDate: selectedDate
+        startDate: selectedStartDate,
+        endDate: selectedEndDate
       }));
     } catch (error) {
-      // TODO error handling
+      errorContext.setError(strings.errorHandling.meetingTimes.list, error)
     }
   }
 
   React.useEffect(() => {
     fetchMeetingTimes()
-  }, [selectedDate])
+  }, [selectedStartDate, selectedEndDate])
 
   /**
-   * Handler for date picker date change
+   * Handler for start date picker date change
    */
-  const datePickerChange = (e: any, pickedDate?: Date) => {
-    setDatePickerOpen(Platform.OS === 'ios');
-    setSelectedDate(pickedDate);
+  const startDatePickerChange = (e: any, pickedDate?: Date) => {
+    setStartDatePickerOpen(Platform.OS === 'ios');
+    setSelectedEndDate(undefined);
+    setSelectedStartDate(pickedDate);
   }
 
   /**
-   * Renders date picker dialog
+   * Handler for end date picker date change
+   */
+  const endDatePickerChange = (e: any, pickedDate?: Date) => {
+    setEndDatePickerOpen(Platform.OS === 'ios');
+    setSelectedEndDate(pickedDate);
+  }
+
+  /**
+   * Renders meeting time entries
    */
   const renderMeetingTime = (meetingTime: MeetingTime) => (
     <View>
@@ -58,16 +68,31 @@ const MeetingsScreen: React.FC = () => {
   )
 
   /**
-   * Renders date picker dialog
+   * Renders start date picker dialog
    */
-  const renderDatePicker = () => (
-    datePickerOpen && <DateTimePicker
-      value={ selectedDate || new Date() }
+  const renderStartDatePicker = () => (
+    startDatePickerOpen && <DateTimePicker
+      value={ selectedStartDate || new Date() }
       mode="date"
       is24Hour={true}
       display="default"
-      onChange={ datePickerChange }
+      onChange={ startDatePickerChange }
       minimumDate={ new Date() }
+    />
+  )
+
+
+  /**
+   * Renders end date picker dialog
+   */
+  const renderEndDatePicker = () => (
+    endDatePickerOpen && <DateTimePicker
+      value={ selectedEndDate || new Date() }
+      mode="date"
+      is24Hour={true}
+      display="default"
+      onChange={ endDatePickerChange }
+      minimumDate={ selectedStartDate }
     />
   )
 
@@ -82,16 +107,21 @@ const MeetingsScreen: React.FC = () => {
           <Text>{ strings.meetings.bookTimeDescription }</Text>
         </Card>
         <Text>{ strings.meetings.datePicker.title }</Text>
-        <Card>
+          <Card>
             <Text>{ strings.meetings.bookTime }</Text>
-            <Button onPress={ () => setDatePickerOpen(true) }>
-              { moment(selectedDate).format("DD/MM/YYYY") }
+            <Button onPress={ () => setStartDatePickerOpen(true) }>
+              { moment(selectedStartDate).format("DD/MM/YYYY") }
+            </Button>
+            <Text>{ strings.meetings.bookTime }</Text>
+            <Button onPress={ () => setEndDatePickerOpen(true) }>
+              { moment(selectedEndDate).format("DD/MM/YYYY") }
             </Button>
           <Divider/>
           { meetingTimes.map(renderMeetingTime) }
         </Card>
       </View>
-      { renderDatePicker() }
+      { renderStartDatePicker() }
+      { renderEndDatePicker() }
     </>
   );
 };

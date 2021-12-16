@@ -24,6 +24,12 @@
     },
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
+    },
+    "meetingTimes": {
+      "list": "Error while loading meeting times"
+    },
+    "meeting": {
+      "create": "Error when creating meeting"
     }
   },
 
