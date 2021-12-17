@@ -13,12 +13,12 @@ namespace Calculations {
    * @param totalValue total value
    * @returns calculated amount
    */
-  export const getTotalChangeAmount = (purchaseValue?: string, totalValue?: string): number => {
+  export const getTotalChangeAmount = (purchaseValue?: string, totalValue?: string): string => {
     if (!purchaseValue || !totalValue) {
-      return 0;
+      return "0";
     }
 
-    return new BigNumber(totalValue).minus(purchaseValue).toNumber();
+    return new BigNumber(totalValue).minus(purchaseValue).toString();
   };
 
   /**
@@ -62,8 +62,10 @@ namespace Calculations {
    * @param portfolios list of portfolios
    * @returns calculated total change
    */
-  const calculatePortfoliosTotalChange = (portfolios: Portfolio[]): number => {
-    return portfolios.reduce((total, { purchaseTotal, totalAmount }) => total + getTotalChangeAmount(purchaseTotal, totalAmount), 0);
+  const calculatePortfoliosTotalChange = (portfolios: Portfolio[]): string => {
+    return portfolios.reduce((total, { purchaseTotal, totalAmount }) => (
+      new BigNumber(total).plus(getTotalChangeAmount(purchaseTotal, totalAmount)).toString()
+    ), "0");
   };
 
   /**
@@ -92,11 +94,14 @@ namespace Calculations {
    */
   export const getTotalPortfolioInfo = (portfolios: Portfolio[]) => {
     const [ marketValueTotal, purchaseTotal ] = calculateTotals(portfolios);
+    const totalChange = calculatePortfoliosTotalChange(portfolios);
+    const totalChangePercentage = calculatePortfoliosTotalChangePercentage(portfolios);
+
     return {
-      marketValueTotal: marketValueTotal,
-      purchaseTotal: purchaseTotal,
-      totalChangeAmount: calculatePortfoliosTotalChange(portfolios),
-      totalChangePercentage: calculatePortfoliosTotalChangePercentage(portfolios)
+      marketValueTotal: Calculations.formatNumberStr(marketValueTotal, 2, { suffix: " €" }),
+      purchaseTotal: Calculations.formatNumberStr(purchaseTotal, 2, { suffix: " €" }),
+      totalChangeAmount: Calculations.formatNumberStr(totalChange, 2, { suffix: " €" }),
+      totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
     };
   };
 
@@ -115,6 +120,22 @@ namespace Calculations {
       [ "0", "0" ]
     );
   };
+
+  /**
+   * Formats number string according to given rules
+   *
+   * @param numberStr number as string or instance of BigNumber
+   * @param decimalPlaces number of decimal places
+   * @param format format settings
+   */
+  export const formatNumberStr = (number: string | BigNumber, decimalPlaces: number, format?: BigNumber.Format) => (
+    new BigNumber(number).toFormat(decimalPlaces, {
+      groupSize: 3,
+      groupSeparator: " ",
+      decimalSeparator: ",",
+      ...format
+    })
+  );
 
 }
 

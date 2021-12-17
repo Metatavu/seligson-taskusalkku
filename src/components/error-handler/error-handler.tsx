@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from "react";
 import { View } from "react-native";
 import { Button, Paragraph } from "react-native-paper";
@@ -29,14 +30,11 @@ const ErrorHandler: React.FC = ({ children }) => {
   const logErrorObject = async (err?: any) => {
     try {
       if (err instanceof Response) {
-        // eslint-disable-next-line no-console
         console.error(await err.text() || err);
       } else {
-        // eslint-disable-next-line no-console
         console.error(JSON.stringify(err, null, 2));
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(JSON.stringify(e, null, 2));
     }
   };

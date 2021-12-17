@@ -15,18 +15,16 @@ interface Props {
 }
 
 /**
- * Fund details
+ * Fund details component
  *
  * @param props component properties
  */
 const FundDetails: React.FC<Props> = ({ fund }) => {
   const { color, aShareValue, bShareValue } = fund;
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
-  const aShareValueText = `${strings.fundDetailsScreen.aShare} ${aShareValue}€`;
-  const bShareValueText = `${strings.fundDetailsScreen.bShare} ${bShareValue}€`;
 
   /**
-   * My share
+   * Renders my share
    *
    * @param label price history label
    * @param value price history percentage
@@ -96,12 +94,12 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View>
               <Text style={ theme.fonts.medium }>
-                { aShareValueText }
+                { `${strings.fundDetailsScreen.aShare} ${aShareValue}€` }
               </Text>
             </View>
             <View>
               <Text style={ theme.fonts.medium }>
-                { bShareValueText }
+                { `${strings.fundDetailsScreen.bShare} ${bShareValue}€` }
               </Text>
             </View>
           </View>

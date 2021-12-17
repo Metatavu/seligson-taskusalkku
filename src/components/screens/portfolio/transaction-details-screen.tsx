@@ -9,19 +9,21 @@ import styles from "../../../styles/screens/portfolio/transactions-details-scree
 import GenericUtils from "../../../utils/generic";
 import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
+import BigNumber from "bignumber.js";
+import Calculations from "../../../utils/calculations";
 
 /**
  * Type for detail row
  */
 type DetailRow = {
   label: string;
-  value?: string | number;
+  value?: string;
 };
 
 /**
- * Transactions details screen component
+ * Transaction details screen component
  */
-const TransactionsDetailsScreen: React.FC = () => {
+const TransactionDetailsScreen: React.FC = () => {
   const navigation = useNavigation<TransactionsNavigator.NavigationProps<"transactionsDetails">>();
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
   const localized = strings.portfolio.transactions;
@@ -30,11 +32,10 @@ const TransactionsDetailsScreen: React.FC = () => {
     return null;
   }
 
-  const { security, portfolioTransaction } = params;
+  const { fund, security, portfolioTransaction } = params;
+  const { color } = fund;
   const { name } = security;
-  const { transactionType, valueDate, paymentDate, provision } = portfolioTransaction;
-  const shareAmount = Number(portfolioTransaction.shareAmount);
-  const marketValue = Number(portfolioTransaction.marketValue);
+  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue } = portfolioTransaction;
 
   /**
    *
@@ -59,31 +60,44 @@ const TransactionsDetailsScreen: React.FC = () => {
    * Renders detail rows
    */
   const renderDetailRows = () => {
-    const rows = [{
-      label: localized.type,
-      value: localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"]
-    }, {
-      label: localized.valueDate,
-      value: valueDate.toLocaleDateString()
-    }, {
-      label: localized.paymentDate,
-      value: paymentDate?.toLocaleDateString()
-    }, {
-      label: localized.shareAmount,
-      value: shareAmount
-    }, {
-      label: localized.value,
-      value: marketValue
-    }, {
-      label: localized.totalValue,
-      value: Number(shareAmount) * Number(marketValue)
-    }, {
-      label: localized.provision,
-      value: provision
-    }, {
-      label: localized.paidTotal,
-      value: (shareAmount * marketValue) + provision
-    }];
+    const transactionDisplayType = localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"];
+    const totalValue = new BigNumber(marketValue).multipliedBy(shareAmount);
+    const paidTotal = new BigNumber(totalValue).plus(provision);
+
+    const rows: DetailRow[] = [
+      {
+        label: localized.type,
+        value: transactionDisplayType
+      },
+      {
+        label: localized.valueDate,
+        value: valueDate.toLocaleDateString()
+      },
+      {
+        label: localized.paymentDate,
+        value: paymentDate?.toLocaleDateString()
+      },
+      {
+        label: localized.shareAmount,
+        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: " kpl" })
+      },
+      {
+        label: localized.value,
+        value: Calculations.formatNumberStr(marketValue, 4, { suffix: " €" })
+      },
+      {
+        label: localized.totalValue,
+        value: Calculations.formatNumberStr(totalValue, 2, { suffix: " €" })
+      },
+      {
+        label: localized.provision,
+        value: Calculations.formatNumberStr(provision, 2, { suffix: " €" })
+      },
+      {
+        label: localized.paidTotal,
+        value: Calculations.formatNumberStr(paidTotal, 2, { suffix: " €" })
+      }
+    ];
 
     return rows.map(renderDetailsRow);
   };
@@ -97,7 +111,7 @@ const TransactionsDetailsScreen: React.FC = () => {
         <View style={ styles.gradientContainer }>
           <LinearGradient
             colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-            style={[ styles.gradient, { backgroundColor: "#fff" } ]}
+            style={[ styles.gradient, { backgroundColor: color } ]}
           />
         </View>
         <View style={ styles.detailsWrapper }>
@@ -122,4 +136,4 @@ const TransactionsDetailsScreen: React.FC = () => {
   );
 };
 
-export default TransactionsDetailsScreen;
+export default TransactionDetailsScreen;

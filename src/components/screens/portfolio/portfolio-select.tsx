@@ -1,14 +1,15 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
+import { TextInput } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import { Portfolio } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
-import { PortfolioContext } from "../../providers/portfolio-context-provider";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 import styles from "../../../styles/screens/portfolio/portfolio-select";
 
 /**
- * Component for portfolio select
+ * Portfolio select component
  */
 const PortfolioSelect: React.FC = () => {
   const portfolioContext = React.useContext(PortfolioContext);
@@ -18,14 +19,14 @@ const PortfolioSelect: React.FC = () => {
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
 
   /**
-   * Loads portfolios when component mounts
+   * Loads portfolios
    */
   const loadPortfolios = async () => {
     setPortfolios(await portfoliosApiContext.listPortfolios());
   };
 
   /**
-   * Effect for loading portfolios
+   * Effect for loading portfolios when component mounts
    */
   React.useEffect(() => { loadPortfolios(); }, []);
 
@@ -47,22 +48,40 @@ const PortfolioSelect: React.FC = () => {
       return null;
     }
 
-    const options = [
-      { label: strings.portfolio.select.all, value: "" },
-      ...portfolios.map(portfolio => ({ label: portfolio.id || "", value: portfolio.id || "" }))
-    ];
-
     return (
       <DropDown
-        list={ options }
+        list={[
+          { label: strings.portfolio.select.all, value: "" },
+          ...portfolios.map(portfolio => ({ label: portfolio.id || "", value: portfolio.id || "" }))
+        ]}
         onDismiss={ () => setShowDropDown(false) }
         value={ portfolioContext.selectedPortfolio?.id || "" }
         setValue={ onSelectValueChange }
         showDropDown={ () => setShowDropDown(true) }
         visible={ showDropDown }
-        mode="outlined"
+        mode="flat"
         dropDownContainerMaxHeight={ 500 }
-        dropDownStyle={{ marginTop: 45 }}
+        inputProps={{
+          dense: true,
+          render: ({ value }) => (
+            <Text
+              style={{
+                color: "white",
+                paddingLeft: 10,
+                paddingTop: 10,
+                fontSize: 14
+              }}
+            >
+              { value }
+            </Text>
+          ),
+          right: <TextInput.Icon name="tune" color="white"/>,
+          style: {
+            backgroundColor: "transparent",
+            borderColor: "transparent"
+          },
+          underlineColor: "transparent"
+        }}
       />
     );
   };

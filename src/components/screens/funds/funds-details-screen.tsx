@@ -17,7 +17,7 @@ import ChartUtils from "../../../utils/chart";
 import moment from "moment";
 
 /**
- * Fund details screen
+ * Fund details screen component
  */
 const FundDetailsScreen: React.FC = () => {
   const { params } = useRoute<FundsNavigator.RouteProps<"fundsDetails">>();

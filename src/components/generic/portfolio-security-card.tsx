@@ -20,7 +20,7 @@ interface Props {
 }
 
 /**
- * Portfolio fund card
+ * Portfolio fund card component
  *
  * @param props component properties
  */

@@ -1,6 +1,6 @@
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import { PortfolioTransaction, Security } from "../../generated/client";
+import { Fund, PortfolioTransaction, Security } from "../../generated/client";
 
 /**
  * Transactions navigator
@@ -13,8 +13,9 @@ namespace TransactionsNavigator {
   export type Routes = {
     transactionsList: undefined;
     transactionsDetails: {
-      portfolioTransaction: PortfolioTransaction;
+      fund: Fund;
       security: Security;
+      portfolioTransaction: PortfolioTransaction;
     };
   };
 

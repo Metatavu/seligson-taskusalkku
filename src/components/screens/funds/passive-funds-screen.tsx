@@ -15,7 +15,7 @@ interface Props {
 }
 
 /**
- * Passive funds screen
+ * Passive funds screen component
  *
  * @param props component properties
  */

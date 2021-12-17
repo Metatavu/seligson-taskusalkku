@@ -15,7 +15,7 @@ interface Props {
 }
 
 /**
- * Combination funds screen
+ * Combination funds screen component
  *
  * @param props component properties
  */

@@ -12,11 +12,11 @@ export const PortfolioContext = React.createContext<PortfolioContextType>({
 });
 
 /**
- * Component for portfolio context provider
+ * Portfolio provider component
  *
  * @param props component properties
  */
-const PortfolioContextProvider: React.FC = ({ children }) => {
+const PortfolioProvider: React.FC = ({ children }) => {
   const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
 
   /**
@@ -40,4 +40,4 @@ const PortfolioContextProvider: React.FC = ({ children }) => {
   );
 };
 
-export default PortfolioContextProvider;
+export default PortfolioProvider;

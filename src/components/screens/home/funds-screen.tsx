@@ -10,7 +10,7 @@ import FundsListScreen from "../funds/funds-list-screen";
 const FundSelectionNavigation = createNativeStackNavigator<FundSelectionNavigator.Routes>();
 
 /**
- * Active funds screen
+ * Active funds screen component
  */
 const FundsScreen: React.FC = () => {
   /**

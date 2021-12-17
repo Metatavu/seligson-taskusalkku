@@ -8,7 +8,7 @@ import PortfolioNavigator from "../../../types/navigators/portfolio";
 import StatisticsScreen from "../portfolio/statistics-screen";
 import DistributionsScreen from "../portfolio/distributions-screen";
 import MySecuritiesScreen from "../portfolio/my-securities-screen";
-import PortfolioContextProvider from "../../providers/portfolio-context-provider";
+import PortfolioContextProvider from "../../providers/portfolio-provider";
 import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
@@ -20,7 +20,7 @@ import TransactionsScreen from "../portfolio/transactions-screen";
 const PortfolioNavigation = createMaterialTopTabNavigator<PortfolioNavigator.Routes>();
 
 /**
- * Portfolio screen
+ * Portfolio screen component
  */
 const PortfolioScreen: React.FC = () => {
   const { colors } = useTheme();

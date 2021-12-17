@@ -2,7 +2,7 @@ import { LocalizedValue } from "../generated/client";
 import strings from "../localization/strings";
 
 /**
- * Returns localized string from given localized value
+ * Class for generic utility methods
  */
 class GenericUtils {
 

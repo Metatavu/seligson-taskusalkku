@@ -12,7 +12,7 @@ import OthersScreen from "./home/others-screen";
 const RegistrationNavigation = createNativeStackNavigator<RegistrationNavigator.Routes>();
 
 /**
- * Registration screen
+ * Registration screen component
  */
 const RegistrationScreen: React.FC = () => (
   <RegistrationNavigation.Navigator

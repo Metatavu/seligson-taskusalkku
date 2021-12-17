@@ -10,7 +10,7 @@ import AuthNavigator from "../../types/navigators/auth";
 import AuthUtils from "../../utils/auth";
 
 /**
- * Account screen
+ * Account screen component
  */
 const AccountScreen: React.FC = () => {
   const { developmentBuild } = Config.getStatic();

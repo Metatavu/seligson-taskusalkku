@@ -17,7 +17,7 @@ interface Props {
 }
 
 /**
- * Fund card
+ * Fund card component
  *
  * @param props component properties
  */
@@ -32,29 +32,21 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param label price history label
    * @param percentage price history percentage
    */
-  const renderPriceHistory = (label: string, percentage?: number) => {
-    const percentageStyle = percentage && percentage < 0 ?
-      styles.priceHistoryPercentageNegative :
-      styles.priceHistoryPercentage;
-    return (
-      <View style={ styles.cardColumn }>
-        <Text>
-          { label }
-        </Text>
-        <Text style={ percentageStyle }>
-          { percentage }
-          %
-        </Text>
-      </View>
-    );
-  };
+  const renderPriceHistory = (label: string, percentage: number) => (
+    <View style={ styles.cardColumn }>
+      <Text>
+        { label }
+      </Text>
+      <Text style={ styles[percentage < 0 ? "negativeValue" : "positiveValue"] }>
+        { `${percentage}%` }
+      </Text>
+    </View>
+  );
 
   /**
-   * Risk meter
+   * Renders risk meter
    */
   const renderRiskMeter = () => {
-    const riskLevelText = `${strings.fundCard.riskLevel} ${risk}`;
-
     if (!risk) {
       return null;
     }
@@ -74,7 +66,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           { riskArray }
         </View>
         <Text>
-          { riskLevelText }
+          { `${strings.fundCard.riskLevel} ${risk}` }
         </Text>
       </View>
     );

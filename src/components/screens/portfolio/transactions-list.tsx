@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
 import { ErrorContext } from "../../error-handler/error-handler";
 import strings from "../../../localization/strings";
-import { PortfolioContext } from "../../providers/portfolio-context-provider";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "../../../styles/screens/portfolio/transactions-list";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
@@ -16,7 +16,7 @@ import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 
 /**
- * Transactions list
+ * Transactions list component
  */
 const TransactionsList: React.FC = () => {
   const auth = useAppSelector(selectAuth);
@@ -76,6 +76,8 @@ const TransactionsList: React.FC = () => {
    * Loads transactions from API
    *
    * @param selectedPortfolio selected portfolio
+   *
+   * TODO: add pagination support
    */
   const loadTransactions = async (selectedPortfolio: Portfolio) => {
     if (!auth || !selectedPortfolio.id) {
@@ -83,7 +85,6 @@ const TransactionsList: React.FC = () => {
     }
 
     try {
-      /** TODO: add pagination support */
       setTransactions(await portfoliosContext.listPortfolioTransactions({ portfolioId: selectedPortfolio.id }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioTransactions.list, error);
@@ -109,7 +110,8 @@ const TransactionsList: React.FC = () => {
   }, [ portfolioContext.selectedPortfolio ]);
 
   /**
-   * Transaction filter button
+   * Renders transaction filter button
+   *
    * TODO: add date filtering functionality
    */
   const renderFilterButton = () => (

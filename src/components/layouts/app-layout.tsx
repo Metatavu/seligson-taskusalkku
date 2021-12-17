@@ -11,7 +11,7 @@ interface Props {
 }
 
 /**
- * Component for application layout
+ * Application layout component
  *
  * @param props component properties
  */

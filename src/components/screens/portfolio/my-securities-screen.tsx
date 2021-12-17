@@ -5,7 +5,7 @@ import { Text } from "react-native-paper";
 import { Fund, Portfolio, PortfolioSecurity, Security } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
-import { PortfolioContext } from "../../providers/portfolio-context-provider";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import styles from "../../../styles/screens/portfolio/my-funds-screen";
@@ -23,7 +23,7 @@ interface MySecurityInfo {
 }
 
 /**
- * My securities screen
+ * My securities screen component
  */
 const MySecuritiesScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
@@ -63,6 +63,7 @@ const MySecuritiesScreen: React.FC = () => {
 
     try {
       const portfolioSecurities = await portfoliosApiContext.listPortfolioSecurities({ portfolioId: selectedPortfolio.id });
+      console.log(portfolioSecurities);
       setMySecurities(await Promise.all(portfolioSecurities.map(loadPortfolioSecurityInfo)));
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);

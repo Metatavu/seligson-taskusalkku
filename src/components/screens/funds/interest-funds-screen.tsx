@@ -15,7 +15,7 @@ interface Props {
 }
 
 /**
- * Interest funds screen
+ * Interest funds screen component
  *
  * @param props component properties
  */

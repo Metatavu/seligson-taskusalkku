@@ -19,7 +19,7 @@ const initialSecurity: Security = {
 };
 
 /**
- * Portfolio funds API context initialization
+ * Securities API context initialization
  */
 export const SecuritiesApiContext = React.createContext<SecuritiesApiContextType>({
   listSecurities: async () => [],

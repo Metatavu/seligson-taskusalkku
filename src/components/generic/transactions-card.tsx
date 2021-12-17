@@ -10,6 +10,16 @@ import GenericUtils from "../../utils/generic";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import TransactionsNavigator from "../../types/navigators/transactions";
+import BigNumber from "bignumber.js";
+import Calculations from "../../utils/calculations";
+
+/**
+ * Transaction value
+ */
+interface TransactionValue {
+  label: string;
+  value: string;
+}
 
 /**
  * Component properties
@@ -22,7 +32,7 @@ interface Props {
 }
 
 /**
- * Transactions card
+ * Transactions card component
  *
  * @param props component properties
  */
@@ -38,19 +48,16 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
    * @param label label
    * @param value value
    */
-  const renderTransactionValue = (label: string, value: string | number) => {
-    return (
-      <View style={ styles.shareColumn }>
-        <Text style={ styles.labelText }>
-          { label }
-        </Text>
-        <Text>
-          { Number(value).toFixed(4) }
-          { label !== strings.fundDetailsScreen.amount ? "€" : "kpl" }
-        </Text>
-      </View>
-    );
-  };
+  const renderTransactionValue = ({ label, value }: TransactionValue) => (
+    <View style={ styles.shareColumn }>
+      <Text style={ styles.labelText }>
+        { label }
+      </Text>
+      <Text>
+        { value }
+      </Text>
+    </View>
+  );
 
   /**
    * Renders single transaction
@@ -70,13 +77,33 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       return null;
     }
 
+    const transactionValues: TransactionValue[] = [
+      {
+        label: strings.portfolio.transactions.value,
+        value: Calculations.formatNumberStr(marketValue, 4, { suffix: " €" })
+      },
+      {
+        label: strings.fundDetailsScreen.amount,
+        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: " kpl" })
+      },
+      {
+        label: strings.portfolio.statistics.total,
+        value: Calculations.formatNumberStr(
+          new BigNumber(marketValue).multipliedBy(shareAmount),
+          2,
+          { suffix: " €" }
+        )
+      }
+    ];
+
     return (
       <TouchableOpacity
         key={ id }
         onPress={ () =>
           navigation.navigate("transactionsDetails", {
-            portfolioTransaction: transaction,
-            security: transactionSecurity
+            fund: transactionFund,
+            security: transactionSecurity,
+            portfolioTransaction: transaction
           })
         }
       >
@@ -85,7 +112,9 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
           <View style={ styles.transactionContent }>
             <View style={ styles.transactionTitle }>
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
-                { GenericUtils.getLocalizedValue(transactionSecurity.name) }
+                { transactionFund.longName &&
+                  GenericUtils.getLocalizedValue(transactionFund.longName)
+                }
               </Text>
               <Text style={ styles.labelText }>
                 { paymentDate?.toLocaleDateString() }
@@ -93,9 +122,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
             </View>
             <Divider style={{ marginVertical: 5 }}/>
             <View style={ styles.cardRow }>
-              { renderTransactionValue(strings.portfolio.transactions.value, marketValue) }
-              { renderTransactionValue(strings.fundDetailsScreen.amount, shareAmount) }
-              { renderTransactionValue(strings.portfolio.statistics.total, (Number(marketValue) * Number(shareAmount))) }
+              { transactionValues.map(renderTransactionValue) }
             </View>
           </View>
         </View>
