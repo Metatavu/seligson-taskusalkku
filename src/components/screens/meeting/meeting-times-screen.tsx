@@ -64,11 +64,12 @@ const MeetingTimesScreen: React.FC = () => {
   /**
    * Renders meeting time entries
    */
-  const renderMeetingTime = (meetingTime: MeetingTime) => (
-    <Button onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }>
-      <View>
-        <Text>{ moment(meetingTime.startTime).format("DD/MM HH:mm") }</Text>
-      </View>
+  const renderMeetingTime = (meetingTime: MeetingTime, index: number) => (
+    <Button
+      key={ index }
+      onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }
+    >
+      <Text>{ moment(meetingTime.startTime).format("DD/MM HH:mm") }</Text>
     </Button>
   )
 
@@ -113,11 +114,11 @@ const MeetingTimesScreen: React.FC = () => {
         </Card>
         <Text>{ strings.meetings.datePicker.title }</Text>
           <Card>
-            <Text>{ strings.meetings.bookTime }</Text>
+            <Text>{ strings.meetings.datePicker.startDate }</Text>
             <Button onPress={ () => setStartDatePickerOpen(true) }>
               { moment(selectedStartDate).format("DD/MM/YYYY") }
             </Button>
-            <Text>{ strings.meetings.bookTime }</Text>
+            <Text>{ strings.meetings.datePicker.endDate }</Text>
             <Button onPress={ () => setEndDatePickerOpen(true) }>
               { moment(selectedEndDate).format("DD/MM/YYYY") }
             </Button>

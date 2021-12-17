@@ -16,6 +16,8 @@ export interface Strings extends LocalizedStringsMethods {
     back: string;
     login: string;
     webPage: string;
+    create: string;
+    cancel: string;
   };
 
   /**
@@ -135,7 +137,24 @@ export interface Strings extends LocalizedStringsMethods {
       title: string;
       pickDateTime: string;
       noAppointment: string;
-    }
+      startDate: string;
+      endDate: string;
+    },
+    meetingType: {
+      title: string;
+      phone: string;
+      meeting: string;
+    };
+    meetingLanguage: string;
+    participantCount: string;
+    contact: {
+      title: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+    },
+    additionalInformation: string;
   };
 
 }

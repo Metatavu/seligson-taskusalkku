@@ -5,7 +5,9 @@
     "close": "Sulje",
     "back": "Takaisin",
     "login": "Kirjaudu sisään",
-    "webPage": "Lisätietoja verkkosivuillamme"
+    "webPage": "Lisätietoja verkkosivuillamme",
+    "create": "Create",
+    "cancel": "Cancel"
   },
 
   "errorHandling": {
@@ -103,7 +105,24 @@
     "datePicker": {
       "title": "Date time picker",
       "pickDateTime": "Pick a date",
-      "noAppointment": "There is no available meeting for this day"
-    }
+      "noAppointment": "There is no available meeting for this day",
+      "startDate": "Start date",
+      "endDate": "End date"
+    },
+    "meetingType": {
+      "title": "Meeting type",
+      "phone": "Phone",
+      "meeting": "Meeting"
+    },
+    "meetingLanguage": "Meeting language",
+    "participantCount": "Participant count",
+    "contact": {
+      "title": "Contact",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "additionalInformation": "Additional information"
   }
 }

@@ -8,6 +8,11 @@ export default StyleSheet.create({
     borderRadius: 0
   },
 
+  confirmButton: {
+    backgroundColor: "#899C35",
+    borderRadius: 0
+  },
+
   detailsWrapper: {
     padding: theme.spacing(2),
     paddingTop: theme.spacing(1)
