@@ -100,29 +100,34 @@
   },
 
   "meetings": {
-    "bookTime": "Book time for a meeting",
-    "bookTimeDescription": "Haluatko keskustella kanssamme sijoittamisesta tai varainhoidosta joko puhelimessa tai tapaamisen muodossa?\n\nAlta voit varata sopivan ajan keskustelulle.\n\nAloita valitsemalla tapaamiselle haluamasi päivämäärä ja aika. Varattavia aikoja on pankkipäivinä klo 9:00 - 17:00.\n\nKerrothan mielellään myös kuinka monta henkilöä on tulossa ja parilla sanalla siitä, mikä on tapaamisen aihe.",
-    "datePicker": {
-      "title": "Date time picker",
-      "pickDateTime": "Pick a date",
-      "noAppointment": "There is no available meeting for this day",
-      "startDate": "Start date",
-      "endDate": "End date"
+    "meetingTimes": {
+      "bookTime": "Book time for a meeting",
+      "bookTimeDescription": "Haluatko keskustella kanssamme sijoittamisesta tai varainhoidosta joko puhelimessa tai tapaamisen muodossa?\n\nAlta voit varata sopivan ajan keskustelulle.\n\nAloita valitsemalla tapaamiselle haluamasi päivämäärä ja aika. Varattavia aikoja on pankkipäivinä klo 9:00 - 17:00.\n\nKerrothan mielellään myös kuinka monta henkilöä on tulossa ja parilla sanalla siitä, mikä on tapaamisen aihe.",
+      "datePicker": {
+        "title": "Date time picker",
+        "pickDateTime": "Pick a date",
+        "noAppointment": "There is no available meeting for this day",
+        "startDate": "Start date",
+        "endDate": "End date"
+      }
     },
-    "meetingType": {
-      "title": "Meeting type",
-      "phone": "Phone",
-      "meeting": "Meeting"
-    },
-    "meetingLanguage": "Meeting language",
-    "participantCount": "Participant count",
-    "contact": {
-      "title": "Contact",
-      "firstName": "First name",
-      "lastName": "Last name",
-      "email": "Email",
-      "phone": "Phone"
-    },
-    "additionalInformation": "Additional information"
+    "newMeeting": {
+      "title": "Yhteystiedot",
+      "meetingType": {
+        "title": "Meeting type",
+        "phone": "Phone",
+        "meeting": "Meeting"
+      },
+      "meetingLanguage": "Meeting language",
+      "participantCount": "Participant count",
+      "contact": {
+        "title": "Contact",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "additionalInformation": "Additional information"
+    }
   }
 }

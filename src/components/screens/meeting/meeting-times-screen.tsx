@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/meeting-times-screen";
 import theme from "../../../theme";
-import { FlatGrid, FlatGridProps } from "react-native-super-grid";
+import { FlatGrid } from "react-native-super-grid";
 
 /**
  * Meetings screen
@@ -114,17 +114,17 @@ const MeetingTimesScreen: React.FC = () => {
     <>
       <ScrollView>
         <View style={ styles.meetingTimes }>
-          <Text style={ theme.fonts.medium }>{ strings.meetings.bookTime }</Text>
+          <Text style={ theme.fonts.medium }>{ strings.meetings.meetingTimes.bookTime }</Text>
           <Card style={ styles.meetingCard }>
-            <Text>{ strings.meetings.bookTimeDescription }</Text>
+            <Text>{ strings.meetings.meetingTimes.bookTimeDescription }</Text>
           </Card>
-          <View style={{ marginTop: 16 }}>
+          <View style={{ marginTop: theme.spacing(2) }}>
             <Text style={ theme.fonts.medium}>
-              { strings.meetings.datePicker.title }
+              { strings.meetings.meetingTimes.datePicker.title }
             </Text>
             <Card style={ styles.meetingCard }>
               <View style={ styles.datePicker }>
-                <Text>{ strings.meetings.datePicker.startDate }</Text>
+                <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
                 <Button
                   style={ styles.datePickerButton }
                   onPress={ () => setStartDatePickerOpen(true) }
@@ -133,7 +133,7 @@ const MeetingTimesScreen: React.FC = () => {
                 </Button>
               </View>
               <View style={ styles.datePicker }>
-                <Text>{ strings.meetings.datePicker.endDate }</Text>
+                <Text>{ strings.meetings.meetingTimes.datePicker.endDate }</Text>
                 <Button
                   style={ styles.datePickerButton }
                   onPress={ () => setEndDatePickerOpen(true) }
@@ -143,7 +143,7 @@ const MeetingTimesScreen: React.FC = () => {
               </View>
               <Divider/>
               <FlatGrid
-                style={{ marginTop: 8 }}
+                style={{ marginTop: theme.spacing(1) }}
                 itemDimension={ 130 }
                 data={ meetingTimes }
                 renderItem={ ({item, index}) => renderMeetingTime(item, index)}
