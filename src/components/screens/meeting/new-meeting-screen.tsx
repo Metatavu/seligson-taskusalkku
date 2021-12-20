@@ -9,8 +9,7 @@ import { Button, Card, RadioButton, TextInput } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
 
@@ -37,6 +36,16 @@ const NewMeetingScreen: React.FC = () => {
 
   if (!meetingTIme) {
     return null;
+  }
+
+  /**
+   * Handler for meeting change 
+   *
+   * @param name name of the input
+   * @param value value of the input
+   */
+  const validateNewMeeting = () => {
+    return newMeeting.contact.firstName && newMeeting.contact.lastName && newMeeting.type;
   }
 
   /**
@@ -95,18 +104,17 @@ const NewMeetingScreen: React.FC = () => {
    * Renders meeting contact edit 
    */
   const renderContactEdit = () => (
-    <View>
-      <Text>{ strings.meetings.newMeeting.contact.title }</Text>
+    <>
       <TextInput
         style={ styles.input }
         value={ newMeeting.contact.firstName }
-        label={ strings.meetings.newMeeting.contact.firstName }
+        label={ `${strings.meetings.newMeeting.contact.firstName}*` }
         onChangeText={ onNewMeetingContactChange("firstName") }
       />
       <TextInput
         style={ styles.input }
         value={ newMeeting.contact.lastName }
-        label={ strings.meetings.newMeeting.contact.lastName }
+        label={ `${strings.meetings.newMeeting.contact.lastName}*` }
         onChangeText={ onNewMeetingContactChange("lastName") }
       />
       <TextInput
@@ -121,18 +129,18 @@ const NewMeetingScreen: React.FC = () => {
         label={ strings.meetings.newMeeting.contact.email }
         onChangeText={ onNewMeetingContactChange("email") }
       />
-    </View>
+    </>
   );
 
   /**
    * Renders meeting contact edit 
    */
   const renderLanguageSelect = () =>  (
-    <View style={{ marginTop: theme.spacing(1) }}>
+    <View style={{ marginTop: theme.spacing(2) }}>
       <Text>{ strings.meetings.newMeeting.meetingLanguage }</Text>
       <RadioButton.Group onValueChange={ onNewMeetingChange("language") } value={ newMeeting.language }>
         <RadioButton.Item
-          labelStyle={{ textAlign: "left" }}
+          labelStyle={ styles.radioButtonText }
           position="leading"
           color={ theme.colors.primary }
           label={ MeetingLanguage.EN }
@@ -140,7 +148,7 @@ const NewMeetingScreen: React.FC = () => {
         />
         <RadioButton.Item
           position="leading"
-          labelStyle={{ textAlign: "left" }}
+          labelStyle={ styles.radioButtonText }
           color={ theme.colors.primary }
           label={ MeetingLanguage.FI }
           value={ MeetingLanguage.FI }
@@ -153,19 +161,19 @@ const NewMeetingScreen: React.FC = () => {
    * Renders meeting contact edit 
    */
   const renderMeetingTypeSelect = () => (
-    <View style={{ marginTop: theme.spacing(1) }}>
-      <Text>{ strings.meetings.newMeeting.meetingType.title }</Text>
+    <View style={{ marginTop: theme.spacing(2) }}>
+      <Text>{ `${strings.meetings.newMeeting.meetingType.title}*` }</Text>
       <RadioButton.Group onValueChange={ onNewMeetingChange("type") } value={ newMeeting.type }>
         <RadioButton.Item
           position="leading"
-          labelStyle={{ textAlign: "left" }}
+          labelStyle={ styles.radioButtonText }
           color={ theme.colors.primary }
           label={ strings.meetings.newMeeting.meetingType.phone }
           value={ MeetingType.Phone }
         />
         <RadioButton.Item
           position="leading"
-          labelStyle={{ textAlign: "left" }}
+          labelStyle={ styles.radioButtonText }
           color={ theme.colors.primary }
           label={ strings.meetings.newMeeting.meetingType.meeting }
           value={ MeetingType.Meeting }
@@ -178,18 +186,14 @@ const NewMeetingScreen: React.FC = () => {
    * Renders meeting contact edit 
    */
   const renderButtons = () => (
-    <>
-      <Button
-        onPress={ onMeetingCancel }
-      >
+    <View style={{ marginTop: theme.spacing(1) }}>
+      <Button onPress={ onMeetingCancel }>
         { strings.generic.back }
       </Button>
-      <Button
-        onPress={ onMeetingCreate }
-      >
+      <Button  disabled={ !validateNewMeeting() } onPress={ onMeetingCreate }>
         { strings.generic.create }
       </Button>
-    </>
+    </View>
   )
 
   /**
@@ -212,15 +216,17 @@ const NewMeetingScreen: React.FC = () => {
                 onChangeText={ onNewMeetingChange("participantCount") }
                 keyboardType="numeric"
               />
-              <TextInput
-                multiline
-                mode="outlined"
-                numberOfLines={ 6 }
-                style={ styles.input }
-                value={ newMeeting.additionalInformation }
-                label={ strings.meetings.newMeeting.additionalInformation }
-                onChangeText={ onNewMeetingChange("additionalInformation") }
-              />
+              <View style={{ marginTop: theme.spacing(2) }}>
+                <Text>{ `${strings.meetings.newMeeting.additionalInformation}:` }</Text>
+                <TextInput
+                  multiline
+                  mode="outlined"
+                  numberOfLines={ 6 }
+                  style={ styles.input }
+                  value={ newMeeting.additionalInformation }
+                  onChangeText={ onNewMeetingChange("additionalInformation") }
+                />
+              </View>
             </View>
             { renderButtons() }
           </Card>

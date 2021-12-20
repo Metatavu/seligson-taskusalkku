@@ -15,8 +15,13 @@ export default StyleSheet.create({
   },
 
   input: {
-    marginTop: theme.spacing(1),
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    fontSize: 12
+  },
+
+  radioButtonText: {
+    textAlign: "left",
+    fontSize: 14
   }
 
 });
