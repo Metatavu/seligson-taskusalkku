@@ -101,8 +101,7 @@
 
   "meetings": {
     "bookTime": "Book time for a meeting",
-    "bookTimeDescription": "a very long description\n\nand it is multiline",
-    "datePicker": {
+    "bookTimeDescription": "Would you like to discuss investing or financial management with us, either over the phone or in the form of an appointment?\n\nYou can make an appointment below.\n\nStart by choosing a date and time for your appointment.\n\nPlease also tell me how many people are coming and what the subject of the meeting will be. ",    "datePicker": {
       "title": "Date time picker",
       "pickDateTime": "Pick a date",
       "noAppointment": "There is no available meeting for this day",

@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/meeting-times-screen";
 import theme from "../../../theme";
+import { FlatGrid, FlatGridProps } from "react-native-super-grid";
 
 /**
  * Meetings screen
@@ -141,9 +142,14 @@ const MeetingTimesScreen: React.FC = () => {
                 </Button>
               </View>
               <Divider/>
-              { meetingTimes.map(renderMeetingTime) }
+              <FlatGrid
+                style={{ marginTop: 8 }}
+                itemDimension={ 130 }
+                data={ meetingTimes }
+                renderItem={ ({item, index}) => renderMeetingTime(item, index)}
+              />
             </Card>
-            </View>
+          </View>
         </View>
       </ScrollView>
       { renderStartDatePicker() }
