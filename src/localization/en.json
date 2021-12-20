@@ -122,7 +122,6 @@
       "meetingLanguage": "Meeting language",
       "participantCount": "Participant count",
       "contact": {
-        "title": "Contact",
         "firstName": "First name",
         "lastName": "Last name",
         "email": "Email",

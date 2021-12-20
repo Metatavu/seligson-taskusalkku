@@ -46,7 +46,7 @@ const NewMeetingScreen: React.FC = () => {
    * @param value value of the input
    */
   const validateNewMeeting = () => {
-    return newMeeting.contact.firstName && newMeeting.contact.lastName && newMeeting.type;
+    return newMeeting.contact.firstName && newMeeting.contact.lastName && newMeeting.type && newMeeting.participantCount;
   }
 
   /**
@@ -229,7 +229,7 @@ const NewMeetingScreen: React.FC = () => {
               <TextInput
                 style={{ ...styles.input, width: 120 }}
                 value={ newMeeting.participantCount.toString() }
-                label={ strings.meetings.newMeeting.participantCount }
+                label={ `${strings.meetings.newMeeting.participantCount}*` }
                 onChangeText={ onNewMeetingChange("participantCount") }
                 keyboardType="numeric"
               />

@@ -154,7 +154,6 @@ export interface Strings extends LocalizedStringsMethods {
       meetingLanguage: string;
       participantCount: string;
       contact: {
-        title: string;
         firstName: string;
         lastName: string;
         email: string;
