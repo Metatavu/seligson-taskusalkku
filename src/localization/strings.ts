@@ -144,6 +144,8 @@ export interface Strings extends LocalizedStringsMethods {
     };
     newMeeting: {
       title: string;
+      selectedTime: string;
+      time: string;
       meetingType: {
         title: string;
         phone: string;

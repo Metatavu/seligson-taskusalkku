@@ -113,6 +113,8 @@
     },
     "newMeeting": {
       "title": "Yhteystiedot",
+      "selectedTime": "Selected time",
+      "time": "Time",
       "meetingType": {
         "title": "Meeting type",
         "phone": "Phone",

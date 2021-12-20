@@ -22,6 +22,12 @@ export default StyleSheet.create({
   radioButtonText: {
     textAlign: "left",
     fontSize: 14
+  },
+
+  meetingTime: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
   }
 
 });

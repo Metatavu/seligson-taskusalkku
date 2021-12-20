@@ -5,13 +5,14 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import MeetingNavigator from "../../../types/navigators/meeting";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MeetingLanguage } from "../../../types";
-import { Button, Card, RadioButton, TextInput } from "react-native-paper";
+import { Button, Card, Divider, RadioButton, TextInput } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
+import moment from "moment";
 
 /**
  * Meetings screen
@@ -21,10 +22,10 @@ const NewMeetingScreen: React.FC = () => {
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
   const { params } = useRoute<MeetingNavigator.RouteProps>();
-  const meetingTIme = params?.meetingTime;
+  const meetingTime = params?.meetingTime;
 
   const [ newMeeting, setNewMeeting ] = React.useState<Meeting>({
-    time: meetingTIme?.startTime || new Date(),
+    time: meetingTime?.startTime || new Date(),
     contact: {
       firstName: "",
       lastName: ""
@@ -34,7 +35,7 @@ const NewMeetingScreen: React.FC = () => {
     language: MeetingLanguage.FI
   });
 
-  if (!meetingTIme) {
+  if (!meetingTime) {
     return null;
   }
 
@@ -84,7 +85,7 @@ const NewMeetingScreen: React.FC = () => {
     try {
       await meetingsApiContext.createMeeting({ meeting: newMeeting });
       setNewMeeting({
-          time: meetingTIme?.startTime || new Date(),
+          time: meetingTime?.startTime || new Date(),
           contact: {
             firstName: "",
             lastName: ""
@@ -99,6 +100,21 @@ const NewMeetingScreen: React.FC = () => {
       errorContext.setError(strings.errorHandling.meeting.create, error)
     }
   }
+
+  /**
+   * Renders meeting contact edit 
+   */
+  const renderMeetingTime = () => (
+    <View>
+      <View style={ styles.meetingTime }>
+        <Text style={ theme.fonts.medium }>{ `${strings.meetings.newMeeting.selectedTime}:` }</Text>
+        <Text style={ theme.fonts.medium }>
+          { `${moment(meetingTime.startTime).format("DD.MM.YYYY")} ${strings.meetings.newMeeting.time} ${moment(meetingTime.startTime).format("hh:mm")}-${moment(meetingTime.endTime).format("hh:mm")}` }
+        </Text>
+      </View>
+      <Divider style={{ marginTop: theme.spacing(2) }}/>
+    </View>
+  );
 
   /**
    * Renders meeting contact edit 
@@ -206,11 +222,12 @@ const NewMeetingScreen: React.FC = () => {
         <View style={{ marginTop: theme.spacing(1) }}>
           <Card style={ styles.meetingCard }>
             <View>
+              { renderMeetingTime() }
               { renderContactEdit() }
               { renderLanguageSelect() }
               { renderMeetingTypeSelect() }
               <TextInput
-                style={ styles.input }
+                style={{ ...styles.input, width: 120 }}
                 value={ newMeeting.participantCount.toString() }
                 label={ strings.meetings.newMeeting.participantCount }
                 onChangeText={ onNewMeetingChange("participantCount") }

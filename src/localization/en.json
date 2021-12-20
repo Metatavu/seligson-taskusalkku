@@ -112,6 +112,8 @@
     },
     "newMeeting": {
       "title": "Contact us",
+      "selectedTime": "Selected time",
+      "time": "Time",
       "meetingType": {
         "title": "Meeting type",
         "phone": "Phone",
