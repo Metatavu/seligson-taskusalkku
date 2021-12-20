@@ -1,4 +1,4 @@
-import { CreateMeetingRequest, FindFundRequest, Fund, GetPortfolioHSummaryRequest, HistoricalValue, ListFundsRequest, ListHistoricalValuesRequest, ListMeetingTimesRequest, ListPortfolioFundsRequest, ListPortfolioHistoryValuesRequest, Meeting, MeetingTime, Portfolio, PortfolioFund, PortfolioHistoryValue, PortfolioSummary } from "../generated/client";
+import { CreateMeetingRequest, FindFundRequest, FindPortfolioTransactionsRequest, Fund, GetPortfolioHSummaryRequest, HistoricalValue, ListFundsRequest, ListHistoricalValuesRequest, ListPortfolioFundsRequest, ListPortfolioHistoryValuesRequest, Meeting, MeetingTime, ListPortfolioTransactionsRequest, Portfolio, PortfolioFund, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListMeetingTimesRequest } from "../generated/client";
 
 /**
  * Parsed access token
@@ -68,6 +68,14 @@ export interface FundsApiContextType {
   listFunds: (params: ListFundsRequest) => Promise<Fund[]>;
   findFund: (params: FindFundRequest) => Promise<Fund>;
   listHistoricalValues: (params: ListHistoricalValuesRequest) => Promise<HistoricalValue[]>
+}
+
+/**
+ * Interface for portfolio transactions API context type
+ */
+export interface PortfolioTransactionsApiContextType {
+  listPortfolioTransactions: (params: ListPortfolioTransactionsRequest) => Promise<PortfolioTransaction[]>;
+  findPortfolioTransactions: (params: FindPortfolioTransactionsRequest) => Promise<PortfolioTransaction>;
 }
 
 /**

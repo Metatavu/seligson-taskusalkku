@@ -32,6 +32,9 @@
     },
     "meeting": {
       "create": "Error when creating meeting"
+    },
+    "portfolioTransactions": {
+      "list": "Error while loading portfolio transactions data"
     }
   },
 
@@ -50,7 +53,7 @@
     "statistics": "Statistics",
     "distributions": "Distributions",
     "ownFunds": "Own funds",
-    "events": "Events",
+    "transactions": "Transactions",
     "passiveFunds": "Passive share funds",
     "activeFunds": "Active share funds",
     "interestFunds": "Interest funds",
@@ -96,6 +99,18 @@
     },
     "select": {
       "all": "All portfolios"
+    },
+    "transactions": {
+      "type": "Transaction type",
+      "redemption": "Redemption",
+      "subscription": "Subscription",
+      "valueDate": "Value date",
+      "paymentDate": "Payment date",
+      "shareAmount": "Share amount",
+      "value": "Rate",
+      "totalValue": "Total value",
+      "provision": "Provision",
+      "paidTotal": "Total paid"
     }
   },
 

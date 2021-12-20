@@ -46,6 +46,9 @@ export interface Strings extends LocalizedStringsMethods {
     meeting: {
       create: string
     };
+    portfolioTransactions: {
+      list: string;
+    }
   };
 
   /**
@@ -69,7 +72,7 @@ export interface Strings extends LocalizedStringsMethods {
     statistics: string;
     distributions: string;
     ownFunds: string;
-    events: string;
+    transactions: string;
     passiveFunds: string;
     activeFunds: string;
     interestFunds: string;
@@ -124,6 +127,18 @@ export interface Strings extends LocalizedStringsMethods {
     };
     select: {
       all: string;
+    };
+    transactions: {
+      type: string;
+      redemption: string;
+      subscription: string;
+      valueDate: string,
+      paymentDate: string,
+      shareAmount: string,
+      value: string;
+      totalValue: string;
+      provision: string;
+      paidTotal: string;
     };
   };
 
