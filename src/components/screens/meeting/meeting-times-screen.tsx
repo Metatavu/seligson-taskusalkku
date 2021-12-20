@@ -9,6 +9,9 @@ import { MeetingsApiContext } from "../../providers/meetings-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
 import MeetingNavigator from "../../../types/navigators/meeting";
 import { useNavigation } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
+import styles from "../../../styles/screens/meeting/meeting-times-screen";
+import theme from "../../../theme";
 
 /**
  * Meetings screen
@@ -49,7 +52,7 @@ const MeetingTimesScreen: React.FC = () => {
    */
   const startDatePickerChange = (e: any, pickedDate?: Date) => {
     setStartDatePickerOpen(Platform.OS === 'ios');
-    setSelectedEndDate(undefined);
+    moment(pickedDate).isAfter(selectedEndDate) && setSelectedEndDate(undefined);
     setSelectedStartDate(pickedDate);
   }
 
@@ -67,6 +70,7 @@ const MeetingTimesScreen: React.FC = () => {
   const renderMeetingTime = (meetingTime: MeetingTime, index: number) => (
     <Button
       key={ index }
+      style={ styles.meetingTime }
       onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }
     >
       <Text>{ moment(meetingTime.startTime).format("DD/MM HH:mm") }</Text>
@@ -107,25 +111,41 @@ const MeetingTimesScreen: React.FC = () => {
    */
   return (
     <>
-      <View>
-        <Text>{ strings.meetings.bookTime }</Text>
-        <Card>
-          <Text>{ strings.meetings.bookTimeDescription }</Text>
-        </Card>
-        <Text>{ strings.meetings.datePicker.title }</Text>
-          <Card>
-            <Text>{ strings.meetings.datePicker.startDate }</Text>
-            <Button onPress={ () => setStartDatePickerOpen(true) }>
-              { moment(selectedStartDate).format("DD/MM/YYYY") }
-            </Button>
-            <Text>{ strings.meetings.datePicker.endDate }</Text>
-            <Button onPress={ () => setEndDatePickerOpen(true) }>
-              { moment(selectedEndDate).format("DD/MM/YYYY") }
-            </Button>
-          <Divider/>
-          { meetingTimes.map(renderMeetingTime) }
-        </Card>
-      </View>
+      <ScrollView>
+        <View style={ styles.meetingTimes }>
+          <Text style={ theme.fonts.medium }>{ strings.meetings.bookTime }</Text>
+          <Card style={ styles.meetingCard }>
+            <Text>{ strings.meetings.bookTimeDescription }</Text>
+          </Card>
+          <View style={{ marginTop: 16 }}>
+            <Text style={ theme.fonts.medium}>
+              { strings.meetings.datePicker.title }
+            </Text>
+            <Card style={ styles.meetingCard }>
+              <View style={ styles.datePicker }>
+                <Text>{ strings.meetings.datePicker.startDate }</Text>
+                <Button
+                  style={ styles.datePickerButton }
+                  onPress={ () => setStartDatePickerOpen(true) }
+                >
+                  { moment(selectedStartDate).format("DD/MM/YYYY") }
+                </Button>
+              </View>
+              <View style={ styles.datePicker }>
+                <Text>{ strings.meetings.datePicker.endDate }</Text>
+                <Button
+                  style={ styles.datePickerButton }
+                  onPress={ () => setEndDatePickerOpen(true) }
+                >
+                  { moment(selectedEndDate).format("DD/MM/YYYY") }
+                </Button>
+              </View>
+              <Divider/>
+              { meetingTimes.map(renderMeetingTime) }
+            </Card>
+            </View>
+        </View>
+      </ScrollView>
       { renderStartDatePicker() }
       { renderEndDatePicker() }
     </>
