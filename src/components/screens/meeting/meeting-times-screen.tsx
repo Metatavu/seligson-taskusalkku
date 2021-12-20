@@ -15,7 +15,7 @@ import theme from "../../../theme";
 import { FlatGrid } from "react-native-super-grid";
 
 /**
- * Meetings screen
+ * Meeting times screen
  */
 const MeetingTimesScreen: React.FC = () => {
   const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date>();
@@ -28,7 +28,7 @@ const MeetingTimesScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
 
   /**
-   * Handler for date picker range change
+   * Fetches meeting times
    */
   const fetchMeetingTimes = async () => {
     try {

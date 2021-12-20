@@ -5,14 +5,14 @@ import MeetingTimesScreen from "../meeting/meeting-times-screen";
 import NewMeetingScreen from "../meeting/new-meeting-screen";
 
 /**
- * Fund selection screen stack navigation
+ * Meetings screen navigation
  */
 const MeetingSelectionNavigation = createNativeStackNavigator<MeetingSelectionNavigator.Routes>();
 
 /**
  * Active funds screen
  */
-const FundsScreen: React.FC = () => {
+const MeetingsScreen: React.FC = () => {
   /**
    * Component render
    */
@@ -37,4 +37,4 @@ const FundsScreen: React.FC = () => {
   );
 };
 
-export default FundsScreen;
+export default MeetingsScreen;

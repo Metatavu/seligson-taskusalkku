@@ -15,7 +15,7 @@ import theme from "../../../theme";
 import moment from "moment";
 
 /**
- * Meetings screen
+ * New meeting screen
  */
 const NewMeetingScreen: React.FC = () => {
   const meetingsApiContext = React.useContext(MeetingsApiContext);
@@ -40,17 +40,14 @@ const NewMeetingScreen: React.FC = () => {
   }
 
   /**
-   * Handler for meeting change 
-   *
-   * @param name name of the input
-   * @param value value of the input
+   * Validates new meeting 
    */
   const validateNewMeeting = () => {
     return newMeeting.contact.firstName && newMeeting.contact.lastName && newMeeting.type && newMeeting.participantCount;
   }
 
   /**
-   * Handler for meeting change 
+   * Handler for new meeting change 
    *
    * @param name name of the input
    * @param value value of the input
@@ -102,7 +99,7 @@ const NewMeetingScreen: React.FC = () => {
   }
 
   /**
-   * Renders meeting contact edit 
+   * Renders meeting time 
    */
   const renderMeetingTime = () => (
     <View>
@@ -149,7 +146,7 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Renders meeting contact edit 
+   * Renders meeting language select 
    */
   const renderLanguageSelect = () =>  (
     <View style={{ marginTop: theme.spacing(2) }}>
@@ -174,7 +171,7 @@ const NewMeetingScreen: React.FC = () => {
   )
 
   /**
-   * Renders meeting contact edit 
+   * Renders meeting type select 
    */
   const renderMeetingTypeSelect = () => (
     <View style={{ marginTop: theme.spacing(2) }}>
@@ -199,7 +196,7 @@ const NewMeetingScreen: React.FC = () => {
   )
 
   /**
-   * Renders meeting contact edit 
+   * Renders buttons 
    */
   const renderButtons = () => (
     <View style={{ marginTop: theme.spacing(1) }}>
