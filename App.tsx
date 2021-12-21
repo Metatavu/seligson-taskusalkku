@@ -13,7 +13,7 @@ import AccountScreen from "./src/components/screens/account-screen";
 import AuthenticationScreen from "./src/components/screens/authentication-screen";
 import RegistrationScreen from "./src/components/screens/registration-screen";
 
-strings.setLanguage("en");
+strings.setLanguage("fi");
 moment.locale(strings.getLanguage());
 
 /**
