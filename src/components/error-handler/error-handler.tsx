@@ -29,13 +29,21 @@ const ErrorHandler: React.FC = ({ children }) => {
    */
   const logErrorObject = async (err?: any) => {
     try {
-      if (err instanceof Response) {
-        console.error(await err.text() || err);
-      } else {
+      if (!(err instanceof Response)) {
         console.error(JSON.stringify(err, null, 2));
+        return;
       }
-    } catch (e) {
-      console.error(JSON.stringify(e, null, 2));
+
+      const responseText = await err.text();
+
+      if (!responseText.startsWith("{")) {
+        console.error(responseText);
+        return;
+      }
+
+      console.error(JSON.stringify(responseText, null, 2));
+    } catch {
+      console.error(err.toString());
     }
   };
 

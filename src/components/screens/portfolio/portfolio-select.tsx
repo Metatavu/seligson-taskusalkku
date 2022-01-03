@@ -7,6 +7,7 @@ import strings from "../../../localization/strings";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { PortfolioContext } from "../../providers/portfolio-provider";
 import styles from "../../../styles/screens/portfolio/portfolio-select";
+import { ErrorContext } from "../../error-handler/error-handler";
 
 /**
  * Portfolio select component
@@ -14,6 +15,7 @@ import styles from "../../../styles/screens/portfolio/portfolio-select";
 const PortfolioSelect: React.FC = () => {
   const portfolioContext = React.useContext(PortfolioContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
+  const errorContext = React.useContext(ErrorContext);
 
   const [ showDropDown, setShowDropDown ] = React.useState(false);
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
@@ -22,7 +24,11 @@ const PortfolioSelect: React.FC = () => {
    * Loads portfolios
    */
   const loadPortfolios = async () => {
-    setPortfolios(await portfoliosApiContext.listPortfolios());
+    try {
+      setPortfolios(await portfoliosApiContext.listPortfolios());
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.portfolio.list, error);
+    }
   };
 
   /**
@@ -52,7 +58,7 @@ const PortfolioSelect: React.FC = () => {
       <DropDown
         list={[
           { label: strings.portfolio.select.all, value: "" },
-          ...portfolios.map(portfolio => ({ label: portfolio.id || "", value: portfolio.id || "" }))
+          ...portfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
         ]}
         onDismiss={ () => setShowDropDown(false) }
         value={ portfolioContext.selectedPortfolio?.id || "" }

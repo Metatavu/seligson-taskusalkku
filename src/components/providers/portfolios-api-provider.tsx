@@ -161,7 +161,7 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
       if (AuthUtils.isDemoUser(auth)) {
         const testPortfolioTransaction = TestData
           .listTestPortfolioTransactions(20)
-          .find(portfoliotransaction => portfoliotransaction.id === params.transactionId);
+          .find(({ id }) => id === params.transactionId);
 
         if (!testPortfolioTransaction) {
           throw new Error("Transaction not found");

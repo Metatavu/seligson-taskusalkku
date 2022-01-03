@@ -45,7 +45,7 @@ namespace ChartUtils {
   export const convertToVictoryChartData = (historicValues: FundHistoryValue[]): VictoryChartData[] => (
     historicValues.map(value => ({
       x: value.date || new Date(),
-      y: value.value?.toString() || "0"
+      y: new BigNumber(value.value || 0).toNumber()
     }))
   );
 

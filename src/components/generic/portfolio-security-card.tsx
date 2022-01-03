@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { Divider, Text, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
-import theme from "../../theme";
 import fundCardStyles from "../../styles/generic/fund-card";
 import { Fund, PortfolioSecurity, Security } from "../../generated/client";
 import strings from "../../localization/strings";
@@ -28,7 +27,8 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
   const { name, currency } = security;
   const { color, risk, priceDate } = fund;
-  const styles = fundCardStyles(useTheme(), color || "#FFF");
+  const theme = useTheme();
+  const styles = fundCardStyles(theme, color || "#FFF");
 
   /**
    * Renders title section

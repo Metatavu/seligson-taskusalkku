@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
+import moment from "moment";
 
 /**
  * Type for detail row
@@ -45,7 +46,7 @@ const TransactionDetailsScreen: React.FC = () => {
    */
   const renderDetailsRow = ({ label, value }: DetailRow) => {
     return (
-      <View style={ styles.detailsRow }>
+      <View key={ label } style={ styles.detailsRow }>
         <Text style={ theme.fonts.medium }>
           { label }
         </Text>
@@ -71,11 +72,11 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.valueDate,
-        value: valueDate.toLocaleDateString()
+        value: moment(valueDate).format("DD.MM.YYYY")
       },
       {
         label: localized.paymentDate,
-        value: paymentDate?.toLocaleDateString()
+        value: paymentDate ? moment(paymentDate).format("DD.MM.YYYY") : undefined
       },
       {
         label: localized.shareAmount,

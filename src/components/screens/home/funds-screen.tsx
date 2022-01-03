@@ -19,9 +19,7 @@ const FundsScreen: React.FC = () => {
   return (
     <FundSelectionNavigation.Navigator
       initialRouteName="fundsList"
-      screenOptions={{
-        headerShown: false
-      }}
+      screenOptions={{ headerShown: false }}
     >
       <FundSelectionNavigation.Group>
         <FundSelectionNavigation.Screen

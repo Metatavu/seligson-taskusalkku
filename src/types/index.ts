@@ -48,7 +48,9 @@ export interface ErrorContextType {
  * Interface for portfolio context
  */
 export interface PortfolioContextType {
+  portfolios: Portfolio[];
   selectedPortfolio?: Portfolio;
+  getEffectivePortfolios: () => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
 }
 
@@ -98,5 +100,5 @@ export enum ChartRange {
  */
 export interface VictoryChartData {
   x: Date;
-  y: string;
+  y: number;
 }

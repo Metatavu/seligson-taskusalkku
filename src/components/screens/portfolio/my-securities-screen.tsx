@@ -2,7 +2,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import { Text } from "react-native-paper";
-import { Fund, Portfolio, PortfolioSecurity, Security } from "../../../generated/client";
+import { Fund, PortfolioSecurity, Security } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -17,6 +17,7 @@ import { FundsApiContext } from "../../providers/funds-api-provider";
  * My security info
  */
 interface MySecurityInfo {
+  portfolioId: string;
   portfolioSecurity: PortfolioSecurity;
   security: Security;
   fund: Fund;
@@ -27,10 +28,10 @@ interface MySecurityInfo {
  */
 const MySecuritiesScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
-  const portfolioContext = React.useContext(PortfolioContext);
+  const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const securitiesApiContext = React.useContext(SecuritiesApiContext);
   const fundsApiContext = React.useContext(FundsApiContext);
-  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
 
   const [ loading, setLoading ] = React.useState(true);
   const [ mySecurities, setMySecurities ] = React.useState<MySecurityInfo[]>([]);
@@ -38,13 +39,14 @@ const MySecuritiesScreen: React.FC = () => {
   /**
    * Loads portfolio security info
    *
-   * @param portfolioSecurity portfolio security ID
+   * @param uniquePortfolioSecurity unique portfolio security
    */
-  const loadPortfolioSecurityInfo = async (portfolioSecurity: PortfolioSecurity): Promise<MySecurityInfo> => {
+  const loadPortfolioSecurityInfo = async (portfolioId: string, portfolioSecurity: PortfolioSecurity): Promise<MySecurityInfo> => {
     const security = await securitiesApiContext.findSecurity({ securityId: portfolioSecurity.id });
     const fund = await fundsApiContext.findFund({ fundId: security.fundId });
 
     return {
+      portfolioId: portfolioId,
       portfolioSecurity: portfolioSecurity,
       security: security,
       fund: fund
@@ -56,15 +58,26 @@ const MySecuritiesScreen: React.FC = () => {
    *
    * @param selectedPortfolio selected portfolio from context
    */
-  const loadMySecurities = async (selectedPortfolio?: Portfolio) => {
-    if (!selectedPortfolio?.id) {
-      return;
-    }
-
+  const loadMySecurities = async () => {
     try {
-      const portfolioSecurities = await portfoliosApiContext.listPortfolioSecurities({ portfolioId: selectedPortfolio.id });
-      console.log(portfolioSecurities);
-      setMySecurities(await Promise.all(portfolioSecurities.map(loadPortfolioSecurityInfo)));
+      const effectivePortfolios = getEffectivePortfolios().filter(({ id }) => !!id);
+
+      const identifiedPortfolioSecurities = await Promise.all(
+        effectivePortfolios.map(async ({ id }) => ({
+          portfolioId: id!,
+          portfolioSecurities: await portfoliosApiContext.listPortfolioSecurities({ portfolioId: id! })
+        }))
+      );
+
+      const mySecurityPromises: Promise<MySecurityInfo>[] = [];
+
+      identifiedPortfolioSecurities.forEach(
+        ({ portfolioId, portfolioSecurities }) => portfolioSecurities.forEach(
+          portfolioSecurity => mySecurityPromises.push(loadPortfolioSecurityInfo(portfolioId, portfolioSecurity))
+        )
+      );
+
+      setMySecurities(await Promise.all(mySecurityPromises));
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);
     }
@@ -73,11 +86,21 @@ const MySecuritiesScreen: React.FC = () => {
   };
 
   /**
-   * Effect for loading my funds when selected portfolio changes in portfolio context
+   * Effect for loading my funds when portfolio context data changes
    */
-  React.useEffect(() => {
-    loadMySecurities(portfolioContext.selectedPortfolio);
-  }, [ portfolioContext.selectedPortfolio ]);
+  React.useEffect(() => { loadMySecurities(); }, [ selectedPortfolio, portfolios ]);
+
+  /**
+   * Renders portfolio security card
+   *
+   * @param mySecurityInfo my security info
+   */
+  const renderPortfolioSecurityCard = (mySecurityInfo: MySecurityInfo) => (
+    <PortfolioSecurityCard
+      key={ `${mySecurityInfo.portfolioId}-${mySecurityInfo.portfolioSecurity.id}` }
+      { ...mySecurityInfo }
+    />
+  );
 
   /**
    * Renders content
@@ -98,7 +121,7 @@ const MySecuritiesScreen: React.FC = () => {
             { strings.portfolio.portfolioSecurities.title }
           </Text>
         </View>
-        { mySecurities.map(PortfolioSecurityCard) }
+        { mySecurities.map(renderPortfolioSecurityCard) }
       </View>
     );
   };

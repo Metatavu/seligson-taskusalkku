@@ -49,7 +49,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
    * @param value value
    */
   const renderTransactionValue = ({ label, value }: TransactionValue) => (
-    <View style={ styles.shareColumn }>
+    <View key={ label } style={ styles.shareColumn }>
       <Text style={ styles.labelText }>
         { label }
       </Text>

@@ -93,7 +93,7 @@ const DataChart: React.FC<Props> = ({
             stroke: color || "#74CBE8",
             strokeWidth: 0.5,
             fill: color || "#74CBE8",
-            fillOpacity: 0.3
+            fillOpacity: 0.2
           }
         }}
         animate={{

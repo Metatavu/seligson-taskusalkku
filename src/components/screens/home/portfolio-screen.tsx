@@ -13,6 +13,7 @@ import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
 import TransactionsScreen from "../portfolio/transactions-screen";
+import { Dimensions } from "react-native";
 
 /**
  * Portfolio screen tab navigation
@@ -37,8 +38,10 @@ const PortfolioScreen: React.FC = () => {
     <PortfolioContextProvider>
       <PortfolioNavigation.Navigator
         initialRouteName="statistics"
+        initialLayout={{ width: Dimensions.get("window").width }}
         backBehavior="history"
         screenOptions={{
+          lazy: true,
           tabBarActiveTintColor: colors.surface,
           tabBarPressColor: colors.surface,
           tabBarStyle: { backgroundColor: colors.primary, elevation: 8 },

@@ -3,9 +3,7 @@ import { View } from "react-native";
 import TransactionsCard from "../../generic/transactions-card";
 import theme from "../../../theme";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { Fund, Portfolio, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
-import { useAppSelector } from "../../../app/hooks";
-import { selectAuth } from "../../../features/auth/auth-slice";
+import { Fund, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
 import { ErrorContext } from "../../error-handler/error-handler";
 import strings from "../../../localization/strings";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -19,10 +17,8 @@ import { FundsApiContext } from "../../providers/funds-api-provider";
  * Transactions list component
  */
 const TransactionsList: React.FC = () => {
-  const auth = useAppSelector(selectAuth);
-
   const errorContext = React.useContext(ErrorContext);
-  const portfolioContext = React.useContext(PortfolioContext);
+  const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const fundsContext = React.useContext(FundsApiContext);
   const securitiesContext = React.useContext(SecuritiesApiContext);
   const portfoliosContext = React.useContext(PortfoliosApiContext);
@@ -44,12 +40,8 @@ const TransactionsList: React.FC = () => {
    * Loads funds from API
    */
   const loadFunds = async () => {
-    if (!auth) {
-      return;
-    }
-
     try {
-      setFunds(await fundsContext.listFunds({}));
+      setFunds(await fundsContext.listFunds({ maxResults: 100 }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.funds.list, error);
     }
@@ -60,13 +52,9 @@ const TransactionsList: React.FC = () => {
    *
    * @param selectedPortfolio selected portfolio
    */
-  const loadSecurities = async (selectedPortfolio: Portfolio) => {
-    if (!auth || !selectedPortfolio.id) {
-      return;
-    }
-
+  const loadSecurities = async () => {
     try {
-      setSecurities(await securitiesContext.listSecurities({}));
+      setSecurities(await securitiesContext.listSecurities({ maxResults: 100 }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.securities.list, error);
     }
@@ -79,13 +67,17 @@ const TransactionsList: React.FC = () => {
    *
    * TODO: add pagination support
    */
-  const loadTransactions = async (selectedPortfolio: Portfolio) => {
-    if (!auth || !selectedPortfolio.id) {
-      return;
-    }
+  const loadTransactions = async () => {
+    const effectivePortfolios = getEffectivePortfolios().filter(({ id }) => !!id);
 
     try {
-      setTransactions(await portfoliosContext.listPortfolioTransactions({ portfolioId: selectedPortfolio.id }));
+      setTransactions(
+        (await Promise.all(
+          effectivePortfolios.map(
+            async portfolio => portfoliosContext.listPortfolioTransactions({ portfolioId: portfolio.id! })
+          )
+        )).flat()
+      );
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioTransactions.list, error);
     }
@@ -102,12 +94,9 @@ const TransactionsList: React.FC = () => {
    * Effect for loading securities and transactions
    */
   React.useEffect(() => {
-    const { selectedPortfolio } = portfolioContext;
-    if (selectedPortfolio) {
-      loadSecurities(selectedPortfolio);
-      loadTransactions(selectedPortfolio);
-    }
-  }, [ portfolioContext.selectedPortfolio ]);
+    loadSecurities();
+    loadTransactions();
+  }, [ portfolios, selectedPortfolio ]);
 
   /**
    * Renders transaction filter button

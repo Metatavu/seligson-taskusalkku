@@ -55,10 +55,13 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   const refreshAuth = async (authentication: Authentication | undefined) => {
     try {
       if (authentication && AuthUtils.needsRefresh(authentication)) {
-        const updateAction = AuthUtils.isAnonymousUser(authentication) ? anonymousAuthUpdate : authUpdate;
+        const updateAction = AuthUtils.isAnonymousUser(authentication) ?
+          anonymousAuthUpdate :
+          authUpdate;
+
         dispatch(updateAction(await AuthUtils.tryToRefresh(authentication.refreshToken)));
       }
-    } catch {
+    } catch (error) {
       displayAuthExpiredAlert();
     }
   };

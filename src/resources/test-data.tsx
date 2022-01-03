@@ -199,6 +199,7 @@ namespace TestData {
   export const listTestPortfolios = (amount: number): Portfolio[] => {
     return [ ...Array(amount).keys() ].map((_, i) => ({
       id: i.toString(),
+      name: `${i}`,
       marketValueTotal: Math.floor((Math.random() * 1000)).toString(),
       purchaseTotal: Math.floor((Math.random() * 1000)).toString(),
       totalAmount: Math.floor((Math.random() * 10000)).toString()
