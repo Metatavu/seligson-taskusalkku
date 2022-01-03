@@ -134,6 +134,15 @@ export interface Strings extends LocalizedStringsMethods {
     };
   };
 
+  /**
+   * Translations related to settings
+   */
+  settings: {
+    startScreen: string;
+    loginMethod: string;
+    appLanguage: string;
+  };
+
 }
 
 const strings: Strings = new LocalizedStrings({ en: en, fi: fi });

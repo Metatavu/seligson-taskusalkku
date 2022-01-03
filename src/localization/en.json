@@ -104,6 +104,12 @@
       "provision": "Provision",
       "paidTotal": "Total paid"
     }
+  },
+
+  "settings": {
+    "startScreen": "Choose start screen",
+    "loginMethod": "Choose login method",
+    "appLanguage": "Choose app language"
   }
 
 }

@@ -6,8 +6,10 @@ import Config from "../../app/config";
 import { useAppDispatch } from "../../app/hooks";
 import { logout } from "../../features/auth/auth-slice";
 import strings from "../../localization/strings";
+import theme from "../../theme";
 import AuthNavigator from "../../types/navigators/auth";
 import AuthUtils from "../../utils/auth";
+import styles from "../../styles/screens/account-screen";
 
 /**
  * Account screen
@@ -46,20 +48,33 @@ const AccountScreen: React.FC = () => {
   };
 
   /**
+   * Settings card
+   */
+  const renderSettingsCard = (title: string) => {
+    return (
+      <View style={ styles.cardWrapper }>
+        <View>
+          <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
+            { title }
+          </Text>
+        </View>
+        <View>
+          <Text>
+            testi
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  /**
    * Component render
    */
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <Text>{ strings.generic.notImplemented }</Text>
-      <View style={{ marginTop: 200 }}>
-        { renderRemoveLocalValues() }
-      </View>
+    <View style={{ padding: theme.spacing(2) }}>
+      { renderSettingsCard(strings.settings.startScreen) }
+      { renderSettingsCard(strings.settings.loginMethod) }
+      { renderSettingsCard(strings.settings.appLanguage) }
     </View>
   );
 };

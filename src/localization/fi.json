@@ -104,6 +104,12 @@
       "provision": "Palkkio",
       "paidTotal": "Maksettu yhteensä"
     }
+  },
+
+  "settings": {
+    "startScreen": "Valitse aloitusruutu",
+    "loginMethod": "Valitse kirjautumistapa",
+    "appLanguage": "Valitse kieli"
   }
 
 }
