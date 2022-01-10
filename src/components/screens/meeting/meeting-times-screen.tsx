@@ -18,14 +18,15 @@ import { FlatGrid } from "react-native-super-grid";
  * Meeting times screen
  */
 const MeetingTimesScreen: React.FC = () => {
+  const meetingsApiContext = React.useContext(MeetingsApiContext);
+  const navigation = useNavigation<MeetingNavigator.NavigationProps>();
+  const errorContext = React.useContext(ErrorContext);
+
   const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date>();
   const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date>();
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
   const [ startDatePickerOpen, setStartDatePickerOpen ] = React.useState(false);
   const [ endDatePickerOpen, setEndDatePickerOpen ] = React.useState(false);
-  const meetingsApiContext = React.useContext(MeetingsApiContext);
-  const navigation = useNavigation<MeetingNavigator.NavigationProps>();
-  const errorContext = React.useContext(ErrorContext);
 
   /**
    * Fetches meeting times
