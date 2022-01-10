@@ -39,7 +39,9 @@ const MySecuritiesScreen: React.FC = () => {
   /**
    * Loads portfolio security info
    *
+   * @param portfolioId portfolio ID
    * @param uniquePortfolioSecurity unique portfolio security
+   * @returns Promise of my security info
    */
   const loadPortfolioSecurityInfo = async (portfolioId: string, portfolioSecurity: PortfolioSecurity): Promise<MySecurityInfo> => {
     const security = await securitiesApiContext.findSecurity({ securityId: portfolioSecurity.id });
