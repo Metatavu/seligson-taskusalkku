@@ -30,7 +30,7 @@ const InterestFundsScreen: React.FC<Props> = ({ funds }) => {
    */
   const renderFund = (fund: Fund) => (
     <TouchableOpacity
-      onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }
+      onPress={ () => navigation.navigate("fundDetails", { fund: fund }) }
       key={ `interestFundsTouchable${fund.id}` }
     >
       <FundCard fund={ fund }/>

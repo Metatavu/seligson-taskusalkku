@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TransactionsNavigator from "../../../types/navigators/transactions";
-import TransactionsList from "./transactions-list";
+import TransactionsListScreen from "./transactions-list-screen";
 import TransactionDetailsScreen from "./transaction-details-screen";
 
 /**
@@ -22,7 +22,7 @@ const TransactionsScreen: React.FC = () => (
     <TransactionNavigation.Group>
       <TransactionNavigation.Screen
         name="transactionsList"
-        component={ TransactionsList }
+        component={ TransactionsListScreen }
       />
       <TransactionNavigation.Screen
         name="transactionsDetails"

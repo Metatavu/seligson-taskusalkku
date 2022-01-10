@@ -44,7 +44,11 @@ export interface Strings extends LocalizedStringsMethods {
     };
     portfolioTransactions: {
       list: string;
-    }
+    };
+    publications: {
+      list: string;
+      find: string;
+    };
   };
 
   /**
@@ -64,6 +68,10 @@ export interface Strings extends LocalizedStringsMethods {
     portfolio: string;
     funds: string;
     publications: string;
+    reviews: string;
+    topical: string;
+    questions: string;
+    phoebus: string;
     others: string;
     statistics: string;
     distributions: string;

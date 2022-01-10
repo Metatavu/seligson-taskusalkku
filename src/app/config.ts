@@ -16,7 +16,8 @@ const env = cleanEnv(Constants.manifest?.extra, {
   REACT_APP_KEYCLOAK_REALM: str(),
   REACT_APP_API_BASE_PATH: url(),
   REACT_APP_AUTH_PROXY_URL: url(),
-  REACT_APP_ANONYMOUS_USER_PASSWORD: str()
+  REACT_APP_ANONYMOUS_USER_PASSWORD: str(),
+  REACT_APP_BLOG_API_URL: url()
 });
 
 /**
@@ -49,7 +50,8 @@ class Config {
         redirectUrl: Config.getRedirectUrl()
       },
       demoLoginUrl: `${issuer}/protocol/openid-connect/auth?client_id=app&redirect_uri=${Config.getRedirectUrl()}&response_type=code&scope=openid`,
-      anonymousPassword: env.REACT_APP_ANONYMOUS_USER_PASSWORD
+      anonymousPassword: env.REACT_APP_ANONYMOUS_USER_PASSWORD,
+      blogApiUrl: env.REACT_APP_BLOG_API_URL
     };
   };
 

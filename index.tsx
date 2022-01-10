@@ -12,6 +12,7 @@ import ApiProvider from "./src/components/providers/api-provider";
 import PortfoliosApiProvider from "./src/components/providers/portfolios-api-provider";
 import FundsApiProvider from "./src/components/providers/funds-api-provider";
 import SecuritiesApiProvider from "./src/components/providers/securities-api-provider";
+import PublicationsApiProvider from "./src/components/providers/publications-api-provider";
 
 /**
  * API context provides
@@ -19,7 +20,8 @@ import SecuritiesApiProvider from "./src/components/providers/securities-api-pro
 const providers = [
   FundsApiProvider,
   PortfoliosApiProvider,
-  SecuritiesApiProvider
+  SecuritiesApiProvider,
+  PublicationsApiProvider
 ];
 
 /**

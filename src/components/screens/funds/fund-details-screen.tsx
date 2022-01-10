@@ -20,7 +20,7 @@ import moment from "moment";
  * Fund details screen component
  */
 const FundDetailsScreen: React.FC = () => {
-  const { params } = useRoute<FundsNavigator.RouteProps<"fundsDetails">>();
+  const { params } = useRoute<FundsNavigator.RouteProps<"fundDetails">>();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
   const fundsApiContext = React.useContext(FundsApiContext);
