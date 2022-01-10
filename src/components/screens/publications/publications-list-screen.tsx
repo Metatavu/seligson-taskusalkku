@@ -70,7 +70,9 @@ const PublicationsListScreen: React.FC = () => {
 
     setLoading(false);
   };
-
+  /**
+   * Effect for loading publications when component mounts
+   */
   React.useEffect(() => { listPublications(); }, []);
 
   /**
