@@ -57,8 +57,6 @@ const MySecuritiesScreen: React.FC = () => {
 
   /**
    * Loads my securities
-   *
-   * @param selectedPortfolio selected portfolio from context
    */
   const loadMySecurities = async () => {
     try {
