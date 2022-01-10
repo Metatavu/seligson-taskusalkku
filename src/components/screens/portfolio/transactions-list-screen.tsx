@@ -49,8 +49,6 @@ const TransactionsListScreen: React.FC = () => {
 
   /**
    * Loads securities from API
-   *
-   * @param selectedPortfolio selected portfolio
    */
   const loadSecurities = async () => {
     try {
@@ -62,8 +60,6 @@ const TransactionsListScreen: React.FC = () => {
 
   /**
    * Loads transactions from API
-   *
-   * @param selectedPortfolio selected portfolio
    *
    * TODO: add pagination support
    */
