@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { Portfolio, PortfolioSummary } from "../generated/client";
 
 /**
@@ -12,14 +13,14 @@ namespace Calculations {
    * @param totalValue total value
    * @returns calculated amount
    */
-  export const getTotalChangeAmount = (purchaseValue?: number, totalValue?: number): number => {
+  export const getTotalChangeAmount = (purchaseValue?: string, totalValue?: string): string => {
     if (!purchaseValue || !totalValue) {
-      return 0;
+      return "0";
     }
 
-    return totalValue - purchaseValue;
+    return new BigNumber(totalValue).minus(purchaseValue).toString();
   };
-  
+
   /**
    * Gets current total change in percentages
    *
@@ -27,12 +28,16 @@ namespace Calculations {
    * @param totalValue total value
    * @returns calculated percentage
    */
-  export const getTotalChangePercentage = (purchaseValue?: number, totalValue?: number): string => {
+  export const getTotalChangePercentage = (purchaseValue?: string, totalValue?: string): string => {
     if (!purchaseValue || !totalValue) {
       return "0";
     }
 
-    return (((totalValue * 100) / purchaseValue) - 100).toFixed(2);
+    return new BigNumber(totalValue)
+      .multipliedBy(100)
+      .dividedBy(purchaseValue)
+      .minus(100)
+      .toFormat(2);
   };
 
   /**
@@ -42,9 +47,12 @@ namespace Calculations {
    * @returns array that contains calculated totals for market value and purchase value
    */
   const calculateTotals = (portfolios: Portfolio[]) => {
-    return portfolios.reduce<[ number, number ]>(
-      ([ marketSum, purchaseSum ], { marketValueTotal, purchaseTotal }) => [ marketSum + (marketValueTotal || 0), purchaseSum + (purchaseTotal || 0) ],
-      [ 0, 0 ]
+    return portfolios.reduce<[ string, string ]>(
+      ([ marketSum, purchaseSum ], { marketValueTotal, purchaseTotal }) => [
+        new BigNumber(marketSum).plus(marketValueTotal || 0).toString(),
+        new BigNumber(purchaseSum).plus(purchaseTotal || 0).toString()
+      ],
+      [ "0", "0" ]
     );
   };
 
@@ -54,8 +62,10 @@ namespace Calculations {
    * @param portfolios list of portfolios
    * @returns calculated total change
    */
-  const calculatePortfoliosTotalChange = (portfolios: Portfolio[]): number => {
-    return portfolios.reduce((total, { purchaseTotal, totalAmount }) => total + getTotalChangeAmount(purchaseTotal, totalAmount), 0);
+  const calculatePortfoliosTotalChange = (portfolios: Portfolio[]): string => {
+    return portfolios.reduce((total, { purchaseTotal, totalAmount }) => (
+      new BigNumber(total).plus(getTotalChangeAmount(purchaseTotal, totalAmount)).toString()
+    ), "0");
   };
 
   /**
@@ -65,9 +75,12 @@ namespace Calculations {
    * @returns calculated total change in percentages for list of portfolios
    */
   const calculatePortfoliosTotalChangePercentage = (portfolios: Portfolio[]): string => {
-    const [ totalPurchaseValue, currentTotalValue ] = portfolios.reduce<[ number, number ]>(
-      ([ purchaseSum, totalSum ], { purchaseTotal, totalAmount }) => [ purchaseSum + (purchaseTotal || 0), totalSum + (totalAmount || 0) ],
-      [ 0, 0 ]
+    const [ totalPurchaseValue, currentTotalValue ] = portfolios.reduce<[ string, string ]>(
+      ([ purchaseSum, totalSum ], { purchaseTotal, totalAmount }) => [
+        new BigNumber(purchaseSum).plus(purchaseTotal || 0).toString(),
+        new BigNumber(totalSum).plus(totalAmount || 0).toString()
+      ],
+      [ "0", "0" ]
     );
 
     return getTotalChangePercentage(totalPurchaseValue, currentTotalValue);
@@ -81,11 +94,14 @@ namespace Calculations {
    */
   export const getTotalPortfolioInfo = (portfolios: Portfolio[]) => {
     const [ marketValueTotal, purchaseTotal ] = calculateTotals(portfolios);
+    const totalChange = calculatePortfoliosTotalChange(portfolios);
+    const totalChangePercentage = calculatePortfoliosTotalChangePercentage(portfolios);
+
     return {
-      marketValueTotal: marketValueTotal,
-      purchaseTotal: purchaseTotal,
-      totalChangeAmount: calculatePortfoliosTotalChange(portfolios),
-      totalChangePercentage: calculatePortfoliosTotalChangePercentage(portfolios)
+      marketValueTotal: Calculations.formatNumberStr(marketValueTotal, 2, { suffix: " €" }),
+      purchaseTotal: Calculations.formatNumberStr(purchaseTotal, 2, { suffix: " €" }),
+      totalChangeAmount: Calculations.formatNumberStr(totalChange, 2, { suffix: " €" }),
+      totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
     };
   };
 
@@ -96,12 +112,30 @@ namespace Calculations {
    * @returns array that contains sum of subscriptions and redemptions
    */
   export const getPortfolioSummaryInfo = (summaries: PortfolioSummary[]) => {
-    return summaries.reduce<[ number, number ]>(
-      ([ subscriptionsSum, redemptionsSum ], { subscriptions, redemptions }) =>
-        [ subscriptionsSum + (subscriptions || 0), redemptionsSum + (redemptions || 0) ],
-      [ 0, 0 ]
+    return summaries.reduce<[ string, string ]>(
+      ([ subscriptionsSum, redemptionsSum ], { subscriptions, redemptions }) => [
+        new BigNumber(subscriptionsSum).plus(subscriptions || 0).toString(),
+        new BigNumber(redemptionsSum).plus(redemptions || 0).toString()
+      ],
+      [ "0", "0" ]
     );
   };
+
+  /**
+   * Formats number string according to given rules
+   *
+   * @param numberStr number as string or instance of BigNumber
+   * @param decimalPlaces number of decimal places
+   * @param format format settings
+   */
+  export const formatNumberStr = (number: string | BigNumber, decimalPlaces: number, format?: BigNumber.Format) => (
+    new BigNumber(number).toFormat(decimalPlaces, {
+      groupSize: 3,
+      groupSeparator: " ",
+      decimalSeparator: ",",
+      ...format
+    })
+  );
 
 }
 

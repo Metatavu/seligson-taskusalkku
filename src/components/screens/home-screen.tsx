@@ -16,7 +16,7 @@ import { selectAuth } from "../../features/auth/auth-slice";
 const HomeNavigation = createMaterialBottomTabNavigator<HomeNavigator.Routes>();
 
 /**
- * Home screen
+ * Home screen component
  */
 const HomeScreen: React.FC = () => {
   const { colors } = useTheme();

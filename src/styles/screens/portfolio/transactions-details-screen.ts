@@ -33,7 +33,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15
   },
-  
+
   gradient: {
     flex: 1
   },
@@ -41,9 +41,9 @@ export default StyleSheet.create({
   cardWrapper: {
     justifyContent: "flex-start",
     backgroundColor: "white",
-    borderBottomRightRadius: 15,
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: theme.spacing(2),
+    borderTopLeftRadius: theme.spacing(2),
+    borderBottomLeftRadius: theme.spacing(2),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,

@@ -1,5 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
-import theme from "../../theme";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
@@ -9,42 +8,35 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
 
-  chartContainer: {
-    minHeight: 353,
-    backgroundColor: "#3E3F44"
-  },
-
   dateRangeButtonRow: {
-    maxWidth: Dimensions.get("window").width,
+    maxWidth: "100%",
     overflow: "hidden",
     flexDirection: "row",
-    padding: theme.spacing(1),
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
+    alignItems: "center"
   },
 
   dateRangeButton: {
+    justifyContent: "center",
     alignItems: "center",
     borderColor: "#fff",
     borderStyle: "solid",
+    borderWidth: 1,
+    borderRadius: 15,
     margin: 0,
-    minWidth: 40
+    minWidth: 40,
+    height: 30
   },
 
   dateRangeButtonSelected: {
-    alignItems: "center",
-    borderColor: "#fff",
-    borderStyle: "solid",
-    marginRight: 5,
-    backgroundColor: "#fff",
-    margin: 0,
-    minWidth: 40
+    backgroundColor: "#fff"
   },
 
   dateRangeButtonText: {
     color: "#fff",
-    fontSize: 12
+    fontSize: 10
   },
-  
+
   dateRangeButtonTextSelected: {
     color: "#3E3F44",
     fontSize: 12

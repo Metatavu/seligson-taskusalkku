@@ -10,7 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const AuthNavigation = createNativeStackNavigator<AuthNavigator.Routes>();
 
 /**
- * Authentication screen
+ * Authentication screen component
  */
 const AuthenticationScreen: React.FC = () => {
   /**

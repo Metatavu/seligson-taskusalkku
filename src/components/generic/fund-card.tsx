@@ -17,12 +17,13 @@ interface Props {
 }
 
 /**
- * Fund card
+ * Fund card component
  *
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
   const { color, longName, risk, changeData, priceDate } = fund;
+  const { change1d, change1m, change1y, change5y, change20y } = changeData || {};
   const styles = fundCardStyles(useTheme(), color || "#FFF");
 
   /**
@@ -31,29 +32,21 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * @param label price history label
    * @param percentage price history percentage
    */
-  const renderPriceHistory = (label: string, percentage?: number) => {
-    const percentageStyle = percentage && percentage < 0 ?
-      styles.priceHistoryPercentageNegative :
-      styles.priceHistoryPercentage;
-    return (
-      <View style={ styles.cardColumn }>
-        <Text>
-          { label }
-        </Text>
-        <Text style={ percentageStyle }>
-          { percentage }
-          %
-        </Text>
-      </View>
-    );
-  };
-  
+  const renderPriceHistory = (label: string, percentage: number) => (
+    <View style={ styles.cardColumn }>
+      <Text>
+        { label }
+      </Text>
+      <Text style={ styles[percentage < 0 ? "negativeValue" : "positiveValue"] }>
+        { `${percentage}%` }
+      </Text>
+    </View>
+  );
+
   /**
-   * Risk meter
+   * Renders risk meter
    */
   const renderRiskMeter = () => {
-    const riskLevelText = `${strings.fundCard.riskLevel} ${risk}`;
-
     if (!risk) {
       return null;
     }
@@ -73,12 +66,12 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           { riskArray }
         </View>
         <Text>
-          { riskLevelText }
+          { `${strings.fundCard.riskLevel} ${risk}` }
         </Text>
       </View>
     );
   };
-  
+
   /**
    * Component render
    */
@@ -109,11 +102,11 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         </View>
         <Divider style={ styles.divider }/>
         <View style={ styles.cardRow }>
-          { renderPriceHistory(strings.fundCard.historyOneDay, changeData?.change1d) }
-          { renderPriceHistory(strings.fundCard.historyOneMonth, changeData?.change1m) }
-          { renderPriceHistory(strings.fundCard.historyOneYear, changeData?.change1y) }
-          { renderPriceHistory(strings.fundCard.historyFiveYears, changeData?.change5y) }
-          { renderPriceHistory(strings.fundCard.historyTwentyYears, changeData?.change20y) }
+          { change1d && renderPriceHistory(strings.fundCard.historyOneDay, Number(change1d)) }
+          { change1m && renderPriceHistory(strings.fundCard.historyOneMonth, Number(change1m)) }
+          { change1y && renderPriceHistory(strings.fundCard.historyOneYear, Number(change1y)) }
+          { change5y && renderPriceHistory(strings.fundCard.historyFiveYears, Number(change5y)) }
+          { change20y && renderPriceHistory(strings.fundCard.historyTwentyYears, Number(change20y)) }
         </View>
       </View>
     </View>

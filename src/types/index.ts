@@ -1,4 +1,4 @@
-import { FindFundRequest, FindPortfolioTransactionsRequest, Fund, GetPortfolioHSummaryRequest, HistoricalValue, ListFundsRequest, ListHistoricalValuesRequest, ListPortfolioFundsRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioFund, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest } from "../generated/client";
 
 /**
  * Parsed access token
@@ -48,17 +48,10 @@ export interface ErrorContextType {
  * Interface for portfolio context
  */
 export interface PortfolioContextType {
+  portfolios: Portfolio[];
   selectedPortfolio?: Portfolio;
+  getEffectivePortfolios: () => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
-}
-
-/**
- * Interface for portfolios API context
- */
-export interface PortfoliosApiContextType {
-  listPortfolios: () => Promise<Portfolio[]>;
-  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest, range?: ChartRange) => Promise<PortfolioHistoryValue[]>;
-  getPortfolioHSummary: (params: GetPortfolioHSummaryRequest) => Promise<PortfolioSummary>;
 }
 
 /**
@@ -67,22 +60,27 @@ export interface PortfoliosApiContextType {
 export interface FundsApiContextType {
   listFunds: (params: ListFundsRequest) => Promise<Fund[]>;
   findFund: (params: FindFundRequest) => Promise<Fund>;
-  listHistoricalValues: (params: ListHistoricalValuesRequest) => Promise<HistoricalValue[]>
+  listFundHistoryValues: (params: ListFundHistoryValuesRequest) => Promise<FundHistoryValue[]>
 }
 
 /**
- * Interface for portfolio transactions API context type
+ * Interface for securities API context type
  */
-export interface PortfolioTransactionsApiContextType {
+export interface SecuritiesApiContextType {
+  listSecurities: (params: ListSecuritiesRequest) => Promise<Security[]>;
+  findSecurity: (params: FindSecurityRequest) => Promise<Security>;
+}
+
+/**
+ * Interface for portfolios API context
+ */
+export interface PortfoliosApiContextType {
+  listPortfolios: () => Promise<Portfolio[]>;
+  getPortfolioSummary: (params: GetPortfolioSummaryRequest) => Promise<PortfolioSummary>;
+  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest, range?: ChartRange) => Promise<PortfolioHistoryValue[]>;
+  listPortfolioSecurities: (params: ListPortfolioSecuritiesRequest) => Promise<PortfolioSecurity[]>;
   listPortfolioTransactions: (params: ListPortfolioTransactionsRequest) => Promise<PortfolioTransaction[]>;
-  findPortfolioTransactions: (params: FindPortfolioTransactionsRequest) => Promise<PortfolioTransaction>;
-}
-
-/**
- * Interface for portfolio funds API context
- */
-export interface PortfolioFundsApiContextType {
-  listPortfolioFunds: (params: ListPortfolioFundsRequest) => Promise<PortfolioFund[]>;
+  findPortfolioTransaction: (params: FindPortfolioTransactionRequest) => Promise<PortfolioTransaction>;
 }
 
 /**

@@ -18,6 +18,7 @@ declare global {
     }
 
     interface ThemeColors {
+      backgroundDark: string;
       grey: {
         100: string;
         200: string;

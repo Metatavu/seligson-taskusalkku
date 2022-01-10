@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from "react";
 import { Platform, View } from "react-native";
 import WebView from "react-native-webview";
@@ -15,7 +16,7 @@ import { Button } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Strong authentication view
+ * Strong authentication view component
  *
  * @param props component properties
  */

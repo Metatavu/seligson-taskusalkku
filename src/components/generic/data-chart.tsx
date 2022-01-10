@@ -1,9 +1,9 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
-import { HistoricalValue, PortfolioHistoryValue } from "../../generated/client";
+import { FundHistoryValue, PortfolioHistoryValue } from "../../generated/client";
 import { ChartRange } from "../../types";
 import ChartUtils from "../../utils/chart";
 import { VictoryChart, VictoryAxis, VictoryArea } from "victory-native";
@@ -14,7 +14,7 @@ import theme from "../../theme";
  * Component properties
  */
 interface Props {
-  data: (HistoricalValue | PortfolioHistoryValue)[];
+  data: (FundHistoryValue | PortfolioHistoryValue)[];
   loading: boolean;
   selectedRange: ChartRange;
   color?: string;
@@ -39,16 +39,37 @@ const DataChart: React.FC<Props> = ({
    * @param range chart range
    * @param title display title
    */
-  const renderDateRangeButton = (range: ChartRange, title: string) => (
-    <Button
-      uppercase={ false }
-      compact
-      onPress={ () => onRangeChange(range) }
-      style={ selectedRange === range ? styles.dateRangeButtonSelected : styles.dateRangeButton }
-      labelStyle={ selectedRange === range ? styles.dateRangeButtonTextSelected : styles.dateRangeButtonText }
-    >
-      { title }
-    </Button>
+  const renderDateRangeButton = (range: ChartRange, title: string) => {
+    const selected = selectedRange === range;
+
+    return (
+      <Button
+        mode="outlined"
+        uppercase={ false }
+        compact
+        onPress={ () => onRangeChange(range) }
+        style={[ styles.dateRangeButton, selected && styles.dateRangeButtonSelected ]}
+        labelStyle={[ styles.dateRangeButtonText, selected && styles.dateRangeButtonTextSelected ]}
+        color="white"
+      >
+        { title }
+      </Button>
+    );
+  };
+
+  /**
+   * Render range selection
+   */
+  const renderRangeSelection = () => (
+    <View style={ styles.dateRangeButtonRow }>
+      { renderDateRangeButton(ChartRange.MONTH, strings.fundCard.historyOneMonth) }
+      { renderDateRangeButton(ChartRange.YEAR, strings.fundCard.historyOneYear) }
+      { renderDateRangeButton(ChartRange.THREE_YEARS, strings.fundCard.historyThreeYears) }
+      { renderDateRangeButton(ChartRange.FIVE_YEARS, strings.fundCard.historyFiveYears) }
+      { renderDateRangeButton(ChartRange.TEN_YEARS, strings.fundCard.historyTenYears) }
+      { renderDateRangeButton(ChartRange.MAX, strings.fundCard.historyMax) }
+      <IconButton icon="calendar" color="#fff" style={{ maxWidth: 25 }}/>
+    </View>
   );
 
   /**
@@ -60,9 +81,10 @@ const DataChart: React.FC<Props> = ({
       domain={{ x: [ ChartUtils.getStartDate(selectedRange), moment().toDate() ] }}
       domainPadding={{ x: [ -22, 0 ] }}
       padding={{
-        left: 40,
-        right: 40,
-        bottom: 40
+        top: 10,
+        bottom: 30,
+        left: 50,
+        right: 60
       }}
     >
       <VictoryArea
@@ -71,7 +93,7 @@ const DataChart: React.FC<Props> = ({
             stroke: color || "#74CBE8",
             strokeWidth: 0.5,
             fill: color || "#74CBE8",
-            fillOpacity: 0.3
+            fillOpacity: 0.2
           }
         }}
         animate={{
@@ -120,18 +142,10 @@ const DataChart: React.FC<Props> = ({
    * Component render
    */
   return (
-    <View style={ styles.chartContainer }>
-      <View style={ styles.dateRangeButtonRow }>
-        { renderDateRangeButton(ChartRange.MONTH, strings.fundCard.historyOneMonth) }
-        { renderDateRangeButton(ChartRange.YEAR, strings.fundCard.historyOneYear) }
-        { renderDateRangeButton(ChartRange.THREE_YEARS, strings.fundCard.historyThreeYears) }
-        { renderDateRangeButton(ChartRange.FIVE_YEARS, strings.fundCard.historyFiveYears) }
-        { renderDateRangeButton(ChartRange.TEN_YEARS, strings.fundCard.historyTenYears) }
-        { renderDateRangeButton(ChartRange.MAX, strings.fundCard.historyMax) }
-        <Button icon="calendar" color="#fff" compact style={{ maxWidth: 25 }}/>
-      </View>
+    <>
+      { renderRangeSelection() }
       { renderContent() }
-    </View>
+    </>
   );
 };
 

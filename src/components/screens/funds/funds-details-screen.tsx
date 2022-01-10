@@ -8,7 +8,7 @@ import FundsNavigator from "../../../types/navigators/funds";
 import { Button, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
-import { HistoricalValue } from "../../../generated/client";
+import { FundHistoryValue } from "../../../generated/client";
 import { ChartRange } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
@@ -17,10 +17,10 @@ import ChartUtils from "../../../utils/chart";
 import moment from "moment";
 
 /**
- * Funds details screen
+ * Fund details screen component
  */
-const FundsDetailsScreen: React.FC = () => {
-  const { params } = useRoute<FundsNavigator.RouteProps>();
+const FundDetailsScreen: React.FC = () => {
+  const { params } = useRoute<FundsNavigator.RouteProps<"fundsDetails">>();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
   const fundsApiContext = React.useContext(FundsApiContext);
@@ -28,7 +28,7 @@ const FundsDetailsScreen: React.FC = () => {
 
   const [ loading, setLoading ] = React.useState(true);
   const [ selectedRange, setSelectedRange ] = React.useState(ChartRange.MONTH);
-  const [ historicalData, setHistoricalData ] = React.useState<HistoricalValue[]>([]);
+  const [ historicalData, setHistoricalData ] = React.useState<FundHistoryValue[]>([]);
 
   if (!fund) {
     return null;
@@ -47,7 +47,7 @@ const FundsDetailsScreen: React.FC = () => {
     setLoading(true);
 
     try {
-      setHistoricalData(await fundsApiContext.listHistoricalValues({
+      setHistoricalData(await fundsApiContext.listFundHistoryValues({
         fundId: fund.id,
         startDate: ChartUtils.getStartDate(selectedRange),
         endDate: moment().toDate()
@@ -115,4 +115,4 @@ const FundsDetailsScreen: React.FC = () => {
   );
 };
 
-export default FundsDetailsScreen;
+export default FundDetailsScreen;

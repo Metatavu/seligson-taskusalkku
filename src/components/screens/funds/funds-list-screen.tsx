@@ -17,7 +17,7 @@ import { FundsApiContext } from "../../providers/funds-api-provider";
 const FundsNavigation = createMaterialTopTabNavigator<FundsNavigator.Routes>();
 
 /**
- * Funds screen
+ * Funds list screen component
  */
 const FundsListScreen: React.FC = () => {
   const { colors } = useTheme();

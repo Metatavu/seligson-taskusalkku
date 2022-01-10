@@ -29,10 +29,14 @@ export interface Strings extends LocalizedStringsMethods {
     fundHistory: {
       list: string;
     };
+    securities: {
+      list: string;
+      find: string;
+    };
     portfolio: {
       list: string;
     };
-    portfolioFunds: {
+    portfolioSecurities: {
       list: string;
     };
     auth: {
@@ -71,7 +75,7 @@ export interface Strings extends LocalizedStringsMethods {
     combinationFunds: string;
     profile: string;
   };
-  
+
   /**
    * Translations related to fund card
    */
@@ -86,7 +90,7 @@ export interface Strings extends LocalizedStringsMethods {
     historyTwentyYears: string;
     historyMax: string;
   };
-  
+
   /**
    * Translations related fund details screen
    */
@@ -114,7 +118,7 @@ export interface Strings extends LocalizedStringsMethods {
       subscriptions: string;
       total: string;
     };
-    portfolioFunds: {
+    portfolioSecurities: {
       title: string;
     };
     select: {

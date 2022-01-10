@@ -1,47 +1,53 @@
-import { Configuration, FundsApi, PortfoliosApi } from "../generated/client";
+import { Configuration, FundsApi, PortfoliosApi, SecuritiesApi } from "../generated/client";
 import { Authentication } from "../types";
 import Config from "../app/config";
 
 /**
- * Utility class for loading api with predefined configuration
+ * Utility class for loading APIs with predefined configuration
  */
 export default class Api {
-  
-  /**
-   * Gets initialized funds api
-   * 
-   * @param auth authentication
-   * @returns initialized funds api
-   */
-  public static getFundsApi = (auth: Authentication): FundsApi => {
-    return new FundsApi(Api.getConfiguration(auth));
-  };
 
   /**
-   * Gets initialized portfolios api
-   * 
+   * Gets initialized funds API
+   *
    * @param auth authentication
-   * @returns initialized portfolios api
+   * @returns initialized funds API
    */
-  public static getPortfoliosApi = (auth: Authentication): PortfoliosApi => {
-    return new PortfoliosApi(Api.getConfiguration(auth));
-  };
+  public static getFundsApi = (auth: Authentication): FundsApi => (
+    new FundsApi(Api.getConfiguration(auth))
+  );
 
   /**
-   * Gets api configuration
+   * Gets initialized securities API
+   *
+   * @param auth authentication
+   * @returns initialized securities API
+   */
+  public static getSecuritiesApi = (auth: Authentication): SecuritiesApi => (
+    new SecuritiesApi(Api.getConfiguration(auth))
+  );
+
+  /**
+   * Gets initialized portfolios API
+   *
+   * @param auth authentication
+   * @returns initialized portfolios API
+   */
+  public static getPortfoliosApi = (auth: Authentication): PortfoliosApi => (
+    new PortfoliosApi(Api.getConfiguration(auth))
+  );
+
+  /**
+   * Gets API configuration
    *
    * @param auth authentication
    * @returns new configuration
    */
-  private static getConfiguration = ({ accessToken }: Authentication) => {
-    if (!accessToken) {
-      throw Error("Get configuration failed - no access token");
-    }
-
-    return new Configuration({
+  private static getConfiguration = ({ accessToken }: Authentication) => (
+    new Configuration({
       basePath: Config.getStatic().apiBasePath,
       accessToken: accessToken
-    });
-  };
+    })
+  );
 
 }

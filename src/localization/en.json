@@ -16,10 +16,14 @@
     "fundHistory": {
       "list": "Error while loading fund history data"
     },
+    "securities": {
+      "list": "Virhe listattaessa rahastotietoja",
+      "find": "Virhe haettaessa rahastotietoja"
+    },
     "portfolio": {
       "list": "Error while loading portfolio data"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "list": "Error while loading portfolio funds"
     },
     "auth": {
@@ -86,7 +90,7 @@
       "subscriptions": "Subscriptions",
       "total": "Total"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "title": "Own funds"
     },
     "select": {

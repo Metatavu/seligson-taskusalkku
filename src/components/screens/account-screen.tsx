@@ -6,16 +6,16 @@ import Config from "../../app/config";
 import { useAppDispatch } from "../../app/hooks";
 import { logout } from "../../features/auth/auth-slice";
 import strings from "../../localization/strings";
-import AuthNavigator from "../../types/navigators/auth";
+import RootNavigator from "../../types/navigators/root";
 import AuthUtils from "../../utils/auth";
 
 /**
- * Account screen
+ * Account screen component
  */
 const AccountScreen: React.FC = () => {
   const { developmentBuild } = Config.getStatic();
   const dispatch = useAppDispatch();
-  const navigation = useNavigation<AuthNavigator.NavigationProps>();
+  const navigation = useNavigation<RootNavigator.NavigationProps>();
 
   /**
    * Removes local values
@@ -26,7 +26,7 @@ const AccountScreen: React.FC = () => {
       AuthUtils.removeOfflineToken()
     ]);
 
-    navigation.navigate("welcome");
+    navigation.navigate("authentication", { screen: "login" });
   };
 
   /**

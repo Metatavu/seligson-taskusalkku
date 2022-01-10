@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Others screen
+ * Others screen component
  */
 const OthersScreen: React.FC = () => {
   /**

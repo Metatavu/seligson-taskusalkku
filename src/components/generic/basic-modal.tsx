@@ -1,5 +1,5 @@
-import { BlurView } from "expo-blur";
 import React from "react";
+import { BlurView } from "expo-blur";
 import { Modal, TouchableWithoutFeedback, View } from "react-native";
 import styles from "../../styles/generic/basic-modal";
 
@@ -7,57 +7,47 @@ import styles from "../../styles/generic/basic-modal";
  * Interface describing component properties
  */
 interface Props {
-  visible: boolean;
-  fullScreen?: boolean;
-  disableTouchableWithoutFeedback?: boolean;
   close?: () => void;
+  disableTouchableWithoutFeedback?: boolean;
+  fullScreen?: boolean;
+  visible: boolean;
 }
 
 /**
- * Component for basic modal
+ * Basic modal component
  *
  * @param props component properties
  */
 const BasicModal: React.FC<Props> = ({
-  visible,
-  fullScreen,
+  children,
   close,
   disableTouchableWithoutFeedback,
-  children
+  fullScreen,
+  visible
 }) => {
   /**
    * Renders content
    */
   const renderContent = () => {
-    if (fullScreen) {
-      return children;
-    }
+    const content = (
+      <BlurView
+        intensity={ 60 }
+        tint="dark"
+        style={ styles.overlay }
+      >
+        <View style={ styles.content }>
+          { children }
+        </View>
+      </BlurView>
+    );
 
-    if (disableTouchableWithoutFeedback) {
-      return (
-        <BlurView
-          intensity={ 60 }
-          tint="dark"
-          style={ styles.overlay }
-        >
-          <View style={ styles.content }>
-            { children }
-          </View>
-        </BlurView>
-      );
+    if (fullScreen || disableTouchableWithoutFeedback) {
+      return content;
     }
 
     return (
       <TouchableWithoutFeedback onPress={ close }>
-        <BlurView
-          intensity={ 60 }
-          tint="dark"
-          style={ styles.overlay }
-        >
-          <View style={ styles.content }>
-            { children }
-          </View>
-        </BlurView>
+        { content }
       </TouchableWithoutFeedback>
     );
   };
