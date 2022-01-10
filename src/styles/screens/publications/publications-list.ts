@@ -5,13 +5,14 @@ export default StyleSheet.create({
 
   listContainer: {
     width: "100%",
-    paddingHorizontal: theme.spacing(2)
+    paddingHorizontal: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
   },
 
   publicationCard: {
     width: "100%",
-    marginTop: theme.spacing(1),
-    elevation: 8,
+    marginTop: theme.spacing(2),
+    elevation: 3,
     borderBottomRightRadius: 25,
     borderTopLeftRadius: 25,
     borderBottomLeftRadius: 25,
