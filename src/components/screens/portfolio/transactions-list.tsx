@@ -49,8 +49,6 @@ const TransactionsList: React.FC = () => {
 
   /**
    * Loads securities from API
-   *
-   * @param selectedPortfolio selected portfolio
    */
   const loadSecurities = async () => {
     try {
