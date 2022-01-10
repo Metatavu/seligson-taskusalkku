@@ -18,8 +18,8 @@ import moment from "moment";
  * New meeting screen
  */
 const NewMeetingScreen: React.FC = () => {
-  const meetingsApiContext = React.useContext(MeetingsApiContext);
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
+  const meetingsApiContext = React.useContext(MeetingsApiContext);
   const errorContext = React.useContext(ErrorContext);
   const { params } = useRoute<MeetingNavigator.RouteProps>();
   const meetingTime = params?.meetingTime;
