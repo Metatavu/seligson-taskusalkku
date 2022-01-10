@@ -18,8 +18,6 @@ const PublicationsListNavigation = createMaterialTopTabNavigator<PublicationsLis
 
 /**
  * Publications list screen component
- *
- * @param props component properties
  */
 const PublicationsListScreen: React.FC = () => {
   const { colors } = useTheme();
