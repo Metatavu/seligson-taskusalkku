@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 /**
  * Component properties
@@ -13,25 +13,18 @@ interface Props {
  * @param props component properties
  */
 const ApiProvider: React.FC<Props> = ({ providers, children }) => {
-  if (providers.length) {
-    const Provider = providers[0];
-
-    return (
-      <Provider>
-        <ApiProvider providers={ providers.slice(1) }>
-          { children }
-        </ApiProvider>
-      </Provider>
-    );
+  if (!providers.length) {
+    return <>{ children }</>;
   }
 
-  /**
-   * Component render
-   */
+  const Provider = providers[0];
+
   return (
-    <>
-      { children }
-    </>
+    <Provider>
+      <ApiProvider providers={ providers.slice(1) }>
+        { children }
+      </ApiProvider>
+    </Provider>
   );
 };
 

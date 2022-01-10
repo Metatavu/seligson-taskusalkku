@@ -1,5 +1,5 @@
-import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
+import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../../../app/hooks";
 import { anonymousAuthUpdate, authUpdate } from "../../../features/auth/auth-slice";
 import strings from "../../../localization/strings";

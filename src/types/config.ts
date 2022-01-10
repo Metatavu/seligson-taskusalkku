@@ -10,6 +10,7 @@ export interface StaticConfig {
   auth: OAuthProps;
   demoLoginUrl: string;
   anonymousPassword: string;
+  blogApiUrl: string;
 }
 
 /**

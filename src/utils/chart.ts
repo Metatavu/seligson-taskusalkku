@@ -1,12 +1,13 @@
 import moment from "moment";
-import { HistoricalValue, PortfolioHistoryValue } from "../generated/client";
+import BigNumber from "bignumber.js";
+import { FundHistoryValue, PortfolioHistoryValue } from "../generated/client";
 import { ChartRange, VictoryChartData } from "../types";
 
 /**
  * Utility class for charts
  */
 namespace ChartUtils {
-  
+
   /**
    * Gets start date for chart query based on ChartRange value
    *
@@ -35,16 +36,16 @@ namespace ChartUtils {
 
   /**
    * Converts historical values to victory chart data
-   * 
+   *
    * TODO: What to do in a case where there is no value or date?
    *
    * @param historicValues list of historical values
    * @returns list of VictoryChartData objects
    */
-  export const convertToVictoryChartData = (historicValues: HistoricalValue[]): VictoryChartData[] => (
+  export const convertToVictoryChartData = (historicValues: FundHistoryValue[]): VictoryChartData[] => (
     historicValues.map(value => ({
       x: value.date || new Date(),
-      y: value.value || 0
+      y: new BigNumber(value.value || 0).toNumber()
     }))
   );
 
@@ -54,31 +55,21 @@ namespace ChartUtils {
    * @param values list of historical data lists
    * @returns aggregated list of historical values
    */
-  export const aggregateHistoricalData = (values: (PortfolioHistoryValue | HistoricalValue)[][]): HistoricalValue[] => {
+  export const aggregateHistoricalData = (values: (PortfolioHistoryValue | FundHistoryValue)[][]): FundHistoryValue[] => {
     const historicalValueMaps = values.map(list => (
-      list.reduce<Map<string, number>>((map, { date, value }) => {
-        if (date && value) {
-          map.set(moment(date).format("DD-MM-YYYY"), value);
-        }
-
-        return map;
-      }, new Map())
+      list.reduce((map, { date, value }) => (
+        date && value ? map.set(getDisplayDate(date, "DD-MM-YYYY"), value.toString()) : map
+      ), new Map())
     ));
 
     const longestArray = values.reduce((longest, value) => (value.length > longest.length ? value : longest), []);
 
-    return longestArray.map(({ date }) => {
-      const total = historicalValueMaps.reduce((sum, map) => {
-        if (!date) {
-          return sum;
-        }
-
-        const value = map.get(moment(date).format("DD-MM-YYYY"));
-        return sum + (value || 0);
-      }, 0);
-
-      return { date: date, value: total };
-    });
+    return longestArray.map(({ date }) => ({
+      date: date,
+      value: historicalValueMaps.reduce((sum, map) => (
+        !date ? sum : new BigNumber(sum).plus(map.get(getDisplayDate(date, "DD-MM-YYYY")) || 0).toString()
+      ), "0")
+    }));
   };
 
 }

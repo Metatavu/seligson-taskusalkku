@@ -1,25 +1,35 @@
 import React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import strings from "../../../localization/strings";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import PublicationsNavigator from "../../../types/navigators/publications";
+import PublicationsListScreen from "../publications/publications-list-screen";
+import PublicationDetailsScreen from "../publications/publication-details-screen";
 
 /**
- * Publications screen
+ * Publications screen stack navigation
+ */
+const PublicationsNavigation = createNativeStackNavigator<PublicationsNavigator.Routes>();
+
+/**
+ * Publications screen component
  */
 const PublicationsScreen: React.FC = () => {
   /**
    * Component render
    */
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }}
+    <PublicationsNavigation.Navigator
+      initialRouteName="publicationsList"
+      screenOptions={{ headerShown: false }}
     >
-      <Text>{ strings.generic.notImplemented }</Text>
-    </View>
+      <PublicationsNavigation.Screen
+        name="publicationsList"
+        component={ PublicationsListScreen }
+      />
+      <PublicationsNavigation.Screen
+        name="publicationDetails"
+        component={ PublicationDetailsScreen }
+      />
+    </PublicationsNavigation.Navigator>
   );
 };
 

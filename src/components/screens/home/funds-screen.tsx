@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FundSelectionNavigator from "../../../types/navigators/funds";
-import FundDetailsScreen from "../funds/funds-details-screen";
+import FundDetailsScreen from "../funds/fund-details-screen";
 import FundsListScreen from "../funds/funds-list-screen";
 
 /**
@@ -10,7 +10,7 @@ import FundsListScreen from "../funds/funds-list-screen";
 const FundSelectionNavigation = createNativeStackNavigator<FundSelectionNavigator.Routes>();
 
 /**
- * Active funds screen
+ * Active funds screen component
  */
 const FundsScreen: React.FC = () => {
   /**
@@ -19,9 +19,7 @@ const FundsScreen: React.FC = () => {
   return (
     <FundSelectionNavigation.Navigator
       initialRouteName="fundsList"
-      screenOptions={{
-        headerShown: false
-      }}
+      screenOptions={{ headerShown: false }}
     >
       <FundSelectionNavigation.Group>
         <FundSelectionNavigation.Screen
@@ -29,7 +27,7 @@ const FundsScreen: React.FC = () => {
           component={ FundsListScreen }
         />
         <FundSelectionNavigation.Screen
-          name="fundsDetails"
+          name="fundDetails"
           component={ FundDetailsScreen }
         />
       </FundSelectionNavigation.Group>

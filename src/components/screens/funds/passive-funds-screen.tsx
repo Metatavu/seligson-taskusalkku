@@ -15,7 +15,7 @@ interface Props {
 }
 
 /**
- * Passive funds screen
+ * Passive funds screen component
  *
  * @param props component properties
  */
@@ -30,7 +30,7 @@ const PassiveFundsScreen: React.FC<Props> = ({ funds }) => {
    */
   const renderFund = (fund: Fund) => (
     <TouchableOpacity
-      onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }
+      onPress={ () => navigation.navigate("fundDetails", { fund: fund }) }
       key={ `passiveFundsTouchable${fund.id}` }
     >
       <FundCard fund={ fund } key={`fund${fund.id}`}/>

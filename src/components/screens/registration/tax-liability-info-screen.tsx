@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Tax liability screen
+ * Tax liability screen component
  */
 const TaxLiabilityScreen: React.FC = () => {
   /**

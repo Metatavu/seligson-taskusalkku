@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Basic info screen
+ * Basic info screen component
  */
 const BasicInfoScreen: React.FC = () => {
   /**

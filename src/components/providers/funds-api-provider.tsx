@@ -1,9 +1,9 @@
 /* eslint-disable object-shorthand */
-import * as React from "react";
+import React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
 import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
-import { FindFundRequest, Fund, HistoricalValue, ListFundsRequest, ListHistoricalValuesRequest } from "../../generated/client";
+import { FindFundRequest, Fund, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest } from "../../generated/client";
 import { FundsApiContextType } from "../../types";
 
 const initialFund: Fund = { name: { fi: "", sv: "" } };
@@ -14,7 +14,7 @@ const initialFund: Fund = { name: { fi: "", sv: "" } };
 export const FundsApiContext = React.createContext<FundsApiContextType>({
   listFunds: async () => [],
   findFund: async () => initialFund,
-  listHistoricalValues: async () => []
+  listFundHistoryValues: async () => []
 });
 
 /**
@@ -63,19 +63,19 @@ const FundsApiProvider: React.FC = ({ children }) => {
   };
 
   /**
-   * Lists fund historical values with given request parameters
+   * Lists fund history values with given request parameters
    *
    * @param params request parameters
    * @param range chart range
-   * @returns list of fund historical values or promise reject
+   * @returns list of fund history values or promise reject
    */
-  const listHistoricalValues = async (params: ListHistoricalValuesRequest): Promise<HistoricalValue[]> => {
+  const listFundHistoryValues = async (params: ListFundHistoryValuesRequest): Promise<FundHistoryValue[]> => {
     try {
       if (!anonymousAuth) {
         throw new Error("No access token");
       }
 
-      return await Api.getFundsApi(auth || anonymousAuth).listHistoricalValues(params);
+      return await Api.getFundsApi(auth || anonymousAuth).listFundHistoryValues(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -89,7 +89,7 @@ const FundsApiProvider: React.FC = ({ children }) => {
       value={{
         listFunds,
         findFund,
-        listHistoricalValues
+        listFundHistoryValues
       }}
     >
       { children }

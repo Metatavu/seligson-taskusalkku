@@ -28,12 +28,12 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15
   },
-  
+
   gradient: {
     backgroundColor: color,
     flex: 1
   },
-  
+
   cardContent: {
     flexDirection: "column",
     width: "95%",
@@ -48,7 +48,7 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
   fundName: {
     flexDirection: "row"
   },
-  
+
   cardColumn: {
     flex: 1
   },
@@ -70,7 +70,7 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     borderRadius: 2,
     marginLeft: 2
   },
-  
+
   riskMeterOff: {
     backgroundColor: "#BDBDBD",
     height: "100%",
@@ -86,12 +86,12 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     marginLeft: theme.spacing(1)
   },
 
-  priceHistoryPercentage: {
+  positiveValue: {
     color: theme.colors.primary,
     ...theme.fonts.medium
   },
 
-  priceHistoryPercentageNegative: {
+  negativeValue: {
     color: theme.colors.error,
     ...theme.fonts.medium
   },

@@ -15,7 +15,7 @@ interface Props {
 }
 
 /**
- * Combination funds screen
+ * Combination funds screen component
  *
  * @param props component properties
  */
@@ -24,13 +24,13 @@ const CombinationFundsScreen: React.FC<Props> = ({ funds }) => {
   const sortedFunds = funds.sort((a, b) => a.name.fi.localeCompare(b.name.fi));
 
   /**
-   * Render fund
+   * Renders fund
    *
    * @param fund fund
    */
   const renderFund = (fund: Fund) => (
     <TouchableOpacity
-      onPress={ () => navigation.navigate("fundsDetails", { fund: fund }) }
+      onPress={ () => navigation.navigate("fundDetails", { fund: fund }) }
       key={ `combinationFundsTouchable${fund.id}` }
     >
       <FundCard fund={ fund }/>

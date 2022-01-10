@@ -7,13 +7,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PortfolioNavigator from "../../../types/navigators/portfolio";
 import StatisticsScreen from "../portfolio/statistics-screen";
 import DistributionsScreen from "../portfolio/distributions-screen";
-import MyFundsScreen from "../portfolio/my-funds-screen";
-import EventsScreen from "../portfolio/transactions-list";
-import PortfolioContextProvider from "../portfolio/portfolio-context-provider";
+import MySecuritiesScreen from "../portfolio/my-securities-screen";
+import PortfolioContextProvider from "../../providers/portfolio-provider";
 import { useAppSelector } from "../../../app/hooks";
 import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
 import TransactionsScreen from "../portfolio/transactions-screen";
+import { Dimensions } from "react-native";
 
 /**
  * Portfolio screen tab navigation
@@ -21,7 +21,7 @@ import TransactionsScreen from "../portfolio/transactions-screen";
 const PortfolioNavigation = createMaterialTopTabNavigator<PortfolioNavigator.Routes>();
 
 /**
- * Portfolio screen
+ * Portfolio screen component
  */
 const PortfolioScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -38,8 +38,10 @@ const PortfolioScreen: React.FC = () => {
     <PortfolioContextProvider>
       <PortfolioNavigation.Navigator
         initialRouteName="statistics"
+        initialLayout={{ width: Dimensions.get("window").width }}
         backBehavior="history"
         screenOptions={{
+          lazy: true,
           tabBarActiveTintColor: colors.surface,
           tabBarPressColor: colors.surface,
           tabBarStyle: { backgroundColor: colors.primary, elevation: 8 },
@@ -81,8 +83,8 @@ const PortfolioScreen: React.FC = () => {
           }}
         />
         <PortfolioNavigation.Screen
-          name="myFunds"
-          component={ MyFundsScreen }
+          name="mySecurities"
+          component={ MySecuritiesScreen }
           options={{
             title: strings.screenTitles.ownFunds,
             tabBarIcon: props => (

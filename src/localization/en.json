@@ -18,10 +18,14 @@
     "fundHistory": {
       "list": "Error while loading fund history data"
     },
+    "securities": {
+      "list": "Virhe listattaessa rahastotietoja",
+      "find": "Virhe haettaessa rahastotietoja"
+    },
     "portfolio": {
       "list": "Error while loading portfolio data"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "list": "Error while loading portfolio funds"
     },
     "auth": {
@@ -35,6 +39,10 @@
     },
     "portfolioTransactions": {
       "list": "Error while loading portfolio transactions data"
+    },
+    "publications": {
+      "list": "Error while loading publications",
+      "find": "Error while loading publication"
     }
   },
 
@@ -50,6 +58,11 @@
     "funds": "Funds",
     "publications": "Publications",
     "meetings": "Meetings",
+    "reviews": "Reviews",
+    "topical": "Topical",
+    "questions": "Questions",
+    "phoebus": "Phoebus",
+    "others": "Others",
     "statistics": "Statistics",
     "distributions": "Distributions",
     "ownFunds": "Own funds",
@@ -94,7 +107,7 @@
       "subscriptions": "Subscriptions",
       "total": "Total"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "title": "Own funds"
     },
     "select": {

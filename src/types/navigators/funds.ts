@@ -13,7 +13,7 @@ namespace FundsNavigator {
    */
   export type Routes = {
     fundsList: NavigatorScreenParams<FundsListNavigator.Routes> | undefined;
-    fundsDetails: { fund: Fund; };
+    fundDetails: { fund: Fund; };
   };
 
   /**

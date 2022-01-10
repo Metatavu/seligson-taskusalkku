@@ -12,7 +12,7 @@ import MeetingsScreen from "./home/meetings-screen";
 const RegistrationNavigation = createNativeStackNavigator<RegistrationNavigator.Routes>();
 
 /**
- * Registration screen
+ * Registration screen component
  */
 const RegistrationScreen: React.FC = () => (
   <RegistrationNavigation.Navigator

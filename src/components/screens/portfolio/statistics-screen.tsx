@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { ActivityIndicator, Text } from "react-native-paper";
-import { Portfolio, PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
+import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import styles from "../../../styles/screens/portfolio/statistics-screen";
@@ -13,26 +13,24 @@ import ChartUtils from "../../../utils/chart";
 import { LinearGradient } from "expo-linear-gradient";
 import Calculations from "../../../utils/calculations";
 import { useIsFocused } from "@react-navigation/native";
-import { PortfolioContext } from "./portfolio-context-provider";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 import PortfolioSelect from "./portfolio-select";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import theme from "../../../theme";
 
 /**
- * Statistics screen
+ * Statistics screen component
  */
 const StatisticsScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
-  const portfolioContext = React.useContext(PortfolioContext);
+  const { selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const focus = useIsFocused();
 
   const [ loading, setLoading ] = React.useState(true);
   const [ historicalDataLoading, setHistoricalDataLoading ] = React.useState(true);
-  const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
-  const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
-  const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>([]);
-  const [ historicalData, setHistoricalData ] = React.useState<PortfolioHistoryValue[]>([]);
+  const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
+  const [ historicalData, setHistoricalData ] = React.useState<PortfolioHistoryValue[]>();
   const [ range, setRange ] = React.useState<ChartRange>(ChartRange.MONTH);
 
   /**
@@ -41,29 +39,20 @@ const StatisticsScreen: React.FC = () => {
    * @param range chart range
    */
   const loadHistoryData = async () => {
-    setHistoricalDataLoading(true);
+    !historicalData && setHistoricalDataLoading(true);
 
     try {
-      if (selectedPortfolio && selectedPortfolio.id) {
-        setHistoricalData(
-          await portfoliosApiContext.listPortfolioHistoryValues({
-            portfolioId: selectedPortfolio.id,
+      const portfolioHistoryValues = await Promise.all(
+        getEffectivePortfolios().map(portfolio => (
+          portfoliosApiContext.listPortfolioHistoryValues({
+            portfolioId: portfolio.id!,
             startDate: ChartUtils.getStartDate(range),
             endDate: moment().toDate()
           }, range)
-        );
-      } else {
-        const list = await Promise.all(
-          portfolios.map(portfolio =>
-            portfoliosApiContext.listPortfolioHistoryValues({
-              portfolioId: portfolio.id!,
-              startDate: ChartUtils.getStartDate(range),
-              endDate: moment().toDate()
-            }, range))
-        );
+        ))
+      );
 
-        setHistoricalData(ChartUtils.aggregateHistoricalData(list));
-      }
+      setHistoricalData(ChartUtils.aggregateHistoricalData(portfolioHistoryValues));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
@@ -74,27 +63,24 @@ const StatisticsScreen: React.FC = () => {
   /**
    * Loads own funds
    */
-  const loadOwnFunds = async () => {
-    setLoading(true);
+  const loadSummaries = async () => {
+    !summaries && setLoading(true);
 
     try {
-      const allPortfolios = await portfoliosApiContext.listPortfolios();
-
-      const allSummaries = await Promise.all(
-        allPortfolios.map(portfolio => (
-          portfoliosApiContext.getPortfolioHSummary({
-            portfolioId: portfolio.id!,
+      const portfolioSummaries = await Promise.all(
+        getEffectivePortfolios().map(({ id }) => (
+          portfoliosApiContext.getPortfolioSummary({
+            portfolioId: id!,
             startDate: ChartUtils.getStartDate(range),
             endDate: moment().toDate()
           })
         ))
       );
 
-      setPortfolios(allPortfolios);
-      setSummaries(allSummaries);
+      setSummaries(portfolioSummaries);
       loadHistoryData();
     } catch (error) {
-      errorContext.setError(strings.errorHandling.portfolio.list);
+      errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
 
     setLoading(false);
@@ -108,74 +94,21 @@ const StatisticsScreen: React.FC = () => {
   }, [ selectedPortfolio, range ]);
 
   /**
-   * Effect for setting selected portfolio when selected portfolio changes in portfolio context
-   */
-  React.useEffect(() => {
-    setSelectedPortfolio(portfolioContext.selectedPortfolio);
-  }, [ portfolioContext.selectedPortfolio ]);
-
-  /**
    * Effect for loading own funds when this screen gets focused
    */
   React.useEffect(() => {
-    focus && loadOwnFunds();
+    if (focus) {
+      loadSummaries();
+    }
   }, [ focus ]);
-
-  /**
-   * Renders total
-   */
-  const renderTotal = () => {
-    const filteredPortfolios = selectedPortfolio ?
-      portfolios.filter(portfolio => portfolio.id === selectedPortfolio.id) :
-      portfolios;
-    const {
-      marketValueTotal,
-      purchaseTotal,
-      totalChangeAmount,
-      totalChangePercentage
-    } = Calculations.getTotalPortfolioInfo(filteredPortfolios);
-
-    return (
-      <View style={ styles.totalContent }>
-        <View style={ styles.totalTextContainer }>
-          <Text style={ styles.totalTitle }>
-            { selectedPortfolio?.id || strings.portfolio.select.all }
-          </Text>
-          <Text style={ styles.totalText }>
-            <Icon name="briefcase-outline" size={ 26 } color="white"/>
-            { ` ${marketValueTotal || 0} €` }
-          </Text>
-        </View>
-        <Icon name="tune" size={ 26 } style={ styles.filterIcon }/>
-        <View style={ styles.totalPurchaseContainer }>
-          <View>
-            <Text style={ styles.purchaseText }>
-              { strings.portfolio.statistics.purchaseTotal }
-            </Text>
-            <Text style={ styles.purchasevalue }>
-              { `${purchaseTotal} €` }
-            </Text>
-          </View>
-          <View>
-            <Text style={ styles.purchaseText }>
-              { strings.portfolio.statistics.change }
-            </Text>
-            <Text style={ styles.purchasevalue }>
-              { `${totalChangeAmount} € | ${totalChangePercentage}%` }
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
 
   /**
    * Renders chart
    */
   const renderChart = () => (
-    <View style={{ width: "100%" }}>
+    <View style={ styles.chart }>
       <DataChart
-        data={ historicalData }
+        data={ historicalData || [] }
         loading={ historicalDataLoading }
         selectedRange={ range }
         onRangeChange={ setRange }
@@ -189,39 +122,95 @@ const StatisticsScreen: React.FC = () => {
    * @param title row title
    * @param value row value
    */
-  const renderInfoRow = (title: string, value: string) => (
-    <View style={ styles.infoRow }>
-      <Text style={ styles.infoRowTitle }>
+  const renderDetailRow = (title: string, value: string) => (
+    <View style={ styles.detailRow }>
+      <Text style={ styles.detailRowTitle }>
         { title }
       </Text>
-      <Text style={ styles.infoRowValue }>
+      <Text style={ styles.detailRowValue }>
         { value }
       </Text>
     </View>
   );
 
   /**
-   * Renders info
+   * Renders details
    *
    * TODO: Add summary filter when API spec includes portfolio ID for summaries
    */
-  const renderInfo = () => {
-    if (!historicalData.length) {
+  const renderDetails = () => {
+    if (!historicalData?.length) {
       return null;
     }
 
     const currentValue = historicalData[historicalData.length - 1].value;
     const purchaseValue = historicalData[0].value;
-    const totalChangeAmount = Calculations.getTotalChangeAmount(purchaseValue, currentValue);
-    const totalChangePercentage = Calculations.getTotalChangePercentage(purchaseValue, currentValue);
-    const [ subscriptionsSum, redemptionsSum ] = Calculations.getPortfolioSummaryInfo(summaries);
+
+    const totalChangeAmount = Calculations.formatNumberStr(
+      Calculations.getTotalChangeAmount(purchaseValue, currentValue),
+      2,
+      { suffix: " €" }
+    );
+
+    const totalChangePercentage = Calculations.formatNumberStr(
+      Calculations.getTotalChangePercentage(purchaseValue, currentValue),
+      2,
+      { suffix: " %" }
+    );
+
+    const [ subscriptionsSum, redemptionsSum ] = Calculations.getPortfolioSummaryInfo(summaries || []);
+    const totalSubscriptions = Calculations.formatNumberStr(subscriptionsSum, 2, { suffix: " €" });
+    const totalRedemptions = Calculations.formatNumberStr(redemptionsSum, 2, { suffix: " €" });
+    const totalValue = Calculations.formatNumberStr(currentValue || "0", 2, { suffix: " €" });
 
     return (
-      <View style={ styles.infoContainer }>
-        { renderInfoRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount} € | ${totalChangePercentage}%`) }
-        { renderInfoRow(strings.portfolio.statistics.subscriptions, `${subscriptionsSum} €`) }
-        { renderInfoRow(strings.portfolio.statistics.redemptions, `${redemptionsSum} €`) }
-        { renderInfoRow(strings.portfolio.statistics.total, currentValue?.toString() || "0") }
+      <View style={ styles.details }>
+        { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+        { renderDetailRow(strings.portfolio.statistics.subscriptions, totalSubscriptions) }
+        { renderDetailRow(strings.portfolio.statistics.redemptions, totalRedemptions) }
+        { renderDetailRow(strings.portfolio.statistics.total, totalValue) }
+      </View>
+    );
+  };
+
+  /**
+   * Renders overview
+   */
+  const renderOverview = () => {
+    const {
+      marketValueTotal,
+      purchaseTotal,
+      totalChangeAmount,
+      totalChangePercentage
+    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios());
+
+    return (
+      <View style={ styles.overview }>
+        <PortfolioSelect/>
+        <View style={[ styles.overviewRow, { justifyContent: "center" } ]}>
+          <Icon name="briefcase-outline" size={ 26 } color="white" style={ styles.totalIcon }/>
+          <Text style={[ styles.totalText ]}>
+            { marketValueTotal }
+          </Text>
+        </View>
+        <View style={[ styles.overviewRow, { justifyContent: "space-between" } ]}>
+          <View>
+            <Text style={ styles.purchaseText }>
+              { strings.portfolio.statistics.purchaseTotal }
+            </Text>
+            <Text style={ styles.purchaseValue }>
+              { purchaseTotal }
+            </Text>
+          </View>
+          <View>
+            <Text style={ styles.purchaseText }>
+              { strings.portfolio.statistics.change }
+            </Text>
+            <Text style={ styles.purchaseValue }>
+              { `${totalChangeAmount}  |  ${totalChangePercentage}` }
+            </Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -232,28 +221,25 @@ const StatisticsScreen: React.FC = () => {
   const renderContent = () => {
     if (loading) {
       return (
-        <View>
+        <View style={ styles.loaderContainer }>
           <ActivityIndicator size="large" color={ theme.colors.primary }/>
         </View>
       );
     }
 
     return (
-      <View style={ styles.viewContainer }>
-        <PortfolioSelect/>
-        <LinearGradient
-          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-        />
-        <View style={ styles.totalContainer }>
-          { renderTotal() }
-        </View>
+      <ScrollView
+        style={ styles.scrollView }
+        contentContainerStyle={ styles.scrollContentContainer }
+      >
+        { renderOverview() }
         <View style={ styles.cardWrapper }>
-          <View>
+          <View style={ styles.card }>
             { renderChart() }
+            { renderDetails() }
           </View>
-          { renderInfo() }
         </View>
-      </View>
+      </ScrollView>
     );
   };
 
@@ -261,9 +247,12 @@ const StatisticsScreen: React.FC = () => {
    * Component render
    */
   return (
-    <ScrollView>
+    <LinearGradient
+      colors={[ "transparent", "rgba(0,0,0,0.1)" ]}
+      style={ styles.gradientWrapper }
+    >
       { renderContent() }
-    </ScrollView>
+    </LinearGradient>
   );
 };
 

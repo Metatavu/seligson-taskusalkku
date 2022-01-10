@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { Platform, View } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button, Card, Divider, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
@@ -40,30 +40,32 @@ const MeetingTimesScreen: React.FC = () => {
         endDate: selectedEndDate
       }));
     } catch (error) {
-      errorContext.setError(strings.errorHandling.meetingTimes.list, error)
+      errorContext.setError(strings.errorHandling.meetingTimes.list, error);
     }
-  }
+  };
 
   React.useEffect(() => {
-    fetchMeetingTimes()
-  }, [selectedStartDate, selectedEndDate])
+    fetchMeetingTimes();
+  }, [selectedStartDate, selectedEndDate]);
 
   /**
    * Handler for start date picker date change
    */
   const startDatePickerChange = (e: any, pickedDate?: Date) => {
-    setStartDatePickerOpen(Platform.OS === 'ios');
+    setStartDatePickerOpen(Platform.OS === "ios");
     moment(pickedDate).isAfter(selectedEndDate) && setSelectedEndDate(undefined);
     setSelectedStartDate(pickedDate);
-  }
+    setStartDatePickerOpen(false);
+  };
 
   /**
    * Handler for end date picker date change
    */
   const endDatePickerChange = (e: any, pickedDate?: Date) => {
-    setEndDatePickerOpen(Platform.OS === 'ios');
+    setEndDatePickerOpen(Platform.OS === "ios");
     setSelectedEndDate(pickedDate);
-  }
+    setEndDatePickerOpen(false);
+  };
 
   /**
    * Renders meeting time entries
@@ -76,7 +78,7 @@ const MeetingTimesScreen: React.FC = () => {
     >
       <Text>{ moment(meetingTime.startTime).format("DD/MM HH:mm") }</Text>
     </Button>
-  )
+  );
 
   /**
    * Renders start date picker dialog
@@ -85,13 +87,13 @@ const MeetingTimesScreen: React.FC = () => {
     startDatePickerOpen && <DateTimePicker
       value={ selectedStartDate || new Date() }
       mode="date"
-      is24Hour={true}
+      is24Hour
       display="default"
       onChange={ startDatePickerChange }
       minimumDate={ new Date() }
+      onTouchCancel={ () => setStartDatePickerOpen(false) }
     />
-  )
-
+  );
 
   /**
    * Renders end date picker dialog
@@ -100,12 +102,13 @@ const MeetingTimesScreen: React.FC = () => {
     endDatePickerOpen && <DateTimePicker
       value={ selectedEndDate || new Date() }
       mode="date"
-      is24Hour={true}
+      is24Hour
       display="default"
       onChange={ endDatePickerChange }
       minimumDate={ selectedStartDate }
+      onTouchCancel={ () => setEndDatePickerOpen(false) }
     />
-  )
+  );
 
   /**
    * Component render
@@ -146,7 +149,7 @@ const MeetingTimesScreen: React.FC = () => {
                 style={{ marginTop: theme.spacing(1) }}
                 itemDimension={ 130 }
                 data={ meetingTimes }
-                renderItem={ ({item, index}) => renderMeetingTime(item, index)}
+                renderItem={ ({ item, index }) => renderMeetingTime(item, index)}
               />
             </Card>
           </View>

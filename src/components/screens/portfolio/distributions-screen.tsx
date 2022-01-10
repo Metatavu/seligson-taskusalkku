@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Distributions screen
+ * Distributions screen component
  */
 const DistributionsScreen: React.FC = () => {
   /**

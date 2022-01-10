@@ -18,10 +18,14 @@
     "fundHistory": {
       "list": "Virhe listattaessa rahaston historia tietoja"
     },
+    "securities": {
+      "list": "Virhe listattaessa rahastotietoja",
+      "find": "Virhe haettaessa rahastotietoja"
+    },
     "portfolio": {
       "list": "Virhe listattaessa portfolion historiatietoja"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "list": "Virhe listattaessa oman portfolion rahastoja"
     },
     "auth": {
@@ -35,6 +39,10 @@
     },
     "portfolioTransactions": {
       "list": "Virhe listattaessa oman portfolion tapahtumia"
+    },
+    "publications": {
+      "list": "Virhe listattaessa julkaisuja",
+      "find": "Virhe haettaessa julkaisua"
     }
   },
 
@@ -50,6 +58,11 @@
     "funds": "Rahastot",
     "publications": "Julkaisut",
     "meetings": "Kokouksia",
+    "reviews": "Katsaukset",
+    "topical": "Ajankohtaista",
+    "questions": "Kysymykset",
+    "phoebus": "Phoebus",
+    "others": "Muut",
     "statistics": "Tilastot",
     "distributions": "Jakaumat",
     "ownFunds": "Omat rahastot",
@@ -60,7 +73,7 @@
     "combinationFunds": "Yhdistelmä rahastot",
     "profile": "Profiili"
   },
-  
+
   "fundCard": {
     "riskLevel": "Riskitaso",
     "historyOneDay": "1pv",
@@ -94,7 +107,7 @@
       "subscriptions": "Merkinnät",
       "total": "Yhteensä"
     },
-    "portfolioFunds": {
+    "portfolioSecurities": {
       "title": "Omat rahastot"
     },
     "select": {

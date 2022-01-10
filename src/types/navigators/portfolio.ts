@@ -12,7 +12,7 @@ namespace PortfolioNavigator {
   export type Routes = {
     statistics: undefined;
     distributions: undefined;
-    myFunds: undefined;
+    mySecurities: undefined;
     transactions: undefined;
   };
 

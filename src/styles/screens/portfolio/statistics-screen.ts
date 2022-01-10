@@ -1,29 +1,41 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import theme from "../../../theme";
 
 export default StyleSheet.create({
 
-  viewContainer: {
-    display: "flex",
-    alignItems: "center"
+  gradientWrapper: {
+    flex: 1
   },
 
-  totalContainer: {
-    padding: theme.spacing(2),
-    backgroundColor: "#3E3F44",
-    alignItems: "center",
+  loaderContainer: {
+    flex: 1,
     justifyContent: "center"
   },
 
-  totalContent: {
+  scrollView: {
+    flex: 1
+  },
+
+  scrollContentContainer: {
+    paddingBottom: 16
+  },
+
+  overview: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.colors.backgroundDark,
+    display: "flex"
+  },
+
+  overviewRow: {
+    marginTop: theme.spacing(1),
+    width: "100%",
     display: "flex",
+    flexDirection: "row",
     alignItems: "center"
   },
 
-  totalTextContainer: {
-    flexDirection: "column",
-    width: Dimensions.get("window").width,
-    paddingHorizontal: theme.spacing(2)
+  totalIcon: {
+    marginRight: 8
   },
 
   totalText: {
@@ -31,72 +43,64 @@ export default StyleSheet.create({
     fontSize: 25
   },
 
-  totalTitle: {
-    color: "white",
-    fontSize: 15
-  },
-
-  totalPurchaseContainer: {
-    display: "flex",
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "space-between",
-    paddingHorizontal: theme.spacing(2),
-    width: Dimensions.get("window").width
-  },
-
   purchaseText: {
     fontSize: 14,
     color: "white"
   },
 
-  purchasevalue: {
+  purchaseValue: {
     fontSize: 14,
     color: "white",
     ...theme.fonts.medium
   },
 
   cardWrapper: {
-    paddingTop: 15,
-    width: "95%",
-    marginTop: theme.spacing(1),
+    width: "100%",
+    marginTop: theme.spacing(2),
+    paddingHorizontal: theme.spacing(2)
+  },
+
+  card: {
+    width: "100%",
     elevation: 8,
-    borderBottomRightRadius: 15,
-    borderTopLeftRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    backgroundColor: "#3E3F44",
     shadowRadius: 5,
     marginBottom: 10
   },
 
-  infoContainer: {
+  chart: {
+    borderTopLeftRadius: 30,
+    padding: theme.spacing(1),
+    backgroundColor: theme.colors.backgroundDark
+  },
+
+  details: {
+    borderBottomRightRadius: 30,
+    padding: theme.spacing(2),
+    backgroundColor: theme.colors.surface
+  },
+
+  detailContainer: {
     padding: 20,
     backgroundColor: "white"
   },
 
-  infoRow: {
+  detailRow: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: theme.spacing(1)
   },
 
-  infoRowTitle: {
+  detailRowTitle: {
     fontSize: 14
   },
 
-  infoRowValue: {
+  detailRowValue: {
     ...theme.fonts.medium,
     fontSize: 14
-  },
-
-  filterIcon: {
-    position: "absolute",
-    right: theme.spacing(2),
-    color: "white",
-    opacity: 0.5
   }
 
 });

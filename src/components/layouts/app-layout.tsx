@@ -4,14 +4,14 @@ import { View } from "react-native";
 import styles from "../../styles/layouts/app-layout";
 
 /**
- * Interface describing component properties
+ * Component properties
  */
 interface Props {
   backgroundGradient?: string[];
 }
 
 /**
- * Component for application layout
+ * Application layout component
  *
  * @param props component properties
  */

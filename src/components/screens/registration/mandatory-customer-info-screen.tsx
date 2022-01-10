@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Mandatory customer info screen
+ * Mandatory customer info screen component
  */
 const MandatoryCustomerInfoScreen: React.FC = () => {
   /**

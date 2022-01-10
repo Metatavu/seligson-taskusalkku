@@ -4,7 +4,7 @@ import { Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 
 /**
- * Consents screen
+ * Consents screen component
  */
 const ConsentsScreen: React.FC = () => {
   /**

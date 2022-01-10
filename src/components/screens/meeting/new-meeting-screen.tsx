@@ -44,7 +44,7 @@ const NewMeetingScreen: React.FC = () => {
    */
   const validateNewMeeting = () => {
     return newMeeting.contact.firstName && newMeeting.contact.lastName && newMeeting.type && newMeeting.participantCount;
-  }
+  };
 
   /**
    * Handler for new meeting change 
@@ -53,9 +53,9 @@ const NewMeetingScreen: React.FC = () => {
    * @param value value of the input
    */
   const onNewMeetingChange = (name: string) => (value: string) => {
-    const updatedNewMeeting: Meeting = { ...newMeeting, [name]: value }
+    const updatedNewMeeting: Meeting = { ...newMeeting, [name]: value };
     setNewMeeting(updatedNewMeeting);
-  }
+  };
 
   /**
    * Handler for meeting contact change 
@@ -64,16 +64,16 @@ const NewMeetingScreen: React.FC = () => {
    * @param value value of the input
    */
   const onNewMeetingContactChange = (name: string) => (value: string) => {
-    const updatedNewMeeting: Meeting = { ...newMeeting, contact: { ...newMeeting.contact, [name]: value } }
+    const updatedNewMeeting: Meeting = { ...newMeeting, contact: { ...newMeeting.contact, [name]: value } };
     setNewMeeting(updatedNewMeeting);
-  }
+  };
 
   /**
    * Handler for meeting cancel 
    */
   const onMeetingCancel = () => {
     navigation.navigate("meetingTimes");
-  }
+  };
 
   /**
    * Handler for meeting create 
@@ -82,21 +82,20 @@ const NewMeetingScreen: React.FC = () => {
     try {
       await meetingsApiContext.createMeeting({ meeting: newMeeting });
       setNewMeeting({
-          time: meetingTime?.startTime || new Date(),
-          contact: {
-            firstName: "",
-            lastName: ""
-          },
-          participantCount: 0,
-          type: MeetingType.Meeting,
-          language: MeetingLanguage.FI
-        }
-      )
+        time: meetingTime?.startTime || new Date(),
+        contact: {
+          firstName: "",
+          lastName: ""
+        },
+        participantCount: 0,
+        type: MeetingType.Meeting,
+        language: MeetingLanguage.FI
+      });
       navigation.navigate("meetingTimes");
     } catch (error) {
-      errorContext.setError(strings.errorHandling.meeting.create, error)
+      errorContext.setError(strings.errorHandling.meeting.create, error);
     }
-  }
+  };
 
   /**
    * Renders meeting time 
@@ -148,7 +147,7 @@ const NewMeetingScreen: React.FC = () => {
   /**
    * Renders meeting language select 
    */
-  const renderLanguageSelect = () =>  (
+  const renderLanguageSelect = () => (
     <View style={{ marginTop: theme.spacing(2) }}>
       <Text>{ strings.meetings.newMeeting.meetingLanguage }</Text>
       <RadioButton.Group onValueChange={ onNewMeetingChange("language") } value={ newMeeting.language }>
@@ -168,7 +167,7 @@ const NewMeetingScreen: React.FC = () => {
         />
       </RadioButton.Group>
     </View>
-  )
+  );
 
   /**
    * Renders meeting type select 
@@ -193,7 +192,7 @@ const NewMeetingScreen: React.FC = () => {
         />
       </RadioButton.Group>
     </View>
-  )
+  );
 
   /**
    * Renders buttons 
@@ -203,11 +202,11 @@ const NewMeetingScreen: React.FC = () => {
       <Button onPress={ onMeetingCancel }>
         { strings.generic.back }
       </Button>
-      <Button  disabled={ !validateNewMeeting() } onPress={ onMeetingCreate }>
+      <Button disabled={ !validateNewMeeting() } onPress={ onMeetingCreate }>
         { strings.generic.create }
       </Button>
     </View>
-  )
+  );
 
   /**
    * Component render 
