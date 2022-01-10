@@ -32,10 +32,10 @@
       "login": "Kirjautumisessa tapahtui virhe"
     },
     "meetingTimes": {
-      "list": "Error while loading meeting times"
+      "list": "Virhe listattaessa vapaita aikoja"
     },
     "meeting": {
-      "create": "Error when creating meeting"
+      "create": "Virhe ajanvarausta luodessa"
     },
     "portfolioTransactions": {
       "list": "Virhe listattaessa oman portfolion tapahtumia"
