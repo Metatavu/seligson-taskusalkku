@@ -61,8 +61,6 @@ const TransactionsList: React.FC = () => {
   /**
    * Loads transactions from API
    *
-   * @param selectedPortfolio selected portfolio
-   *
    * TODO: add pagination support
    */
   const loadTransactions = async () => {
