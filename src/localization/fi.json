@@ -154,7 +154,7 @@
         "firstName": "Etunimi",
         "lastName": "Sukunimi",
         "email": "Sähköposti",
-        "phone": "puhelinnumero"
+        "phone": "Puhelinnumero"
       },
       "additionalInformation": "lisätietot"
     }
