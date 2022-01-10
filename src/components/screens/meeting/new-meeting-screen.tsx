@@ -223,7 +223,7 @@ const NewMeetingScreen: React.FC = () => {
               { renderLanguageSelect() }
               { renderMeetingTypeSelect() }
               <TextInput
-                style={{ ...styles.input, width: 120 }}
+                style={{ ...styles.input, width: 180 }}
                 value={ newMeeting.participantCount.toString() }
                 label={ `${strings.meetings.newMeeting.participantCount}*` }
                 onChangeText={ onNewMeetingChange("participantCount") }
