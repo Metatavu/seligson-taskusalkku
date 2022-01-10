@@ -3,6 +3,7 @@ import { MaterialBottomTabNavigationProp } from "@react-navigation/material-bott
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import PortfolioNavigator from "./portfolio";
 import FundsNavigator from "./funds";
+import PublicationsNavigator from "./publications";
 
 /**
  * Home navigator
@@ -14,7 +15,7 @@ namespace HomeNavigator {
   export type Routes = {
     portfolio: NavigatorScreenParams<PortfolioNavigator.Routes> | undefined;
     funds: NavigatorScreenParams<FundsNavigator.Routes> | undefined;
-    publications: undefined;
+    publications: NavigatorScreenParams<PublicationsNavigator.Routes> | undefined;
     others: undefined;
   };
 

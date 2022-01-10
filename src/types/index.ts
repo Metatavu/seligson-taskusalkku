@@ -84,6 +84,14 @@ export interface PortfoliosApiContextType {
 }
 
 /**
+ * Interface for publications API context
+ */
+export interface PublicationsApiContextType {
+  listPublications: () => Promise<Publication[]>;
+  findPublicationDetails: (id: number) => Promise<PublicationDetails | undefined>;
+}
+
+/**
  * Enum for chart range select
  */
 export enum ChartRange {
@@ -101,4 +109,38 @@ export enum ChartRange {
 export interface VictoryChartData {
   x: Date;
   y: number;
+}
+
+/**
+ * Base publication
+ */
+interface BasePublication {
+  id: number;
+  type: PublicationType;
+  title: string;
+  date: string;
+  author: string[];
+}
+
+/**
+ * Publication type
+ */
+export enum PublicationType {
+  POST = "post",
+  PHOEBUS = "se_phoebus",
+  QUESTION = "se_kysymys_vastaus"
+}
+
+/**
+ * Publication
+ */
+export interface Publication extends BasePublication {
+  category: string;
+}
+
+/**
+ * Publication details
+ */
+export interface PublicationDetails extends BasePublication {
+  content: string;
 }

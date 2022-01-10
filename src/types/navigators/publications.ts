@@ -1,19 +1,18 @@
 import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
-import { Fund } from "../../generated/client/models/Fund";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import FundsListNavigator from "./funds-list";
+import PublicationsListNavigator from "./publications-list";
 
 /**
- * Fund selection navigator
+ * Publications navigator
  */
-namespace FundsNavigator {
+namespace PublicationsNavigator {
 
   /**
    * Routes
    */
   export type Routes = {
-    fundsList: NavigatorScreenParams<FundsListNavigator.Routes> | undefined;
-    fundDetails: { fund: Fund; };
+    publicationsList: NavigatorScreenParams<PublicationsListNavigator.Routes> | undefined;
+    publicationDetails: { publicationId: number };
   };
 
   /**
@@ -33,4 +32,4 @@ namespace FundsNavigator {
 
 }
 
-export default FundsNavigator;
+export default PublicationsNavigator;

@@ -14,9 +14,9 @@ import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 
 /**
- * Transactions list component
+ * Transactions list screen component
  */
-const TransactionsList: React.FC = () => {
+const TransactionsListScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
   const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const fundsContext = React.useContext(FundsApiContext);
@@ -149,4 +149,4 @@ const TransactionsList: React.FC = () => {
   );
 };
 
-export default TransactionsList;
+export default TransactionsListScreen;

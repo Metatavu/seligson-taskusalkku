@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FundSelectionNavigator from "../../../types/navigators/funds";
-import FundDetailsScreen from "../funds/funds-details-screen";
+import FundDetailsScreen from "../funds/fund-details-screen";
 import FundsListScreen from "../funds/funds-list-screen";
 
 /**
@@ -27,7 +27,7 @@ const FundsScreen: React.FC = () => {
           component={ FundsListScreen }
         />
         <FundSelectionNavigation.Screen
-          name="fundsDetails"
+          name="fundDetails"
           component={ FundDetailsScreen }
         />
       </FundSelectionNavigation.Group>

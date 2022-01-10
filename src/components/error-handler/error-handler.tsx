@@ -36,12 +36,12 @@ const ErrorHandler: React.FC = ({ children }) => {
 
       const responseText = await err.text();
 
-      if (!responseText.startsWith("{")) {
-        console.error(responseText);
-        return;
-      }
-
-      console.error(JSON.stringify(responseText, null, 2));
+      console.error({
+        responseBody: responseText.startsWith("{") ?
+          JSON.stringify(JSON.parse(responseText), null, 2) :
+          responseText,
+        response: JSON.parse(JSON.stringify(err))
+      });
     } catch {
       console.error(err.toString());
     }
