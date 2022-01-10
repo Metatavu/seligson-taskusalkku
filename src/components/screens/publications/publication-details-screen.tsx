@@ -30,8 +30,6 @@ const PublicationDetailsScreen: React.FC = () => {
 
   /**
    * Loads publication details
-   *
-   * @param range selected chart range or month as default
    */
   const loadPublicationDetails = async () => {
     if (!publicationId) {
