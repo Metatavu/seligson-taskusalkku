@@ -16,7 +16,7 @@ export interface Strings extends LocalizedStringsMethods {
     back: string;
     login: string;
     webPage: string;
-    create: string;
+    reserve: string;
     cancel: string;
   };
 

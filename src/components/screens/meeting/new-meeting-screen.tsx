@@ -5,10 +5,9 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import MeetingNavigator from "../../../types/navigators/meeting";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MeetingLanguage } from "../../../types";
-import { Button, Card, Divider, RadioButton, TextInput } from "react-native-paper";
+import { Button, Card, Divider, RadioButton, TextInput, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { View } from "react-native";
-import { Text } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
@@ -203,7 +202,7 @@ const NewMeetingScreen: React.FC = () => {
         { strings.generic.back }
       </Button>
       <Button disabled={ !validateNewMeeting() } onPress={ onMeetingCreate }>
-        { strings.generic.create }
+        { strings.generic.reserve }
       </Button>
     </View>
   );

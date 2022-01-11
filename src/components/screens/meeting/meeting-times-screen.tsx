@@ -51,6 +51,9 @@ const MeetingTimesScreen: React.FC = () => {
 
   /**
    * Handler for start date picker date change
+   * 
+   * @param e date picker change event
+   * @param pickedDate picked date
    */
   const startDatePickerChange = (e: any, pickedDate?: Date) => {
     setStartDatePickerOpen(Platform.OS === "ios");
@@ -61,6 +64,9 @@ const MeetingTimesScreen: React.FC = () => {
 
   /**
    * Handler for end date picker date change
+   * 
+   * @param e date picker change event
+   * @param pickedDate picked date
    */
   const endDatePickerChange = (e: any, pickedDate?: Date) => {
     setEndDatePickerOpen(Platform.OS === "ios");
