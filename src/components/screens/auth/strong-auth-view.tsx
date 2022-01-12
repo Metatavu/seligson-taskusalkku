@@ -21,12 +21,12 @@ import strings from "../../../localization/strings";
  * @param props component properties
  */
 const StrongAuthView: React.FC = () => {
-  const navigation = useNavigation<RootNavigator.NavigationProps<"home">>();
+  const navigation = useNavigation<RootNavigator.NavigationProps>();
   const { params } = useRoute<AuthNavigator.RouteProps>();
   const demoLogin = params?.demoLogin;
 
   const dispatch = useAppDispatch();
-  const { auth } = Config.getStatic();
+  const { auth, demoLoginUrl } = Config.getStatic();
   const discovery = AuthSession.useAutoDiscovery(auth.issuer);
   const [ authUrl, setAuthUrl ] = React.useState<string>();
 
@@ -35,6 +35,11 @@ const StrongAuthView: React.FC = () => {
    */
   React.useEffect(() => {
     if (!auth.scopes || !auth.redirectUrl || !auth.serviceConfiguration) {
+      return;
+    }
+
+    if (demoLogin) {
+      setAuthUrl(demoLoginUrl);
       return;
     }
 
@@ -60,18 +65,20 @@ const StrongAuthView: React.FC = () => {
 
     try {
       const result = await AuthSession.exchangeCodeAsync({
-        clientId: "app",
-        redirectUri: Config.getStatic().auth.redirectUrl || "",
+        clientId: auth.clientId,
+        redirectUri: auth.redirectUrl || "",
         code: code,
-        scopes: [ "openid", "profile", "offline_access" ]
+        scopes: auth.scopes
       }, discovery);
 
-      if (result?.accessToken) {
-        dispatch(authUpdate(AuthUtils.createAuthFromExpoTokenResponse(result)));
-        navigation.reset({ routes: [{ name: "home" }] });
-      } else {
+      if (!result?.accessToken || !result?.refreshToken) {
         throw new Error("Login failed");
       }
+
+      const authentication = AuthUtils.createAuthFromExpoTokenResponse(result);
+      dispatch(authUpdate(authentication));
+
+      navigation.navigate("home");
     } catch (error) {
       console.error(error);
     }
@@ -102,14 +109,14 @@ const StrongAuthView: React.FC = () => {
     <View style={{ flex: 1, marginTop: 40 }}>
       {/* TODO: Fix styling */}
       { Platform.OS === "ios" &&
-        <Button onPress={ () => navigation.goBack() }>
+        <Button onPress={ navigation.goBack }>
           { strings.generic.back }
         </Button>
       }
       <WebView
         incognito
         style={{ height: "100%" }}
-        source={{ uri: demoLogin ? Config.getStatic().demoLoginUrl : authUrl }}
+        source={{ uri: authUrl }}
         onLoadEnd={ oauthCodeParser }
       />
     </View>
