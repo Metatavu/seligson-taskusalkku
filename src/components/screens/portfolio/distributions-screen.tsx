@@ -133,6 +133,14 @@ const DistributionsScreen: React.FC = () => {
       );
     }
 
+    if (!portfolioSecurityLegends.length) {
+      return (
+        <View style={ styles.loaderContainer }>
+          <Text>{ strings.generic.noData }</Text>
+        </View>
+      );
+    }
+
     return (
       <>
         { renderPie() }

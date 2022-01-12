@@ -18,6 +18,7 @@ export interface Strings extends LocalizedStringsMethods {
     webPage: string;
     reserve: string;
     cancel: string;
+    noData: string;
   };
 
   /**

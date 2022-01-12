@@ -7,7 +7,8 @@
     "login": "Kirjaudu sisään",
     "webPage": "Lisätietoja verkkosivuillamme",
     "reserve": "Varaa",
-    "cancel": "Peruuta"
+    "cancel": "Peruuta",
+    "noData": "No data"
   },
 
   "errorHandling": {
