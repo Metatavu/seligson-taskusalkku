@@ -26,13 +26,13 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
-    authUpdate: (state, action: PayloadAction<Authentication | undefined>) => {
-      const auth = action?.payload;
+    authUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
+      const auth = payload;
       auth && AuthUtils.saveOfflineToken(auth.refreshToken);
       state.auth = auth;
     },
-    anonymousAuthUpdate: (state, action: PayloadAction<Authentication | undefined>) => {
-      state.anonymousAuth = action?.payload;
+    anonymousAuthUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
+      state.anonymousAuth = payload;
     },
     logout: state => {
       AuthUtils.removeOfflineToken();

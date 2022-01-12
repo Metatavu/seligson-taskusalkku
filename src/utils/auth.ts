@@ -10,6 +10,8 @@ import * as querystring from "query-string";
 
 /** Offline token key in Expo secure store */
 const OFFLINE_TOKEN_KEY = "offline-token";
+const ANONYMOUS_ROLE = "anonymous";
+const DEMO_ROLE = "demo";
 
 /** Access token refresh slack */
 const ACCESS_TOKEN_REFRESH_SLACK = 60;
@@ -134,10 +136,14 @@ class AuthUtils {
    */
   public static anonymousLogin = async (): Promise<Authentication | undefined> => {
     const { auth, anonymousPassword } = Config.getStatic();
-    const tokenEndpoint = auth.serviceConfiguration?.tokenEndpoint.toString();
+    const tokenEndpoint = auth.serviceConfiguration?.tokenEndpoint;
+
+    if (!tokenEndpoint) {
+      throw new Error("Token endpoint is not defined");
+    }
 
     try {
-      const response = await fetch(tokenEndpoint || "", {
+      const response = await fetch(tokenEndpoint, {
         method: "POST",
         body: querystring.stringify({
           grant_type: "password",
@@ -238,18 +244,17 @@ class AuthUtils {
    * @returns does user have demo role
    */
   public static isDemoUser = (auth?: Authentication): boolean => {
-    return auth?.roles.realm.includes("demo") || false;
+    return !!auth?.roles.realm.includes(DEMO_ROLE);
   };
 
   /**
-   * Checks if user roles includes anonymous role and does not have user role
+   * Checks if user roles includes anonymous role
    *
    * @param auth auth state
    * @returns does user have anonymous role
    */
   public static isAnonymousUser = (auth?: Authentication): boolean => {
-    const realmRoles = auth?.roles.realm;
-    return (realmRoles && realmRoles.includes("anonymous") && !realmRoles.includes("user")) || false;
+    return !!auth?.roles.realm?.includes(ANONYMOUS_ROLE);
   };
 
 }

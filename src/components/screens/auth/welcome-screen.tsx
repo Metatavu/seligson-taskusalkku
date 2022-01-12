@@ -25,14 +25,15 @@ const WelcomeScreen: React.FC = () => {
    * Checks offline token
    */
   const checkOfflineToken = async () => {
-    const offlineToken = await AuthUtils.retrieveOfflineToken();
-
     try {
-      const auth = await AuthUtils.anonymousLogin();
-      auth && dispatch(anonymousAuthUpdate(auth));
+      const anonymousAuth = await AuthUtils.anonymousLogin();
+      dispatch(anonymousAuthUpdate(anonymousAuth));
     } catch (error) {
-      errorContext.setError(strings.errorHandling.auth.login, error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
+
+    const offlineToken = await AuthUtils.retrieveOfflineToken();
 
     if (offlineToken) {
       try {

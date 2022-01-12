@@ -6,7 +6,6 @@ import strings from "../../localization/strings";
 import { useAppDispatch, useAppSelector, useInterval } from "../../app/hooks";
 import Config from "../../app/config";
 import WebView from "react-native-webview";
-import { Authentication } from "../../types";
 
 /**
  * Component properties
@@ -48,18 +47,28 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   };
 
   /**
-   * Refresh authentication
-   *
-   * @param auth authentication to refresh
+   * Refresh anonymous user access token
    */
-  const refreshAuth = async (authentication: Authentication | undefined) => {
+  const refreshAnonymousAuth = async () => {
     try {
-      if (authentication && AuthUtils.needsRefresh(authentication)) {
-        const updateAction = AuthUtils.isAnonymousUser(authentication) ?
-          anonymousAuthUpdate :
-          authUpdate;
+      if (anonymousAuth && AuthUtils.needsRefresh(anonymousAuth)) {
+        const refreshedToken = await AuthUtils.tryToRefresh(anonymousAuth.refreshToken);
+        dispatch(anonymousAuthUpdate(refreshedToken));
+      }
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error("Failed to refresh anonymous access token");
+    }
+  };
 
-        dispatch(updateAction(await AuthUtils.tryToRefresh(authentication.refreshToken)));
+  /**
+   * Refresh logged in user access token
+   */
+  const refreshAuth = async () => {
+    try {
+      if (auth && AuthUtils.needsRefresh(auth)) {
+        const refreshedToken = await AuthUtils.tryToRefresh(auth.refreshToken);
+        dispatch(authUpdate(refreshedToken));
       }
     } catch (error) {
       displayAuthExpiredAlert();
@@ -73,7 +82,8 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
    */
   const handleAppStateChange = async (nextAppState: AppStateStatus) => {
     if (appState.match(/inactive|background/) && nextAppState === "active") {
-      await refreshAuth(auth);
+      refreshAnonymousAuth();
+      refreshAuth();
     }
 
     setAppState(nextAppState);
@@ -83,8 +93,8 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
    * Interval for refreshing authentication
    */
   useInterval(() => {
-    refreshAuth(anonymousAuth);
-    refreshAuth(auth);
+    refreshAnonymousAuth();
+    refreshAuth();
   }, 20 * 1000);
 
   /**

@@ -5,7 +5,7 @@ import { Button, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 import RootNavigator from "../../../types/navigators/root";
 import styles from "../../../styles/screens/auth/login-required-screen";
-import SeligsonLogo from "../../../../assets/seligsonLogo";
+import SeligsonLogo from "../../../../assets/seligson-logo";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 /**
@@ -13,25 +13,46 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
  */
 const LoginRequiredScreen: React.FC = () => {
   const navigation = useNavigation<RootNavigator.NavigationProps>();
+
   const [ counter, setCounter ] = React.useState(0);
+  const timer = React.useRef<NodeJS.Timeout>();
+
+  /**
+   * Sets timer by resetting possible previous one and setting new one
+   *
+   * @param callback callback
+   */
+  const setTimer = (callback: (() => any) | undefined) => {
+    timer.current && clearTimeout(timer.current);
+    timer.current = callback ? setTimeout(callback, 1000) : undefined;
+  };
 
   /**
    * Login counter
    */
   const handlePress = () => {
-    if (counter >= 10) {
-      setCounter(0);
-      navigation.navigate("authentication", { screen: "login", params: { demoLogin: true } });
-    } else setCounter(counter + 1);
+    const updatedCounter = counter + 1;
+
+    if (updatedCounter < 10) {
+      setCounter(updatedCounter);
+      setTimer(() => setCounter(0));
+      return;
+    }
+
+    navigation.navigate("authentication", {
+      screen: "login",
+      params: { demoLogin: true }
+    });
   };
 
+  /**
+   * Component render
+   */
   return (
     <View style={ styles.loginScreen }>
       <View style={ styles.cardWrapper }>
         <View style={ styles.cardContent }>
-          <TouchableWithoutFeedback
-            onPress={ handlePress }
-          >
+          <TouchableWithoutFeedback onPress={ handlePress }>
             <SeligsonLogo/>
           </TouchableWithoutFeedback>
           <Text style={ styles.titleText }>
