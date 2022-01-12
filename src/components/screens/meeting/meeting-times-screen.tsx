@@ -36,6 +36,7 @@ const MeetingTimesScreen: React.FC = () => {
       if (!selectedStartDate || !selectedEndDate) {
         return;
       }
+
       setMeetingTimes(await meetingsApiContext.listMeetingTimes({
         startDate: selectedStartDate,
         endDate: selectedEndDate
