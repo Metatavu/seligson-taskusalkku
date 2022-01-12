@@ -5,7 +5,9 @@
     "close": "Sulje",
     "back": "Takaisin",
     "login": "Kirjaudu sisään",
-    "webPage": "Lisätietoja verkkosivuillamme"
+    "webPage": "Lisätietoja verkkosivuillamme",
+    "reserve": "Varaa",
+    "cancel": "Peruuta"
   },
 
   "errorHandling": {
@@ -29,6 +31,12 @@
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
     },
+    "meetingTimes": {
+      "list": "Virhe listattaessa vapaita aikoja"
+    },
+    "meeting": {
+      "create": "Virhe ajanvarausta luodessa"
+    },
     "portfolioTransactions": {
       "list": "Virhe listattaessa oman portfolion tapahtumia"
     },
@@ -49,6 +57,7 @@
     "portfolio": "Salkku",
     "funds": "Rahastot",
     "publications": "Julkaisut",
+    "meetings": "Tapaamiset",
     "reviews": "Katsaukset",
     "topical": "Ajankohtaista",
     "questions": "Kysymykset",
@@ -116,6 +125,38 @@
       "provision": "Palkkio",
       "paidTotal": "Maksettu yhteensä"
     }
-  }
+  },
 
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "BVaraa aika keskustelulle",
+      "bookTimeDescription": "Haluatko keskustella kanssamme sijoittamisesta tai varainhoidosta joko puhelimessa tai tapaamisen muodossa?\n\nAlta voit varata sopivan ajan keskustelulle.\n\nAloita valitsemalla tapaamiselle haluamasi päivämäärä ja aika. Varattavia aikoja on pankkipäivinä klo 9:00 - 17:00.\n\nKerrothan mielellään myös kuinka monta henkilöä on tulossa ja parilla sanalla siitä, mikä on tapaamisen aihe.",
+      "datePicker": {
+        "title": "Päivämäärä ja aika",
+        "pickDateTime": "Valitse päivä",
+        "noAppointment": "Tälle päivälle ei ole varattavia aikoja.",
+        "startDate": "Aloituspäivämäärä",
+        "endDate": "Päättymispäivä"
+      }
+    },
+    "newMeeting": {
+      "title": "Yhteystiedot",
+      "selectedTime": "Valittu aika",
+      "time": "klo",
+      "meetingType": {
+        "title": "Varaan ajan",
+        "phone": "PuhelinKeskusteluun",
+        "meeting": "Tapaamiseen"
+      },
+      "meetingLanguage": "Kieli",
+      "participantCount": "Osallistujien lukumäärä",
+      "contact": {
+        "firstName": "Etunimi",
+        "lastName": "Sukunimi",
+        "email": "Sähköposti",
+        "phone": "Puhelinnumero"
+      },
+      "additionalInformation": "Lisätiedot"
+    }
+  }
 }
