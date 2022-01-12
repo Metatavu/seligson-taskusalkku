@@ -70,9 +70,7 @@ const NewMeetingScreen: React.FC = () => {
   /**
    * Handler for meeting cancel 
    */
-  const onMeetingCancel = () => {
-    navigation.navigate("meetingTimes");
-  };
+  const onMeetingCancel = () => navigation.navigate("meetingTimes");
 
   /**
    * Handler for meeting create 
