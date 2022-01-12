@@ -5,7 +5,9 @@
     "close": "Close",
     "back": "Back",
     "login": "Login",
-    "webPage": "More information on our website"
+    "webPage": "More information on our website",
+    "reserve": "Reserve",
+    "cancel": "Cancel"
   },
 
   "errorHandling": {
@@ -29,6 +31,12 @@
     "auth": {
       "login": "Error while logging in"
     },
+    "meetingTimes": {
+      "list": "Error while loading meeting times"
+    },
+    "meeting": {
+      "create": "Error when creating meeting"
+    },
     "portfolioTransactions": {
       "list": "Error while loading portfolio transactions data"
     },
@@ -49,6 +57,7 @@
     "portfolio": "Portfolio",
     "funds": "Funds",
     "publications": "Publications",
+    "meetings": "Meetings",
     "reviews": "Reviews",
     "topical": "Topical",
     "questions": "Questions",
@@ -116,6 +125,38 @@
       "provision": "Provision",
       "paidTotal": "Total paid"
     }
-  }
+  },
 
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "Book time for a meeting",
+      "bookTimeDescription": "Would you like to discuss investing or financial management with us, either over the phone or in the form of an appointment?\n\nYou can make an appointment below.\n\nStart by choosing a date and time for your appointment.\n\nPlease also tell me how many people are coming and what the subject of the meeting will be. ",
+      "datePicker": {
+        "title": "Date time picker",
+        "pickDateTime": "Pick a date",
+        "noAppointment": "There is no available meeting for this day",
+        "startDate": "Start date",
+        "endDate": "End date"
+      }
+    },
+    "newMeeting": {
+      "title": "Contact us",
+      "selectedTime": "Selected time",
+      "time": "Time",
+      "meetingType": {
+        "title": "Meeting type",
+        "phone": "Phone",
+        "meeting": "Meeting"
+      },
+      "meetingLanguage": "Meeting language",
+      "participantCount": "Participant count",
+      "contact": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "additionalInformation": "Additional information"
+    }
+  }
 }

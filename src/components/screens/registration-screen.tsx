@@ -4,7 +4,7 @@ import RegistrationNavigator from "../../types/navigators/registration";
 import PortfolioScreen from "./home/portfolio-screen";
 import FundsScreen from "./home/funds-screen";
 import PublicationsScreen from "./home/publications-screen";
-import OthersScreen from "./home/others-screen";
+import MeetingsScreen from "./home/meetings-screen";
 
 /**
  * Registration screen stack navigation
@@ -33,7 +33,7 @@ const RegistrationScreen: React.FC = () => (
     />
     <RegistrationNavigation.Screen
       name="consents"
-      component={ OthersScreen }
+      component={ MeetingsScreen }
     />
   </RegistrationNavigation.Navigator>
 );

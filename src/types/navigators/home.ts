@@ -4,6 +4,7 @@ import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import PortfolioNavigator from "./portfolio";
 import FundsNavigator from "./funds";
 import PublicationsNavigator from "./publications";
+import MeetingNavigator from "./meeting";
 
 /**
  * Home navigator
@@ -16,7 +17,7 @@ namespace HomeNavigator {
     portfolio: NavigatorScreenParams<PortfolioNavigator.Routes> | undefined;
     funds: NavigatorScreenParams<FundsNavigator.Routes> | undefined;
     publications: NavigatorScreenParams<PublicationsNavigator.Routes> | undefined;
-    others: undefined;
+    meetings: NavigatorScreenParams<MeetingNavigator.Routes> | undefined;
   };
 
   /**

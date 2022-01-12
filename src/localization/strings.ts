@@ -16,6 +16,8 @@ export interface Strings extends LocalizedStringsMethods {
     back: string;
     login: string;
     webPage: string;
+    reserve: string;
+    cancel: string;
   };
 
   /**
@@ -41,6 +43,12 @@ export interface Strings extends LocalizedStringsMethods {
     };
     auth: {
       login: string;
+    };
+    meetingTimes: {
+      list: string;
+    };
+    meeting: {
+      create: string
     };
     portfolioTransactions: {
       list: string;
@@ -68,6 +76,7 @@ export interface Strings extends LocalizedStringsMethods {
     portfolio: string;
     funds: string;
     publications: string;
+    meetings: string;
     reviews: string;
     topical: string;
     questions: string;
@@ -143,6 +152,42 @@ export interface Strings extends LocalizedStringsMethods {
       totalValue: string;
       provision: string;
       paidTotal: string;
+    };
+  };
+
+  /**
+   * Translations related to meetings screen
+   */
+  meetings: {
+    meetingTimes: {
+      bookTime: string;
+      bookTimeDescription: string;
+      datePicker: {
+        title: string;
+        pickDateTime: string;
+        noAppointment: string;
+        startDate: string;
+        endDate: string;
+      };
+    };
+    newMeeting: {
+      title: string;
+      selectedTime: string;
+      time: string;
+      meetingType: {
+        title: string;
+        phone: string;
+        meeting: string;
+      };
+      meetingLanguage: string;
+      participantCount: string;
+      contact: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+      },
+      additionalInformation: string;
     };
   };
 
