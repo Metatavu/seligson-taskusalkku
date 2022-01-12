@@ -76,6 +76,9 @@ const MeetingTimesScreen: React.FC = () => {
 
   /**
    * Renders meeting time entries
+   *
+   * @param meetingTime meeting time
+   * @param index index of the meeting time
    */
   const renderMeetingTime = (meetingTime: MeetingTime, index: number) => (
     <Button
