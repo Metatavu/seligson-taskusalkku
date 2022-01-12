@@ -14,6 +14,7 @@ import RootNavigator from "../../../types/navigators/root";
 import AuthNavigator from "../../../types/navigators/auth";
 import { Button } from "react-native-paper";
 import strings from "../../../localization/strings";
+import { LoginOptions } from "../../../types/config";
 
 /**
  * Strong authentication view component
@@ -68,6 +69,8 @@ const StrongAuthView: React.FC = () => {
 
       if (result?.accessToken) {
         dispatch(authUpdate(AuthUtils.createAuthFromExpoTokenResponse(result)));
+        !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
+        !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
         navigation.reset({ routes: [{ name: "home" }] });
       } else {
         throw new Error("Login failed");

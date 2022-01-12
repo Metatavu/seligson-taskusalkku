@@ -1,4 +1,5 @@
 import { OAuthProps } from "expo-app-auth";
+import HomeNavigator from "./navigators/home";
 
 /**
  * Static application configuration
@@ -17,7 +18,9 @@ export interface StaticConfig {
  * Application local configuration keys
  */
 export interface LocalConfig {
-  "@language": boolean;
+  "@language": Language;
+  "@initialRoute": keyof HomeNavigator.Routes;
+  "@preferredLogin": LoginOptions;
 }
 
 /**
@@ -26,4 +29,15 @@ export interface LocalConfig {
 export enum Language {
   FI = "fi",
   EN = "en"
+}
+
+/**
+ * Enum for possible login options
+ */
+export enum LoginOptions {
+  USERNAME_AND_PASSWORD = "USERNAME_AND_PASSWORD",
+  PIN = "PIN",
+  BIOMETRIC = "BIOMETRIC",
+  STRONG_AUTH = "STRONG_AUTH",
+  DEMO = "DEMO"
 }
