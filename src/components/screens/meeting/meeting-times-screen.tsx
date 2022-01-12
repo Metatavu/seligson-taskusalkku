@@ -22,8 +22,8 @@ const MeetingTimesScreen: React.FC = () => {
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
 
-  const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date>();
-  const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date>();
+  const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date | undefined>(new Date());
+  const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date | undefined>(new Date());
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
   const [ startDatePickerOpen, setStartDatePickerOpen ] = React.useState(false);
   const [ endDatePickerOpen, setEndDatePickerOpen ] = React.useState(false);
@@ -56,10 +56,9 @@ const MeetingTimesScreen: React.FC = () => {
   /**
    * Handler for start date picker date change
    * 
-   * @param e date picker change event
    * @param pickedDate picked date
    */
-  const startDatePickerChange = (e: any, pickedDate?: Date) => {
+  const startDatePickerChange = (_: any, pickedDate?: Date) => {
     setStartDatePickerOpen(Platform.OS === "ios");
     moment(pickedDate).isAfter(selectedEndDate) && setSelectedEndDate(undefined);
     setSelectedStartDate(pickedDate);
@@ -69,10 +68,9 @@ const MeetingTimesScreen: React.FC = () => {
   /**
    * Handler for end date picker date change
    * 
-   * @param e date picker change event
    * @param pickedDate picked date
    */
-  const endDatePickerChange = (e: any, pickedDate?: Date) => {
+  const endDatePickerChange = (_: any, pickedDate?: Date) => {
     setEndDatePickerOpen(Platform.OS === "ios");
     setSelectedEndDate(pickedDate);
     setEndDatePickerOpen(false);

@@ -7,7 +7,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { MeetingLanguage } from "../../../types";
 import { Button, Card, Divider, RadioButton, TextInput, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
-import { View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
@@ -39,11 +39,9 @@ const NewMeetingScreen: React.FC = () => {
   }
 
   /**
-   * Validates new meeting 
+   * Check is the meeting not valid
    */
-  const validateNewMeeting = () => {
-    return newMeeting.contact.firstName && newMeeting.contact.lastName && newMeeting.type && newMeeting.participantCount;
-  };
+  const isNewMeetingInvalid = () => !newMeeting.contact.firstName || !newMeeting.contact.lastName || !newMeeting.type || !newMeeting.participantCount;
 
   /**
    * Handler for new meeting change 
@@ -199,7 +197,7 @@ const NewMeetingScreen: React.FC = () => {
       <Button onPress={ onMeetingCancel }>
         { strings.generic.back }
       </Button>
-      <Button disabled={ !validateNewMeeting() } onPress={ onMeetingCreate }>
+      <Button disabled={ isNewMeetingInvalid() } onPress={ onMeetingCreate }>
         { strings.generic.reserve }
       </Button>
     </View>
@@ -209,40 +207,43 @@ const NewMeetingScreen: React.FC = () => {
    * Component render 
    */
   return (
-    <ScrollView>
-      <View style={ styles.newMeeting }>
-        <Text style={ theme.fonts.medium }>{ strings.meetings.newMeeting.title }</Text>
-        <View style={{ marginTop: theme.spacing(1) }}>
-          <Card style={ styles.meetingCard }>
-            <View>
-              { renderMeetingTime() }
-              { renderContactEdit() }
-              { renderLanguageSelect() }
-              { renderMeetingTypeSelect() }
-              <TextInput
-                style={{ ...styles.input, width: 180 }}
-                value={ newMeeting.participantCount.toString() }
-                label={ `${strings.meetings.newMeeting.participantCount}*` }
-                onChangeText={ onNewMeetingChange("participantCount") }
-                keyboardType="numeric"
-              />
-              <View style={{ marginTop: theme.spacing(2) }}>
-                <Text>{ `${strings.meetings.newMeeting.additionalInformation}:` }</Text>
+    <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
+      <ScrollView>
+        <View style={ styles.newMeeting }>
+          <Text style={ theme.fonts.medium }>{ strings.meetings.newMeeting.title }</Text>
+          <View style={{ marginTop: theme.spacing(1) }}>
+            <Card style={ styles.meetingCard }>
+              <View>
+                { renderMeetingTime() }
+                { renderContactEdit() }
+                { renderLanguageSelect() }
+                { renderMeetingTypeSelect() }
                 <TextInput
-                  multiline
-                  mode="outlined"
-                  numberOfLines={ 6 }
-                  style={ styles.input }
-                  value={ newMeeting.additionalInformation }
-                  onChangeText={ onNewMeetingChange("additionalInformation") }
+                  style={{ ...styles.input, width: 180 }}
+                  value={ newMeeting.participantCount.toString() }
+                  label={ `${strings.meetings.newMeeting.participantCount}*` }
+                  onChangeText={ onNewMeetingChange("participantCount") }
+                  keyboardType="numeric"
                 />
+                <View style={{ marginTop: theme.spacing(2) }}>
+                  <Text>{ `${strings.meetings.newMeeting.additionalInformation}:` }</Text>
+                  <TextInput
+                    multiline
+                    mode="outlined"
+                    numberOfLines={ 6 }
+                    style={ styles.input }
+                    value={ newMeeting.additionalInformation }
+                    onChangeText={ onNewMeetingChange("additionalInformation") }
+                  />
+                </View>
               </View>
-            </View>
-            { renderButtons() }
-          </Card>
+              { renderButtons() }
+            </Card>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
+
   );
 };
 
