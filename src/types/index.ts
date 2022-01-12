@@ -165,6 +165,7 @@ export interface PublicationDetails extends BasePublication {
  * Portfolio security legends
  */
 export interface PortfolioSecurityLegend {
+  fundId: string;
   name: LocalizedValue;
   totalValue: string;
   currency: string;

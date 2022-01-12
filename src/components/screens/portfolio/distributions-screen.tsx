@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
-import { PortfolioSecurity } from "../../../generated/client";
+import { Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -37,34 +37,90 @@ const DistributionsScreen: React.FC = () => {
     const fund = await fundsApiContext.findFund({ fundId: security.fundId });
 
     return {
+      fundId: security.fundId,
       name: security.name,
       currency: security.currency,
       color: fund.color || "",
       totalValue: portfolioSecurity.totalValue,
-      percentage: `${(new BigNumber(portfolioSecurity.amount)).dividedBy(totalAmount).multipliedBy(100).toFormat(2)} %`
+      percentage: `${(new BigNumber(portfolioSecurity.totalValue)).dividedBy(totalAmount).multipliedBy(100).toFormat(2)} %`
     };
   };
 
   /**
    * Fetch securities of a portfolio
    */
-  const fetchPortfolioSecurities = async () => {
-    if (!selectedPortfolio?.id) {
-      return;
+  const fetchPortfolioSecurities = async (portfolio: Portfolio): Promise<PortfolioSecurityLegend[]> => {
+    if (!portfolio.id) {
+      return [];
     }
 
     try {
-      const portfolioSecurities = await portfoliosApiContext.listPortfolioSecurities({ portfolioId: selectedPortfolio?.id });
-      const totalValue = portfolioSecurities.reduce((prev, cur) => (new BigNumber(cur.amount)).plus(prev), new BigNumber("0"));
-      setPortfolioSecurityLegends(await Promise.all(portfolioSecurities.map(fetchSecurityFund(totalValue))));
+      const portfolioSecurities = await portfoliosApiContext.listPortfolioSecurities({ portfolioId: portfolio?.id });
+      const totalValue = portfolioSecurities.reduce((prev, cur) => (new BigNumber(cur.totalValue)).plus(prev), new BigNumber("0"));
+      return await Promise.all(portfolioSecurities.map(fetchSecurityFund(totalValue)));
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);
+    }
+    return [];
+  };
+
+  /**
+   * Fetch securities of a portfolio
+   */
+  const aggregateSecurityLegends = (legends: PortfolioSecurityLegend[]): PortfolioSecurityLegend[] => {
+    const securityMap = new Map<string, PortfolioSecurityLegend>();
+  
+    let sumValue = new BigNumber("0");
+    legends.forEach(legend => {
+      const storedLegend = securityMap.get(legend.fundId);
+
+      const currentNumber = new BigNumber(legend.totalValue);
+      const updatedLegend: PortfolioSecurityLegend = {
+        ...legend,
+        totalValue: new BigNumber(storedLegend?.totalValue || "0").plus(currentNumber).toString()
+      };
+      sumValue = sumValue.plus(currentNumber);
+      securityMap.set(updatedLegend.fundId, updatedLegend);
+    });
+
+    const aggregatedList = Array.from(securityMap.values());
+    return aggregatedList.map(legend => ({
+      ...legend,
+      percentage: `${(new BigNumber(legend.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
+    }));
+  };
+
+  /**
+   * Fetch securities of a portfolio
+   */
+  const fetchAllPortfolioSecurities = async () => {
+    try {
+      const portfolios = await portfoliosApiContext.listPortfolios();
+      const legendLists = await Promise.all(portfolios.map(fetchPortfolioSecurities));
+      const legendList = legendLists.reduce((prev, cur) => prev.concat(cur), []);
+
+      return aggregateSecurityLegends(legendList);
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.portfolio.list, error);
+    }
+    return [];
+  };
+
+  /**
+   * Fetch securities of a portfolio
+   */
+  const loadData = async () => {
+    setLoading(true);
+    if (selectedPortfolio) {
+      setPortfolioSecurityLegends(await fetchPortfolioSecurities(selectedPortfolio));
+    } else {
+      setPortfolioSecurityLegends(await fetchAllPortfolioSecurities());
     }
     setLoading(false);
   };
 
   React.useEffect(() => {
-    fetchPortfolioSecurities();
+    loadData();
   }, [ selectedPortfolio ]);
 
   /**
