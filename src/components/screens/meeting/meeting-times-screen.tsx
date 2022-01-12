@@ -46,6 +46,9 @@ const MeetingTimesScreen: React.FC = () => {
     }
   };
 
+  /**
+   * Effect for fetching meeting times when selected start or end date changes
+   */
   React.useEffect(() => {
     fetchMeetingTimes();
   }, [ selectedStartDate, selectedEndDate ]);
