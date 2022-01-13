@@ -5,7 +5,11 @@ export default StyleSheet.create({
 
   distributionCard: {
     padding: theme.spacing(2),
-    marginTop: theme.spacing(1)
+    paddingTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
+    borderRadius: 0,
+    borderBottomRightRadius: 25,
+    borderTopLeftRadius: 25
   },
 
   chartContainer: {
@@ -26,15 +30,16 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
 
-  securityLegend: {
+  securityCategory: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
+    // flexWrap: "wrap",
     alignItems: "center",
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(2)
   },
 
-  legendColor: {
+  categoryColor: {
     height: 20,
     width: 20,
     borderRadius: 10,

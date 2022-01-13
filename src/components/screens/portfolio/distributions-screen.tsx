@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, ActivityIndicator } from "react-native";
+import { ScrollView, View, Text, ActivityIndicator, Dimensions } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
 import { Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
@@ -8,7 +8,7 @@ import { PortfolioContext } from "../../providers/portfolio-provider";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { VictoryLabel, VictoryPie } from "victory-native";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
-import { PortfolioSecurityLegend } from "../../../types";
+import { PortfolioSecurityCategory } from "../../../types";
 import GenericUtils from "../../../utils/generic";
 import { Card } from "react-native-paper";
 import { FundsApiContext } from "../../providers/funds-api-provider";
@@ -26,13 +26,13 @@ const DistributionsScreen: React.FC = () => {
   const fundsApiContext = React.useContext(FundsApiContext);
   const errorContext = React.useContext(ErrorContext);
 
-  const [ portfolioSecurityLegends, setPortfolioSecurityLegends ] = React.useState<PortfolioSecurityLegend[]>([]);
+  const [ portfolioSecurityCategories, setPortfolioSecurityCategories ] = React.useState<PortfolioSecurityCategory[]>([]);
   const [ loading, setLoading ] = React.useState(true);
 
   /**
    * Fetch and preprocess a security 
    */
-  const fetchSecurityFund = (totalAmount: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityLegend> => {
+  const fetchSecurityFund = (totalAmount: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
     const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
     const fund = await fundsApiContext.findFund({ fundId: security.fundId });
 
@@ -48,8 +48,10 @@ const DistributionsScreen: React.FC = () => {
 
   /**
    * Fetch securities of a portfolio
+   * 
+   * @param portfolio portfolio
    */
-  const fetchPortfolioSecurities = async (portfolio: Portfolio): Promise<PortfolioSecurityLegend[]> => {
+  const fetchPortfolioSecurities = async (portfolio: Portfolio): Promise<PortfolioSecurityCategory[]> => {
     if (!portfolio.id) {
       return [];
     }
@@ -66,27 +68,29 @@ const DistributionsScreen: React.FC = () => {
 
   /**
    * Fetch securities of a portfolio
+   * 
+   * @param categories categories 
    */
-  const aggregateSecurityLegends = (legends: PortfolioSecurityLegend[]): PortfolioSecurityLegend[] => {
-    const securityMap = new Map<string, PortfolioSecurityLegend>();
+  const aggregateSecurityCategories = (categories: PortfolioSecurityCategory[]): PortfolioSecurityCategory[] => {
+    const securityMap = new Map<string, PortfolioSecurityCategory>();
   
     let sumValue = new BigNumber("0");
-    legends.forEach(legend => {
-      const storedLegend = securityMap.get(legend.fundId);
+    categories.forEach(category => {
+      const storedCategory = securityMap.get(category.fundId);
 
-      const currentNumber = new BigNumber(legend.totalValue);
-      const updatedLegend: PortfolioSecurityLegend = {
-        ...legend,
-        totalValue: new BigNumber(storedLegend?.totalValue || "0").plus(currentNumber).toString()
+      const currentNumber = new BigNumber(category.totalValue);
+      const updatedCategory: PortfolioSecurityCategory = {
+        ...category,
+        totalValue: new BigNumber(storedCategory?.totalValue || "0").plus(currentNumber).toString()
       };
       sumValue = sumValue.plus(currentNumber);
-      securityMap.set(updatedLegend.fundId, updatedLegend);
+      securityMap.set(updatedCategory.fundId, updatedCategory);
     });
 
     const aggregatedList = Array.from(securityMap.values());
-    return aggregatedList.map(legend => ({
-      ...legend,
-      percentage: `${(new BigNumber(legend.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
+    return aggregatedList.map(category => ({
+      ...category,
+      percentage: `${(new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
     }));
   };
 
@@ -96,10 +100,10 @@ const DistributionsScreen: React.FC = () => {
   const fetchAllPortfolioSecurities = async () => {
     try {
       const portfolios = await portfoliosApiContext.listPortfolios();
-      const legendLists = await Promise.all(portfolios.map(fetchPortfolioSecurities));
-      const legendList = legendLists.reduce((prev, cur) => prev.concat(cur), []);
+      const categoryLists = await Promise.all(portfolios.map(fetchPortfolioSecurities));
+      const categoryList = categoryLists.reduce((prev, cur) => prev.concat(cur), []);
 
-      return aggregateSecurityLegends(legendList);
+      return aggregateSecurityCategories(categoryList);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
@@ -112,9 +116,9 @@ const DistributionsScreen: React.FC = () => {
   const loadData = async () => {
     setLoading(true);
     if (selectedPortfolio) {
-      setPortfolioSecurityLegends(await fetchPortfolioSecurities(selectedPortfolio));
+      setPortfolioSecurityCategories(await fetchPortfolioSecurities(selectedPortfolio));
     } else {
-      setPortfolioSecurityLegends(await fetchAllPortfolioSecurities());
+      setPortfolioSecurityCategories(await fetchAllPortfolioSecurities());
     }
     setLoading(false);
   };
@@ -127,52 +131,51 @@ const DistributionsScreen: React.FC = () => {
    * Renders content
    */
   const renderPie = () => {
-    const chartData = portfolioSecurityLegends.map(portfolioSecurityLegend => (
+    const chartData = portfolioSecurityCategories.map(portfolioSecurityCategory => (
       {
-        x: `${GenericUtils.getLocalizedValue(portfolioSecurityLegend.name)} ${portfolioSecurityLegend.percentage}`,
-        y: parseFloat(portfolioSecurityLegend.totalValue)
+        x: `${GenericUtils.getLocalizedValue(portfolioSecurityCategory.name).split(" ")[0]}- ${portfolioSecurityCategory.percentage}`,
+        y: parseFloat(portfolioSecurityCategory.totalValue)
       }));
 
-    const chartColor = portfolioSecurityLegends.map(portfolioSecurityLegend => portfolioSecurityLegend.color);
+    const chartColor = portfolioSecurityCategories.map(portfolioSecurityCategory => portfolioSecurityCategory.color);
 
     return (
-      <Card style={ styles.distributionCard }>
-        <View style={ styles.chartContainer }>
-          <VictoryPie
-            colorScale={ chartColor }
-            data={ chartData }
-            radius={ 120 }
-            labelRadius={ 60 }
-            animate={{ duration: 2000 }}
-            labelComponent={ <VictoryLabel style={{ fontSize: 12 }}/> }
-          />
-        </View>
-      </Card>
+      <View style={ styles.chartContainer }>
+        <VictoryPie
+          colorScale={ chartColor }
+          data={ chartData }
+          radius={ 120 }
+          labelRadius={ 80 }
+          width={ Dimensions.get("window").width }
+          height={ 300 }
+          animate={{ duration: 2000 }}
+          labelComponent={ <VictoryLabel style={{ fontSize: 12 }}/> }
+        />
+      </View>
     );
   };
 
   /**
-   * Renders legend
+   * Renders securities category
    * 
-   * @param portfolioSecurityLegend portfolio security legend
+   * @param portfolioSecurityCategory portfolio security category
    */
-  const renderLegend = (portfolioSecurityLegend: PortfolioSecurityLegend) => (
-    <View style={ styles.securityLegend }>
+  const renderCategory = (portfolioSecurityCategory: PortfolioSecurityCategory) => (
+    <View style={ styles.securityCategory }>
       <View
-        style={{ ...styles.legendColor, backgroundColor: portfolioSecurityLegend.color }}
+        style={{ ...styles.categoryColor, backgroundColor: portfolioSecurityCategory.color }}
       />
-      <Text style={{ marginRight: theme.spacing(1) }}>{ portfolioSecurityLegend.percentage }</Text>
-      <Text>{ GenericUtils.getLocalizedValue(portfolioSecurityLegend.name) }</Text>
+      <Text style={{ flexWrap: "wrap" }}>{ `${portfolioSecurityCategory.percentage} ${GenericUtils.getLocalizedValue(portfolioSecurityCategory.name)}` }</Text>
     </View>
   );
 
   /**
    * Renders legends
    */
-  const renderLegends = () => {
+  const renderCategories = () => {
     return (
-      <Card style={{ ...styles.distributionCard, marginTop: theme.spacing(2) }}>
-        { portfolioSecurityLegends.map(renderLegend) }
+      <Card style={ styles.distributionCard }>
+        { portfolioSecurityCategories.map(renderCategory) }
       </Card>
     );
   };
@@ -189,7 +192,7 @@ const DistributionsScreen: React.FC = () => {
       );
     }
 
-    if (!portfolioSecurityLegends.length) {
+    if (!portfolioSecurityCategories.length) {
       return (
         <View style={ styles.loaderContainer }>
           <Text>{ strings.generic.noData }</Text>
@@ -200,7 +203,7 @@ const DistributionsScreen: React.FC = () => {
     return (
       <>
         { renderPie() }
-        { renderLegends() }
+        { renderCategories() }
       </>
     );
   };
