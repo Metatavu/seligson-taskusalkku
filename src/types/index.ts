@@ -162,7 +162,7 @@ export interface PublicationDetails extends BasePublication {
 }
 
 /**
- * Portfolio security legends
+ * Portfolio security category
  */
 export interface PortfolioSecurityCategory {
   fundId: string;
