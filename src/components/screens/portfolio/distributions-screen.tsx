@@ -176,13 +176,11 @@ const DistributionsScreen: React.FC = () => {
   /**
    * Renders legends
    */
-  const renderCategories = () => {
-    return (
-      <Card style={ styles.distributionCard }>
-        { portfolioSecurityCategories.map(renderCategory) }
-      </Card>
-    );
-  };
+  const renderCategories = () => (
+    <Card style={ styles.distributionCard }>
+      { portfolioSecurityCategories.map(renderCategory) }
+    </Card>
+  );
 
   /**
    * Renders content
