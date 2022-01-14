@@ -30,7 +30,9 @@ const DistributionsScreen: React.FC = () => {
   const [ loading, setLoading ] = React.useState(true);
 
   /**
-   * Fetch and preprocess a security 
+   * Fetch and preprocess a security
+   *
+   * @param totalAmount total amount
    */
   const fetchSecurityFund = (totalAmount: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
     const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
