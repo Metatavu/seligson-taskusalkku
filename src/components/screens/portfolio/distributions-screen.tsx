@@ -65,6 +65,7 @@ const DistributionsScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);
     }
+
     return [];
   };
 
