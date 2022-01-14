@@ -109,6 +109,7 @@ const DistributionsScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
+
     return [];
   };
 
