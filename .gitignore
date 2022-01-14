@@ -15,4 +15,4 @@ generated/
 
 # other
 eas.json
-.env
+.env*
