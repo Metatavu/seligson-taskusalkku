@@ -31,7 +31,9 @@ const DistributionsScreen: React.FC = () => {
   const [ loading, setLoading ] = React.useState(true);
 
   /**
-   * Fetch and preprocess a security 
+   * Fetch and preprocess a security
+   *
+   * @param totalAmount total amount
    */
   const fetchSecurityFund = (totalAmount: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
     const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
@@ -64,6 +66,7 @@ const DistributionsScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);
     }
+
     return [];
   };
 
@@ -80,6 +83,7 @@ const DistributionsScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
+
     return [];
   };
 
@@ -146,13 +150,11 @@ const DistributionsScreen: React.FC = () => {
   /**
    * Renders legends
    */
-  const renderCategories = () => {
-    return (
-      <Card style={ styles.distributionCard }>
-        { portfolioSecurityCategories.map(renderCategory) }
-      </Card>
-    );
-  };
+  const renderCategories = () => (
+    <Card style={ styles.distributionCard }>
+      { portfolioSecurityCategories.map(renderCategory) }
+    </Card>
+  );
 
   /**
    * Renders content
