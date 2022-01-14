@@ -5,7 +5,10 @@
     "close": "Close",
     "back": "Back",
     "login": "Login",
-    "webPage": "More information on our website"
+    "webPage": "More information on our website",
+    "reserve": "Reserve",
+    "cancel": "Cancel",
+    "save": "Save"
   },
 
   "errorHandling": {
@@ -29,6 +32,12 @@
     "auth": {
       "login": "Error while logging in"
     },
+    "meetingTimes": {
+      "list": "Error while loading meeting times"
+    },
+    "meeting": {
+      "create": "Error when creating meeting"
+    },
     "portfolioTransactions": {
       "list": "Error while loading portfolio transactions data"
     },
@@ -42,13 +51,18 @@
     "loginSessionExpiredTitle": "Login session has expired",
     "loginSessionExpiredContent": "Login session has expired. Please login again.",
     "loginRequired": "Login with Oma Salkku credentials",
-    "newAccount": "Do you need (first or new) Oma Salkku credentials?"
+    "login": "Login",
+    "newAccount": "Do you need (first or new) Oma Salkku credentials?",
+    "inputPinCode": "Input pin-code",
+    "incorrectPinCode": "Incorrect pin-code",
+    "loginWithBiometric": "Login with biometric authentication"
   },
 
   "screenTitles": {
     "portfolio": "Portfolio",
     "funds": "Funds",
     "publications": "Publications",
+    "meetings": "Meetings",
     "reviews": "Reviews",
     "topical": "Topical",
     "questions": "Questions",
@@ -116,6 +130,84 @@
       "provision": "Provision",
       "paidTotal": "Total paid"
     }
-  }
+  },
 
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "Book time for a meeting",
+      "bookTimeDescription": "Would you like to discuss investing or financial management with us, either over the phone or in the form of an appointment?\n\nYou can make an appointment below.\n\nStart by choosing a date and time for your appointment.\n\nPlease also tell me how many people are coming and what the subject of the meeting will be. ",
+      "datePicker": {
+        "title": "Date time picker",
+        "pickDateTime": "Pick a date",
+        "noAppointment": "There is no available meeting for this day",
+        "startDate": "Start date",
+        "endDate": "End date"
+      }
+    },
+    "newMeeting": {
+      "title": "Contact us",
+      "selectedTime": "Selected time",
+      "time": "Time",
+      "meetingType": {
+        "title": "Meeting type",
+        "phone": "Phone",
+        "meeting": "Meeting"
+      },
+      "meetingLanguage": "Meeting language",
+      "participantCount": "Participant count",
+      "contact": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "additionalInformation": "Additional information"
+    }
+  },
+
+  "settingsScreen": {
+    "initialRoute": "Select default login route",
+    "preferredLogin": "Select preferred login",
+    "language": "Application language"
+  },
+
+  "loginOptions": {
+    "usernameAndPassword": {
+      "title": "Username and password",
+      "description": "You will login with username and password"
+    },
+    "pin": {
+      "title": "Pin-code",
+      "description": "You stay logged in but you have to open the application with pin-code of your choosing."
+    },
+    "biometric": {
+      "title": "Biometric authentication",
+      "description": "You stay logged in but you have to open the application with fingerprint or facial recognition."
+    },
+    "strongAuth": {
+      "title": "Strong authentication",
+      "description": "You will login with strong authentication"
+    },
+    "demo": {
+      "title": "Demo",
+      "description": "You will be redirected to demo login"
+    }
+  },
+
+  "defaultRoutes": {
+    "portfolio": {
+      "title": "Portfolio",
+      "description": "Your portfolio will be shown when you login."
+    },
+    "funds": {
+      "title": "Fund values",
+      "description": "Funds will be shown when you login."
+    }
+  },
+
+  "languages": {
+    "fi": "Suomi",
+    "en": "English",
+    "sv": "Svenska"
+  }
 }

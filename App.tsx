@@ -9,7 +9,7 @@ import AppLoading from "expo-app-loading";
 import { NotoSans_400Regular, NotoSans_700Bold, useFonts } from "@expo-google-fonts/noto-sans";
 import RootNavigator from "./src/types/navigators/root";
 import HomeScreen from "./src/components/screens/home-screen";
-import AccountScreen from "./src/components/screens/account-screen";
+import SettingsScreen from "./src/components/screens/settings-screen";
 import AuthenticationScreen from "./src/components/screens/authentication-screen";
 import RegistrationScreen from "./src/components/screens/registration-screen";
 
@@ -87,7 +87,7 @@ const App: React.FC = () => {
         />
         <RootNavigation.Screen
           name="account"
-          component={ AccountScreen }
+          component={ SettingsScreen }
           options={{ headerShown: true, title: strings.screenTitles.profile }}
         />
         <RootNavigation.Screen

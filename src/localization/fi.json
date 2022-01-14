@@ -5,7 +5,10 @@
     "close": "Sulje",
     "back": "Takaisin",
     "login": "Kirjaudu sisään",
-    "webPage": "Lisätietoja verkkosivuillamme"
+    "webPage": "Lisätietoja verkkosivuillamme",
+    "reserve": "Varaa",
+    "cancel": "Peruuta",
+    "save": "Tallenna"
   },
 
   "errorHandling": {
@@ -29,6 +32,12 @@
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe"
     },
+    "meetingTimes": {
+      "list": "Virhe listattaessa vapaita aikoja"
+    },
+    "meeting": {
+      "create": "Virhe ajanvarausta luodessa"
+    },
     "portfolioTransactions": {
       "list": "Virhe listattaessa oman portfolion tapahtumia"
     },
@@ -42,13 +51,18 @@
     "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
     "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään.",
     "loginRequired": "Kirjaudu sovellukseen Oma Salkku -tunnuksillasi.",
-    "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?"
+    "login": "Kirjaudu sisään",
+    "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?",
+    "inputPinCode": "Kirjoita pin-koodi",
+    "incorrectPinCode": "Väärä pin-koodi",
+    "loginWithBiometric": "Kirjaudu sisään biometrisellä tunnisteella"
   },
 
   "screenTitles": {
     "portfolio": "Salkku",
     "funds": "Rahastot",
     "publications": "Julkaisut",
+    "meetings": "Tapaamiset",
     "reviews": "Katsaukset",
     "topical": "Ajankohtaista",
     "questions": "Kysymykset",
@@ -116,6 +130,84 @@
       "provision": "Palkkio",
       "paidTotal": "Maksettu yhteensä"
     }
-  }
+  },
 
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "BVaraa aika keskustelulle",
+      "bookTimeDescription": "Haluatko keskustella kanssamme sijoittamisesta tai varainhoidosta joko puhelimessa tai tapaamisen muodossa?\n\nAlta voit varata sopivan ajan keskustelulle.\n\nAloita valitsemalla tapaamiselle haluamasi päivämäärä ja aika. Varattavia aikoja on pankkipäivinä klo 9:00 - 17:00.\n\nKerrothan mielellään myös kuinka monta henkilöä on tulossa ja parilla sanalla siitä, mikä on tapaamisen aihe.",
+      "datePicker": {
+        "title": "Päivämäärä ja aika",
+        "pickDateTime": "Valitse päivä",
+        "noAppointment": "Tälle päivälle ei ole varattavia aikoja.",
+        "startDate": "Aloituspäivämäärä",
+        "endDate": "Päättymispäivä"
+      }
+    },
+    "newMeeting": {
+      "title": "Yhteystiedot",
+      "selectedTime": "Valittu aika",
+      "time": "klo",
+      "meetingType": {
+        "title": "Varaan ajan",
+        "phone": "PuhelinKeskusteluun",
+        "meeting": "Tapaamiseen"
+      },
+      "meetingLanguage": "Kieli",
+      "participantCount": "Osallistujien lukumäärä",
+      "contact": {
+        "firstName": "Etunimi",
+        "lastName": "Sukunimi",
+        "email": "Sähköposti",
+        "phone": "Puhelinnumero"
+      },
+      "additionalInformation": "Lisätiedot"
+    }
+  },
+
+  "settingsScreen": {
+    "initialRoute": "Valitse aloitussisältö",
+    "preferredLogin": "Valitse kirjautumistapa",
+    "language": "Sovelluksen kieli"
+  },
+
+  "loginOptions": {
+    "usernameAndPassword": {
+      "title": "Käyttäjätunnus ja salasana",
+      "description": "Sovellukseen kirjaudutaan käyttäjätunnuksella ja salasanalla."
+    },
+    "pin": {
+      "title": "Tunnusluku",
+      "description": "Pysyt kirjautuneen, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
+    },
+    "biometric": {
+      "title": "Biometrinen tunnistus",
+      "description": "Pysyt kirjautuneena, mutta sovelluksen lukitus avataan sormenjäljelläsi tai kasvotunnistuksella."
+    },
+    "strongAuth": {
+      "title": "Vahva tunnistautuminen",
+      "description": "Sovellukseen kirjaudutaan vahvalla tunnistuksella"
+    },
+    "demo": {
+      "title": "Demo",
+      "description": "Sovellus ohjaa demo kirjautumiseen"
+    }
+  },
+
+  "defaultRoutes": {
+    "portfolio": {
+      "title": "Salkku",
+      "description": "Rahastosalkkusi näytetään heti, kun avaat sovelluksen (Vaatii kirjautumisen tai lukituksen avaamisen)"
+    },
+    "funds": {
+      "title": "Rahastoarvot",
+      "description": "Rahastoarvot näytetään heti, kun avaat sovelluksen."
+    }
+  },
+
+  "languages": {
+    "fi": "Suomi",
+    "en": "English",
+    "sv": "Svenska"
+  }
 }

@@ -1,4 +1,4 @@
-import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime } from "../generated/client";
 
 /**
  * Parsed access token
@@ -92,6 +92,14 @@ export interface PublicationsApiContextType {
 }
 
 /**
+ * Interface for meetings API context
+ */
+export interface MeetingsApiContextType {
+  createMeeting: (params: CreateMeetingRequest) => Promise<Meeting>;
+  listMeetingTimes: (params: ListMeetingTimesRequest) => Promise<Array<MeetingTime>>;
+}
+
+/**
  * Enum for chart range select
  */
 export enum ChartRange {
@@ -101,6 +109,14 @@ export enum ChartRange {
   FIVE_YEARS = "FIVE_YEARS",
   TEN_YEARS = "TEN_YEARS",
   MAX = "MAX"
+}
+
+/**
+ * Enum for meeting language select
+ */
+export enum MeetingLanguage {
+  FI = "fi",
+  EN = "en"
 }
 
 /**

@@ -53,7 +53,6 @@ const FundDetailsScreen: React.FC = () => {
         endDate: moment().toDate()
       }));
     } catch (error) {
-      console.log("ERROR", error);
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
 

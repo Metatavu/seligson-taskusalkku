@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/return-await */
 import { hasHardwareAsync, supportedAuthenticationTypesAsync, isEnrolledAsync, authenticateAsync } from "expo-local-authentication";
+import strings from "../localization/strings";
 
 /**
  * Class providing utility methods for user authentication with biometric authentication methods
@@ -20,8 +22,8 @@ namespace BiometricAuth {
     }
 
     const { success } = await authenticateAsync({
-      promptMessage: "strings.biometricAuth.authenticate",
-      cancelLabel: "strings.generic.cancel",
+      promptMessage: strings.auth.loginWithBiometric,
+      cancelLabel: strings.generic.cancel,
       disableDeviceFallback: true
     });
 

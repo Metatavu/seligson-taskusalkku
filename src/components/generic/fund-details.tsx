@@ -61,7 +61,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           {/* {lahiTapiola ? (
             <Image
             // eslint-disable-next-line global-require
-              source={ require("../../../assets/ltLogoWide.png") }
+              source={ require("../../../assets/lt-logo-wide.png") }
               resizeMode="contain"
               style={ styles.logoWide }
             />

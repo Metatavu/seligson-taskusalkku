@@ -1,26 +1,28 @@
 import React from "react";
 import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
-import { useAppDispatch } from "../../../app/hooks";
-import { anonymousAuthUpdate, authUpdate } from "../../../features/auth/auth-slice";
-import strings from "../../../localization/strings";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { anonymousAuthUpdate, authUpdate, selectAuth } from "../../../features/auth/auth-slice";
 import AuthNavigator from "../../../types/navigators/auth";
 import RootNavigator from "../../../types/navigators/root";
 import AuthUtils from "../../../utils/auth";
-import { ErrorContext } from "../../error-handler/error-handler";
 import Config from "../../../app/config";
 import { Language, LoginOptions } from "../../../types/config";
 import { setLanguage } from "../../../features/locale/locale-slice";
 import { View } from "react-native";
-import SeligsonLogo from "../../../../assets/seligsonLogo";
+import SeligsonLogo from "../../../../assets/seligson-logo";
 import theme from "../../../theme";
-import { ProgressBar } from "react-native-paper";
+import { Button, ProgressBar } from "react-native-paper";
 import BiometricAuth from "../../../utils/biometric-auth";
 import PinCodeAuth from "../../../utils/pin-code-auth";
+import PinInput from "../../generic/pin-input";
+import strings from "../../../localization/strings";
+import styles from "../../../styles/screens/auth/welcome-screen";
+import HomeNavigator from "../../../types/navigators/home";
 
 /**
  * Custom navigation prop type for WelcomeScreen. Consists of AuthNavigator and RootNavigator
  */
-type WelcomeScreenNavigationProp = CompositeNavigationProp<AuthNavigator.NavigationProps<"welcome">, RootNavigator.NavigationProps>;
+type WelcomeScreenNavigationProp = CompositeNavigationProp<RootNavigator.NavigationProps, AuthNavigator.NavigationProps<"welcome">>;
 
 /**
  * Welcome screen component
@@ -28,17 +30,22 @@ type WelcomeScreenNavigationProp = CompositeNavigationProp<AuthNavigator.Navigat
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
   const dispatch = useAppDispatch();
-  const errorContext = React.useContext(ErrorContext);
+  const auth = useAppSelector(selectAuth);
+
+  const [ pinInputOpen, setPinInputOpen ] = React.useState(false);
+  const [ pinError, setPinError ] = React.useState(false);
+  const [ authError, setAuthError ] = React.useState(false);
 
   /**
    * Performs anonymous login
    */
   const anonymousLogin = async () => {
     try {
-      const auth = await AuthUtils.anonymousLogin();
-      auth && dispatch(anonymousAuthUpdate(auth));
+      const anonymousAuth = await AuthUtils.anonymousLogin();
+      dispatch(anonymousAuthUpdate(anonymousAuth));
     } catch (error) {
-      errorContext.setError(strings.errorHandling.auth.login, error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
@@ -52,20 +59,28 @@ const WelcomeScreen: React.FC = () => {
       throw new Error("No offline token");
     }
 
-    const auth = await AuthUtils.tryToRefresh(offlineToken);
-    dispatch(authUpdate(auth));
+    const refreshedAuth = await AuthUtils.tryToRefresh(offlineToken);
+    dispatch(authUpdate(refreshedAuth));
   };
 
   /**
-   * Checks login flow based on the local storage value
+   * Resolves navigation path
    */
-  const checkLoginFlow = async () => {
-    const preferredLogin = await Config.getLocalValue("@preferredLogin");
+  const resolveNavigationPath = async () => {
+    if (authError) {
+      return;
+    }
 
-    navigation.replace("home");
+    const preferredLogin = await Config.getLocalValue("@preferredLogin");
+    const initialRoute = await Config.getLocalValue("@initialRoute");
 
     if (!preferredLogin || preferredLogin === LoginOptions.USERNAME_AND_PASSWORD) {
       navigation.replace("login");
+      return;
+    }
+
+    if (preferredLogin === LoginOptions.STRONG_AUTH) {
+      navigation.navigate("login", { strongAuth: true });
       return;
     }
 
@@ -80,25 +95,24 @@ const WelcomeScreen: React.FC = () => {
       try {
         const result = await BiometricAuth.authenticate();
         if (result) {
-          navigation.replace("home");
+          navigation.replace(
+            "home", {
+              screen: auth ? initialRoute as keyof HomeNavigator.Routes : "funds"
+            }
+          );
           return;
         }
+
+        setAuthError(true);
+        return;
       } catch (error) {
         console.log(error);
       }
     }
 
     if (preferredLogin === LoginOptions.PIN) {
-      try {
-        await PinCodeAuth.create("1234");
-        const result = await PinCodeAuth.authenticate("1234");
-        if (result) {
-          navigation.replace("home");
-          return;
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      setPinInputOpen(true);
+      return;
     }
 
     if (preferredLogin === LoginOptions.DEMO) {
@@ -106,7 +120,7 @@ const WelcomeScreen: React.FC = () => {
       return;
     }
 
-    navigation.replace("home");
+    navigation.replace("home", { screen: "funds" });
   };
 
   /**
@@ -114,11 +128,9 @@ const WelcomeScreen: React.FC = () => {
    */
   const initialize = async () => {
     await anonymousLogin();
-    await checkLoginFlow();
     dispatch(setLanguage(await Config.getLocalValue("@language") || Language.FI));
-
     !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
-    // navigation.replace("home");
+    await resolveNavigationPath();
   };
 
   /**
@@ -126,18 +138,51 @@ const WelcomeScreen: React.FC = () => {
    */
   React.useEffect(() => { initialize(); }, []);
 
+  /**
+   * Effect for resolving navigation path when auth error value changes
+   */
+  React.useEffect(() => { resolveNavigationPath(); }, [ authError ]);
+
+  /**
+   * Event handler for validating pin code user has given
+   *
+   * @param pinCode pin code to validate
+   */
+  const onValidatePinCode = async (pinCode: string) => {
+    try {
+      const result = await PinCodeAuth.authenticate(pinCode);
+      if (result) {
+        navigation.replace("home");
+        return;
+      }
+
+      setPinError(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <View
-      style={{
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
+    <View style={ styles.container }>
       <SeligsonLogo/>
-      <View style={{ width: "50%", marginTop: 50 }}>
+      <View style={ styles.progressContainer }>
         <ProgressBar indeterminate color={ theme.colors.primary }/>
       </View>
+      <PinInput
+        inputOpen={ pinInputOpen }
+        onSave={ onValidatePinCode }
+        onCancel={ () => setPinInputOpen(false) }
+        error={ pinError }
+        confirmButtonLabel={ strings.generic.login }
+      />
+      { authError &&
+        <Button
+          uppercase={ false }
+          onPress={ () => setAuthError(false) }
+        >
+          { strings.auth.login }
+        </Button>
+      }
     </View>
   );
 };

@@ -22,12 +22,13 @@ import { LoginOptions } from "../../../types/config";
  * @param props component properties
  */
 const StrongAuthView: React.FC = () => {
-  const navigation = useNavigation<RootNavigator.NavigationProps<"home">>();
+  const navigation = useNavigation<RootNavigator.NavigationProps>();
   const { params } = useRoute<AuthNavigator.RouteProps>();
   const demoLogin = params?.demoLogin;
+  const strongAuth = params?.strongAuth;
 
   const dispatch = useAppDispatch();
-  const { auth } = Config.getStatic();
+  const { auth, demoLoginUrl } = Config.getStatic();
   const discovery = AuthSession.useAutoDiscovery(auth.issuer);
   const [ authUrl, setAuthUrl ] = React.useState<string>();
 
@@ -39,12 +40,17 @@ const StrongAuthView: React.FC = () => {
       return;
     }
 
+    if (demoLogin) {
+      setAuthUrl(demoLoginUrl);
+      return;
+    }
+
     const url = new URL(`${auth.serviceConfiguration.authorizationEndpoint}`);
     url.searchParams.append("response_type", "code");
     url.searchParams.append("client_id", auth.clientId);
     url.searchParams.append("scope", auth.scopes.join(" "));
     url.searchParams.append("redirect_uri", auth.redirectUrl);
-    url.searchParams.append("kc_idp_hint", "taskusalkku");
+    url.searchParams.append("kc_idp_hint", strongAuth ? "telia" : "taskusalkku");
 
     setAuthUrl(url.href);
   }, []);
@@ -61,20 +67,23 @@ const StrongAuthView: React.FC = () => {
 
     try {
       const result = await AuthSession.exchangeCodeAsync({
-        clientId: "app",
-        redirectUri: Config.getStatic().auth.redirectUrl || "",
+        clientId: auth.clientId,
+        redirectUri: auth.redirectUrl || "",
         code: code,
-        scopes: [ "openid", "profile", "offline_access" ]
+        scopes: auth.scopes
       }, discovery);
 
-      if (result?.accessToken) {
-        dispatch(authUpdate(AuthUtils.createAuthFromExpoTokenResponse(result)));
-        !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
-        !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
-        navigation.reset({ routes: [{ name: "home" }] });
-      } else {
+      if (!result?.accessToken || !result?.refreshToken) {
         throw new Error("Login failed");
       }
+
+      const authentication = AuthUtils.createAuthFromExpoTokenResponse(result);
+      dispatch(authUpdate(authentication));
+
+      !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
+      !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
+
+      navigation.navigate("home");
     } catch (error) {
       console.error(error);
     }
@@ -105,14 +114,14 @@ const StrongAuthView: React.FC = () => {
     <View style={{ flex: 1, marginTop: 40 }}>
       {/* TODO: Fix styling */}
       { Platform.OS === "ios" &&
-        <Button onPress={ () => navigation.goBack() }>
+        <Button onPress={ navigation.goBack }>
           { strings.generic.back }
         </Button>
       }
       <WebView
         incognito
         style={{ height: "100%" }}
-        source={{ uri: demoLogin ? Config.getStatic().demoLoginUrl : authUrl }}
+        source={{ uri: authUrl }}
         onLoadEnd={ oauthCodeParser }
       />
     </View>

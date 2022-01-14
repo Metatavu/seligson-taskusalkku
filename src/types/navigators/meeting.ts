@@ -1,17 +1,18 @@
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MeetingTime } from "../../generated/client";
 
 /**
- * Root navigator
+ * Fund selection navigator
  */
-namespace AuthNavigator {
+namespace MeetingNavigator {
 
   /**
    * Routes
    */
   export type Routes = {
-    welcome: undefined;
-    login: { demoLogin?: boolean; strongAuth?: boolean } | undefined;
+    meetingTimes: undefined;
+    newMeeting: { meetingTime: MeetingTime };
   };
 
   /**
@@ -31,4 +32,4 @@ namespace AuthNavigator {
 
 }
 
-export default AuthNavigator;
+export default MeetingNavigator;

@@ -41,3 +41,11 @@ export enum LoginOptions {
   STRONG_AUTH = "STRONG_AUTH",
   DEMO = "DEMO"
 }
+
+/**
+ * Enum for possible default login route options
+ */
+export enum DefaultRoutes {
+  PORTFOLIO = "PORTFOLIO",
+  FUNDS = "FUNDS"
+}
