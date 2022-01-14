@@ -14,6 +14,7 @@ import { Card } from "react-native-paper";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 import theme from "../../../theme";
 import BigNumber from "bignumber.js";
+import ChartUtils from "../../../utils/chart";
 
 /**
  * Distributions screen component
@@ -68,34 +69,6 @@ const DistributionsScreen: React.FC = () => {
 
   /**
    * Fetch securities of a portfolio
-   * 
-   * @param categories categories 
-   */
-  const aggregateSecurityCategories = (categories: PortfolioSecurityCategory[]): PortfolioSecurityCategory[] => {
-    const securityMap = new Map<string, PortfolioSecurityCategory>();
-  
-    let sumValue = new BigNumber("0");
-    categories.forEach(category => {
-      const storedCategory = securityMap.get(category.fundId);
-
-      const currentNumber = new BigNumber(category.totalValue);
-      const updatedCategory: PortfolioSecurityCategory = {
-        ...category,
-        totalValue: new BigNumber(storedCategory?.totalValue || "0").plus(currentNumber).toString()
-      };
-      sumValue = sumValue.plus(currentNumber);
-      securityMap.set(updatedCategory.fundId, updatedCategory);
-    });
-
-    const aggregatedList = Array.from(securityMap.values());
-    return aggregatedList.map(category => ({
-      ...category,
-      percentage: `${(new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
-    }));
-  };
-
-  /**
-   * Fetch securities of a portfolio
    */
   const fetchAllPortfolioSecurities = async () => {
     try {
@@ -103,7 +76,7 @@ const DistributionsScreen: React.FC = () => {
       const categoryLists = await Promise.all(portfolios.map(fetchPortfolioSecurities));
       const categoryList = categoryLists.reduce((prev, cur) => prev.concat(cur), []);
 
-      return aggregateSecurityCategories(categoryList);
+      return ChartUtils.aggregateSecurityCategories(categoryList);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
@@ -123,9 +96,10 @@ const DistributionsScreen: React.FC = () => {
     setLoading(false);
   };
 
-  React.useEffect(() => {
-    loadData();
-  }, [ selectedPortfolio ]);
+  /**
+   * Effect that loads data
+   */
+  React.useEffect(() => { loadData(); }, [ selectedPortfolio ]);
 
   /**
    * Renders content

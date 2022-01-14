@@ -1,7 +1,7 @@
 import moment from "moment";
 import BigNumber from "bignumber.js";
 import { FundHistoryValue, PortfolioHistoryValue } from "../generated/client";
-import { ChartRange, VictoryChartData } from "../types";
+import { ChartRange, PortfolioSecurityCategory, VictoryChartData } from "../types";
 
 /**
  * Utility class for charts
@@ -72,6 +72,33 @@ namespace ChartUtils {
     }));
   };
 
+  /**
+   * Fetch securities of a portfolio
+   * 
+   * @param categories categories 
+   */
+  export const aggregateSecurityCategories = (categories: PortfolioSecurityCategory[]): PortfolioSecurityCategory[] => {
+    const securityMap = new Map<string, PortfolioSecurityCategory>();
+  
+    let sumValue = new BigNumber("0");
+    categories.forEach(category => {
+      const storedCategory = securityMap.get(category.fundId);
+
+      const currentNumber = new BigNumber(category.totalValue);
+      const updatedCategory: PortfolioSecurityCategory = {
+        ...category,
+        totalValue: new BigNumber(storedCategory?.totalValue || "0").plus(currentNumber).toString()
+      };
+      sumValue = sumValue.plus(currentNumber);
+      securityMap.set(updatedCategory.fundId, updatedCategory);
+    });
+
+    const aggregatedList = Array.from(securityMap.values());
+    return aggregatedList.map(category => ({
+      ...category,
+      percentage: `${(new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
+    }));
+  };
 }
 
 export default ChartUtils;
