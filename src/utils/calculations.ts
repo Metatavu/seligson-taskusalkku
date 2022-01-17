@@ -13,12 +13,12 @@ namespace Calculations {
    * @param totalValue total value
    * @returns calculated amount
    */
-  export const getTotalChangeAmount = (purchaseValue?: string, marketValueTotal?: string): string => {
-    if (!purchaseValue || !marketValueTotal) {
+  export const getTotalChangeAmount = (purchaseValue?: string, totalValue?: string): string => {
+    if (!purchaseValue || !totalValue) {
       return "0";
     }
 
-    return new BigNumber(marketValueTotal).minus(purchaseValue).toString();
+    return new BigNumber(totalValue).minus(purchaseValue).toString();
   };
 
   /**
