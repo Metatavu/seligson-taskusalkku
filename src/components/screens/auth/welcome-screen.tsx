@@ -18,6 +18,7 @@ import PinInput from "../../generic/pin-input";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/auth/welcome-screen";
 import HomeNavigator from "../../../types/navigators/home";
+import { ErrorContext } from "../../error-handler/error-handler";
 
 /**
  * Custom navigation prop type for WelcomeScreen. Consists of AuthNavigator and RootNavigator
@@ -31,6 +32,7 @@ const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
   const dispatch = useAppDispatch();
   const auth = useAppSelector(selectAuth);
+  const errorContext = React.useContext(ErrorContext);
 
   const [ pinInputOpen, setPinInputOpen ] = React.useState(false);
   const [ pinError, setPinError ] = React.useState(false);
@@ -44,8 +46,7 @@ const WelcomeScreen: React.FC = () => {
       const anonymousAuth = await AuthUtils.anonymousLogin();
       dispatch(anonymousAuthUpdate(anonymousAuth));
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      errorContext.setError(strings.errorHandling.auth.login, error);
     }
   };
 
@@ -106,7 +107,8 @@ const WelcomeScreen: React.FC = () => {
         setAuthError(true);
         return;
       } catch (error) {
-        console.log(error);
+        errorContext.setError(strings.errorHandling.auth.biometric, error);
+        return;
       }
     }
 

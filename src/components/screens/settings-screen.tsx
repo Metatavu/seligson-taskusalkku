@@ -192,13 +192,15 @@ const SettingsScreen: React.FC = () => {
   const renderRemoveLocalValues = () => {
     if (developmentBuild) {
       return (
-        <View>
+        <View style={{ marginTop: 20 }}>
           <Button onPress={ removeLocalValues }>
             RESET LOCAL VALUES
           </Button>
         </View>
       );
     }
+
+    return null;
   };
 
   /**
@@ -211,10 +213,8 @@ const SettingsScreen: React.FC = () => {
           { renderCards(renderInitialRouteOptions, strings.settingsScreen.initialRoute) }
           { renderCards(renderLoginOptions, strings.settingsScreen.preferredLogin) }
           { renderCards(renderLanguageOptions, strings.settingsScreen.language) }
-          <View style={{ marginTop: 20 }}>
-            { renderRemoveLocalValues() }
-          </View>
         </View>
+        { renderRemoveLocalValues() }
       </ScrollView>
       <PinInput
         inputOpen={ pinInputOpen }

@@ -20,8 +20,8 @@
       "list": "Error while loading fund history data"
     },
     "securities": {
-      "list": "Virhe listattaessa rahastotietoja",
-      "find": "Virhe haettaessa rahastotietoja"
+      "list": "Error while loading securities",
+      "find": "Error while finding security"
     },
     "portfolio": {
       "list": "Error while loading portfolio data"
@@ -30,7 +30,8 @@
       "list": "Error while loading portfolio funds"
     },
     "auth": {
-      "login": "Error while logging in"
+      "login": "Error while logging in",
+      "biometric": "Error during biometric authentication"
     },
     "meetingTimes": {
       "list": "Error while loading meeting times"

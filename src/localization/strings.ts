@@ -44,6 +44,7 @@ export interface Strings extends LocalizedStringsMethods {
     };
     auth: {
       login: string;
+      biometric: string;
     };
     meetingTimes: {
       list: string;

@@ -30,7 +30,8 @@
       "list": "Virhe listattaessa oman portfolion rahastoja"
     },
     "auth": {
-      "login": "Kirjautumisessa tapahtui virhe"
+      "login": "Kirjautumisessa tapahtui virhe",
+      "biometric": "Biometrisessä tunnistuksessa tapahtui virhe"
     },
     "meetingTimes": {
       "list": "Virhe listattaessa vapaita aikoja"
