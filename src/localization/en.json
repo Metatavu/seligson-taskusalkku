@@ -8,7 +8,8 @@
     "webPage": "More information on our website",
     "reserve": "Reserve",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "noData": "No data"
   },
 
   "errorHandling": {

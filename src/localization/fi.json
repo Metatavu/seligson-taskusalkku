@@ -8,7 +8,8 @@
     "webPage": "Lisätietoja verkkosivuillamme",
     "reserve": "Varaa",
     "cancel": "Peruuta",
-    "save": "Tallenna"
+    "save": "Tallenna",
+    "noData": "Ei dataa"
   },
 
   "errorHandling": {

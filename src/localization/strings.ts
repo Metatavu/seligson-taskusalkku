@@ -19,6 +19,7 @@ export interface Strings extends LocalizedStringsMethods {
     reserve: string;
     cancel: string;
     save: string;
+    noData: string;
   };
 
   /**
