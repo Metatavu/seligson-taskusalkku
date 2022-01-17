@@ -9,6 +9,7 @@ import MeetingsScreen from "./home/meetings-screen";
 import FundsScreen from "./home/funds-screen";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
+import Config from "../../app/config";
 
 /**
  * Home screen bottom tab navigation
@@ -21,13 +22,36 @@ const HomeNavigation = createMaterialBottomTabNavigator<HomeNavigator.Routes>();
 const HomeScreen: React.FC = () => {
   const { colors } = useTheme();
   const auth = useAppSelector(selectAuth);
+  const [ initialRoute, setInitialRoute ] = React.useState<keyof HomeNavigator.Routes>();
+
+  /**
+   * Defines initial route depending on auth and local storage value
+   */
+  const checkInitialRoute = async () => {
+    if (!auth) {
+      setInitialRoute("funds");
+      return;
+    }
+
+    const localStorageRoute = await Config.getLocalValue("@initialRoute");
+    setInitialRoute(localStorageRoute || "portfolio");
+  };
+
+  /**
+   * Effect for checking initial route when component mounts
+   */
+  React.useEffect(() => { checkInitialRoute(); }, []);
+
+  if (initialRoute === undefined) {
+    return null;
+  }
 
   /**
    * Component render
    */
   return (
     <HomeNavigation.Navigator
-      initialRouteName={ auth ? "portfolio" : "funds" }
+      initialRouteName={ initialRoute }
       shifting={ false }
       backBehavior="history"
       activeColor={ colors.primary }

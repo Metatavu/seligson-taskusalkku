@@ -8,6 +8,7 @@
     "webPage": "Lisätietoja verkkosivuillamme",
     "reserve": "Varaa",
     "cancel": "Peruuta",
+    "save": "Tallenna",
     "noData": "Ei dataa"
   },
 
@@ -30,7 +31,8 @@
       "list": "Virhe listattaessa oman portfolion rahastoja"
     },
     "auth": {
-      "login": "Kirjautumisessa tapahtui virhe"
+      "login": "Kirjautumisessa tapahtui virhe",
+      "biometric": "Biometrisessä tunnistuksessa tapahtui virhe"
     },
     "meetingTimes": {
       "list": "Virhe listattaessa vapaita aikoja"
@@ -51,7 +53,11 @@
     "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
     "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään.",
     "loginRequired": "Kirjaudu sovellukseen Oma Salkku -tunnuksillasi.",
-    "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?"
+    "login": "Kirjaudu sisään",
+    "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?",
+    "inputPinCode": "Kirjoita pin-koodi",
+    "incorrectPinCode": "Väärä pin-koodi",
+    "loginWithBiometric": "Kirjaudu sisään biometrisellä tunnisteella"
   },
 
   "screenTitles": {
@@ -159,5 +165,51 @@
       },
       "additionalInformation": "Lisätiedot"
     }
+  },
+
+  "settingsScreen": {
+    "initialRoute": "Valitse aloitussisältö",
+    "preferredLogin": "Valitse kirjautumistapa",
+    "language": "Sovelluksen kieli"
+  },
+
+  "loginOptions": {
+    "usernameAndPassword": {
+      "title": "Käyttäjätunnus ja salasana",
+      "description": "Sovellukseen kirjaudutaan käyttäjätunnuksella ja salasanalla."
+    },
+    "pin": {
+      "title": "Tunnusluku",
+      "description": "Pysyt kirjautuneen, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
+    },
+    "biometric": {
+      "title": "Biometrinen tunnistus",
+      "description": "Pysyt kirjautuneena, mutta sovelluksen lukitus avataan sormenjäljelläsi tai kasvotunnistuksella."
+    },
+    "strongAuth": {
+      "title": "Vahva tunnistautuminen",
+      "description": "Sovellukseen kirjaudutaan vahvalla tunnistuksella"
+    },
+    "demo": {
+      "title": "Demo",
+      "description": "Sovellus ohjaa demo kirjautumiseen"
+    }
+  },
+
+  "defaultRoutes": {
+    "portfolio": {
+      "title": "Salkku",
+      "description": "Rahastosalkkusi näytetään heti, kun avaat sovelluksen (Vaatii kirjautumisen tai lukituksen avaamisen)"
+    },
+    "funds": {
+      "title": "Rahastoarvot",
+      "description": "Rahastoarvot näytetään heti, kun avaat sovelluksen."
+    }
+  },
+
+  "languages": {
+    "fi": "Suomi",
+    "en": "English",
+    "sv": "Svenska"
   }
 }

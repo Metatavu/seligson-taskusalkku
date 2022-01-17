@@ -14,6 +14,7 @@ import RootNavigator from "../../../types/navigators/root";
 import AuthNavigator from "../../../types/navigators/auth";
 import { Button } from "react-native-paper";
 import strings from "../../../localization/strings";
+import { LoginOptions } from "../../../types/config";
 
 /**
  * Strong authentication view component
@@ -24,6 +25,7 @@ const StrongAuthView: React.FC = () => {
   const navigation = useNavigation<RootNavigator.NavigationProps>();
   const { params } = useRoute<AuthNavigator.RouteProps>();
   const demoLogin = params?.demoLogin;
+  const strongAuth = params?.strongAuth;
 
   const dispatch = useAppDispatch();
   const { auth, demoLoginUrl } = Config.getStatic();
@@ -48,7 +50,7 @@ const StrongAuthView: React.FC = () => {
     url.searchParams.append("client_id", auth.clientId);
     url.searchParams.append("scope", auth.scopes.join(" "));
     url.searchParams.append("redirect_uri", auth.redirectUrl);
-    url.searchParams.append("kc_idp_hint", "taskusalkku");
+    url.searchParams.append("kc_idp_hint", strongAuth ? "telia" : "taskusalkku");
 
     setAuthUrl(url.href);
   }, []);
@@ -77,6 +79,9 @@ const StrongAuthView: React.FC = () => {
 
       const authentication = AuthUtils.createAuthFromExpoTokenResponse(result);
       dispatch(authUpdate(authentication));
+
+      !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
+      !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
 
       navigation.navigate("home");
     } catch (error) {

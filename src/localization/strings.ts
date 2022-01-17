@@ -18,6 +18,7 @@ export interface Strings extends LocalizedStringsMethods {
     webPage: string;
     reserve: string;
     cancel: string;
+    save: string;
     noData: string;
   };
 
@@ -44,6 +45,7 @@ export interface Strings extends LocalizedStringsMethods {
     };
     auth: {
       login: string;
+      biometric: string;
     };
     meetingTimes: {
       list: string;
@@ -67,7 +69,11 @@ export interface Strings extends LocalizedStringsMethods {
     loginSessionExpiredTitle: string;
     loginSessionExpiredContent: string;
     loginRequired: string;
+    login: string;
     newAccount: string;
+    inputPinCode: string;
+    incorrectPinCode: string;
+    loginWithBiometric: string;
   };
 
   /**
@@ -191,6 +197,64 @@ export interface Strings extends LocalizedStringsMethods {
       additionalInformation: string;
     };
   };
+
+  /**
+   * Translations related to settings screen
+   */
+  settingsScreen: {
+    initialRoute: string;
+    preferredLogin: string;
+    language: string;
+  };
+
+  /**
+   * Translations related to login options
+   */
+  loginOptions: {
+    usernameAndPassword: {
+      title: string;
+      description: string;
+    };
+    pin: {
+      title: string;
+      description: string;
+    };
+    biometric: {
+      title: string;
+      description: string;
+    };
+    strongAuth: {
+      title: string;
+      description: string;
+    };
+    demo: {
+      title: string;
+      description: string;
+    };
+  };
+
+  /**
+   * Translations related to default routes
+   */
+  defaultRoutes: {
+    portfolio: {
+      title: string;
+      description: string;
+    };
+    funds: {
+      title: string;
+      description: string;
+    };
+  };
+
+  /**
+   * Translations related to languages
+   */
+  languages: {
+    fi: string;
+    en: string;
+    sv: string;
+  }
 
 }
 

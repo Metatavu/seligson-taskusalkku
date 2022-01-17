@@ -11,7 +11,7 @@ namespace AuthNavigator {
    */
   export type Routes = {
     welcome: undefined;
-    login: { demoLogin?: boolean; } | undefined;
+    login: { demoLogin?: boolean; strongAuth?: boolean } | undefined;
   };
 
   /**
