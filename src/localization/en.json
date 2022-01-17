@@ -7,7 +7,8 @@
     "login": "Login",
     "webPage": "More information on our website",
     "reserve": "Reserve",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "noData": "No data"
   },
 
   "errorHandling": {
