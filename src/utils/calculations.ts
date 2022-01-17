@@ -13,12 +13,12 @@ namespace Calculations {
    * @param totalValue total value
    * @returns calculated amount
    */
-  export const getTotalChangeAmount = (purchaseValue?: string, totalValue?: string): string => {
-    if (!purchaseValue || !totalValue) {
+  export const getTotalChangeAmount = (purchaseValue?: string, marketValueTotal?: string): string => {
+    if (!purchaseValue || !marketValueTotal) {
       return "0";
     }
 
-    return new BigNumber(totalValue).minus(purchaseValue).toString();
+    return new BigNumber(marketValueTotal).minus(purchaseValue).toString();
   };
 
   /**
@@ -63,8 +63,8 @@ namespace Calculations {
    * @returns calculated total change
    */
   const calculatePortfoliosTotalChange = (portfolios: Portfolio[]): string => {
-    return portfolios.reduce((total, { purchaseTotal, totalAmount }) => (
-      new BigNumber(total).plus(getTotalChangeAmount(purchaseTotal, totalAmount)).toString()
+    return portfolios.reduce((total, { purchaseTotal, marketValueTotal }) => (
+      new BigNumber(total).plus(getTotalChangeAmount(purchaseTotal, marketValueTotal)).toString()
     ), "0");
   };
 
@@ -76,9 +76,9 @@ namespace Calculations {
    */
   const calculatePortfoliosTotalChangePercentage = (portfolios: Portfolio[]): string => {
     const [ totalPurchaseValue, currentTotalValue ] = portfolios.reduce<[ string, string ]>(
-      ([ purchaseSum, totalSum ], { purchaseTotal, totalAmount }) => [
+      ([ purchaseSum, totalSum ], { purchaseTotal, marketValueTotal }) => [
         new BigNumber(purchaseSum).plus(purchaseTotal || 0).toString(),
-        new BigNumber(totalSum).plus(totalAmount || 0).toString()
+        new BigNumber(totalSum).plus(marketValueTotal || 0).toString()
       ],
       [ "0", "0" ]
     );
