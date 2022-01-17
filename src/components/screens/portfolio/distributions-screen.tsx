@@ -33,9 +33,9 @@ const DistributionsScreen: React.FC = () => {
   /**
    * Fetch and preprocess a security
    *
-   * @param totalAmount total amount
+   * @param totalValue total value
    */
-  const fetchSecurityFund = (totalAmount: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
+  const fetchSecurityFund = (totalValue: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
     const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
     const fund = await fundsApiContext.findFund({ fundId: security.fundId });
 
@@ -45,7 +45,7 @@ const DistributionsScreen: React.FC = () => {
       currency: security.currency,
       color: fund.color || "",
       totalValue: portfolioSecurity.totalValue,
-      percentage: `${(new BigNumber(portfolioSecurity.totalValue)).dividedBy(totalAmount).multipliedBy(100).toFormat(2)} %`
+      percentage: `${(new BigNumber(portfolioSecurity.totalValue)).dividedBy(totalValue).multipliedBy(100).toFormat(2)} %`
     };
   };
 
