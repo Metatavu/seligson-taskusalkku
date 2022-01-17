@@ -92,11 +92,9 @@ const DistributionsScreen: React.FC = () => {
    */
   const loadData = async () => {
     setLoading(true);
-    if (selectedPortfolio) {
-      setPortfolioSecurityCategories(await fetchPortfolioSecurities(selectedPortfolio));
-    } else {
-      setPortfolioSecurityCategories(await fetchAllPortfolioSecurities());
-    }
+    const fetchedPortfolioSecurities = selectedPortfolio ? await fetchPortfolioSecurities(selectedPortfolio) : await fetchAllPortfolioSecurities();
+
+    setPortfolioSecurityCategories(fetchedPortfolioSecurities.sort(ChartUtils.compareSecurityCategory));
     setLoading(false);
   };
 

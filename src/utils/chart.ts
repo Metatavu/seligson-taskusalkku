@@ -73,7 +73,7 @@ namespace ChartUtils {
   };
 
   /**
-   * Fetch securities of a portfolio
+   * Aggregates securities
    * 
    * @param categories categories 
    */
@@ -98,6 +98,16 @@ namespace ChartUtils {
       ...category,
       percentage: `${(new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
     }));
+  };
+
+  /**
+   * Compare security by their amount
+   * 
+   * @param category1 category 1
+   * @param category2 category 2
+   */
+  export const compareSecurityCategory = (category1: PortfolioSecurityCategory, category2: PortfolioSecurityCategory): number => {
+    return category1.totalValue.localeCompare(category2.totalValue);
   };
 }
 
