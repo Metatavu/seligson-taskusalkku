@@ -1,4 +1,4 @@
-# Getting started with React Native Typescript template
+## Getting started with React Native Typescript template
 
 ### `Add OpenApi specification file (swagger.yaml)`
 
