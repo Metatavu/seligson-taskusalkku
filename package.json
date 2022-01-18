@@ -7,8 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src",
-    "eas-build-pre-install": "git submodule update --init",
-    "eas-build-post-install": "npm run build-client",
+    "eas-build-post-install": "git submodule update --init && npm run build-client",
     "build-client": "openapi-generator-cli generate -i taskusalkku-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
   },
   "dependencies": {
