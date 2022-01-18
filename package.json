@@ -7,7 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src",
-    "eas-build-post-install": "npm run build-client",
+    "eas-build-post-install": "git submodule update --init && npm run build-client",
     "build-client": "openapi-generator-cli generate -i taskusalkku-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
   },
   "dependencies": {
@@ -29,8 +29,10 @@
     "expo-auth-session": "~3.3.1",
     "expo-blur": "~9.0.3",
     "expo-cli": "^4.12.10",
+    "expo-dev-client": "^0.8.1",
     "expo-font": "~9.2.1",
     "expo-linear-gradient": "^9.2.0",
+    "expo-local-authentication": "~11.1.1",
     "expo-random": "~11.2.0",
     "expo-secure-store": "~10.2.0",
     "expo-status-bar": "~1.0.4",
@@ -41,6 +43,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-confirmation-code-field": "6.7.0",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-pager-view": "^5.4.8",
     "react-native-paper": "^4.9.2",
@@ -55,9 +58,7 @@
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.6.2",
     "react-redux": "^7.2.5",
-    "victory-native": "^36.2.0",
-    "expo-local-authentication": "~11.1.1",
-    "react-native-confirmation-code-field": "6.7.0"
+    "victory-native": "^36.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
