@@ -137,6 +137,24 @@ namespace Calculations {
     })
   );
 
+  /**
+   * Aggregates any list and skips list values according to skipValue
+   *
+   * @param list any list
+   * @param skipValue how many values should be skip on every iteration
+   * @returns aggregated list
+   */
+  export const aggregateList = <T>(list: T[], skipValue: number = 10): T[] => {
+    const compressedList: T[] = [];
+    for (let i = 0; i < list.length - 1; i += skipValue) {
+      compressedList.push(list[i]);
+    }
+
+    compressedList.push(list[list.length - 1]);
+
+    return compressedList;
+  };
+
 }
 
 export default Calculations;

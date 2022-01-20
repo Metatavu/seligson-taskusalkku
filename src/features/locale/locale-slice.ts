@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import moment from "moment";
 import type { RootState } from "../../app/store";
 import strings from "../../localization/strings";
 import { Language } from "../../types/config";
@@ -25,6 +26,7 @@ export const localeSlice = createSlice({
     setLanguage: (state, { payload }: PayloadAction<Language>) => {
       state.language = payload;
       strings.setLanguage(payload);
+      moment.locale(payload);
     }
   }
 });

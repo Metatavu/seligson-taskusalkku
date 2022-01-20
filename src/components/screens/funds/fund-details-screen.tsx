@@ -8,13 +8,12 @@ import FundsNavigator from "../../../types/navigators/funds";
 import { Button, Text } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
-import { FundHistoryValue } from "../../../generated/client";
-import { ChartRange } from "../../../types";
+import { ChartRange, VictoryChartData } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
-import { FundsApiContext } from "../../providers/funds-api-provider";
 import ChartUtils from "../../../utils/chart";
-import moment from "moment";
+import TestData from "../../../resources/test-data";
+import Calculations from "../../../utils/calculations";
 
 /**
  * Fund details screen component
@@ -23,12 +22,11 @@ const FundDetailsScreen: React.FC = () => {
   const { params } = useRoute<FundsNavigator.RouteProps<"fundDetails">>();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
-  const fundsApiContext = React.useContext(FundsApiContext);
   const fund = params?.fund;
 
   const [ loading, setLoading ] = React.useState(true);
   const [ selectedRange, setSelectedRange ] = React.useState(ChartRange.MONTH);
-  const [ historicalData, setHistoricalData ] = React.useState<FundHistoryValue[]>([]);
+  const [ historicalData, setHistoricalData ] = React.useState<VictoryChartData[]>([]);
 
   if (!fund) {
     return null;
@@ -47,11 +45,8 @@ const FundDetailsScreen: React.FC = () => {
     setLoading(true);
 
     try {
-      setHistoricalData(await fundsApiContext.listFundHistoryValues({
-        fundId: fund.id,
-        startDate: ChartUtils.getStartDate(selectedRange),
-        endDate: moment().toDate()
-      }));
+      // TODO: Add security history values
+      setHistoricalData([]);
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
@@ -78,13 +73,15 @@ const FundDetailsScreen: React.FC = () => {
 
     return (
       <>
-        <DataChart
-          data={ historicalData }
-          loading={ loading }
-          color={ fund.color }
-          selectedRange={ selectedRange }
-          onRangeChange={ setSelectedRange }
-        />
+        <View style={ styles.chart }>
+          <DataChart
+            data={ historicalData }
+            loading={ loading }
+            color={ fund.color }
+            selectedRange={ selectedRange }
+            onRangeChange={ setSelectedRange }
+          />
+        </View>
         <View style={ styles.detailsWrapper }>
           <FundCard fund={ fund }/>
           <FundDetails fund={ fund }/>

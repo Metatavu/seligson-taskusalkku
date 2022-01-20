@@ -6,8 +6,7 @@ import AuthNavigator from "../../../types/navigators/auth";
 import RootNavigator from "../../../types/navigators/root";
 import AuthUtils from "../../../utils/auth";
 import Config from "../../../app/config";
-import { Language, LoginOptions } from "../../../types/config";
-import { setLanguage } from "../../../features/locale/locale-slice";
+import { LoginOptions } from "../../../types/config";
 import { View } from "react-native";
 import SeligsonLogo from "../../../../assets/seligson-logo";
 import theme from "../../../theme";
@@ -65,32 +64,16 @@ const WelcomeScreen: React.FC = () => {
   };
 
   /**
-   * Resolves navigation path
+   * Checks other login options if user has selected biometric, pin code or demo
+   * as preferred login option.
    */
-  const resolveNavigationPath = async () => {
-    if (authError) {
+  const checkOtherLoginOptions = async () => {
+    if (authError || !auth) {
       return;
     }
 
     const preferredLogin = await Config.getLocalValue("@preferredLogin");
     const initialRoute = await Config.getLocalValue("@initialRoute");
-
-    if (!preferredLogin || preferredLogin === LoginOptions.USERNAME_AND_PASSWORD) {
-      navigation.replace("login");
-      return;
-    }
-
-    if (preferredLogin === LoginOptions.STRONG_AUTH) {
-      navigation.navigate("login", { strongAuth: true });
-      return;
-    }
-
-    try {
-      checkOfflineToken();
-    } catch {
-      navigation.replace("login");
-      return;
-    }
 
     if (preferredLogin === LoginOptions.BIOMETRIC) {
       try {
@@ -126,24 +109,48 @@ const WelcomeScreen: React.FC = () => {
   };
 
   /**
+   * Resolve login
+   */
+  const resolveLogin = async () => {
+    const preferredLogin = await Config.getLocalValue("@preferredLogin");
+
+    if (preferredLogin === LoginOptions.USERNAME_AND_PASSWORD) {
+      navigation.replace("login");
+      return;
+    }
+
+    if (preferredLogin === LoginOptions.STRONG_AUTH) {
+      navigation.navigate("login", { strongAuth: true });
+      return;
+    }
+
+    try {
+      await checkOfflineToken();
+    } catch {
+      navigation.replace("home", { screen: "funds" });
+    }
+  };
+
+  /**
    * Initializes app data
    */
   const initialize = async () => {
     await anonymousLogin();
-    dispatch(setLanguage(await Config.getLocalValue("@language") || Language.FI));
-    !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
-    await resolveNavigationPath();
+    await resolveLogin();
   };
 
   /**
-   * Effect for checking offline token
+   * Effect for checking if user has set language
    */
   React.useEffect(() => { initialize(); }, []);
 
   /**
-   * Effect for resolving navigation path when auth error value changes
+   * Effect for resolving navigation path when auth error value or authentication changes.
+   * auth dependency is needed because offline login doesn't update the auth
+   * fast enough in every case if login option is set to other than username and password
+   * or strong authentication.
    */
-  React.useEffect(() => { resolveNavigationPath(); }, [ authError ]);
+  React.useEffect(() => { checkOtherLoginOptions(); }, [ authError, auth ]);
 
   /**
    * Event handler for validating pin code user has given
@@ -151,10 +158,16 @@ const WelcomeScreen: React.FC = () => {
    * @param pinCode pin code to validate
    */
   const onValidatePinCode = async (pinCode: string) => {
+    const initialRoute = await Config.getLocalValue("@initialRoute");
+
     try {
       const result = await PinCodeAuth.authenticate(pinCode);
       if (result) {
-        navigation.replace("home");
+        navigation.replace(
+          "home", {
+            screen: auth ? initialRoute?.toLowerCase() as keyof HomeNavigator.Routes : "funds"
+          }
+        );
         return;
       }
 
@@ -164,6 +177,9 @@ const WelcomeScreen: React.FC = () => {
     }
   };
 
+  /**
+   * Component render
+   */
   return (
     <View style={ styles.container }>
       <SeligsonLogo/>
@@ -178,12 +194,20 @@ const WelcomeScreen: React.FC = () => {
         confirmButtonLabel={ strings.generic.login }
       />
       { authError &&
-        <Button
-          uppercase={ false }
-          onPress={ () => setAuthError(false) }
-        >
-          { strings.auth.login }
-        </Button>
+        <>
+          <Button
+            uppercase={ false }
+            onPress={ () => setAuthError(false) }
+          >
+            { strings.auth.tryAgain }
+          </Button>
+          <Button
+            uppercase={ false }
+            onPress={ () => navigation.navigate("login") }
+          >
+            { strings.auth.loginRequired }
+          </Button>
+        </>
       }
     </View>
   );
