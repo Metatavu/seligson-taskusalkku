@@ -52,7 +52,15 @@ const StatisticsScreen: React.FC = () => {
         ))
       );
 
-      setHistoricalData(ChartUtils.aggregateHistoricalData(portfolioHistoryValues));
+      const skipValue = ChartUtils.getSkipValue(range);
+      const allValues: PortfolioHistoryValue[] = [];
+
+      portfolioHistoryValues.forEach(values => (
+        allValues.push(...Calculations.aggregateList(values, skipValue))
+      ));
+
+      // TODO: Add support for securities dropdown selection
+      setHistoricalData(allValues);
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
@@ -108,7 +116,7 @@ const StatisticsScreen: React.FC = () => {
   const renderChart = () => (
     <View style={ styles.chart }>
       <DataChart
-        data={ historicalData || [] }
+        data={ ChartUtils.convertToVictoryChartData(historicalData || []) }
         loading={ historicalDataLoading }
         selectedRange={ range }
         onRangeChange={ setRange }

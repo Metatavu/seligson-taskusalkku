@@ -146,11 +146,17 @@ namespace Calculations {
    */
   export const aggregateList = <T>(list: T[], skipValue: number = 10): T[] => {
     const compressedList: T[] = [];
-    for (let i = 0; i < list.length - 1; i += skipValue) {
+    const { length } = list;
+
+    if (length < 1) {
+      return compressedList;
+    }
+
+    for (let i = 0; i < length - 1; i += skipValue) {
       compressedList.push(list[i]);
     }
 
-    compressedList.push(list[list.length - 1]);
+    compressedList.push(list[length - 1]);
 
     return compressedList;
   };

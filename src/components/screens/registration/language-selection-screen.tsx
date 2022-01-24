@@ -11,8 +11,8 @@ import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/registration/language-selection-screen";
 import RadioButtonOptionItem from "../../generic/radio-button-option-item";
 import TranslationUtils from "../../../utils/translations";
-import { useAppDispatch } from "../../../app/hooks";
-import { setLanguage } from "../../../features/locale/locale-slice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectSelectedLanguage, setLanguage } from "../../../features/locale/locale-slice";
 
 /**
  * Language selection screen component
@@ -20,9 +20,9 @@ import { setLanguage } from "../../../features/locale/locale-slice";
 const LanguageSelectionScreen: React.FC = () => {
   const navigation = useNavigation<RootNavigator.NavigationProps>();
   const dispatch = useAppDispatch();
+  const selectedLanguage = useAppSelector(selectSelectedLanguage);
 
   const [ loading, setLoading ] = React.useState(true);
-  const [ selectedLanguage, setSelectedLanguage ] = React.useState<Language>();
 
   /**
    * Checks if language is set
@@ -48,10 +48,7 @@ const LanguageSelectionScreen: React.FC = () => {
    *
    * @param language selected language
    */
-  const onLanguageChange = (language: Language) => {
-    setSelectedLanguage(language);
-    dispatch(setLanguage(language));
-  };
+  const onLanguageChange = (language: Language) => dispatch(setLanguage(language));
 
   /**
    * Event handler for on proceed click

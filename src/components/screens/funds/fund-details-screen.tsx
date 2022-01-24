@@ -11,9 +11,9 @@ import styles from "../../../styles/screens/funds/funds-details-screen";
 import { ChartRange, VictoryChartData } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
+import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import ChartUtils from "../../../utils/chart";
-import TestData from "../../../resources/test-data";
-import Calculations from "../../../utils/calculations";
+import moment from "moment";
 
 /**
  * Fund details screen component
@@ -22,6 +22,7 @@ const FundDetailsScreen: React.FC = () => {
   const { params } = useRoute<FundsNavigator.RouteProps<"fundDetails">>();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
+  const securitiesContext = React.useContext(SecuritiesApiContext);
   const fund = params?.fund;
 
   const [ loading, setLoading ] = React.useState(true);
@@ -45,8 +46,23 @@ const FundDetailsScreen: React.FC = () => {
     setLoading(true);
 
     try {
-      // TODO: Add security history values
-      setHistoricalData([]);
+      const securities = await securitiesContext.listSecurities({ maxResults: 20000 });
+      const fundSecurities = securities.filter(security => security.fundId === fund.id);
+      const aSecurity = fundSecurities.find(security => security.name.fi.includes("(A)"));
+
+      console.log("a", fundSecurities);
+
+      if (!aSecurity?.id) {
+        throw new Error("Could not find A security!");
+      }
+
+      const historyValues = await securitiesContext.listSecurityHistoryValues({
+        securityId: aSecurity.id,
+        maxResults: 10000,
+        startDate: ChartUtils.getStartDate(selectedRange),
+        endDate: moment().toDate()
+      });
+      setHistoricalData(ChartUtils.convertToVictoryChartData(historyValues));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }

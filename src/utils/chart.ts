@@ -43,7 +43,7 @@ namespace ChartUtils {
    * @returns list of VictoryChartData objects
    */
   export const convertToVictoryChartData = (historicValues: SecurityHistoryValue[]): VictoryChartData[] => (
-    historicValues.map(value => ({
+    historicValues.filter(value => value.value !== "0").map(value => ({
       x: value.date || new Date(),
       y: new BigNumber(value.value || 0).toNumber()
     }))
