@@ -116,11 +116,6 @@ const MySecuritiesScreen: React.FC = () => {
 
     return (
       <View style={{ padding: theme.spacing(2) }}>
-        <View style={{ padding: theme.spacing(2) }}>
-          <Headline style={{ textAlign: "center" }}>
-            { strings.portfolio.portfolioSecurities.title }
-          </Headline>
-        </View>
         { mySecurities.map(renderPortfolioSecurityCard) }
       </View>
     );
