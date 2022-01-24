@@ -48,9 +48,7 @@ const FundDetailsScreen: React.FC = () => {
     try {
       const securities = await securitiesContext.listSecurities({ maxResults: 20000 });
       const fundSecurities = securities.filter(security => security.fundId === fund.id);
-      const aSecurity = fundSecurities.find(security => security.name.fi.includes("(A)"));
-
-      console.log("a", fundSecurities);
+      const aSecurity = fundSecurities.length === 1 ? fundSecurities[0] : fundSecurities.find(security => security.name.fi.includes("(A)"));
 
       if (!aSecurity?.id) {
         throw new Error("Could not find A security!");
