@@ -165,7 +165,7 @@ const WelcomeScreen: React.FC = () => {
       if (result) {
         navigation.replace(
           "home", {
-            screen: auth ? initialRoute?.toLowerCase() as keyof HomeNavigator.Routes : "funds"
+            screen: auth ? initialRoute as keyof HomeNavigator.Routes : "funds"
           }
         );
         return;
