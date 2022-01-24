@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Fund, FundGroup, FundHistoryValue, Portfolio, PortfolioHistoryValue, PortfolioSecurity, PortfolioSummary, PortfolioTransaction, Security, TransactionType } from "../generated/client";
+import { Fund, FundGroup, SecurityHistoryValue, Portfolio, PortfolioHistoryValue, PortfolioSecurity, PortfolioSummary, PortfolioTransaction, Security, TransactionType } from "../generated/client";
 import { ChartRange } from "../types";
 
 /**
@@ -178,14 +178,15 @@ namespace TestData {
   })[dateRange];
 
   /**
-   * Lists test fund history values
+   * Lists test security history values
    *
    * @param range range to generate fund history values for
+   * @returns list of generated security history values
    */
-  export const listTestFundHistoricalValues = (range?: ChartRange): FundHistoryValue[] => {
+  export const listTestSecurityHistoryValues = (range?: ChartRange): SecurityHistoryValue[] => {
     const amount = range ? getAmount(range) : 365;
 
-    return TestData.randomNumberList(amount, 1, 10, 0.5).map((value, i) => ({
+    return TestData.randomNumberList(amount, 1, 100, 0.1).map((value, i) => ({
       date: moment().subtract(amount - i, "days").toDate(),
       value: value
     }));

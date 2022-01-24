@@ -5,11 +5,13 @@
     "close": "Sulje",
     "back": "Takaisin",
     "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
     "webPage": "Lisätietoja verkkosivuillamme",
     "reserve": "Varaa",
     "cancel": "Peruuta",
     "save": "Tallenna",
-    "noData": "Ei dataa"
+    "noData": "Ei dataa",
+    "saveAndProceed": "Tallenna ja jatka"
   },
 
   "errorHandling": {
@@ -57,7 +59,8 @@
     "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?",
     "inputPinCode": "Kirjoita pin-koodi",
     "incorrectPinCode": "Väärä pin-koodi",
-    "loginWithBiometric": "Kirjaudu sisään biometrisellä tunnisteella"
+    "loginWithBiometric": "Kirjaudu sisään biometrisellä tunnisteella",
+    "tryAgain": "Yritä uudelleen"
   },
 
   "screenTitles": {

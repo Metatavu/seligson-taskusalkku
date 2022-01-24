@@ -5,6 +5,7 @@ import PortfolioScreen from "./home/portfolio-screen";
 import FundsScreen from "./home/funds-screen";
 import PublicationsScreen from "./home/publications-screen";
 import MeetingsScreen from "./home/meetings-screen";
+import LanguageSelectionScreen from "./registration/language-selection-screen";
 
 /**
  * Registration screen stack navigation
@@ -16,9 +17,13 @@ const RegistrationNavigation = createNativeStackNavigator<RegistrationNavigator.
  */
 const RegistrationScreen: React.FC = () => (
   <RegistrationNavigation.Navigator
-    initialRouteName="basicInfo"
+    initialRouteName="languageSelection"
     screenOptions={{ headerShown: false }}
   >
+    <RegistrationNavigation.Screen
+      name="languageSelection"
+      component={ LanguageSelectionScreen }
+    />
     <RegistrationNavigation.Screen
       name="basicInfo"
       component={ PortfolioScreen }

@@ -16,6 +16,12 @@ export default StyleSheet.create({
   detailsWrapper: {
     padding: theme.spacing(2),
     paddingTop: theme.spacing(1)
+  },
+
+  chart: {
+    borderTopLeftRadius: 30,
+    padding: theme.spacing(1),
+    backgroundColor: theme.colors.backgroundDark
   }
 
 });

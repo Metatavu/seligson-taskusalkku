@@ -10,6 +10,7 @@ namespace RegistrationNavigator {
    * Routes
    */
   export type Routes = {
+    languageSelection: undefined;
     basicInfo: undefined;
     taxLiabilityInfo: undefined;
     mandatoryCustomerInfo: undefined;
