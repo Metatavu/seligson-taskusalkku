@@ -102,12 +102,12 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
 
     return (
       <>
-        <View style={ styles.cardColumn }>
-          <Text>
+        <View>
+          <Text style={{ fontWeight: theme.fonts.medium.fontWeight }}>
             { strings.fundDetailsScreen.myShare }
           </Text>
         </View>
-        <View style={ styles.cardColumn }>
+        <View>
           <Text style={{ color: theme.colors.primary }}>
             { strings.fundDetailsScreen.amount }
           </Text>
@@ -115,7 +115,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { Calculations.formatNumberStr(amount, 4) }
           </Text>
         </View>
-        <View style={ styles.cardColumn }>
+        <View>
           <Text style={{ color: theme.colors.primary }}>
             { strings.fundDetailsScreen.value }
           </Text>
@@ -123,7 +123,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { Calculations.formatNumberStr(totalValue, 2, { suffix: currency }) }
           </Text>
         </View>
-        <View style={ styles.cardColumn }>
+        <View>
           <Text style={{ color: theme.colors.primary }}>
             { strings.fundDetailsScreen.change }
           </Text>
@@ -153,7 +153,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { renderRiskMeter() }
           </View>
           <Divider style={ styles.divider }/>
-          <View style={ styles.cardRow }>
+          <View style={ styles.shareRow }>
             { renderMyShares() }
           </View>
         </View>
