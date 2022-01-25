@@ -1,6 +1,6 @@
 import moment from "moment";
 import BigNumber from "bignumber.js";
-import { FundHistoryValue, PortfolioHistoryValue } from "../generated/client";
+import { PortfolioHistoryValue, SecurityHistoryValue } from "../generated/client";
 import { ChartRange, PortfolioSecurityCategory, VictoryChartData } from "../types";
 
 /**
@@ -42,8 +42,8 @@ namespace ChartUtils {
    * @param historicValues list of historical values
    * @returns list of VictoryChartData objects
    */
-  export const convertToVictoryChartData = (historicValues: FundHistoryValue[]): VictoryChartData[] => (
-    historicValues.map(value => ({
+  export const convertToVictoryChartData = (historicValues: SecurityHistoryValue[]): VictoryChartData[] => (
+    historicValues.filter(value => value.value !== "0").map(value => ({
       x: value.date || new Date(),
       y: new BigNumber(value.value || 0).toNumber()
     }))
@@ -55,7 +55,7 @@ namespace ChartUtils {
    * @param values list of historical data lists
    * @returns aggregated list of historical values
    */
-  export const aggregateHistoricalData = (values: (PortfolioHistoryValue | FundHistoryValue)[][]): FundHistoryValue[] => {
+  export const aggregateHistoricalData = (values: (PortfolioHistoryValue | SecurityHistoryValue)[][]): SecurityHistoryValue[] => {
     const historicalValueMaps = values.map(list => (
       list.reduce((map, { date, value }) => (
         date && value ? map.set(getDisplayDate(date, "DD-MM-YYYY"), value.toString()) : map
@@ -109,6 +109,21 @@ namespace ChartUtils {
   export const compareSecurityCategory = (category1: PortfolioSecurityCategory, category2: PortfolioSecurityCategory): number => {
     return category1.totalValue.localeCompare(category2.totalValue);
   };
+
+  /**
+   * Gets skip value for historical value calculations based on the selected chart range
+   *
+   * @param dateRange selected date range
+   * @returns skip value
+   */
+  export const getSkipValue = (dateRange: ChartRange): number => ({
+    [ChartRange.MONTH]: 1,
+    [ChartRange.YEAR]: 2,
+    [ChartRange.THREE_YEARS]: 10,
+    [ChartRange.FIVE_YEARS]: 20,
+    [ChartRange.TEN_YEARS]: 30,
+    [ChartRange.MAX]: 80
+  })[dateRange];
 }
 
 export default ChartUtils;

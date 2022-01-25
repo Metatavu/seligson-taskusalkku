@@ -1,7 +1,6 @@
 import React from "react";
 import { getFocusedRouteNameFromRoute, NavigationContainer, Route } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import moment from "moment";
 import "moment/locale/fi";
 import strings from "./localization/strings";
 import { IconButton, useTheme } from "react-native-paper";
@@ -11,10 +10,9 @@ import RootNavigator from "./types/navigators/root";
 import HomeScreen from "./components/screens/home-screen";
 import SettingsScreen from "./components/screens/settings-screen";
 import AuthenticationScreen from "./components/screens/authentication-screen";
+import { useAppSelector } from "./app/hooks";
+import { selectAuth } from "./features/auth/auth-slice";
 import RegistrationScreen from "./components/screens/registration-screen";
-
-strings.setLanguage("fi");
-moment.locale(strings.getLanguage());
 
 /**
  * Root stack navigator
@@ -25,6 +23,7 @@ const RootNavigation = createNativeStackNavigator<RootNavigator.Routes>();
  * Root component
  */
 const Root: React.FC = () => {
+  const auth = useAppSelector(selectAuth);
   const { colors } = useTheme();
 
   const [ fontsLoaded ] = useFonts({
@@ -58,13 +57,19 @@ const Root: React.FC = () => {
       fontFamily: "NotoSans_700Bold",
       fontSize: 16
     },
-    headerRight: () => (
-      <IconButton
-        icon="account-outline"
-        color={ colors.primary }
-        onPress={ () => navigation.navigate("account") }
-      />
-    )
+    headerRight: () => {
+      if (!auth) {
+        return null;
+      }
+
+      return (
+        <IconButton
+          icon="account-outline"
+          color={ colors.primary }
+          onPress={ () => navigation.navigate("account") }
+        />
+      );
+    }
   });
 
   if (!fontsLoaded) {
@@ -77,7 +82,7 @@ const Root: React.FC = () => {
   return (
     <NavigationContainer>
       <RootNavigation.Navigator
-        initialRouteName="authentication"
+        initialRouteName="registration"
         screenOptions={ getScreenOptions }
       >
         <RootNavigation.Screen

@@ -3,10 +3,9 @@ import { ActivityIndicator, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
-import { FundHistoryValue, PortfolioHistoryValue } from "../../generated/client";
-import { ChartRange } from "../../types";
+import { ChartRange, VictoryChartData } from "../../types";
 import ChartUtils from "../../utils/chart";
-import { VictoryChart, VictoryAxis, VictoryArea } from "victory-native";
+import { VictoryChart, VictoryAxis, VictoryArea, VictoryTooltip, VictoryVoronoiContainer } from "victory-native";
 import moment from "moment";
 import theme from "../../theme";
 
@@ -14,7 +13,7 @@ import theme from "../../theme";
  * Component properties
  */
 interface Props {
-  data: (FundHistoryValue | PortfolioHistoryValue)[];
+  data: VictoryChartData[];
   loading: boolean;
   selectedRange: ChartRange;
   color?: string;
@@ -75,53 +74,69 @@ const DataChart: React.FC<Props> = ({
   /**
    * Renders chart
    */
-  const renderChart = () => (
-    <VictoryChart
-      scale={{ x: "time" }}
-      domain={{ x: [ ChartUtils.getStartDate(selectedRange), moment().toDate() ] }}
-      domainPadding={{ x: [ -22, 0 ] }}
-      padding={{
-        top: 10,
-        bottom: 30,
-        left: 50,
-        right: 60
-      }}
-    >
-      <VictoryArea
-        style={{
-          data: {
-            stroke: color || "#74CBE8",
-            strokeWidth: 0.5,
-            fill: color || "#74CBE8",
-            fillOpacity: 0.2
-          }
-        }}
-        animate={{
-          duration: 200,
-          onLoad: { duration: 500 }
-        }}
-        data={ ChartUtils.convertToVictoryChartData(data) }
-      />
-      <VictoryAxis
+  const renderChart = () => {
+    return (
+      <VictoryChart
         scale={{ x: "time" }}
-        style={{
-          grid: { stroke: "lightgrey" },
-          tickLabels: { fontSize: 10, fill: "white" },
-          axis: { strokeWidth: 0 }
+        domain={{ x: [ ChartUtils.getStartDate(selectedRange), moment().toDate() ] }}
+        domainPadding={{ x: [ -22, 0 ] }}
+        containerComponent={
+          <VictoryVoronoiContainer
+            radius={ 10000 }
+            voronoiDimension="x"
+          />
+        }
+        padding={{
+          top: 10,
+          bottom: 30,
+          left: 50,
+          right: 60
         }}
-        tickFormat={ xValue => ChartUtils.getDisplayDate(xValue, "DD.MM.YYYY") }
-      />
-      <VictoryAxis
-        dependentAxis
-        style={{
-          grid: { stroke: "lightgrey" },
-          tickLabels: { fontSize: 10, fill: "white" },
-          axis: { strokeWidth: 0 }
-        }}
-        tickFormat={ yValue => `${yValue} €` }
-      />
-    </VictoryChart>
-  );
+      >
+        <VictoryArea
+          labelComponent={
+            <VictoryTooltip
+              renderInPortal={ false }
+              flyoutPadding={ 20 }
+              flyoutStyle={{ fill: "white" }}
+            />
+          }
+          labels={ ({ datum }) => `${datum.y} €` }
+          style={{
+            data: {
+              stroke: color || "#74CBE8",
+              strokeWidth: 0.5,
+              fill: color || "#74CBE8",
+              fillOpacity: 0.2
+            }
+          }}
+          animate={{
+            duration: 200,
+            onLoad: { duration: 100 }
+          }}
+          data={ data }
+        />
+        <VictoryAxis
+          scale={{ x: "time" }}
+          style={{
+            grid: { stroke: "lightgrey" },
+            tickLabels: { fontSize: 10, fill: "white" },
+            axis: { strokeWidth: 0 }
+          }}
+          tickFormat={ xValue => ChartUtils.getDisplayDate(xValue, "DD.MM.YYYY") }
+        />
+        <VictoryAxis
+          dependentAxis
+          style={{
+            grid: { stroke: "lightgrey" },
+            tickLabels: { fontSize: 10, fill: "white" },
+            axis: { strokeWidth: 0 }
+          }}
+          tickFormat={ yValue => `${yValue} €` }
+        />
+      </VictoryChart>
+    );
+  };
 
   /**
    * Renders content

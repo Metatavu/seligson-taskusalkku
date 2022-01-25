@@ -46,6 +46,6 @@ export enum LoginOptions {
  * Enum for possible default login route options
  */
 export enum DefaultRoutes {
-  PORTFOLIO = "PORTFOLIO",
-  FUNDS = "FUNDS"
+  PORTFOLIO = "portfolio",
+  FUNDS = "funds"
 }
