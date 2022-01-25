@@ -148,7 +148,7 @@ namespace Calculations {
     const compressedList: T[] = [];
     const { length } = list;
 
-    if (length < 1) {
+    if (!length) {
       return compressedList;
     }
 
