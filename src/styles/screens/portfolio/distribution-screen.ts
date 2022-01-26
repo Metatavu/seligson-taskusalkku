@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import theme from "../../../theme";
 
 export default StyleSheet.create({
@@ -13,7 +13,8 @@ export default StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 5
+    shadowRadius: 5,
+    maxHeight: Dimensions.get("window").height / 3
   },
 
   chartContainer: {
@@ -30,7 +31,7 @@ export default StyleSheet.create({
 
   viewContainer: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     padding: theme.spacing(2)
   },
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, ActivityIndicator, Dimensions } from "react-native";
+import { ScrollView, View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
 import { Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
@@ -15,6 +15,7 @@ import { FundsApiContext } from "../../providers/funds-api-provider";
 import theme from "../../../theme";
 import BigNumber from "bignumber.js";
 import ChartUtils from "../../../utils/chart";
+import Svg from "react-native-svg";
 
 /**
  * Distributions screen component
@@ -115,8 +116,11 @@ const DistributionsScreen: React.FC = () => {
 
     const chartColor = portfolioSecurityCategories.map(portfolioSecurityCategory => portfolioSecurityCategory.color);
 
-    return (
-      <View style={ styles.chartContainer }>
+    /**
+     * Renders pie chart
+     */
+    const pieChart = () => {
+      return (
         <VictoryPie
           colorScale={ chartColor }
           data={ chartData }
@@ -125,6 +129,7 @@ const DistributionsScreen: React.FC = () => {
           width={ Dimensions.get("window").width }
           height={ 240 }
           innerRadius={ 40 }
+          padAngle={ 2 }
           labelComponent={<VictoryTooltip constrainToVisibleArea orientation="top" renderInPortal={ false }/>}
           events={[
             {
@@ -160,6 +165,19 @@ const DistributionsScreen: React.FC = () => {
             }
           ]}
         />
+      );
+    };
+      
+    return (
+      <View style={ styles.chartContainer }>
+        { Platform.OS === "ios" &&
+          pieChart()
+        }
+        { Platform.OS === "android" &&
+          <Svg style={{ width: Dimensions.get("window").width }}>
+            { pieChart() }
+          </Svg>
+        }
       </View>
     );
   };
@@ -190,7 +208,9 @@ const DistributionsScreen: React.FC = () => {
    */
   const renderCategories = () => (
     <Card style={ styles.distributionCard }>
-      { portfolioSecurityCategories.map(renderCategory) }
+      <ScrollView>
+        { portfolioSecurityCategories.map(renderCategory) }
+      </ScrollView>
     </Card>
   );
 
@@ -226,11 +246,9 @@ const DistributionsScreen: React.FC = () => {
    * Component render
    */
   return (
-    <ScrollView>
-      <View style={ styles.viewContainer }>
-        { renderContent() }
-      </View>
-    </ScrollView>
+    <View style={ styles.viewContainer }>
+      { renderContent() }
+    </View>
   );
 };
 
