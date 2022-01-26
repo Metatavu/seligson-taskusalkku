@@ -1,34 +1,27 @@
 import React from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
-import { ChartRange, DatePickerData, VictoryChartData } from "../../types";
+import { ChartRange, DatePickerData } from "../../types";
 import moment from "moment";
-import theme from "../../theme";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 /**
  * Component properties
  */
 interface Props {
-  data: VictoryChartData[];
-  loading: boolean;
   selectedRange: Date[] | ChartRange;
-  color?: string;
   onDateRangeChange: (newRange: Date[] | ChartRange) => void;
 }
 
 /**
- * Data chart component
+ * Chart range selector component
  *
  * @param props component properties
  */
-const DataChart: React.FC<Props> = ({
-  data,
-  loading,
+const ChartRangeSelector: React.FC<Props> = ({
   selectedRange,
-  color,
   onDateRangeChange
 }) => {
   const [ showDateInputs, setShowDateInputs ] = React.useState(false);
@@ -158,21 +151,6 @@ const DataChart: React.FC<Props> = ({
   };
 
   /**
-   * Renders content
-   */
-  const renderContent = () => {
-    if (loading) {
-      return (
-        <View style={ styles.loaderContainer }>
-          <ActivityIndicator size="large" color={ theme.colors.primary }/>
-        </View>
-      );
-    }
-
-    return null;
-  };
-
-  /**
    * Renders date picker
    */
   const renderDatePicker = () => {
@@ -200,10 +178,9 @@ const DataChart: React.FC<Props> = ({
   return (
     <>
       { renderRangeSelection() }
-      { renderContent() }
       { renderDatePicker() }
     </>
   );
 };
 
-export default DataChart;
+export default ChartRangeSelector;

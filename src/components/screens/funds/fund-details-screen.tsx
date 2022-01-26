@@ -1,7 +1,6 @@
 import React from "react";
 import { ActivityIndicator, ScrollView, View, Text } from "react-native";
 import FundCard from "../../generic/fund-card";
-import DataChart from "../../generic/data-chart";
 import FundDetails from "../../generic/fund-details";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
@@ -13,6 +12,7 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import ChartUtils from "../../../utils/chart";
+import ChartRangeSelector from "../../generic/chart-range-selector";
 
 /**
  * Fund details screen component
@@ -90,10 +90,7 @@ const FundDetailsScreen: React.FC = () => {
     return (
       <>
         <View style={ styles.chart }>
-          <DataChart
-            data={ historicalData }
-            loading={ loading }
-            color={ fund.color }
+          <ChartRangeSelector
             selectedRange={ selectedRange }
             onDateRangeChange={ setSelectedRange }
           />

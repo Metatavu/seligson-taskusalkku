@@ -6,7 +6,7 @@ import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import styles from "../../../styles/screens/portfolio/statistics-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import DataChart from "../../generic/data-chart";
+import ChartRangeSelector from "../../generic/chart-range-selector";
 import { ChartRange } from "../../../types";
 import ChartUtils from "../../../utils/chart";
 import { LinearGradient } from "expo-linear-gradient";
@@ -27,7 +27,6 @@ const StatisticsScreen: React.FC = () => {
   const focus = useIsFocused();
 
   const [ loading, setLoading ] = React.useState(true);
-  const [ historicalDataLoading, setHistoricalDataLoading ] = React.useState(true);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
   const [ historicalData, setHistoricalData ] = React.useState<PortfolioHistoryValue[]>();
   const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
@@ -38,8 +37,6 @@ const StatisticsScreen: React.FC = () => {
    * @param range chart range
    */
   const loadHistoryData = async () => {
-    !historicalData && setHistoricalDataLoading(true);
-
     const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
 
     try {
@@ -65,8 +62,6 @@ const StatisticsScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
-
-    setHistoricalDataLoading(false);
   };
 
   /**
@@ -118,9 +113,7 @@ const StatisticsScreen: React.FC = () => {
    */
   const renderChart = () => (
     <View style={ styles.chart }>
-      <DataChart
-        data={ ChartUtils.convertToVictoryChartData(historicalData || []) }
-        loading={ historicalDataLoading }
+      <ChartRangeSelector
         selectedRange={ selectedRange }
         onDateRangeChange={ setSelectedRange }
       />
