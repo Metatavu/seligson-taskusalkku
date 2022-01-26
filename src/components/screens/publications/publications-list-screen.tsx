@@ -119,7 +119,7 @@ const PublicationsListScreen: React.FC = () => {
       screenOptions={{
         tabBarActiveTintColor: colors.surface,
         tabBarPressColor: colors.surface,
-        tabBarStyle: { backgroundColor: colors.primary, elevation: 8 },
+        tabBarStyle: { backgroundColor: colors.primary, elevation: 8, height: 60, justifyContent: "center" },
         tabBarIndicatorStyle: { backgroundColor: colors.surface },
         tabBarLabelStyle: {
           fontSize: 10,

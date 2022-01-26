@@ -114,7 +114,7 @@ const MySecuritiesScreen: React.FC = () => {
     }
 
     return (
-      <View style={{ padding: theme.spacing(2) }}>
+      <View>
         { mySecurities.map(renderPortfolioSecurityCard) }
       </View>
     );
