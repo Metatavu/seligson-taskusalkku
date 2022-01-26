@@ -7,20 +7,28 @@ export default StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "white",
     padding: theme.spacing(2),
-    width: "90%",
-    borderRadius: 8
+    width: "85%",
+    borderRadius: 25
   },
 
   titleContainer: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
     alignItems: "center",
     justifyContent: "center"
   },
 
   title: {
-    fontSize: 18,
-    color: "black"
+    fontSize: 16
+  },
+
+  saveButton: {
+    backgroundColor: "#899C35",
+    borderRadius: 25,
+    flex: 1
+  },
+
+  cancelButton: {
+    flex: 1
   },
 
   cell: {
@@ -54,7 +62,7 @@ export default StyleSheet.create({
   actionButtonsContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     marginTop: theme.spacing(2)
   }
 
