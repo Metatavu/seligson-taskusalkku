@@ -88,6 +88,7 @@ const PublicationsList: React.FC<Props> = ({ publications }) => {
         renderItem={ ({ item }) => renderPublication(item) }
         keyExtractor={ item => item.id.toString() }
         contentContainerStyle={ styles.listContainer }
+        style={ styles.cardShadow }
       />
     </LinearGradient>
   );

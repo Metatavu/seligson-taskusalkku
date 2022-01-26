@@ -1,13 +1,12 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
+import { ScrollView, View, Text } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import styles from "../../../styles/screens/portfolio/statistics-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import DataChart from "../../generic/data-chart";
-import moment from "moment";
+import ChartRangeSelector from "../../generic/chart-range-selector";
 import { ChartRange } from "../../../types";
 import ChartUtils from "../../../utils/chart";
 import { LinearGradient } from "expo-linear-gradient";
@@ -28,10 +27,9 @@ const StatisticsScreen: React.FC = () => {
   const focus = useIsFocused();
 
   const [ loading, setLoading ] = React.useState(true);
-  const [ historicalDataLoading, setHistoricalDataLoading ] = React.useState(true);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
   const [ historicalData, setHistoricalData ] = React.useState<PortfolioHistoryValue[]>();
-  const [ range, setRange ] = React.useState<ChartRange>(ChartRange.MONTH);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
 
   /**
    * Loads fund history
@@ -39,20 +37,20 @@ const StatisticsScreen: React.FC = () => {
    * @param range chart range
    */
   const loadHistoryData = async () => {
-    !historicalData && setHistoricalDataLoading(true);
+    const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
 
     try {
       const portfolioHistoryValues = await Promise.all(
         getEffectivePortfolios().map(portfolio => (
           portfoliosApiContext.listPortfolioHistoryValues({
             portfolioId: portfolio.id!,
-            startDate: ChartUtils.getStartDate(range),
-            endDate: moment().toDate()
-          }, range)
+            startDate: startDate,
+            endDate: endDate
+          }, selectedRange)
         ))
       );
 
-      const skipValue = ChartUtils.getSkipValue(range);
+      const skipValue = ChartUtils.getSkipValue(selectedRange);
       const allValues: PortfolioHistoryValue[] = [];
 
       portfolioHistoryValues.forEach(values => (
@@ -64,8 +62,6 @@ const StatisticsScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
-
-    setHistoricalDataLoading(false);
   };
 
   /**
@@ -74,13 +70,15 @@ const StatisticsScreen: React.FC = () => {
   const loadSummaries = async () => {
     !summaries && setLoading(true);
 
+    const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
+
     try {
       const portfolioSummaries = await Promise.all(
         getEffectivePortfolios().map(({ id }) => (
           portfoliosApiContext.getPortfolioSummary({
             portfolioId: id!,
-            startDate: ChartUtils.getStartDate(range),
-            endDate: moment().toDate()
+            startDate: startDate,
+            endDate: endDate
           })
         ))
       );
@@ -99,7 +97,7 @@ const StatisticsScreen: React.FC = () => {
    */
   React.useEffect(() => {
     loadHistoryData();
-  }, [ selectedPortfolio, range ]);
+  }, [ selectedPortfolio, selectedRange ]);
 
   /**
    * Effect for loading own funds when this screen gets focused
@@ -115,11 +113,9 @@ const StatisticsScreen: React.FC = () => {
    */
   const renderChart = () => (
     <View style={ styles.chart }>
-      <DataChart
-        data={ ChartUtils.convertToVictoryChartData(historicalData || []) }
-        loading={ historicalDataLoading }
-        selectedRange={ range }
-        onRangeChange={ setRange }
+      <ChartRangeSelector
+        selectedRange={ selectedRange }
+        onDateRangeChange={ setSelectedRange }
       />
     </View>
   );

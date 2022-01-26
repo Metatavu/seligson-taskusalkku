@@ -24,6 +24,28 @@ namespace ChartUtils {
   })[dateRange];
 
   /**
+   * Gets date filters based on date range
+   *
+   * @param dateRange selected date range (can be array of date or single ChartRange)
+   * @returns start and end date for API calls
+   */
+  export const getDateFilters = (dateRange: Date[] | ChartRange): { startDate: Date, endDate: Date } => {
+    if (Array.isArray(dateRange) && dateRange.length === 2) {
+      return {
+        startDate: dateRange[0],
+        endDate: dateRange[1]
+      };
+    }
+
+    const chartRange = dateRange as ChartRange;
+
+    return {
+      startDate: getStartDate(chartRange),
+      endDate: new Date()
+    };
+  };
+
+  /**
    * Gets formatted display date string
    *
    * @param date date to format
@@ -116,14 +138,21 @@ namespace ChartUtils {
    * @param dateRange selected date range
    * @returns skip value
    */
-  export const getSkipValue = (dateRange: ChartRange): number => ({
-    [ChartRange.MONTH]: 1,
-    [ChartRange.YEAR]: 2,
-    [ChartRange.THREE_YEARS]: 10,
-    [ChartRange.FIVE_YEARS]: 20,
-    [ChartRange.TEN_YEARS]: 30,
-    [ChartRange.MAX]: 80
-  })[dateRange];
+  export const getSkipValue = (dateRange: Date[] | ChartRange): number => {
+    if (Array.isArray(dateRange)) {
+      // TODO: Add logic to check how long the date range is
+      return 20;
+    }
+
+    return ({
+      [ChartRange.MONTH]: 1,
+      [ChartRange.YEAR]: 2,
+      [ChartRange.THREE_YEARS]: 10,
+      [ChartRange.FIVE_YEARS]: 20,
+      [ChartRange.TEN_YEARS]: 30,
+      [ChartRange.MAX]: 80
+    })[dateRange as ChartRange];
+  };
 }
 
 export default ChartUtils;

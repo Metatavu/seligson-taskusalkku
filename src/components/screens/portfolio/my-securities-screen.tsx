@@ -1,7 +1,6 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { ActivityIndicator, ScrollView, View } from "react-native";
-import { Text } from "react-native-paper";
 import { Fund, PortfolioSecurity, Security } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -116,11 +115,6 @@ const MySecuritiesScreen: React.FC = () => {
 
     return (
       <View>
-        <View>
-          <Text>
-            { strings.portfolio.portfolioSecurities.title }
-          </Text>
-        </View>
         { mySecurities.map(renderPortfolioSecurityCard) }
       </View>
     );

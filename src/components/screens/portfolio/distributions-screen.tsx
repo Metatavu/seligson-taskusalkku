@@ -1,12 +1,12 @@
 import React from "react";
 import { ScrollView, View, Text, ActivityIndicator, Dimensions } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
-import { Portfolio, PortfolioSecurity } from "../../../generated/client";
+import { LocalizedValue, Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
-import { VictoryLabel, VictoryPie } from "victory-native";
+import { VictoryPie, VictoryTooltip } from "victory-native";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfolioSecurityCategory } from "../../../types";
 import GenericUtils from "../../../utils/generic";
@@ -94,7 +94,7 @@ const DistributionsScreen: React.FC = () => {
     setLoading(true);
     const fetchedPortfolioSecurities = selectedPortfolio ? await fetchPortfolioSecurities(selectedPortfolio) : await fetchAllPortfolioSecurities();
 
-    setPortfolioSecurityCategories(fetchedPortfolioSecurities.sort(ChartUtils.compareSecurityCategory));
+    setPortfolioSecurityCategories(fetchedPortfolioSecurities.sort(ChartUtils.compareSecurityCategory).reverse());
     setLoading(false);
   };
 
@@ -104,12 +104,19 @@ const DistributionsScreen: React.FC = () => {
   React.useEffect(() => { loadData(); }, [ selectedPortfolio ]);
 
   /**
+   * Returns category label
+   *
+   * @returns category label
+   */
+  const getCategoryLabel = (name: LocalizedValue) => GenericUtils.getLocalizedValue(name).split("Seligson & Co ")[1];
+
+  /**
    * Renders content
    */
   const renderPie = () => {
     const chartData = portfolioSecurityCategories.map(portfolioSecurityCategory => (
       {
-        x: `${GenericUtils.getLocalizedValue(portfolioSecurityCategory.name).split(" ")[0]}- ${portfolioSecurityCategory.percentage}`,
+        x: `${getCategoryLabel(portfolioSecurityCategory.name)}- ${portfolioSecurityCategory.percentage}`,
         y: parseFloat(portfolioSecurityCategory.totalValue)
       }));
 
@@ -121,11 +128,44 @@ const DistributionsScreen: React.FC = () => {
           colorScale={ chartColor }
           data={ chartData }
           radius={ 120 }
-          labelRadius={ 80 }
+          labelRadius={ 40 }
           width={ Dimensions.get("window").width }
-          height={ 300 }
-          animate={{ duration: 2000 }}
-          labelComponent={ <VictoryLabel style={{ fontSize: 12 }}/> }
+          height={ 240 }
+          innerRadius={ 40 }
+          labelComponent={
+            <VictoryTooltip
+              constrainToVisibleArea
+              orientation="top"
+              renderInPortal={ false }
+            />
+          }
+          events={[
+            {
+              target: "data",
+              eventHandlers: {
+                onPress: () => [
+                  {
+                    eventKey: "all",
+                    target: "labels",
+                    mutation: () => ({ active: false })
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: true })
+                  }
+                ]
+              }
+            },
+            {
+              target: "labels",
+              eventHandlers: {
+                onPress: () => [{
+                  target: "labels",
+                  mutation: () => ({ active: false })
+                }]
+              }
+            }
+          ]}
         />
       </View>
     );
@@ -141,7 +181,14 @@ const DistributionsScreen: React.FC = () => {
       <View
         style={{ ...styles.categoryColor, backgroundColor: portfolioSecurityCategory.color }}
       />
-      <Text style={{ flexWrap: "wrap" }}>{ `${portfolioSecurityCategory.percentage} ${GenericUtils.getLocalizedValue(portfolioSecurityCategory.name)}` }</Text>
+      <View>
+        <Text style={ theme.fonts.medium }>
+          { `${portfolioSecurityCategory.percentage}` }
+        </Text>
+        <Text>
+          { getCategoryLabel(portfolioSecurityCategory.name) }
+        </Text>
+      </View>
     </View>
   );
 

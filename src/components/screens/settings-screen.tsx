@@ -1,8 +1,8 @@
 /* eslint-disable react/no-children-prop */
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Button } from "react-native-paper";
 import Config from "../../app/config";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout } from "../../features/auth/auth-slice";
@@ -19,6 +19,7 @@ import TranslationUtils from "../../utils/translations";
 import { ScrollView } from "react-native-gesture-handler";
 import RadioButtonOptionItem from "../generic/radio-button-option-item";
 import BiometricAuth from "../../utils/biometric-auth";
+import theme from "../../theme";
 
 /**
  * Settings screen component
@@ -203,7 +204,7 @@ const SettingsScreen: React.FC = () => {
    */
   const renderCards = (renderFunction: () => void, title: string) => (
     <View style={ styles.card }>
-      <Text style={ styles.cardTitle }>
+      <Text style={[ theme.fonts.medium, styles.cardTitle ]}>
         { title }
       </Text>
       { renderFunction() }
@@ -217,11 +218,11 @@ const SettingsScreen: React.FC = () => {
   const renderRemoveLocalValues = () => {
     if (developmentBuild) {
       return (
-        <View style={{ marginTop: 20 }}>
-          <Button onPress={ removeLocalValues }>
+        <Button onPress={ removeLocalValues } style={ styles.backButton }>
+          <Text style={ styles.buttonText }>
             RESET LOCAL VALUES
-          </Button>
-        </View>
+          </Text>
+        </Button>
       );
     }
 
@@ -239,11 +240,11 @@ const SettingsScreen: React.FC = () => {
           { renderCards(renderLoginOptions, strings.settingsScreen.preferredLogin) }
           { renderCards(renderLanguageOptions, strings.settingsScreen.language) }
         </View>
-        <View style={{ marginTop: 20 }}>
-          <Button onPress={ onLogout }>
+        <Button onPress={ onLogout } style={ styles.backButton }>
+          <Text style={ styles.buttonText }>
             { strings.generic.logout }
-          </Button>
-        </View>
+          </Text>
+        </Button>
         { renderRemoveLocalValues() }
       </ScrollView>
       <PinInput
