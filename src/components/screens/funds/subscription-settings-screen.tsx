@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { Card, Divider, Button, TextInput, IconButton, useTheme } from "react-native-paper";
+import { Card, Divider, Button, TextInput, IconButton, useTheme, Snackbar } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/subscription-settings";
@@ -9,17 +9,16 @@ import strings from "../../../localization/strings";
 import GenericUtils from "../../../utils/generic";
 import { PORTFOLIO_REFERENCE_TYPE, SubscriptionOption, SubscriptionSettings } from "../../../types";
 import * as Clipboard from "expo-clipboard";
-import moment from "moment";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BasicModal from "../../generic/basic-modal";
 import RadioButtonOptionItem from "../../generic/radio-button-option-item";
-import BigNumber from "bignumber.js";
 import produce from "immer";
 import { Portfolio } from "../../../generated/client";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DatePicker from "../../generic/date-picker";
+import CopyText from "../../generic/copy-text";
 
 /**
  * Passive funds screen component
@@ -29,8 +28,12 @@ import DatePicker from "../../generic/date-picker";
 const SubscriptionSettingsScreen: React.FC = () => {
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
   const { params } = useRoute<FundsNavigator.RouteProps<"fundSubscriptionSettings">>();
-  const { colors } = useTheme();
   const { fund } = params;
+  const { colors } = useTheme();
+  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
+  const errorContext = React.useContext(ErrorContext);
+
+  const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
   const [ bankOptionVisible, setBankOptionVisible ] = React.useState(false);
   const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
   const [ referenceOptionVisible, setReferenceOptionVisible ] = React.useState(false);
@@ -39,10 +42,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ referenceOptions, setReferenceOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
-  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
-  const errorContext = React.useContext(ErrorContext);
   const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
-    fundName: fund.longName,
+    fund: fund,
     dueDate: new Date(),
     shareType: PORTFOLIO_REFERENCE_TYPE.A,
     sum: "0"
@@ -67,7 +68,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const onReferenceOptionSelect = (referenceOption: SubscriptionOption) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
       draft.referenceNumber = referenceOption.value;
-      draft.shareType = referenceOption.key;
+      draft.shareType = referenceOption.key as PORTFOLIO_REFERENCE_TYPE;
     });
 
     setSubscriptionSettings(updatedSubscriptionSettings);
@@ -112,7 +113,6 @@ const SubscriptionSettingsScreen: React.FC = () => {
     onReferenceOptionSelect(options[0]);
   };
 
-  // TODO load method to initialize option values
   /**
    * Loads portfolios
    */
@@ -121,7 +121,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
       const fetchedPortfolios = await portfoliosApiContext.listPortfolios();
 
       setPortfolios(fetchedPortfolios);
-      const fetchedPortfolioOptions: SubscriptionOption[] = portfolios.map(portfolio => ({
+      const fetchedPortfolioOptions: SubscriptionOption[] = fetchedPortfolios.map(portfolio => ({
         key: portfolio.id || "",
         label: portfolio.name,
         value: portfolio.name
@@ -156,18 +156,21 @@ const SubscriptionSettingsScreen: React.FC = () => {
   };
 
   /**
-   * Loads portfolios
+   * Loads data
    */
-  const loadOptions = async () => {
+  const loadData = async () => {
     await loadPortfolios();
     loadBankOptions();
   };
 
   /**
-   * Effect for loading portfolios when component mounts
+   * Effect for loading data
    */
-  React.useEffect(() => { loadOptions(); }, []);
+  React.useEffect(() => { loadData(); }, []);
 
+  /**
+   * Effect for updating poerfol
+   */
   React.useEffect(() => {
     const portfolioOption = portfolioOptions.find(option => option.key === subscriptionSettings.portfolioId);
     portfolioOption && updateReferenceOptions(portfolioOption);
@@ -195,14 +198,11 @@ const SubscriptionSettingsScreen: React.FC = () => {
     setSubscriptionSettings(updatedSubscriptionSettings);
   };
 
-  /**
-   * Copies the string into clipboard 
-   * 
-   * @param value value to be copied
+  /*
+   * Validates settings
    */
-  const copyToClipBoard = async (value: string) => {
-    await Clipboard.setString(value);
-  };
+  // eslint-disable-next-line require-jsdoc
+  const validateSettings = () => subscriptionSettings.portfolioId && subscriptionSettings.iban && subscriptionSettings.referenceNumber;
 
   /**
    * Renders fund title
@@ -237,8 +237,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
       >
         <View style={ styles.select }>
           <Text>
-            {/* TODO fix this will replace parentheses in other fields */}
-            { selectedOption?.label.replace(/\([^)]*\)/, "") }
+            { selectedOption?.label }
           </Text>
           <Icon name="chevron-down" color={ colors.primary }/>
         </View>
@@ -252,14 +251,19 @@ const SubscriptionSettingsScreen: React.FC = () => {
           {
             height: "100%",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
+            justifyContent: "flex-start"
           }}
         >
           {
             options.map(option => (
               <RadioButtonOptionItem
                 key={ option.key || "" }
-                label={ option.label }
+                label={
+                  option?.key === PORTFOLIO_REFERENCE_TYPE.A ?
+                    `${option?.label} (${strings.subscription.shares.a.recommended})` :
+                    option?.label
+                }
                 value={ option.value }
                 checked={ selectedOption?.key === option.key }
                 onPress={ () => selectOption(option) }
@@ -276,17 +280,27 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Renders copy text 
    */
   const renderCopyText = (text: string) => (
-    <View style={ styles.copyText }>
-      <Text numberOfLines={ 1 } style={{ maxWidth: 180 }}>
-        { text }
-      </Text>
-      <IconButton
-        icon="content-copy"
-        color={ colors.primary }
-        size={ 15 }
-        onPress={ () => copyToClipBoard(text) }
-      />
-    </View>
+    <CopyText
+      text={ text }
+      width={ 180 }
+      callback={ () => setSnackBarOpen(true) }
+    />
+  );
+
+  /**
+   * Render snack bar
+   */
+  const renderSnackBar = () => (
+    <Snackbar
+      visible={ snackBarOpen }
+      onDismiss={ () => setSnackBarOpen(false) }
+      action={{
+        label: strings.generic.close,
+        onPress: () => setSnackBarOpen(false)
+      }}
+    >
+      { strings.generic.copied }
+    </Snackbar>
   );
 
   /**
@@ -314,7 +328,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     selectedOption?: SubscriptionOption
   ) => (
     <>
-      <Text style={ styles.dropDownLabel }>
+      <Text style={ styles.primaryLabel }>
         { label }
       </Text>
       {
@@ -436,10 +450,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Renders fund subscription content
    */
   const renderContent = () => (
-    <View style={ styles.subscriptionSettings }>
-      <Text style={ theme.fonts.medium }>
-        TODO name
-      </Text>
+    <View style={{ padding: theme.spacing(2) }}>
       <Card style={ styles.subscriptionCard }>
         { renderFundTitle() }
         <Text>
@@ -450,7 +461,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           icon="arrow-left-circle"
           labelStyle={{ color: "#fff" }}
           style={{ ...styles.backButton, marginTop: theme.spacing(3) }}
-          // onPress={ () => navigation.navigate("fundSubscriptionSummary", { subscriptionSettings:  }) }
+          onPress={ () => navigation.navigate("fundSubscriptionSummary", { subscriptionSettings: subscriptionSettings }) }
         >
           <Text style={{ color: "#fff" }}>
             { strings.subscription.createVirtualBarCode }
@@ -466,6 +477,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   return (
     <>
       <Button
+        disabled={ !validateSettings() }
         icon="arrow-left-circle"
         onPress={ navigation.goBack }
         labelStyle={{ color: "#fff" }}
@@ -480,8 +492,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
           { renderContent() }
         </ScrollView>
       </KeyboardAvoidingView>
+      { renderSnackBar() }
     </>
-
   );
 };
 

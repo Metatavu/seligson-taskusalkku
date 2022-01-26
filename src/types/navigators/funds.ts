@@ -2,6 +2,7 @@ import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
 import { Fund } from "../../generated/client/models/Fund";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import FundsListNavigator from "./funds-list";
+import { SubscriptionSettings } from "..";
 
 /**
  * Fund selection navigator
@@ -16,7 +17,7 @@ namespace FundsNavigator {
     fundDetails: { fund: Fund; };
     fundSubscriptionSettings: { fund: Fund };
     // TODO fix type
-    fundSubscriptionSummary: { subscription: any };
+    fundSubscriptionSummary: { subscriptionSettings: SubscriptionSettings };
   };
 
   /**

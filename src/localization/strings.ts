@@ -20,6 +20,7 @@ export interface Strings extends LocalizedStringsMethods {
     cancel: string;
     save: string;
     noData: string;
+    copied: string;
   };
 
   /**
@@ -151,6 +152,7 @@ export interface Strings extends LocalizedStringsMethods {
     shares: {
       a: {
         title: string;
+        recommended: string;
         description: string;
       };
       b: {

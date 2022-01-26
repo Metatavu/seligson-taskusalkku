@@ -43,19 +43,4 @@ export default StyleSheet.create({
     paddingBottom: theme.spacing(1.5)
   },
 
-  select: {
-    display: "flex",
-    flexDirection: "row",
-    width: 120,
-    alignItems: "center",
-    justifyContent: "space-between"
-  },
-
-  copyText: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
-  }
-
 });

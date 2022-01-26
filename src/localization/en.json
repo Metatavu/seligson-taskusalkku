@@ -9,7 +9,8 @@
     "reserve": "Reserve",
     "cancel": "Cancel",
     "save": "Save",
-    "noData": "No data"
+    "noData": "No data",
+    "copied": "Copied to clipboard"
   },
 
   "errorHandling": {
@@ -122,7 +123,8 @@
     "virtualBarCode": "virtual barcode",
     "shares": {
       "a": {
-        "title": "Growth rate (recommended)",
+        "title": "Growth rate",
+        "recommended": "recommended",
         "value": "Growth rate",
         "description": "Dividends or interest received by the fund are added to the fund capital and increase the value of the fund unit. The tax effect only arises when the fund units are sold."
       },

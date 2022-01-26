@@ -9,7 +9,8 @@
     "reserve": "Varaa",
     "cancel": "Peruuta",
     "save": "Tallenna",
-    "noData": "Ei dataa"
+    "noData": "Ei dataa",
+    "copied": "Kopioitu leikepöydälle"
   },
 
   "errorHandling": {
@@ -122,7 +123,8 @@
     "virtualBarCode": "Virtuaaliviivakoodi",
     "shares": {
       "a": {
-        "title": "Kasvuosuus (suositus)",
+        "title": "Kasvuosuus",
+        "recommended": "suositus",
         "value": "Kasvuosuus",
         "description": "Rahaston saamat osingot tai korot lisästään rahastopääomaan ja ne kasvattavat rahasto-ossuden arvoa. Veroseuraanus syntyy vasta kun rahasto-osuuksia myydään."
       },

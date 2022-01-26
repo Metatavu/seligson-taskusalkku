@@ -16,7 +16,7 @@ interface Props {
 }
 
 /**
- * Transactions card component
+ * date picker component
  *
  * @param props component properties
  */

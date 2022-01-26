@@ -202,8 +202,8 @@ export interface SubscriptionSettings {
   referenceNumber?: string
   portfolioId?: string;
   portfolioName?: string;
-  shareType: string;
+  shareType: PORTFOLIO_REFERENCE_TYPE;
   dueDate: Date;
   sum: string;
-  fundName?: LocalizedValue;
+  fund: Fund;
 }
