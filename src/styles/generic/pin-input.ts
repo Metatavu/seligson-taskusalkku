@@ -24,11 +24,19 @@ export default StyleSheet.create({
   saveButton: {
     backgroundColor: "#899C35",
     borderRadius: 25,
-    flex: 1
+    flex: 1,
+    maxWidth: "48%"
   },
 
   cancelButton: {
-    flex: 1
+    flex: 1,
+    maxWidth: "48%",
+    borderStyle: "solid",
+    borderColor: "#899C35",
+    borderWidth: 1,
+    borderRadius: 25,
+
+
   },
 
   cell: {
