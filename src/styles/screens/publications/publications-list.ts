@@ -5,19 +5,26 @@ export default StyleSheet.create({
 
   listContainer: {
     width: "100%",
-    paddingHorizontal: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(1)
   },
 
   publicationCard: {
     width: "100%",
-    marginTop: theme.spacing(2),
-    elevation: 3,
+    marginTop: theme.spacing(1),
     borderBottomRightRadius: 25,
     borderTopLeftRadius: 25,
     borderBottomLeftRadius: 25,
     backgroundColor: "#fff",
     overflow: "hidden"
+  },
+
+  cardShadow: {
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5
   },
 
   publicationTouchable: {

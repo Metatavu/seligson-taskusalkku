@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
-import { Divider, Text, useTheme } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import fundCardStyles from "../../styles/generic/fund-card";
@@ -8,6 +8,10 @@ import { Fund, PortfolioSecurity, Security } from "../../generated/client";
 import strings from "../../localization/strings";
 import GenericUtils from "../../utils/generic";
 import BigNumber from "bignumber.js";
+import Calculations from "../../utils/calculations";
+import { useNavigation } from "@react-navigation/native";
+import HomeNavigator from "../../types/navigators/home";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 /**
  * Component properties
@@ -25,10 +29,18 @@ interface Props {
  */
 const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
-  const { name, currency } = security;
-  const { color, risk, priceDate } = fund;
+  const { currency } = security;
+  const { color, risk, priceDate, longName } = fund;
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
+  const navigation = useNavigation<HomeNavigator.NavigationProps>();
+
+  /**
+   * Event handler for card click
+   */
+  const onClick = () => {
+    navigation.navigate("funds", { screen: "fundDetails", params: { fund: fund } });
+  };
 
   /**
    * Renders title section
@@ -37,7 +49,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
     <View style={ styles.cardColumn }>
       <View style={ styles.fundName }>
         <Text style={ theme.fonts.medium }>
-          { GenericUtils.getLocalizedValue(name) }
+          { longName && GenericUtils.getLocalizedValue(longName) }
         </Text>
       </View>
       <View style={ styles.cardRow }>
@@ -90,28 +102,28 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
 
     return (
       <>
-        <View style={ styles.cardColumn }>
-          <Text>
+        <View>
+          <Text style={{ fontWeight: theme.fonts.medium.fontWeight }}>
             { strings.fundDetailsScreen.myShare }
           </Text>
         </View>
-        <View style={ styles.cardColumn }>
+        <View>
           <Text style={{ color: theme.colors.primary }}>
             { strings.fundDetailsScreen.amount }
           </Text>
           <Text>
-            { amount }
+            { Calculations.formatNumberStr(amount, 4) }
           </Text>
         </View>
-        <View style={ styles.cardColumn }>
+        <View>
           <Text style={{ color: theme.colors.primary }}>
             { strings.fundDetailsScreen.value }
           </Text>
           <Text>
-            { `${new BigNumber(totalValue).toFormat(2)}${currency}` }
+            { Calculations.formatNumberStr(totalValue, 2, { suffix: currency }) }
           </Text>
         </View>
-        <View style={ styles.cardColumn }>
+        <View>
           <Text style={{ color: theme.colors.primary }}>
             { strings.fundDetailsScreen.change }
           </Text>
@@ -127,24 +139,26 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
    * Component render
    */
   return (
-    <View style={ styles.cardWrapper }>
-      <View style={ styles.gradientContainer }>
-        <LinearGradient
-          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-          style={ styles.gradient }
-        />
-      </View>
-      <View style={ styles.cardContent }>
-        <View style={ styles.cardRow }>
-          { renderTitle() }
-          { renderRiskMeter() }
+    <TouchableOpacity onPress={ () => onClick() }>
+      <View style={ styles.cardWrapper }>
+        <View style={ styles.gradientContainer }>
+          <LinearGradient
+            colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+            style={ styles.gradient }
+          />
         </View>
-        <Divider style={ styles.divider }/>
-        <View style={ styles.cardRow }>
-          { renderMyShares() }
+        <View style={ styles.cardContent }>
+          <View style={ styles.cardRow }>
+            { renderTitle() }
+            { renderRiskMeter() }
+          </View>
+          <Divider style={ styles.divider }/>
+          <View style={ styles.shareRow }>
+            { renderMyShares() }
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

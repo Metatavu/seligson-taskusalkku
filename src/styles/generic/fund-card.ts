@@ -45,6 +45,12 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     alignItems: "center"
   },
 
+  shareRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+
   fundName: {
     flexDirection: "row"
   },

@@ -11,11 +11,13 @@ export default StyleSheet.create({
 
   viewContainer: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(1)
   },
 
   totalContainer: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(),
     backgroundColor: "#3E3F44",
     alignItems: "center",
     justifyContent: "center"
