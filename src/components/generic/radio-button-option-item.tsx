@@ -38,7 +38,7 @@ const RadioButtonOptionItem: React.FC<Props> = ({
       color={ color || theme.colors.primary }
       onPress={ () => onPress(value) }
       style={ styles.radioButtonReversed }
-      labelStyle={[ theme.fonts.medium, checked ? styles.checked : styles.notSelected ]}
+      labelStyle={[ theme.fonts.medium, styles[checked ? "checked" : "notSelected"] ]}
     />
     <Text style={[ !checked && styles.notSelected, !description && styles.noDescription ]}>
       { description }

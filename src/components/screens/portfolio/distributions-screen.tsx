@@ -125,37 +125,37 @@ const DistributionsScreen: React.FC = () => {
           width={ Dimensions.get("window").width }
           height={ 240 }
           innerRadius={ 40 }
-          labelComponent={<VictoryTooltip constrainToVisibleArea orientation="top" renderInPortal={ false }/>}
+          labelComponent={
+            <VictoryTooltip
+              constrainToVisibleArea
+              orientation="top"
+              renderInPortal={ false }
+            />
+          }
           events={[
             {
               target: "data",
               eventHandlers: {
-                onPress: () => {
-                  return [
-                    {
-                      eventKey: "all",
-                      target: "labels",
-                      mutation: () => ({ active: false })
-                    },
-                    {
-                      target: "labels",
-                      mutation: () => ({ active: true })
-                    }
-                  ];
-                }
+                onPress: () => [
+                  {
+                    eventKey: "all",
+                    target: "labels",
+                    mutation: () => ({ active: false })
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: true })
+                  }
+                ]
               }
             },
             {
               target: "labels",
               eventHandlers: {
-                onPress: () => {
-                  return [
-                    {
-                      target: "labels",
-                      mutation: () => ({ active: false })
-                    }
-                  ];
-                }
+                onPress: () => [{
+                  target: "labels",
+                  mutation: () => ({ active: false })
+                }]
               }
             }
           ]}

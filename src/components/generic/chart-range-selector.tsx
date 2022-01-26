@@ -20,10 +20,7 @@ interface Props {
  *
  * @param props component properties
  */
-const ChartRangeSelector: React.FC<Props> = ({
-  selectedRange,
-  onDateRangeChange
-}) => {
+const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange }) => {
   const [ showDateInputs, setShowDateInputs ] = React.useState(false);
   const [ datePickerOpen, setDatePickerOpen ] = React.useState(false);
   const [ settingStartDate, setSettingStartDate ] = React.useState(true);
@@ -47,12 +44,11 @@ const ChartRangeSelector: React.FC<Props> = ({
 
     const { type, nativeEvent } = value;
 
+    setDatePickerOpen(false);
+
     if (type === "dismissed") {
-      setDatePickerOpen(false);
       return;
     }
-
-    setDatePickerOpen(false);
     const date = moment(nativeEvent.timestamp).toDate();
     settingStartDate ? setStartDate(date) : setEndDate(date);
   };
@@ -61,15 +57,14 @@ const ChartRangeSelector: React.FC<Props> = ({
    * Event handler for on confirm dates click
    */
   const onConfirmDates = () => {
-    onDateRangeChange([startDate, endDate]);
-    setDatePickerOpen(false);
-    setShowDateInputs(false);
+    onDateRangeChange([ startDate, endDate ]);
+    onCloseDateSelection();
   };
 
   /**
-   * Event handler for on cancel date selection click
+   * Event handler for close date selection
    */
-  const onCancelDateSelection = () => {
+  const onCloseDateSelection = () => {
     setDatePickerOpen(false);
     setShowDateInputs(false);
   };
@@ -133,7 +128,7 @@ const ChartRangeSelector: React.FC<Props> = ({
           { startDate && moment(startDate).format("DD.MM.YYYY") }
         </Button>
         <Button
-          onPress={() => {
+          onPress={ () => {
             setDatePickerOpen(true);
             setSettingStartDate(false);
           }}
@@ -143,7 +138,7 @@ const ChartRangeSelector: React.FC<Props> = ({
         <Button onPress={ onConfirmDates }>
           { strings.generic.ok }
         </Button>
-        <Button onPress={ onCancelDateSelection }>
+        <Button onPress={ onCloseDateSelection }>
           { strings.generic.cancel }
         </Button>
       </View>

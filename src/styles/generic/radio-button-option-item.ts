@@ -6,7 +6,6 @@ export default StyleSheet.create({
   radioButtonContainer: {
     paddingBottom: theme.spacing(1)
   },
-  
   radioButtonReversed: {
     flexDirection: "row",
     paddingLeft: 0,
