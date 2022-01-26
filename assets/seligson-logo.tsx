@@ -1,5 +1,5 @@
 import React from "react";
-import Svg, { ClipPath, Defs, Path, G } from "react-native-svg";
+import Svg, { Path, G } from "react-native-svg";
 
 /**
  * Seligson logo
@@ -37,11 +37,6 @@ const SeligsonLogo = () => {
           clipRule="evenodd"
         />
       </G>
-      <Defs>
-        <ClipPath id="clip0_68_14937">
-          <Path fill="#fff" d="M0 0H268V162H0z"/>
-        </ClipPath>
-      </Defs>
     </Svg>
   );
 };

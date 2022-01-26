@@ -3,16 +3,17 @@ import { useNavigation } from "@react-navigation/native";
 import RootNavigator from "../../../types/navigators/root";
 import Config from "../../../app/config";
 import { Language } from "../../../types/config";
-import { View } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import SeligsonLogo from "../../../../assets/seligson-logo";
 import theme from "../../../theme";
-import { Button, ProgressBar, Text } from "react-native-paper";
+import { Button, ProgressBar } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/registration/language-selection-screen";
 import RadioButtonOptionItem from "../../generic/radio-button-option-item";
 import TranslationUtils from "../../../utils/translations";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectSelectedLanguage, setLanguage } from "../../../features/locale/locale-slice";
+import { LinearGradient } from "expo-linear-gradient";
 
 /**
  * Language selection screen component
@@ -75,11 +76,11 @@ const LanguageSelectionScreen: React.FC = () => {
     }
 
     return (
-      <View style={ styles.card }>
-        <Text style={ styles.cardTitle }>
-          { strings.settingsScreen.language }
-        </Text>
-        <View style={{ display: "flex", flexDirection: "row" }}>
+      <>
+        <View style={ styles.card }>
+          <Text style={[ theme.fonts.medium, styles.cardTitle ]}>
+            { strings.settingsScreen.language }
+          </Text>
           {
             Object.values(Language).map(language => (
               <RadioButtonOptionItem
@@ -92,13 +93,18 @@ const LanguageSelectionScreen: React.FC = () => {
             ))
           }
         </View>
-        <Button
-          uppercase={ false }
-          onPress={ onProceed }
-        >
-          { strings.generic.saveAndProceed }
-        </Button>
-      </View>
+        <View style={ styles.buttonContainer }>
+          <Button
+            uppercase={ false }
+            onPress={ onProceed }
+            style={ styles.button }
+          >
+            <Text style={ styles.buttonText }>
+              { strings.generic.saveAndProceed }
+            </Text>
+          </Button>
+        </View>
+      </>
     );
   };
 
@@ -106,10 +112,29 @@ const LanguageSelectionScreen: React.FC = () => {
    * Component render
    */
   return (
-    <View style={ styles.container }>
-      <SeligsonLogo/>
-      { renderLanguageSelect() }
-    </View>
+    <ImageBackground
+      style={ styles.container }
+      // eslint-disable-next-line global-require
+      source={ require("../../../../assets/background.png") }
+      resizeMode="cover"
+    >
+      <LinearGradient
+        colors={[ "rgba(0,0,0,0.2)", "rgba(0,0,0,0)" ]}
+        style={[ styles.container, { paddingHorizontal: theme.spacing(2) } ]}
+      >
+        <View style={ styles.logoContainer }>
+          <LinearGradient
+            colors={[ "rgba(255,255,255,0.2)", "rgba(255,255,255,0)" ]}
+            style={ styles.circularGradient }
+          >
+            <View style={ styles.logo }>
+              <SeligsonLogo/>
+            </View>
+          </LinearGradient>
+        </View>
+        { renderLanguageSelect() }
+      </LinearGradient>
+    </ImageBackground>
   );
 };
 
