@@ -1,0 +1,488 @@
+import React from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
+import { Card, Divider, Button, TextInput, IconButton, useTheme } from "react-native-paper";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import FundsNavigator from "../../../types/navigators/funds";
+import styles from "../../../styles/screens/funds/subscription-settings";
+import theme from "../../../theme";
+import strings from "../../../localization/strings";
+import GenericUtils from "../../../utils/generic";
+import { PORTFOLIO_REFERENCE_TYPE, SubscriptionOption, SubscriptionSettings } from "../../../types";
+import * as Clipboard from "expo-clipboard";
+import moment from "moment";
+import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
+import { ErrorContext } from "../../error-handler/error-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import BasicModal from "../../generic/basic-modal";
+import RadioButtonOptionItem from "../../generic/radio-button-option-item";
+import BigNumber from "bignumber.js";
+import produce from "immer";
+import { Portfolio } from "../../../generated/client";
+import Icon from "react-native-vector-icons/FontAwesome";
+import DatePicker from "../../generic/date-picker";
+
+/**
+ * Passive funds screen component
+ *
+ * @param props component properties
+ */
+const SubscriptionSettingsScreen: React.FC = () => {
+  const navigation = useNavigation<FundsNavigator.NavigationProps>();
+  const { params } = useRoute<FundsNavigator.RouteProps<"fundSubscriptionSettings">>();
+  const { colors } = useTheme();
+  const { fund } = params;
+  const [ bankOptionVisible, setBankOptionVisible ] = React.useState(false);
+  const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
+  const [ referenceOptionVisible, setReferenceOptionVisible ] = React.useState(false);
+  const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
+  // TODO set the bank option initial value from the fund
+  const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
+  const [ referenceOptions, setReferenceOptions ] = React.useState<SubscriptionOption[]>([]);
+  const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
+  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
+  const errorContext = React.useContext(ErrorContext);
+  const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
+    fundName: fund.longName,
+    dueDate: new Date(),
+    shareType: PORTFOLIO_REFERENCE_TYPE.A,
+    sum: "0"
+  });
+
+  /**
+   * Reference options select handler
+   */
+  const onBankOptionSelect = (bankOption: SubscriptionOption) => {
+    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
+      draft.bankName = bankOption.label;
+      draft.iban = bankOption.value;
+    });
+
+    setSubscriptionSettings(updatedSubscriptionSettings);
+    setBankOptionVisible(false);
+  };
+
+  /**
+   * Reference options select handler
+   */
+  const onReferenceOptionSelect = (referenceOption: SubscriptionOption) => {
+    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
+      draft.referenceNumber = referenceOption.value;
+      draft.shareType = referenceOption.key;
+    });
+
+    setSubscriptionSettings(updatedSubscriptionSettings);
+    setReferenceOptionVisible(false);
+  };
+
+  /**
+   * On portfolio select handler
+   */
+  const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
+    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
+      draft.portfolioId = portfolioOption.key;
+      draft.portfolioName = portfolioOption.value;
+    });
+
+    setSubscriptionSettings(updatedSubscriptionSettings);
+    setPortfolioOptionVisible(false);
+  };
+
+  /**
+   * Update reference options handler
+   */
+  const updateReferenceOptions = (portfolioOption: SubscriptionOption) => {
+    // TODO set the reference options and select the default
+    // const foundPortfolio = portfolios.find(portfolio => portfolio.id === portfolioOption.key);
+    const options: SubscriptionOption[] = [
+      {
+        label: strings.subscription.shares.a.title,
+        description: strings.subscription.shares.a.description,
+        key: PORTFOLIO_REFERENCE_TYPE.A,
+        value: "TODO reference number"
+      },
+      {
+        label: strings.subscription.shares.b.title,
+        description: strings.subscription.shares.b.description,
+        key: PORTFOLIO_REFERENCE_TYPE.B,
+        value: "TODO reference number"
+      }
+    ];
+
+    setReferenceOptions(options);
+    onReferenceOptionSelect(options[0]);
+  };
+
+  // TODO load method to initialize option values
+  /**
+   * Loads portfolios
+   */
+  const loadPortfolios = async () => {
+    try {
+      const fetchedPortfolios = await portfoliosApiContext.listPortfolios();
+
+      setPortfolios(fetchedPortfolios);
+      const fetchedPortfolioOptions: SubscriptionOption[] = portfolios.map(portfolio => ({
+        key: portfolio.id || "",
+        label: portfolio.name,
+        value: portfolio.name
+      }));
+
+      setPortfolioOptions(fetchedPortfolioOptions);
+      fetchedPortfolioOptions[0] && onPortfolioOptionSelect(fetchedPortfolioOptions[0]);
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.portfolio.list, error);
+    }
+  };
+
+  /**
+   * Loads bank options
+   */
+  const loadBankOptions = () => {
+    const options: SubscriptionOption[] = [
+      {
+        label: "bank1",
+        key: "bank1",
+        value: "bank1"
+      },
+      {
+        label: "bank2",
+        key: "bank2",
+        value: "bank2"
+      }
+    ];
+
+    setBankOptions(options);
+    onBankOptionSelect(options[0]);
+  };
+
+  /**
+   * Loads portfolios
+   */
+  const loadOptions = async () => {
+    await loadPortfolios();
+    loadBankOptions();
+  };
+
+  /**
+   * Effect for loading portfolios when component mounts
+   */
+  React.useEffect(() => { loadOptions(); }, []);
+
+  React.useEffect(() => {
+    const portfolioOption = portfolioOptions.find(option => option.key === subscriptionSettings.portfolioId);
+    portfolioOption && updateReferenceOptions(portfolioOption);
+  }, [ subscriptionSettings.portfolioId ]);
+
+  /**
+   * On subscription sum change handler
+   */
+  const onSubscriptionSumChange = (sum: string) => {
+    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
+      draft.sum = sum;
+    });
+
+    setSubscriptionSettings(updatedSubscriptionSettings);
+  };
+
+  /**
+   * On subscription due date change handler
+   */
+  const onSubscriptionDueDateChange = (date: Date) => {
+    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
+      draft.dueDate = date;
+    });
+
+    setSubscriptionSettings(updatedSubscriptionSettings);
+  };
+
+  /**
+   * Copies the string into clipboard 
+   * 
+   * @param value value to be copied
+   */
+  const copyToClipBoard = async (value: string) => {
+    await Clipboard.setString(value);
+  };
+
+  /**
+   * Renders fund title
+   */
+  const renderFundTitle = () => (
+    <>
+      <View style={ styles.fundTitle }>
+        <View
+          style={{ ...styles.fundColor, backgroundColor: fund.color }}
+        />
+        <Text style={{ flexWrap: "wrap" }}>
+          { fund.shortName ? GenericUtils.getLocalizedValue(fund.shortName) : "" }
+        </Text>
+      </View>
+      <Divider/>
+    </>
+  );
+
+  /**
+   * Renders drop down 
+   */
+  const renderSelect = (
+    visible: boolean,
+    setVisible: (visible: boolean) => void,
+    options: SubscriptionOption[],
+    selectOption: (option: SubscriptionOption) => void,
+    selectedOption?: SubscriptionOption
+  ) => (
+    <>
+      <TouchableOpacity
+        onPress={ () => setVisible(true) }
+      >
+        <View style={ styles.select }>
+          <Text>
+            {/* TODO fix this will replace parentheses in other fields */}
+            { selectedOption?.label.replace(/\([^)]*\)/, "") }
+          </Text>
+          <Icon name="chevron-down" color={ colors.primary }/>
+        </View>
+      </TouchableOpacity>
+      <BasicModal
+        visible={ visible }
+        close={ () => setVisible(false) }
+      >
+        {/* TODO fix this */}
+        <View style={
+          {
+            height: "100%",
+            display: "flex",
+            flexDirection: "column"
+          }}
+        >
+          {
+            options.map(option => (
+              <RadioButtonOptionItem
+                key={ option.key || "" }
+                label={ option.label }
+                value={ option.value }
+                checked={ selectedOption?.key === option.key }
+                onPress={ () => selectOption(option) }
+                description={ option.description }
+              />
+            ))
+          }
+        </View>
+      </BasicModal>
+    </>
+  );
+
+  /**
+   * Renders copy text 
+   */
+  const renderCopyText = (text: string) => (
+    <View style={ styles.copyText }>
+      <Text numberOfLines={ 1 } style={{ maxWidth: 180 }}>
+        { text }
+      </Text>
+      <IconButton
+        icon="content-copy"
+        color={ colors.primary }
+        size={ 15 }
+        onPress={ () => copyToClipBoard(text) }
+      />
+    </View>
+  );
+
+  /**
+   * Renders data row
+   */
+  const renderDataRow = (renderLabel: () => React.ReactNode, renderContent: () => React.ReactNode) => (
+    <>
+      <View style={ styles.dataRow }>
+        { renderLabel() }
+        { renderContent() }
+      </View>
+      <Divider/>
+    </>
+  );
+
+  /**
+   * Renders select with label 
+   */
+  const renderSelectWithLabel = (
+    label: string,
+    visible: boolean,
+    setVisible: (visible: boolean) => void,
+    options: SubscriptionOption[],
+    selectOption: (option: SubscriptionOption) => void,
+    selectedOption?: SubscriptionOption
+  ) => (
+    <>
+      <Text style={ styles.dropDownLabel }>
+        { label }
+      </Text>
+      {
+        renderDataRow(
+          () => renderSelect(
+            visible,
+            setVisible,
+            options,
+            selectOption,
+            selectedOption
+          ),
+          () => renderCopyText(selectedOption?.value || "")
+        )
+      }
+    </>
+  );
+
+  /**
+   * Renders sum input
+  */
+  const renderSumInput = () => (
+    <View style={{
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center"
+    }}
+    >
+      <TextInput
+        style={{ height: 30 }}
+        value={ subscriptionSettings.sum }
+        keyboardType="numeric"
+        onChangeText={ onSubscriptionSumChange }
+      />
+      <Text>
+        €
+      </Text>
+    </View>
+  );
+
+  /**
+   * Renders due date picker
+   */
+  const renderDueDatePicker = () => (
+    <DatePicker
+      date={ subscriptionSettings.dueDate }
+      onDateChange={ onSubscriptionDueDateChange }
+    />
+  );
+
+  /**
+   * Renders fund subscription settings content
+   */
+  const renderSettingsContent = () => (
+    <>
+      {
+        renderSelectWithLabel(
+          strings.subscription.bank,
+          bankOptionVisible,
+          setBankOptionVisible,
+          bankOptions,
+          onBankOptionSelect,
+          bankOptions.find(option => option.key === subscriptionSettings.bankName)
+        )
+      }
+      {
+        renderDataRow(
+          () => (
+            <Text>
+              { strings.subscription.recipient }
+            </Text>
+          ),
+          () => renderCopyText(GenericUtils.getLocalizedValue(fund.name))
+        )
+      }
+      {
+        renderSelectWithLabel(
+          strings.subscription.portfolio,
+          portfolioOptionVisible,
+          setPortfolioOptionVisible,
+          portfolioOptions,
+          onPortfolioOptionSelect,
+          portfolioOptions.find(option => option.key === subscriptionSettings.portfolioId)
+        )
+      }
+      {
+        renderDataRow(
+          () => (
+            <Text>
+              { strings.subscription.sum }
+            </Text>
+          ),
+          renderSumInput
+        )
+      }
+      {
+        renderSelectWithLabel(
+          strings.subscription.shareType,
+          referenceOptionVisible,
+          setReferenceOptionVisible,
+          referenceOptions,
+          onReferenceOptionSelect,
+          referenceOptions.find(option => option.key === subscriptionSettings.shareType)
+        )
+      }
+      {
+        renderDataRow(
+          () => (
+            <Text>
+              { strings.subscription.dueDate }
+            </Text>
+          ),
+          renderDueDatePicker
+        )
+      }
+    </>
+  );
+
+  /**
+   * Renders fund subscription content
+   */
+  const renderContent = () => (
+    <View style={ styles.subscriptionSettings }>
+      <Text style={ theme.fonts.medium }>
+        TODO name
+      </Text>
+      <Card style={ styles.subscriptionCard }>
+        { renderFundTitle() }
+        <Text>
+          { strings.subscription.settingsDescription }
+        </Text>
+        { renderSettingsContent() }
+        <Button
+          icon="arrow-left-circle"
+          labelStyle={{ color: "#fff" }}
+          style={{ ...styles.backButton, marginTop: theme.spacing(3) }}
+          // onPress={ () => navigation.navigate("fundSubscriptionSummary", { subscriptionSettings:  }) }
+        >
+          <Text style={{ color: "#fff" }}>
+            { strings.subscription.createVirtualBarCode }
+          </Text>
+        </Button>
+      </Card>
+    </View>
+  );
+
+  /**
+   * Component render
+   */
+  return (
+    <>
+      <Button
+        icon="arrow-left-circle"
+        onPress={ navigation.goBack }
+        labelStyle={{ color: "#fff" }}
+        style={ styles.backButton }
+      >
+        <Text style={{ color: "#fff" }}>
+          { strings.generic.back }
+        </Text>
+      </Button>
+      <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
+        <ScrollView>
+          { renderContent() }
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </>
+
+  );
+};
+
+export default SubscriptionSettingsScreen;

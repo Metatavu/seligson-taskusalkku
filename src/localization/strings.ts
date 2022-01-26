@@ -130,6 +130,37 @@ export interface Strings extends LocalizedStringsMethods {
   };
 
   /**
+   * Translations related fund details screen
+   */
+  subscription: {
+    settingsDescription: string;
+    accountNumber: string;
+    recipient: string;
+    portfolio: string;
+    referenceNumber: string;
+    subscriptionAmount: string;
+    dueDate: string;
+    createVirtualBarCode: string;
+    summaryDescription: string;
+    customer: string;
+    customerNumber: string;
+    bank: string;
+    shareType: string;
+    sum: string;
+    virtualBarCode: string;
+    shares: {
+      a: {
+        title: string;
+        description: string;
+      };
+      b: {
+        title: string;
+        description: string;
+      };
+    }
+  };
+
+  /**
    * Translations related to portfolio
    */
   portfolio: {

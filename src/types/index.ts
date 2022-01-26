@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+import moment from "moment";
 import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue } from "../generated/client";
 
 /**
@@ -171,4 +173,37 @@ export interface PortfolioSecurityCategory {
   currency: string;
   color: string;
   percentage: string;
+}
+
+/**
+ * Reference type of portfolio
+ */
+export enum PORTFOLIO_REFERENCE_TYPE {
+  A = "A",
+  B = "B"
+}
+
+/**
+ * Drop down option
+ */
+export interface SubscriptionOption {
+  key: string;
+  label: string;
+  description?: string;
+  value: string;
+}
+
+/**
+ * Subscription settings
+ */
+export interface SubscriptionSettings {
+  bankName?: string;
+  iban?: string;
+  referenceNumber?: string
+  portfolioId?: string;
+  portfolioName?: string;
+  shareType: string;
+  dueDate: Date;
+  sum: string;
+  fundName?: LocalizedValue;
 }

@@ -14,6 +14,9 @@ namespace FundsNavigator {
   export type Routes = {
     fundsList: NavigatorScreenParams<FundsListNavigator.Routes> | undefined;
     fundDetails: { fund: Fund; };
+    fundSubscriptionSettings: { fund: Fund };
+    // TODO fix type
+    fundSubscriptionSummary: { subscription: any };
   };
 
   /**

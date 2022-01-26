@@ -12,6 +12,7 @@ import { Fund } from "../../generated/client/models/Fund";
  */
 interface Props {
   fund: Fund;
+  onSubscribePress: () => void;
 }
 
 /**
@@ -19,7 +20,7 @@ interface Props {
  *
  * @param props component properties
  */
-const FundDetails: React.FC<Props> = ({ fund }) => {
+const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
   const { color, aShareValue, bShareValue } = fund;
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
 
@@ -53,6 +54,7 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
           <Button
             uppercase={ false }
             style={ styles.button }
+            onPress={ onSubscribePress }
           >
             { strings.fundDetailsScreen.buyFund }
           </Button>
