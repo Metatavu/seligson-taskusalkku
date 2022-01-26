@@ -5,9 +5,9 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import MeetingNavigator from "../../../types/navigators/meeting";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MeetingLanguage } from "../../../types";
-import { Button, Card, Divider, RadioButton, TextInput, Text } from "react-native-paper";
+import { Button, Card, RadioButton } from "react-native-paper";
 import strings from "../../../localization/strings";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View, Text, TextInput } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
@@ -96,14 +96,13 @@ const NewMeetingScreen: React.FC = () => {
    * Renders meeting time 
    */
   const renderMeetingTime = () => (
-    <View>
-      <View style={ styles.meetingTime }>
-        <Text style={ theme.fonts.medium }>{ `${strings.meetings.newMeeting.selectedTime}:` }</Text>
-        <Text style={ theme.fonts.medium }>
-          { `${moment(meetingTime.startTime).format("DD.MM.YYYY")} ${strings.meetings.newMeeting.time} ${moment(meetingTime.startTime).format("hh:mm")}-${moment(meetingTime.endTime).format("hh:mm")}` }
-        </Text>
-      </View>
-      <Divider style={{ marginTop: theme.spacing(2) }}/>
+    <View style={ styles.meetingTime }>
+      <Text style={ theme.fonts.medium }>
+        { `${strings.meetings.newMeeting.selectedTime}:` }
+      </Text>
+      <Text style={ theme.fonts.medium }>
+        { `${moment(meetingTime.startTime).format("DD.MM.YYYY")} ${strings.meetings.newMeeting.time} ${moment(meetingTime.startTime).format("hh:mm")}-${moment(meetingTime.endTime).format("hh:mm")}` }
+      </Text>
     </View>
   );
 
@@ -115,25 +114,27 @@ const NewMeetingScreen: React.FC = () => {
       <TextInput
         style={ styles.input }
         value={ newMeeting.contact.firstName }
-        label={ `${strings.meetings.newMeeting.contact.firstName}*` }
+        placeholder={ `${strings.meetings.newMeeting.contact.firstName}*` }
         onChangeText={ onNewMeetingContactChange("firstName") }
       />
       <TextInput
         style={ styles.input }
         value={ newMeeting.contact.lastName }
-        label={ `${strings.meetings.newMeeting.contact.lastName}*` }
+        placeholder={ `${strings.meetings.newMeeting.contact.lastName}*` }
         onChangeText={ onNewMeetingContactChange("lastName") }
       />
       <TextInput
         style={ styles.input }
         value={ newMeeting.contact.phone }
-        label={ strings.meetings.newMeeting.contact.phone }
+        placeholder={ strings.meetings.newMeeting.contact.phone }
+        keyboardType="number-pad"
         onChangeText={ onNewMeetingContactChange("phone") }
       />
       <TextInput
         style={ styles.input }
+        keyboardType="email-address"
         value={ newMeeting.contact.email }
-        label={ strings.meetings.newMeeting.contact.email }
+        placeholder={ strings.meetings.newMeeting.contact.email }
         onChangeText={ onNewMeetingContactChange("email") }
       />
     </>
@@ -193,11 +194,19 @@ const NewMeetingScreen: React.FC = () => {
    * Renders buttons 
    */
   const renderButtons = () => (
-    <View style={{ marginTop: theme.spacing(1) }}>
-      <Button onPress={ onMeetingCancel }>
+    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <Button
+        onPress={ onMeetingCancel }
+        style={ styles.backButton }
+      >
         { strings.generic.back }
       </Button>
-      <Button disabled={ isNewMeetingInvalid() } onPress={ onMeetingCreate }>
+      <Button
+        disabled={ isNewMeetingInvalid() }
+        onPress={ onMeetingCreate }
+        style={ styles.reserveButton }
+        color="white"
+      >
         { strings.generic.reserve }
       </Button>
     </View>
@@ -210,36 +219,34 @@ const NewMeetingScreen: React.FC = () => {
     <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
       <ScrollView>
         <View style={ styles.newMeeting }>
-          <Text style={ theme.fonts.medium }>{ strings.meetings.newMeeting.title }</Text>
-          <View style={{ marginTop: theme.spacing(1) }}>
-            <Card style={ styles.meetingCard }>
-              <View>
-                { renderMeetingTime() }
-                { renderContactEdit() }
-                { renderLanguageSelect() }
-                { renderMeetingTypeSelect() }
-                <TextInput
-                  style={{ ...styles.input, width: 180 }}
-                  value={ newMeeting.participantCount.toString() }
-                  label={ `${strings.meetings.newMeeting.participantCount}*` }
-                  onChangeText={ onNewMeetingChange("participantCount") }
-                  keyboardType="numeric"
-                />
-                <View style={{ marginTop: theme.spacing(2) }}>
-                  <Text>{ `${strings.meetings.newMeeting.additionalInformation}:` }</Text>
-                  <TextInput
-                    multiline
-                    mode="outlined"
-                    numberOfLines={ 6 }
-                    style={ styles.input }
-                    value={ newMeeting.additionalInformation }
-                    onChangeText={ onNewMeetingChange("additionalInformation") }
-                  />
-                </View>
-              </View>
-              { renderButtons() }
-            </Card>
-          </View>
+          { renderMeetingTime() }
+          <Card style={ styles.meetingCard }>
+            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+              { strings.meetings.newMeeting.title }
+            </Text>
+            { renderContactEdit() }
+          </Card>
+          <Card style={ styles.meetingCard }>
+            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+              { strings.meetings.newMeeting.title }
+            </Text>
+            { renderLanguageSelect() }
+            { renderMeetingTypeSelect() }
+            <TextInput
+              style={ styles.input }
+              placeholder={ `${strings.meetings.newMeeting.participantCount}*` }
+              onChangeText={ onNewMeetingChange("participantCount") }
+              keyboardType="numeric"
+            />
+            <TextInput
+              multiline
+              numberOfLines={ 6 }
+              style={ styles.input }
+              placeholder={ `${strings.meetings.newMeeting.participantCount}*` }
+              onChangeText={ onNewMeetingChange("additionalInformation") }
+            />
+          </Card>
+          { renderButtons() }
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -11,17 +11,27 @@ export default StyleSheet.create({
 
   meetingCard: {
     padding: theme.spacing(2),
-    marginTop: theme.spacing(1)
+    width: "100%",
+    elevation: 8,
+    borderRadius: 25,
+    borderTopRightRadius: 0,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5
+  },
+
+  meetingTitle: {
+    paddingVertical: theme.spacing(1),
+    fontSize: 16
   },
 
   datePicker: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-
-  datePickerButton: {
-    width: 120
+    alignItems: "center",
+    width: "100%"
   },
 
   meetingTime: {
