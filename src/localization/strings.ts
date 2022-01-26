@@ -22,6 +22,7 @@ export interface Strings extends LocalizedStringsMethods {
     save: string;
     noData: string;
     saveAndProceed: string;
+    ok: string;
   };
 
   /**
@@ -257,7 +258,7 @@ export interface Strings extends LocalizedStringsMethods {
     fi: string;
     en: string;
     sv: string;
-  }
+  };
 
 }
 

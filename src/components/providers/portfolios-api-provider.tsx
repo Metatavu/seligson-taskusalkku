@@ -92,7 +92,7 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
    * @param range chart range (used for generating test data)
    * @returns list of portfolio history values or promise reject
    */
-  const listPortfolioHistoryValues = async (params: ListPortfolioHistoryValuesRequest, range?: ChartRange) => {
+  const listPortfolioHistoryValues = async (params: ListPortfolioHistoryValuesRequest, range?: Date[] | ChartRange) => {
     try {
       if (!auth) {
         throw new Error("No access token");

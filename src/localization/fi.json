@@ -11,7 +11,8 @@
     "cancel": "Peruuta",
     "save": "Tallenna",
     "noData": "Ei dataa",
-    "saveAndProceed": "Tallenna ja jatka"
+    "saveAndProceed": "Tallenna ja jatka",
+    "ok": "Ok"
   },
 
   "errorHandling": {

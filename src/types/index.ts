@@ -77,7 +77,7 @@ export interface SecuritiesApiContextType {
 export interface PortfoliosApiContextType {
   listPortfolios: () => Promise<Portfolio[]>;
   getPortfolioSummary: (params: GetPortfolioSummaryRequest) => Promise<PortfolioSummary>;
-  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest, range?: ChartRange) => Promise<PortfolioHistoryValue[]>;
+  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest, range?: Date[] | ChartRange) => Promise<PortfolioHistoryValue[]>;
   listPortfolioSecurities: (params: ListPortfolioSecuritiesRequest) => Promise<PortfolioSecurity[]>;
   listPortfolioTransactions: (params: ListPortfolioTransactionsRequest) => Promise<PortfolioTransaction[]>;
   findPortfolioTransaction: (params: FindPortfolioTransactionRequest) => Promise<PortfolioTransaction>;
@@ -171,4 +171,11 @@ export interface PortfolioSecurityCategory {
   currency: string;
   color: string;
   percentage: string;
+}
+
+export interface DatePickerData {
+  nativeEvent: {
+    timestamp: string;
+  };
+  type: string;
 }

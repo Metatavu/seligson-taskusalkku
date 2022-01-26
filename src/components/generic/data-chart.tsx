@@ -3,11 +3,10 @@ import { ActivityIndicator, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
-import { ChartRange, VictoryChartData } from "../../types";
-import ChartUtils from "../../utils/chart";
-import { VictoryChart, VictoryAxis, VictoryArea, VictoryTooltip, VictoryVoronoiContainer } from "victory-native";
+import { ChartRange, DatePickerData, VictoryChartData } from "../../types";
 import moment from "moment";
 import theme from "../../theme";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 /**
  * Component properties
@@ -15,9 +14,9 @@ import theme from "../../theme";
 interface Props {
   data: VictoryChartData[];
   loading: boolean;
-  selectedRange: ChartRange;
+  selectedRange: Date[] | ChartRange;
   color?: string;
-  onRangeChange: (range: ChartRange) => void;
+  onDateRangeChange: (newRange: Date[] | ChartRange) => void;
 }
 
 /**
@@ -30,8 +29,58 @@ const DataChart: React.FC<Props> = ({
   loading,
   selectedRange,
   color,
-  onRangeChange
+  onDateRangeChange
 }) => {
+  const [ showDateInputs, setShowDateInputs ] = React.useState(false);
+  const [ datePickerOpen, setDatePickerOpen ] = React.useState(false);
+  const [ settingStartDate, setSettingStartDate ] = React.useState(true);
+  const [ startDate, setStartDate ] = React.useState<Date>(moment().subtract(1, "month").toDate());
+  const [ endDate, setEndDate ] = React.useState<Date>(new Date());
+
+  /**
+   * Event handler for range change
+   *
+   * @param range selected range
+   */
+  const onRangeChange = (range: ChartRange) => () => onDateRangeChange(range);
+
+  /**
+   * Event handler for date picker change event
+   *
+   * @param dateValue date value from date picker
+   */
+  const onDateChange = (dateValue: any) => {
+    const value = dateValue as DatePickerData;
+
+    const { type, nativeEvent } = value;
+
+    if (type === "dismissed") {
+      setDatePickerOpen(false);
+      return;
+    }
+
+    setDatePickerOpen(false);
+    const date = moment(nativeEvent.timestamp).toDate();
+    settingStartDate ? setStartDate(date) : setEndDate(date);
+  };
+
+  /**
+   * Event handler for on confirm dates click
+   */
+  const onConfirmDates = () => {
+    onDateRangeChange([startDate, endDate]);
+    setDatePickerOpen(false);
+    setShowDateInputs(false);
+  };
+
+  /**
+   * Event handler for on cancel date selection click
+   */
+  const onCancelDateSelection = () => {
+    setDatePickerOpen(false);
+    setShowDateInputs(false);
+  };
+
   /**
    * Date range button
    *
@@ -46,7 +95,7 @@ const DataChart: React.FC<Props> = ({
         mode="outlined"
         uppercase={ false }
         compact
-        onPress={ () => onRangeChange(range) }
+        onPress={ onRangeChange(range) }
         style={[ styles.dateRangeButton, selected && styles.dateRangeButtonSelected ]}
         labelStyle={[ styles.dateRangeButtonText, selected && styles.dateRangeButtonTextSelected ]}
         color="white"
@@ -59,82 +108,52 @@ const DataChart: React.FC<Props> = ({
   /**
    * Render range selection
    */
-  const renderRangeSelection = () => (
-    <View style={ styles.dateRangeButtonRow }>
-      { renderDateRangeButton(ChartRange.MONTH, strings.fundCard.historyOneMonth) }
-      { renderDateRangeButton(ChartRange.YEAR, strings.fundCard.historyOneYear) }
-      { renderDateRangeButton(ChartRange.THREE_YEARS, strings.fundCard.historyThreeYears) }
-      { renderDateRangeButton(ChartRange.FIVE_YEARS, strings.fundCard.historyFiveYears) }
-      { renderDateRangeButton(ChartRange.TEN_YEARS, strings.fundCard.historyTenYears) }
-      { renderDateRangeButton(ChartRange.MAX, strings.fundCard.historyMax) }
-      <IconButton icon="calendar" color="#fff" style={{ maxWidth: 25 }}/>
-    </View>
-  );
-
-  /**
-   * Renders chart
-   */
-  const renderChart = () => {
-    return (
-      <VictoryChart
-        scale={{ x: "time" }}
-        domain={{ x: [ ChartUtils.getStartDate(selectedRange), moment().toDate() ] }}
-        domainPadding={{ x: [ -22, 0 ] }}
-        containerComponent={
-          <VictoryVoronoiContainer
-            radius={ 10000 }
-            voronoiDimension="x"
+  const renderRangeSelection = () => {
+    if (!showDateInputs) {
+      return (
+        <View style={ styles.dateRangeButtonRow }>
+          { renderDateRangeButton(ChartRange.MONTH, strings.fundCard.historyOneMonth) }
+          { renderDateRangeButton(ChartRange.YEAR, strings.fundCard.historyOneYear) }
+          { renderDateRangeButton(ChartRange.THREE_YEARS, strings.fundCard.historyThreeYears) }
+          { renderDateRangeButton(ChartRange.FIVE_YEARS, strings.fundCard.historyFiveYears) }
+          { renderDateRangeButton(ChartRange.TEN_YEARS, strings.fundCard.historyTenYears) }
+          { renderDateRangeButton(ChartRange.MAX, strings.fundCard.historyMax) }
+          <IconButton
+            icon="calendar"
+            color="#fff"
+            style={{ maxWidth: 25 }}
+            onPress={ () => setShowDateInputs(true) }
           />
-        }
-        padding={{
-          top: 10,
-          bottom: 30,
-          left: 50,
-          right: 60
-        }}
-      >
-        <VictoryArea
-          labelComponent={
-            <VictoryTooltip
-              renderInPortal={ false }
-              flyoutPadding={ 20 }
-              flyoutStyle={{ fill: "white" }}
-            />
-          }
-          labels={ ({ datum }) => `${datum.y} €` }
-          style={{
-            data: {
-              stroke: color || "#74CBE8",
-              strokeWidth: 0.5,
-              fill: color || "#74CBE8",
-              fillOpacity: 0.2
-            }
+        </View>
+      );
+    }
+
+    return (
+      <View>
+        {/* TODO: Add proper styling to for date selection */}
+        <Button
+          onPress={() => {
+            setDatePickerOpen(true);
+            setSettingStartDate(true);
           }}
-          animate={{
-            duration: 200,
-            onLoad: { duration: 100 }
+        >
+          { startDate && moment(startDate).format("DD.MM.YYYY") }
+        </Button>
+        <Button
+          onPress={() => {
+            setDatePickerOpen(true);
+            setSettingStartDate(false);
           }}
-          data={ data }
-        />
-        <VictoryAxis
-          scale={{ x: "time" }}
-          style={{
-            grid: { stroke: "lightgrey" },
-            tickLabels: { fontSize: 10, fill: "white" },
-            axis: { strokeWidth: 0 }
-          }}
-          tickFormat={ xValue => ChartUtils.getDisplayDate(xValue, "DD.MM.YYYY") }
-        />
-        <VictoryAxis
-          dependentAxis
-          style={{
-            grid: { stroke: "lightgrey" },
-            tickLabels: { fontSize: 10, fill: "white" },
-            axis: { strokeWidth: 0 }
-          }}
-          tickFormat={ yValue => `${yValue} €` }
-        />
-      </VictoryChart>
+        >
+          { moment(endDate).format("DD.MM.YYYY") }
+        </Button>
+        <Button onPress={ onConfirmDates }>
+          { strings.generic.ok }
+        </Button>
+        <Button onPress={ onCancelDateSelection }>
+          { strings.generic.cancel }
+        </Button>
+      </View>
     );
   };
 
@@ -150,7 +169,29 @@ const DataChart: React.FC<Props> = ({
       );
     }
 
-    return renderChart();
+    return null;
+  };
+
+  /**
+   * Renders date picker
+   */
+  const renderDatePicker = () => {
+    if (!datePickerOpen) {
+      return;
+    }
+
+    return (
+      <DateTimePicker
+        key="dateTimePicker"
+        value={ settingStartDate ? startDate : endDate }
+        mode="date"
+        is24Hour
+        display="default"
+        onChange={ onDateChange }
+        maximumDate={ settingStartDate ? endDate : new Date() }
+        minimumDate={ settingStartDate ? undefined : startDate }
+      />
+    );
   };
 
   /**
@@ -160,6 +201,7 @@ const DataChart: React.FC<Props> = ({
     <>
       { renderRangeSelection() }
       { renderContent() }
+      { renderDatePicker() }
     </>
   );
 };

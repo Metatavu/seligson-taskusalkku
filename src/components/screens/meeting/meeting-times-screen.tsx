@@ -1,8 +1,8 @@
 import moment from "moment";
 import React from "react";
-import { Platform, View } from "react-native";
+import { Platform, View, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button, Card, Divider, Text } from "react-native-paper";
+import { Button, Card, Divider } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
 import { MeetingsApiContext } from "../../providers/meetings-api-provider";
