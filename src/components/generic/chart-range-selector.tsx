@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
-import { ChartRange, DatePickerData } from "../../types";
+import { ChartRange, DatePickerEvent } from "../../types";
 import moment from "moment";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -40,7 +40,7 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange 
    * @param dateValue date value from date picker
    */
   const onDateChange = (dateValue: any) => {
-    const value = dateValue as DatePickerData;
+    const value = dateValue as DatePickerEvent;
 
     const { type, nativeEvent } = value;
 
@@ -54,19 +54,19 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange 
   };
 
   /**
-   * Event handler for on confirm dates click
-   */
-  const onConfirmDates = () => {
-    onDateRangeChange([ startDate, endDate ]);
-    onCloseDateSelection();
-  };
-
-  /**
    * Event handler for close date selection
    */
   const onCloseDateSelection = () => {
     setDatePickerOpen(false);
     setShowDateInputs(false);
+  };
+
+  /**
+   * Event handler for on confirm dates click
+   */
+  const onConfirmDates = () => {
+    onDateRangeChange([ startDate, endDate ]);
+    onCloseDateSelection();
   };
 
   /**

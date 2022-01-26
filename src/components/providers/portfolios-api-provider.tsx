@@ -5,7 +5,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
 import { FindPortfolioTransactionRequest, GetPortfolioSummaryRequest, ListPortfolioHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSummary, PortfolioTransaction, TransactionType } from "../../generated/client";
 import TestData from "../../resources/test-data";
-import { ChartRange, PortfoliosApiContextType } from "../../types";
+import { PortfoliosApiContextType } from "../../types";
 import AuthUtils from "../../utils/auth";
 
 const initialPortfolioSummary: PortfolioSummary = {
@@ -89,18 +89,15 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
    * Lists portfolio history values with given request parameters
    *
    * @param params request parameters
-   * @param range chart range (used for generating test data)
    * @returns list of portfolio history values or promise reject
    */
-  const listPortfolioHistoryValues = async (params: ListPortfolioHistoryValuesRequest, range?: Date[] | ChartRange) => {
+  const listPortfolioHistoryValues = async (params: ListPortfolioHistoryValuesRequest) => {
     try {
       if (!auth) {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
-        TestData.listTestPortfolioHistoryValues(range) :
-        await Api.getPortfoliosApi(auth).listPortfolioHistoryValues(params);
+      await Api.getPortfoliosApi(auth).listPortfolioHistoryValues(params);
     } catch (error) {
       return Promise.reject(error);
     }
