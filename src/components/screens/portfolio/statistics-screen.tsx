@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
+import { ActivityIndicator, Paragraph } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -116,7 +116,7 @@ const StatisticsScreen: React.FC = () => {
   const renderChart = () => (
     <View style={ styles.chart }>
       <DataChart
-        data={ ChartUtils.convertToVictoryChartData(historicalData || []) }
+        data={ ChartUtils.convertToChartData(historicalData || []) }
         loading={ historicalDataLoading }
         selectedRange={ range }
         onRangeChange={ setRange }
@@ -132,12 +132,12 @@ const StatisticsScreen: React.FC = () => {
    */
   const renderDetailRow = (title: string, value: string) => (
     <View style={ styles.detailRow }>
-      <Text style={ styles.detailRowTitle }>
+      <Paragraph style={ styles.detailRowTitle }>
         { title }
-      </Text>
-      <Text style={ styles.detailRowValue }>
+      </Paragraph>
+      <Paragraph style={ styles.detailRowValue }>
         { value }
-      </Text>
+      </Paragraph>
     </View>
   );
 
@@ -197,26 +197,26 @@ const StatisticsScreen: React.FC = () => {
         <PortfolioSelect/>
         <View style={[ styles.overviewRow, { justifyContent: "center" } ]}>
           <Icon name="briefcase-outline" size={ 26 } color="white" style={ styles.totalIcon }/>
-          <Text style={[ styles.totalText ]}>
+          <Paragraph style={[ styles.totalText ]}>
             { marketValueTotal }
-          </Text>
+          </Paragraph>
         </View>
         <View style={[ styles.overviewRow, { justifyContent: "space-between" } ]}>
           <View>
-            <Text style={ styles.purchaseText }>
+            <Paragraph style={ styles.purchaseText }>
               { strings.portfolio.statistics.purchaseTotal }
-            </Text>
-            <Text style={ styles.purchaseValue }>
+            </Paragraph>
+            <Paragraph style={ styles.purchaseValue }>
               { purchaseTotal }
-            </Text>
+            </Paragraph>
           </View>
           <View>
-            <Text style={ styles.purchaseText }>
+            <Paragraph style={ styles.purchaseText }>
               { strings.portfolio.statistics.change }
-            </Text>
-            <Text style={ styles.purchaseValue }>
+            </Paragraph>
+            <Paragraph style={ styles.purchaseValue }>
               { `${totalChangeAmount}  |  ${totalChangePercentage}` }
-            </Text>
+            </Paragraph>
           </View>
         </View>
       </View>

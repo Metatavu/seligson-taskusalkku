@@ -5,15 +5,17 @@ import DataChart from "../../generic/data-chart";
 import FundDetails from "../../generic/fund-details";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { Button, Text } from "react-native-paper";
+import { Button, Paragraph } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
-import { ChartRange, VictoryChartData } from "../../../types";
+import { ChartRange, ChartData } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import ChartUtils from "../../../utils/chart";
 import moment from "moment";
+import HistoryValueChart from "../../generic/history-value-chart";
+import { SecurityHistoryValue } from "../../../generated/client";
 
 /**
  * Fund details screen component
@@ -27,7 +29,8 @@ const FundDetailsScreen: React.FC = () => {
 
   const [ loading, setLoading ] = React.useState(true);
   const [ selectedRange, setSelectedRange ] = React.useState(ChartRange.MONTH);
-  const [ historicalData, setHistoricalData ] = React.useState<VictoryChartData[]>([]);
+  const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
+  const [ historicalData, setHistoricalData ] = React.useState<ChartData[]>([]);
 
   if (!fund) {
     return null;
@@ -54,13 +57,14 @@ const FundDetailsScreen: React.FC = () => {
         throw new Error("Could not find A security!");
       }
 
-      const historyValues = await securitiesContext.listSecurityHistoryValues({
+      const hv = await securitiesContext.listSecurityHistoryValues({
         securityId: aSecurity.id,
         maxResults: 10000,
         startDate: ChartUtils.getStartDate(selectedRange),
         endDate: moment().toDate()
       });
-      setHistoricalData(ChartUtils.convertToVictoryChartData(historyValues));
+      setHistoryValues(hv);
+      setHistoricalData(ChartUtils.convertToChartData(hv));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
@@ -84,6 +88,21 @@ const FundDetailsScreen: React.FC = () => {
         </View>
       );
     }
+
+    return (
+      <>
+        <View style={ styles.chart }>
+          <HistoryValueChart
+            historyValues={ historyValues }
+            color={ fund.color }
+          />
+        </View>
+        <View style={ styles.detailsWrapper }>
+          <FundCard fund={ fund }/>
+          <FundDetails fund={ fund }/>
+        </View>
+      </>
+    );
 
     return (
       <>
@@ -115,9 +134,9 @@ const FundDetailsScreen: React.FC = () => {
         labelStyle={{ color: "#fff" }}
         style={ styles.backButton }
       >
-        <Text style={{ color: "#fff" }}>
+        <Paragraph style={{ color: "#fff" }}>
           { strings.generic.back }
-        </Text>
+        </Paragraph>
       </Button>
       <ScrollView>
         { renderContent() }

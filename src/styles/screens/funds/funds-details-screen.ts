@@ -21,7 +21,8 @@ export default StyleSheet.create({
   chart: {
     borderTopLeftRadius: 30,
     padding: theme.spacing(1),
-    backgroundColor: theme.colors.backgroundDark
+    backgroundColor: theme.colors.backgroundDark,
+    overflow: "hidden"
   }
 
 });
