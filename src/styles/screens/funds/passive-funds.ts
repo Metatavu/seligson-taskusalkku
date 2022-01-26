@@ -7,7 +7,8 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(1)
   }
 
 });

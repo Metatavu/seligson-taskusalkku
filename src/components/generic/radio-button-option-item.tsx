@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
-import { RadioButton, Text } from "react-native-paper";
+import { View, Text } from "react-native";
+import { RadioButton } from "react-native-paper";
 import styles from "../../styles/generic/radio-button-option-item";
 import theme from "../../theme";
 
@@ -38,9 +38,9 @@ const RadioButtonOptionItem: React.FC<Props> = ({
       color={ color || theme.colors.primary }
       onPress={ () => onPress(value) }
       style={ styles.radioButtonReversed }
-      labelStyle={ !checked && styles.notSelected }
+      labelStyle={[ theme.fonts.medium, styles[checked ? "checked" : "notSelected"] ]}
     />
-    <Text style={ [ styles.radioButtonDescription, !checked && styles.notSelected ] }>
+    <Text style={[ !checked && styles.notSelected, !description && styles.noDescription ]}>
       { description }
     </Text>
   </View>
