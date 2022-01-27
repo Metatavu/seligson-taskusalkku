@@ -36,7 +36,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    * Generates barcode
    */
   const generateBarCode = () => {
-    const { iban, dueDate, sum, referenceNumber } = subscriptionSettings;
+    const { iBAN, dueDate, sum, referenceNumber } = subscriptionSettings;
 
     const rounded = parseFloat(sum).toFixed(2);
     const split = rounded.split(".");
@@ -55,7 +55,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       cent = "00";
     }
 
-    const formattedIban = iban?.replace("FI", "").replace(/\s/g, "");
+    const formattedIban = iBAN?.replace("FI", "").replace(/\s/g, "");
     const formattedReferenceNumber = (`00000000000000000000${referenceNumber}`).slice(-20);
     euro = (`000000${euro}`).slice(-6);
     cent = (`00${cent}`).slice(-2);
@@ -73,7 +73,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
           style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}
         />
         <Text style={{ flexWrap: "wrap" }}>
-          { subscriptionSettings.fund.shortName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.shortName) : "" }
+          { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
         </Text>
       </View>
       <Divider/>

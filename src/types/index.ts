@@ -198,7 +198,7 @@ export interface SubscriptionOption {
  */
 export interface SubscriptionSettings {
   bankName?: string;
-  iban?: string;
+  iBAN?: string;
   referenceNumber?: string;
   portfolio?: Portfolio;
   shareType: PORTFOLIO_REFERENCE_TYPE;

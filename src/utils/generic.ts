@@ -1,3 +1,4 @@
+import moment from "moment";
 import { LocalizedValue } from "../generated/client";
 import strings from "../localization/strings";
 import { Publication, PublicationDetails } from "../types";
@@ -23,6 +24,21 @@ class GenericUtils {
   static getPublicationAuthor = ({ author }: Publication | PublicationDetails) => (
     author.length ? author.join(", ") : "Seligson"
   );
+
+  /**
+   * Check if date is within start and end date
+   *
+   * @param date date
+   * @param startDate start date
+   * @param endDate end date
+   */
+  static checkDateInRange = (date?: Date, startDate?: Date, endDate?: Date) => {
+    if (!date || !startDate || !endDate) {
+      return true;
+    }
+
+    return moment(date).isAfter(startDate) && moment(date).isBefore(endDate);
+  };
 
 }
 

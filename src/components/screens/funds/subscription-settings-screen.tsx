@@ -52,9 +52,10 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Reference options select handler
    */
   const onBankOptionSelect = (bankOption: SubscriptionOption) => {
+    console.log("bankOption(onBankOptionSelect)", bankOption);
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
       draft.bankName = bankOption.label;
-      draft.iban = bankOption.value;
+      draft.iBAN = bankOption.value;
     });
 
     setSubscriptionSettings(updatedSubscriptionSettings);
@@ -120,7 +121,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const SelectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
       draft.bankName = bankOption?.label;
-      draft.iban = bankOption?.value;
+      draft.iBAN = bankOption?.value;
       draft.portfolio = portfolio;
     });
 
@@ -143,18 +144,11 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
       setPortfolioOptions(fetchedPortfolioOptions);
 
-      const fundBankOptions: SubscriptionOption[] = [
-        {
-          label: "bank1",
-          key: "bank1",
-          value: "bank1"
-        },
-        {
-          label: "bank2",
-          key: "bank2",
-          value: "bank2"
-        }
-      ];
+      const fundBankOptions: SubscriptionOption[] = fund.subscriptionBankAccounts?.map(subscriptionBankAccount => ({
+        key: subscriptionBankAccount.iBAN || "",
+        label: subscriptionBankAccount.bankAccountName || "",
+        value: subscriptionBankAccount.iBAN || ""
+      })) || [];
 
       setBankOptions(fundBankOptions);
       SelectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
@@ -200,7 +194,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   /*
    * Validates settings
    */
-  const validateSettings = () => subscriptionSettings.portfolio && subscriptionSettings.iban && subscriptionSettings.referenceNumber;
+  const validateSettings = () => subscriptionSettings.portfolio && subscriptionSettings.iBAN && subscriptionSettings.referenceNumber;
 
   /**
    * On create barcode handler
@@ -225,7 +219,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           style={{ ...styles.fundColor, backgroundColor: fund.color }}
         />
         <Text style={{ flexWrap: "wrap" }}>
-          { fund.shortName ? GenericUtils.getLocalizedValue(fund.shortName) : "" }
+          { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
         </Text>
       </View>
       <Divider/>
@@ -396,7 +390,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           setBankOptionVisible,
           bankOptions,
           onBankOptionSelect,
-          bankOptions.find(option => option.key === subscriptionSettings.bankName)
+          bankOptions.find(option => option.key === subscriptionSettings.iBAN)
         )
       }
       {
