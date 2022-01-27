@@ -112,10 +112,11 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    */
   const renderCopyTextWithLabel = (label: string, text: string) => (
     <View style={{ marginTop: theme.spacing(1.5), marginBottom: theme.spacing(1.5) }}>
-      <Text style={{
-        color: colors.primary,
-        ...theme.fonts.medium
-      }}
+      <Text
+        style={{
+          color: colors.primary,
+          ...theme.fonts.medium
+        }}
       >
         { `${label}:` }
       </Text>
