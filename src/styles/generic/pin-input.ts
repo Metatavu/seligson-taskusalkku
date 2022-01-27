@@ -34,9 +34,7 @@ export default StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#899C35",
     borderWidth: 1,
-    borderRadius: 25,
-
-
+    borderRadius: 25
   },
 
   cell: {
