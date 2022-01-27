@@ -11,7 +11,10 @@ export default StyleSheet.create({
     backgroundColor: "#899C35",
     borderRadius: 25,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
     shadowOpacity: 0.3,
     shadowRadius: 5,
     elevation: 3
@@ -31,7 +34,10 @@ export default StyleSheet.create({
     borderBottomLeftRadius: 25,
     backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
     shadowOpacity: 0.3,
     shadowRadius: 5
   },

@@ -1,7 +1,6 @@
 import React from "react";
 import { ActivityIndicator, ScrollView, View, Text } from "react-native";
 import FundCard from "../../generic/fund-card";
-import DataChart from "../../generic/data-chart";
 import FundDetails from "../../generic/fund-details";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
@@ -13,7 +12,7 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import ChartUtils from "../../../utils/chart";
-import moment from "moment";
+import ChartRangeSelector from "../../generic/chart-range-selector";
 
 /**
  * Fund details screen component
@@ -26,7 +25,7 @@ const FundDetailsScreen: React.FC = () => {
   const fund = params?.fund;
 
   const [ loading, setLoading ] = React.useState(true);
-  const [ selectedRange, setSelectedRange ] = React.useState(ChartRange.MONTH);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
   const [ historicalData, setHistoricalData ] = React.useState<VictoryChartData[]>([]);
 
   if (!fund) {
@@ -48,18 +47,21 @@ const FundDetailsScreen: React.FC = () => {
     try {
       const securities = await securitiesContext.listSecurities({ maxResults: 20000 });
       const fundSecurities = securities.filter(security => security.fundId === fund.id);
-      const aSecurity = fundSecurities.find(security => security.name.fi.includes("(A)"));
+      const aSecurity = fundSecurities.length === 1 ? fundSecurities[0] : fundSecurities.find(security => security.name.fi.includes("(A)"));
 
       if (!aSecurity?.id) {
         throw new Error("Could not find A security!");
       }
 
+      const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
+
       const historyValues = await securitiesContext.listSecurityHistoryValues({
         securityId: aSecurity.id,
         maxResults: 10000,
-        startDate: ChartUtils.getStartDate(selectedRange),
-        endDate: moment().toDate()
+        startDate: startDate,
+        endDate: endDate
       });
+
       setHistoricalData(ChartUtils.convertToVictoryChartData(historyValues));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
@@ -88,12 +90,9 @@ const FundDetailsScreen: React.FC = () => {
     return (
       <>
         <View style={ styles.chart }>
-          <DataChart
-            data={ historicalData }
-            loading={ loading }
-            color={ fund.color }
+          <ChartRangeSelector
             selectedRange={ selectedRange }
-            onRangeChange={ setSelectedRange }
+            onDateRangeChange={ setSelectedRange }
           />
         </View>
         <View style={ styles.detailsWrapper }>

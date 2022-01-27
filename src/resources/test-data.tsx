@@ -220,7 +220,11 @@ namespace TestData {
    *
    * @param range range to generate portfolio history values for
    */
-  export const listTestPortfolioHistoryValues = (range?: ChartRange): PortfolioHistoryValue[] => {
+  export const listTestPortfolioHistoryValues = (range?: Date[] | ChartRange): PortfolioHistoryValue[] => {
+    if (Array.isArray(range)) {
+      return [];
+    }
+
     const amount = range ? getAmount(range) : 365;
 
     return TestData.randomNumberList(amount, 1, 10, 0.5).map((value, i) => ({

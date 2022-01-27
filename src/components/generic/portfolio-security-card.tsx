@@ -139,7 +139,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
    * Component render
    */
   return (
-    <TouchableOpacity onPress={ () => onClick() }>
+    <TouchableOpacity onPress={ onClick }>
       <View style={ styles.cardWrapper }>
         <View style={ styles.gradientContainer }>
           <LinearGradient

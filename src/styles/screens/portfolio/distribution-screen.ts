@@ -11,7 +11,10 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     elevation: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
     shadowOpacity: 0.3,
     shadowRadius: 5,
     maxHeight: Dimensions.get("window").height / 3
@@ -23,7 +26,10 @@ export default StyleSheet.create({
     justifyContent: "center",
     elevation: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
     shadowOpacity: 0.3,
     shadowRadius: 5,
     marginBottom: theme.spacing(2)

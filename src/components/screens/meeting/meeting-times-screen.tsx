@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { View, Text, Platform } from "react-native";
+import { Platform, View, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button, Card } from "react-native-paper";
 import strings from "../../../localization/strings";

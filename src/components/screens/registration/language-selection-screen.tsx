@@ -120,7 +120,7 @@ const LanguageSelectionScreen: React.FC = () => {
     >
       <LinearGradient
         colors={[ "rgba(0,0,0,0.2)", "rgba(0,0,0,0)" ]}
-        style={[ styles.container, { paddingHorizontal: theme.spacing(2) } ]}
+        style={{ ...styles.container, paddingHorizontal: theme.spacing(2) }}
       >
         <View style={ styles.logoContainer }>
           <LinearGradient

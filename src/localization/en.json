@@ -11,7 +11,8 @@
     "cancel": "Cancel",
     "save": "Save",
     "noData": "No data",
-    "saveAndProceed": "Save and proceed"
+    "saveAndProceed": "Save and proceed",
+    "ok": "Ok"
   },
 
   "errorHandling": {

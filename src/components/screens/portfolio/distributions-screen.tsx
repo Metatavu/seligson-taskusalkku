@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
-import { Portfolio, PortfolioSecurity } from "../../../generated/client";
+import { LocalizedValue, Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -105,12 +105,19 @@ const DistributionsScreen: React.FC = () => {
   React.useEffect(() => { loadData(); }, [ selectedPortfolio ]);
 
   /**
+   * Returns category label
+   *
+   * @returns category label
+   */
+  const getCategoryLabel = (name: LocalizedValue) => GenericUtils.getLocalizedValue(name).split("Seligson & Co ")[1];
+
+  /**
    * Renders content
    */
   const renderPie = () => {
     const chartData = portfolioSecurityCategories.map(portfolioSecurityCategory => (
       {
-        x: `${GenericUtils.getLocalizedValue(portfolioSecurityCategory.name).split("Seligson & Co")[1]}- ${portfolioSecurityCategory.percentage}`,
+        x: `${getCategoryLabel(portfolioSecurityCategory.name)}- ${portfolioSecurityCategory.percentage}`,
         y: parseFloat(portfolioSecurityCategory.totalValue)
       }));
 
@@ -129,38 +136,37 @@ const DistributionsScreen: React.FC = () => {
           width={ Dimensions.get("window").width }
           height={ 240 }
           innerRadius={ 40 }
-          padAngle={ 2 }
-          labelComponent={<VictoryTooltip constrainToVisibleArea orientation="top" renderInPortal={ false }/>}
+          labelComponent={
+            <VictoryTooltip
+              constrainToVisibleArea
+              orientation="top"
+              renderInPortal={ false }
+            />
+          }
           events={[
             {
               target: "data",
               eventHandlers: {
-                onPress: () => {
-                  return [
-                    {
-                      eventKey: "all",
-                      target: "labels",
-                      mutation: () => ({ active: false })
-                    },
-                    {
-                      target: "labels",
-                      mutation: () => ({ active: true })
-                    }
-                  ];
-                }
+                onPress: () => [
+                  {
+                    eventKey: "all",
+                    target: "labels",
+                    mutation: () => ({ active: false })
+                  },
+                  {
+                    target: "labels",
+                    mutation: () => ({ active: true })
+                  }
+                ]
               }
             },
             {
               target: "labels",
               eventHandlers: {
-                onPress: () => {
-                  return [
-                    {
-                      target: "labels",
-                      mutation: () => ({ active: false })
-                    }
-                  ];
-                }
+                onPress: () => [{
+                  target: "labels",
+                  mutation: () => ({ active: false })
+                }]
               }
             }
           ]}
@@ -197,7 +203,7 @@ const DistributionsScreen: React.FC = () => {
           { `${portfolioSecurityCategory.percentage}` }
         </Text>
         <Text>
-          { `${GenericUtils.getLocalizedValue(portfolioSecurityCategory.name).split("Seligson & Co ")[1]}` }
+          { getCategoryLabel(portfolioSecurityCategory.name) }
         </Text>
       </View>
     </View>
