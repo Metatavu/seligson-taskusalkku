@@ -21,7 +21,7 @@
       "list": "Error while loading fund list"
     },
     "fundHistory": {
-      "list": "Error while loading fund history data"
+      "list": "Error while loading fund history data",
     },
     "securities": {
       "list": "Error while loading securities",

@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
-import { Divider, Text, useTheme } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";

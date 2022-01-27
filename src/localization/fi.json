@@ -18,7 +18,7 @@
   "errorHandling": {
     "title": "Virhe",
     "funds": {
-      "list": "Virhe listattaessa rahastoja"
+      "list": "Virhe listattaessa rahastoja",
     },
     "fundHistory": {
       "list": "Virhe listattaessa rahaston historia tietoja"
