@@ -200,6 +200,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
    */
   const onCreateBarCode = () => {
     const { sum } = subscriptionSettings;
+
     if (Number.isNaN(sum) || Number(sum) < 10) {
       errorContext.setError(strings.errorHandling.subscription.invalidSum);
       return;
