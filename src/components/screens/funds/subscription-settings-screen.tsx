@@ -258,17 +258,11 @@ const SubscriptionSettingsScreen: React.FC = () => {
         close={ () => setVisible(false) }
       >
         {/* TODO fix this */}
-        <View style={
-          {
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start"
-          }}
-        >
+        <View>
           {
             options.map(option => (
               <RadioButtonOptionItem
+                style={{ width: "100%" }}
                 key={ option.key || "" }
                 label={
                   option?.key === PORTFOLIO_REFERENCE_TYPE.A ?
