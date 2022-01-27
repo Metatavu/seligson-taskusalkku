@@ -1,4 +1,4 @@
-import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue, ListSecurityHistoryValuesRequest, SecurityHistoryValue } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue, ListSecurityHistoryValuesRequest, SecurityHistoryValue } from "../generated/client";
 
 /**
  * Parsed access token
@@ -174,6 +174,43 @@ export interface PortfolioSecurityCategory {
 }
 
 /**
+ * Reference type of portfolio
+ */
+export enum PORTFOLIO_REFERENCE_TYPE {
+  A = "A",
+  B = "B"
+}
+
+/**
+ * Drop down option
+ */
+export interface SubscriptionOption {
+  key: string;
+  label: string;
+  description?: string;
+  value: string;
+}
+
+/**
+ * Subscription settings
+ */
+export interface SubscriptionSettings {
+  bankName?: string;
+  iBAN?: string;
+  referenceNumber?: string;
+  portfolio?: Portfolio;
+  shareType: PORTFOLIO_REFERENCE_TYPE;
+  dueDate: Date;
+  sum: string;
+  fund: Fund;
+}
+
+/**
+ * Date picker mode type
+ */
+export type IOSMode = "date" | "time" | "datetime" | "countdown";
+
+/*
  * Date picker event data
  */
 export interface DatePickerEvent {
