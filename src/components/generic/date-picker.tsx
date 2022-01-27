@@ -16,7 +16,7 @@ interface Props {
 }
 
 /**
- * date picker component
+ * Date picker component
  *
  * @param props component properties
  */

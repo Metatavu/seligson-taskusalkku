@@ -20,7 +20,7 @@ import DatePicker from "../../generic/date-picker";
 import CopyText from "../../generic/copy-text";
 
 /**
- * Passive funds screen component
+ * Subscription settings screen component
  *
  * @param props component properties
  */
@@ -75,7 +75,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   };
 
   /**
-   * On portfolio select handler
+   * Portfolio select handler
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
     const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
@@ -106,7 +106,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
         label: strings.subscription.shares.b.title,
         description: strings.subscription.shares.b.description,
         key: PORTFOLIO_REFERENCE_TYPE.B,
-        value: portfolio.aReference || ""
+        value: portfolio.bReference || ""
       }
     ];
 
@@ -233,7 +233,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders drop down 
+   * Renders select 
    */
   const renderSelect = (
     visible: boolean,
@@ -257,7 +257,6 @@ const SubscriptionSettingsScreen: React.FC = () => {
         visible={ visible }
         close={ () => setVisible(false) }
       >
-        {/* TODO fix this */}
         <View>
           {
             options.map(option => (
@@ -301,6 +300,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
       onDismiss={ () => setSnackBarOpen(false) }
       action={{
         label: strings.generic.close,
+        color: colors.primary,
         onPress: () => setSnackBarOpen(false)
       }}
     >

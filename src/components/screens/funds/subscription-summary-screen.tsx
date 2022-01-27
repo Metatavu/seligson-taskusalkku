@@ -20,7 +20,7 @@ interface Props {
 }
 
 /**
- * Passive funds screen component
+ * Subscription summary screen component
  *
  * @param props component properties
  */
@@ -81,7 +81,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
   );
 
   /**
-   * Render data row
+   * Renders data row
    */
   const renderDataRow = (label: string, data: string) => (
     <>
@@ -124,7 +124,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
   );
 
   /**
-   * Render snack bar
+   * Renders snack bar
    */
   const renderSnackBar = () => (
     <Snackbar
@@ -132,6 +132,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       onDismiss={ () => setSnackBarOpen(false) }
       action={{
         label: strings.generic.close,
+        color: colors.primary,
         onPress: () => setSnackBarOpen(false)
       }}
     >
@@ -147,7 +148,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderDataRow(
           strings.subscription.portfolio,
-          subscriptionSettings.portfolioName || ""
+          subscriptionSettings.portfolio?.name || ""
         )
       }
       {
