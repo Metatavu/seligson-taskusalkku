@@ -1,8 +1,7 @@
 import moment from "moment";
 import React from "react";
-import { Platform, View, Text } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button, Card } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Button, Card, Divider } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
 import { MeetingsApiContext } from "../../providers/meetings-api-provider";
@@ -15,6 +14,7 @@ import theme from "../../../theme";
 import { FlatGrid } from "react-native-super-grid";
 import { useAppSelector } from "../../../app/hooks";
 import { selectSelectedLanguage } from "../../../features/locale/locale-slice";
+import DatePicker from "../../generic/date-picker";
 
 /**
  * Meeting times screen
@@ -25,10 +25,9 @@ const MeetingTimesScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
   const selectedLanguage = useAppSelector(selectSelectedLanguage);
 
-  const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date | undefined>(new Date());
-  const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date | undefined>(new Date());
+  const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date>(new Date());
+  const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date>(new Date());
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
-  const [ startDatePickerOpen, setStartDatePickerOpen ] = React.useState(false);
 
   /**
    * Fetches meeting times
@@ -60,9 +59,17 @@ const MeetingTimesScreen: React.FC = () => {
    * 
    * @param pickedDate picked date
    */
-  const startDatePickerChange = (_: any, pickedDate?: Date) => {
-    moment(pickedDate).isAfter(selectedEndDate) && setSelectedEndDate(undefined);
+  const startDatePickerChange = (pickedDate: Date) => {
+    moment(pickedDate).isAfter(selectedEndDate) && setSelectedEndDate(pickedDate);
     setSelectedStartDate(pickedDate);
+  };
+
+  /**
+   * Handler for end date picker date change
+   * 
+   * @param pickedDate picked date
+   */
+  const endDatePickerChange = (pickedDate: Date) => {
     setSelectedEndDate(pickedDate);
   };
 
@@ -83,76 +90,51 @@ const MeetingTimesScreen: React.FC = () => {
   );
 
   /**
-   * Renders start date picker dialog
-   */
-  const renderStartDatePicker = () => (
-    <>
-      { Platform.OS === "ios" &&
-        <DateTimePicker
-          value={ selectedStartDate || new Date() }
-          mode="date"
-          display="inline"
-          onChange={ startDatePickerChange }
-          minimumDate={ new Date() }
-          locale={ selectedLanguage }
-          style={{ marginBottom: -50 }}
-        />
-      }
-      { Platform.OS === "android" && startDatePickerOpen &&
-        <DateTimePicker
-          value={ selectedStartDate || new Date() }
-          mode="date"
-          display="default"
-          onChange={ startDatePickerChange }
-          minimumDate={ new Date() }
-          locale={ selectedLanguage }
-          style={{ marginBottom: -50 }}
-        />
-      }
-    </>
-  );
-
-  /**
    * Component render
    */
   return (
-    <>
-      <ScrollView>
-        <View style={ styles.meetingTimes }>
+    <ScrollView>
+      <View style={ styles.meetingTimes }>
+        <Text style={ theme.fonts.medium }>{ strings.meetings.meetingTimes.bookTime }</Text>
+        <Card style={ styles.meetingCard }>
+          <Text>{ strings.meetings.meetingTimes.bookTimeDescription }</Text>
+        </Card>
+        <View style={{ marginTop: theme.spacing(2) }}>
+          <Text style={ theme.fonts.medium}>
+            { strings.meetings.meetingTimes.datePicker.title }
+          </Text>
           <Card style={ styles.meetingCard }>
-            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
-              { strings.meetings.meetingTimes.bookTime }
-            </Text>
-            <Text>{ strings.meetings.meetingTimes.bookTimeDescription }</Text>
-          </Card>
-
-          <View style={{ marginTop: theme.spacing(2) }}>
-            <Card style={ styles.meetingCard }>
-              <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
-                { strings.meetings.meetingTimes.datePicker.title }
-              </Text>
-              { renderStartDatePicker() }
-              { Platform.OS === "android" &&
-                <View style={ styles.datePicker }>
-                  <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
-                  <Button
-                    style={ styles.datePickerButton }
-                    onPress={ () => setStartDatePickerOpen(true) }
-                  >
-                    { moment(selectedStartDate).format("DD/MM/YYYY") }
-                  </Button>
-                </View>
-              }
-              <FlatGrid
-                itemDimension={ 130 }
-                data={ meetingTimes }
-                renderItem={ ({ item, index }) => renderMeetingTime(item, index)}
+            <View style={ styles.datePicker }>
+              <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
+              <DatePicker
+                mode="date"
+                date={ selectedStartDate }
+                startDate={ new Date() }
+                onDateChange={ startDatePickerChange }
+                style={{ color: theme.colors.primary }}
               />
-            </Card>
-          </View>
+            </View>
+            <View style={ styles.datePicker }>
+              <Text>{ strings.meetings.meetingTimes.datePicker.endDate }</Text>
+              <DatePicker
+                mode="date"
+                date={ selectedEndDate }
+                startDate={ new Date() }
+                onDateChange={ endDatePickerChange }
+                style={{ color: theme.colors.primary }}
+              />
+            </View>
+            <Divider/>
+            <FlatGrid
+              style={{ marginTop: theme.spacing(1) }}
+              itemDimension={ 130 }
+              data={ meetingTimes }
+              renderItem={ ({ item, index }) => renderMeetingTime(item, index)}
+            />
+          </Card>
         </View>
-      </ScrollView>
-    </>
+      </View>
+    </ScrollView>
   );
 };
 

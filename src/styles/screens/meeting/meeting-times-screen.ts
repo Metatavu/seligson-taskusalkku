@@ -30,8 +30,7 @@ export default StyleSheet.create({
   datePicker: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%"
+    paddingBottom: theme.spacing(1)
   },
 
   meetingTime: {

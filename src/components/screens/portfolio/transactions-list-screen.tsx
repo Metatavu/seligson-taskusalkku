@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import TransactionsCard from "../../generic/transactions-card";
 import theme from "../../../theme";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -12,6 +12,9 @@ import styles from "../../../styles/screens/portfolio/transactions-list";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { FundsApiContext } from "../../providers/funds-api-provider";
+import DatePicker from "../../generic/date-picker";
+import moment from "moment";
+import GenericUtils from "../../../utils/generic";
 
 /**
  * Transactions list screen component
@@ -26,15 +29,20 @@ const TransactionsListScreen: React.FC = () => {
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
   const [ securities, setSecurities ] = React.useState<Security[]>([]);
   const [ transactions, setTransactions ] = React.useState<PortfolioTransaction[]>([]);
+  const [ startDate, setStartDate ] = React.useState<Date>();
+  const [ endDate, setEndDate ] = React.useState<Date>();
 
   /**
-   * Filters transactions by type
+   * Filters transactions
    *
    * @param type transaction type
    */
-  const filterTransactionsByType = (type: TransactionType) => (
-    transactions.filter(({ transactionType }) => transactionType === type)
-  );
+  const filterTransactions = (type: TransactionType) => {
+    const filteredByType = transactions.filter(({ transactionType }) => transactionType === type);
+    const filteredByDate = filteredByType.filter(transaction => GenericUtils.checkDateInRange(transaction.paymentDate, startDate, endDate));
+
+    return filteredByDate;
+  };
 
   /**
    * Loads funds from API
@@ -99,9 +107,12 @@ const TransactionsListScreen: React.FC = () => {
    *
    * TODO: add date filtering functionality
    */
-  const renderFilterButton = () => (
+  const renderFilterButton = (date?: Date) => () => (
     <View>
       <TouchableOpacity style={ styles.filterButton }>
+        <Text>
+          { date && moment(date).format("DD.MM.YYYY") }
+        </Text>
         <Icon
           name="calendar"
           size={ 20 }
@@ -112,6 +123,37 @@ const TransactionsListScreen: React.FC = () => {
   );
 
   /**
+   * Renders date pickers
+   *
+   * TODO: add date filtering functionality
+   */
+  const renderStartDatePicker = () => (
+    <>
+      <DatePicker
+        date={ startDate || new Date() }
+        onDateChange={ setStartDate }
+        render={ renderFilterButton(startDate) }
+      />
+    </>
+  );
+
+  /**
+   * Renders date pickers
+   *
+   * TODO: add date filtering functionality
+   */
+  const renderEndDatePicker = () => (
+    <>
+      <DatePicker
+        date={ endDate || new Date() }
+        onDateChange={ setEndDate }
+        startDate={ startDate }
+        render={ renderFilterButton(endDate) }
+      />
+    </>
+  );
+
+  /**
    * Redemption transactions
    */
   const renderRedemptions = () => (
@@ -119,7 +161,7 @@ const TransactionsListScreen: React.FC = () => {
       title={ strings.portfolio.statistics.redemptions }
       funds={ funds }
       securities={ securities }
-      transactions={ filterTransactionsByType(TransactionType.Redemption) }
+      transactions={ filterTransactions(TransactionType.Redemption) }
     />
   );
 
@@ -131,7 +173,7 @@ const TransactionsListScreen: React.FC = () => {
       title={ strings.portfolio.statistics.subscriptions }
       funds={ funds }
       securities={ securities }
-      transactions={ filterTransactionsByType(TransactionType.Subscription) }
+      transactions={ filterTransactions(TransactionType.Subscription) }
     />
   );
 
@@ -141,7 +183,10 @@ const TransactionsListScreen: React.FC = () => {
   return (
     <ScrollView>
       <View style={ styles.transactionsWrapper }>
-        { renderFilterButton() }
+        <View style={ styles.datePickers }>
+          { renderStartDatePicker() }
+          { renderEndDatePicker() }
+        </View>
         { renderRedemptions() }
         { renderSubscriptions() }
       </View>

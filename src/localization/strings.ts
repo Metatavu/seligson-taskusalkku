@@ -21,6 +21,7 @@ export interface Strings extends LocalizedStringsMethods {
     cancel: string;
     save: string;
     noData: string;
+    copied: string;
     saveAndProceed: string;
     ok: string;
   };
@@ -62,6 +63,9 @@ export interface Strings extends LocalizedStringsMethods {
     publications: {
       list: string;
       find: string;
+    };
+    subscription: {
+      invalidSum: string;
     };
   };
 
@@ -131,6 +135,38 @@ export interface Strings extends LocalizedStringsMethods {
     aShare: string;
     bShare: string;
     myShare: string;
+  };
+
+  /**
+   * Translations related fund details screen
+   */
+  subscription: {
+    settingsDescription: string;
+    accountNumber: string;
+    recipient: string;
+    portfolio: string;
+    referenceNumber: string;
+    subscriptionAmount: string;
+    dueDate: string;
+    createVirtualBarCode: string;
+    summaryDescription: string;
+    customer: string;
+    customerNumber: string;
+    bank: string;
+    shareType: string;
+    sum: string;
+    virtualBarCode: string;
+    shares: {
+      a: {
+        title: string;
+        recommended: string;
+        description: string;
+      };
+      b: {
+        title: string;
+        description: string;
+      };
+    }
   };
 
   /**

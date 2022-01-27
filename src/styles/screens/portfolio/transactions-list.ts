@@ -3,11 +3,19 @@ import theme from "../../../theme";
 
 export default StyleSheet.create({
 
-  filterButton: {
-    width: "100%",
-    marginBottom: theme.spacing(1),
-    alignItems: "flex-end"
+  datePickers: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
 
+  filterButton: {
+    width: 135,
+    marginBottom: theme.spacing(1),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
 
   transactionsWrapper: {
