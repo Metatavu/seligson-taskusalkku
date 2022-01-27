@@ -54,8 +54,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
     return (
       <>
         <View style={ styles.buttonRow }>
-          {
-            auth &&
+          { auth &&
             <Button
               uppercase={ false }
               style={ styles.button }
