@@ -237,9 +237,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     selectedOption?: SubscriptionOption
   ) => (
     <>
-      <TouchableOpacity
-        onPress={ () => setVisible(true) }
-      >
+      <TouchableOpacity onPress={ () => setVisible(true) }>
         <View style={ styles.select }>
           <Text>
             { selectedOption?.label }
