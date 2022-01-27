@@ -52,7 +52,6 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Reference options select handler
    */
   const onBankOptionSelect = (bankOption: SubscriptionOption) => {
-    console.log("bankOption(onBankOptionSelect)", bankOption);
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
       draft.bankName = bankOption.label;
       draft.iBAN = bankOption.value;
