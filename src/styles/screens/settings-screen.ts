@@ -4,46 +4,41 @@ import theme from "../../theme";
 export default StyleSheet.create({
 
   container: {
-    padding: 10,
+    padding: theme.spacing(2),
+    paddingBottom: 0,
     flex: 1,
     alignItems: "flex-start"
   },
 
   card: {
-    width: "100%",
-    marginTop: theme.spacing(1),
+    paddingVertical: theme.spacing(1),
+    paddingHorizontal: theme.spacing(2),
+    borderRadius: 25,
+    borderTopRightRadius: 0,
+    backgroundColor: "#fff",
     elevation: 8,
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    backgroundColor: "#fff",
     shadowRadius: 5,
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
+    marginBottom: theme.spacing(2),
+    width: "100%"
   },
 
   cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    padding: theme.spacing(1)
+    paddingVertical: theme.spacing(1),
+    fontSize: 16
   },
 
-  radioButtonContainer: {
-    width: "90%",
-    flex: 1
+  backButton: {
+    marginHorizontal: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    backgroundColor: "#899C35",
+    borderRadius: 15
   },
 
-  radioButtonReversed: {
-    flexDirection: "row-reverse",
-    alignSelf: "flex-start"
-  },
-
-  radioButtonDescription: {
-    fontSize: 12,
-    marginLeft: theme.spacing(3)
+  buttonText: {
+    color: "#fff"
   }
 
 });

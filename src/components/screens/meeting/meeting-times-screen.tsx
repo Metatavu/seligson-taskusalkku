@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
-import { View } from "react-native";
-import { Button, Card, Divider, Text, useTheme } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Button, Card, Divider, useTheme } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
 import { MeetingsApiContext } from "../../providers/meetings-api-provider";
@@ -105,6 +105,7 @@ const MeetingTimesScreen: React.FC = () => {
             <View style={ styles.datePicker }>
               <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
               <DatePicker
+                mode="date"
                 date={ selectedStartDate }
                 startDate={ new Date() }
                 onDateChange={ startDatePickerChange }
@@ -114,6 +115,7 @@ const MeetingTimesScreen: React.FC = () => {
             <View style={ styles.datePicker }>
               <Text>{ strings.meetings.meetingTimes.datePicker.endDate }</Text>
               <DatePicker
+                mode="date"
                 date={ selectedEndDate }
                 startDate={ new Date() }
                 onDateChange={ endDatePickerChange }

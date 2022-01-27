@@ -83,7 +83,7 @@ const StrongAuthView: React.FC = () => {
       !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
       !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
 
-      navigation.navigate("home");
+      navigation.replace("home");
     } catch (error) {
       console.error(error);
     }

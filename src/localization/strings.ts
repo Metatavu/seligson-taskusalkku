@@ -15,12 +15,15 @@ export interface Strings extends LocalizedStringsMethods {
     close: string;
     back: string;
     login: string;
+    logout: string;
     webPage: string;
     reserve: string;
     cancel: string;
     save: string;
     noData: string;
     copied: string;
+    saveAndProceed: string;
+    ok: string;
   };
 
   /**
@@ -78,6 +81,7 @@ export interface Strings extends LocalizedStringsMethods {
     inputPinCode: string;
     incorrectPinCode: string;
     loginWithBiometric: string;
+    tryAgain: string;
   };
 
   /**
@@ -290,7 +294,7 @@ export interface Strings extends LocalizedStringsMethods {
     fi: string;
     en: string;
     sv: string;
-  }
+  };
 
 }
 

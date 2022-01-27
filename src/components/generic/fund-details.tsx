@@ -6,6 +6,8 @@ import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
 import strings from "../../localization/strings";
 import { Fund } from "../../generated/client/models/Fund";
+import { useAppSelector } from "../../app/hooks";
+import { selectAuth } from "../../features/auth/auth-slice";
 
 /**
  * Component properties
@@ -22,6 +24,7 @@ interface Props {
  */
 const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
   const { color, aShareValue, bShareValue } = fund;
+  const auth = useAppSelector(selectAuth);
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
 
   /**
@@ -51,13 +54,16 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
     return (
       <>
         <View style={ styles.buttonRow }>
-          <Button
-            uppercase={ false }
-            style={ styles.button }
-            onPress={ onSubscribePress }
-          >
-            { strings.fundDetailsScreen.buyFund }
-          </Button>
+          {
+            auth &&
+            <Button
+              uppercase={ false }
+              style={ styles.button }
+              onPress={ onSubscribePress }
+            >
+              { strings.fundDetailsScreen.buyFund }
+            </Button>
+          }
         </View>
         <View style={ styles.buttonRow }>
           {/* {lahiTapiola ? (

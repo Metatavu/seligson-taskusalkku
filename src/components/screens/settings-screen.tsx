@@ -1,8 +1,8 @@
 /* eslint-disable react/no-children-prop */
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Button } from "react-native-paper";
 import Config from "../../app/config";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout } from "../../features/auth/auth-slice";
@@ -18,6 +18,8 @@ import strings from "../../localization/strings";
 import TranslationUtils from "../../utils/translations";
 import { ScrollView } from "react-native-gesture-handler";
 import RadioButtonOptionItem from "../generic/radio-button-option-item";
+import BiometricAuth from "../../utils/biometric-auth";
+import theme from "../../theme";
 
 /**
  * Settings screen component
@@ -31,6 +33,7 @@ const SettingsScreen: React.FC = () => {
   const [ selectedInitialRoute, setSelectedInitialRoute ] = React.useState<keyof HomeNavigator.Routes | undefined>();
   const [ selectedLoginOption, setSelectedLoginOption ] = React.useState<string>();
   const [ pinInputOpen, setPinInputOpen ] = React.useState(false);
+  const [ deviceSupportsBiometric, setDeviceSupportsBiometric ] = React.useState(false);
 
   /**
    * Loads initial values when component mounts
@@ -43,6 +46,7 @@ const SettingsScreen: React.FC = () => {
 
     setSelectedInitialRoute(initialRoute);
     setSelectedLoginOption(preferredLogin);
+    setDeviceSupportsBiometric(await BiometricAuth.supported());
   };
 
   /**
@@ -69,6 +73,14 @@ const SettingsScreen: React.FC = () => {
   const onLoginOptionChange = async (loginOption: LoginOptions) => {
     if (loginOption === LoginOptions.PIN) {
       setPinInputOpen(true);
+      return;
+    }
+
+    if (loginOption === LoginOptions.BIOMETRIC) {
+      const result = await BiometricAuth.authenticate();
+      if (!result) {
+        return;
+      }
     }
 
     await Config.setLocalValue("@preferredLogin", loginOption);
@@ -93,10 +105,19 @@ const SettingsScreen: React.FC = () => {
     await Promise.all([
       AuthUtils.removeOfflineToken(),
       Config.removeLocalValue("@language"),
-      Config.removeLocalValue("@initialRoute")
+      Config.removeLocalValue("@initialRoute"),
+      Config.removeLocalValue("@preferredLogin")
     ]);
 
-    navigation.navigate("authentication", { screen: "login" });
+    navigation.replace("registration", { screen: "languageSelection" });
+  };
+
+  /**
+   * Event handler for logout press
+   */
+  const onLogout = async () => {
+    dispatch(logout());
+    navigation.replace("home", { screen: "funds" });
   };
 
   /**
@@ -108,6 +129,8 @@ const SettingsScreen: React.FC = () => {
     }
 
     await PinCodeAuth.create(pinCode);
+    await Config.setLocalValue("@preferredLogin", LoginOptions.PIN);
+    setSelectedLoginOption(LoginOptions.PIN);
     setPinInputOpen(false);
   };
 
@@ -136,7 +159,10 @@ const SettingsScreen: React.FC = () => {
    */
   const renderLoginOptions = () => (
     Object.values(LoginOptions).map(option => {
-      if (option === LoginOptions.DEMO && !Config.getStatic().developmentBuild) {
+      if (
+        (option === LoginOptions.DEMO && !Config.getStatic().developmentBuild) ||
+        (option === LoginOptions.BIOMETRIC && !deviceSupportsBiometric)
+      ) {
         return null;
       }
 
@@ -178,7 +204,7 @@ const SettingsScreen: React.FC = () => {
    */
   const renderCards = (renderFunction: () => void, title: string) => (
     <View style={ styles.card }>
-      <Text style={ styles.cardTitle }>
+      <Text style={[ theme.fonts.medium, styles.cardTitle ]}>
         { title }
       </Text>
       { renderFunction() }
@@ -192,11 +218,11 @@ const SettingsScreen: React.FC = () => {
   const renderRemoveLocalValues = () => {
     if (developmentBuild) {
       return (
-        <View style={{ marginTop: 20 }}>
-          <Button onPress={ removeLocalValues }>
+        <Button onPress={ removeLocalValues } style={ styles.backButton }>
+          <Text style={ styles.buttonText }>
             RESET LOCAL VALUES
-          </Button>
-        </View>
+          </Text>
+        </Button>
       );
     }
 
@@ -214,6 +240,11 @@ const SettingsScreen: React.FC = () => {
           { renderCards(renderLoginOptions, strings.settingsScreen.preferredLogin) }
           { renderCards(renderLanguageOptions, strings.settingsScreen.language) }
         </View>
+        <Button onPress={ onLogout } style={ styles.backButton }>
+          <Text style={ styles.buttonText }>
+            { strings.generic.logout }
+          </Text>
+        </Button>
         { renderRemoveLocalValues() }
       </ScrollView>
       <PinInput

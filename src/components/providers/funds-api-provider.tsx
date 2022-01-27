@@ -3,7 +3,7 @@ import React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
 import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
-import { FindFundRequest, Fund, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest } from "../../generated/client";
+import { FindFundRequest, Fund, ListFundsRequest } from "../../generated/client";
 import { FundsApiContextType } from "../../types";
 
 const initialFund: Fund = { name: { fi: "", sv: "" } };
@@ -13,8 +13,7 @@ const initialFund: Fund = { name: { fi: "", sv: "" } };
  */
 export const FundsApiContext = React.createContext<FundsApiContextType>({
   listFunds: async () => [],
-  findFund: async () => initialFund,
-  listFundHistoryValues: async () => []
+  findFund: async () => initialFund
 });
 
 /**
@@ -63,34 +62,11 @@ const FundsApiProvider: React.FC = ({ children }) => {
   };
 
   /**
-   * Lists fund history values with given request parameters
-   *
-   * @param params request parameters
-   * @param range chart range
-   * @returns list of fund history values or promise reject
-   */
-  const listFundHistoryValues = async (params: ListFundHistoryValuesRequest): Promise<FundHistoryValue[]> => {
-    try {
-      if (!anonymousAuth) {
-        throw new Error("No access token");
-      }
-
-      return await Api.getFundsApi(auth || anonymousAuth).listFundHistoryValues(params);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
-
-  /**
    * Component render
    */
   return (
     <FundsApiContext.Provider
-      value={{
-        listFunds,
-        findFund,
-        listFundHistoryValues
-      }}
+      value={{ listFunds, findFund }}
     >
       { children }
     </FundsApiContext.Provider>

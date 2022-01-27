@@ -5,12 +5,15 @@
     "close": "Close",
     "back": "Back",
     "login": "Login",
+    "logout": "Log out",
     "webPage": "More information on our website",
     "reserve": "Reserve",
     "cancel": "Cancel",
     "save": "Save",
     "noData": "No data",
-    "copied": "Copied to clipboard"
+    "copied": "Copied to clipboard",
+    "saveAndProceed": "Save and proceed",
+    "ok": "Ok"
   },
 
   "errorHandling": {
@@ -61,7 +64,8 @@
     "newAccount": "Do you need (first or new) Oma Salkku credentials?",
     "inputPinCode": "Input pin-code",
     "incorrectPinCode": "Incorrect pin-code",
-    "loginWithBiometric": "Login with biometric authentication"
+    "loginWithBiometric": "Login with biometric authentication",
+    "tryAgain": "Try again"
   },
 
   "screenTitles": {

@@ -1,6 +1,4 @@
-import BigNumber from "bignumber.js";
-import moment from "moment";
-import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, FundHistoryValue, ListFundsRequest, ListFundHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue, ListSecurityHistoryValuesRequest, SecurityHistoryValue } from "../generated/client";
 
 /**
  * Parsed access token
@@ -62,7 +60,6 @@ export interface PortfolioContextType {
 export interface FundsApiContextType {
   listFunds: (params: ListFundsRequest) => Promise<Fund[]>;
   findFund: (params: FindFundRequest) => Promise<Fund>;
-  listFundHistoryValues: (params: ListFundHistoryValuesRequest) => Promise<FundHistoryValue[]>
 }
 
 /**
@@ -71,6 +68,7 @@ export interface FundsApiContextType {
 export interface SecuritiesApiContextType {
   listSecurities: (params: ListSecuritiesRequest) => Promise<Security[]>;
   findSecurity: (params: FindSecurityRequest) => Promise<Security>;
+  listSecurityHistoryValues: (params: ListSecurityHistoryValuesRequest) => Promise<SecurityHistoryValue[]>;
 }
 
 /**
@@ -79,7 +77,7 @@ export interface SecuritiesApiContextType {
 export interface PortfoliosApiContextType {
   listPortfolios: () => Promise<Portfolio[]>;
   getPortfolioSummary: (params: GetPortfolioSummaryRequest) => Promise<PortfolioSummary>;
-  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest, range?: ChartRange) => Promise<PortfolioHistoryValue[]>;
+  listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest) => Promise<PortfolioHistoryValue[]>;
   listPortfolioSecurities: (params: ListPortfolioSecuritiesRequest) => Promise<PortfolioSecurity[]>;
   listPortfolioTransactions: (params: ListPortfolioTransactionsRequest) => Promise<PortfolioTransaction[]>;
   findPortfolioTransaction: (params: FindPortfolioTransactionRequest) => Promise<PortfolioTransaction>;
@@ -205,4 +203,19 @@ export interface SubscriptionSettings {
   dueDate: Date;
   sum: string;
   fund: Fund;
+}
+
+/**
+ * Date picker mode type
+ */
+export type IOSMode = "date" | "time" | "datetime" | "countdown";
+
+/*
+ * Date picker event data
+ */
+export interface DatePickerEvent {
+  nativeEvent: {
+    timestamp: string;
+  };
+  type: string;
 }

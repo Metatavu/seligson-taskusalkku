@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import { ActivityIndicator, ScrollView, View, Text, Platform } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/publications/publication-details";
@@ -10,9 +10,10 @@ import PublicationsNavigator from "../../../types/navigators/publications";
 import { PublicationsApiContext } from "../../providers/publications-api-provider";
 import { LinearGradient } from "expo-linear-gradient";
 import WebView from "react-native-webview";
-import { Title, Text, Button } from "react-native-paper";
+import { Title, Button } from "react-native-paper";
 import moment from "moment";
 import GenericUtils from "../../../utils/generic";
+import Injectables from "../../../utils/injectables";
 
 /**
  * Publication details screen component
@@ -85,14 +86,15 @@ const PublicationDetailsScreen: React.FC = () => {
             originWhitelist={[ "*" ]}
             source={{ html: content }}
             automaticallyAdjustContentInsets={ false }
-            scalesPageToFit={ false }
+            scalesPageToFit={ Platform.select({ android: false }) }
             scrollEnabled={ false }
+            useWebKit={ false }
             showsHorizontalScrollIndicator={ false }
             showsVerticalScrollIndicator={ false }
             style={{ height: webviewHeight }}
             onMessage={ event => setWebviewHeight(Number(event.nativeEvent.data)) }
             javaScriptEnabled
-            injectedJavaScript="window.ReactNativeWebView.postMessage(document.body.scrollHeight);"
+            injectedJavaScript={ Injectables.iosWebviewZoomFix }
           />
         </View>
       </ScrollView>
@@ -107,16 +109,18 @@ const PublicationDetailsScreen: React.FC = () => {
       colors={[ "transparent", "rgba(0,0,0,0.1)" ]}
       style={{ flex: 1 }}
     >
-      <Button
-        icon="arrow-left-circle"
-        onPress={ navigation.goBack }
-        labelStyle={{ color: "#fff" }}
-        style={ styles.backButton }
-      >
-        <Text style={{ color: "#fff" }}>
-          { strings.generic.back }
-        </Text>
-      </Button>
+      <View style={ styles.buttonContainer }>
+        <Button
+          icon="arrow-left-circle"
+          onPress={ navigation.goBack }
+          labelStyle={{ color: "#fff" }}
+          style={ styles.backButton }
+        >
+          <Text style={{ color: "#fff" }}>
+            { strings.generic.back }
+          </Text>
+        </Button>
+      </View>
       { renderContent() }
     </LinearGradient>
   );

@@ -3,11 +3,13 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Platform, StyleProp, Text, TextStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import moment from "moment";
+import { IOSMode } from "../../types";
 
 /**
  * Component properties
  */
 interface Props {
+  mode: IOSMode;
   date: Date;
   startDate?: Date;
   style?: StyleProp<TextStyle>;
@@ -24,6 +26,7 @@ const DatePicker: React.FC<Props> = ({
   date,
   startDate,
   style,
+  mode,
   render,
   onDateChange
 }) => {
@@ -47,7 +50,7 @@ const DatePicker: React.FC<Props> = ({
     open && <DateTimePicker
       is24Hour
       value={ date }
-      mode="date"
+      mode={ mode }
       display="default"
       onChange={ onDatePickerChange }
       minimumDate={ startDate }

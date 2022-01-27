@@ -4,18 +4,34 @@ import theme from "../../../theme";
 export default StyleSheet.create({
 
   distributionCard: {
-    padding: theme.spacing(2),
-    paddingTop: theme.spacing(4),
-    marginTop: theme.spacing(2),
-    borderRadius: 0,
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 25
+    paddingVertical: theme.spacing(1),
+    paddingHorizontal: theme.spacing(2),
+    borderRadius: 25,
+    borderTopRightRadius: 0,
+    backgroundColor: "#fff",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5
   },
 
   chartContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    marginBottom: theme.spacing(2)
   },
 
   viewContainer: {
@@ -31,17 +47,13 @@ export default StyleSheet.create({
   },
 
   securityCategory: {
-    width: "100%",
-    display: "flex",
     flexDirection: "row",
-    // flexWrap: "wrap",
-    alignItems: "center",
-    marginBottom: theme.spacing(2)
+    paddingVertical: theme.spacing(1)
   },
 
   categoryColor: {
-    height: 20,
-    width: 20,
+    height: "100%",
+    width: theme.spacing(1),
     borderRadius: 10,
     marginRight: theme.spacing(1)
   }
