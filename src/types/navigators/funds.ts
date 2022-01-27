@@ -16,7 +16,6 @@ namespace FundsNavigator {
     fundsList: NavigatorScreenParams<FundsListNavigator.Routes> | undefined;
     fundDetails: { fund: Fund; };
     fundSubscriptionSettings: { fund: Fund };
-    // TODO fix type
     fundSubscriptionSummary: { subscriptionSettings: SubscriptionSettings };
   };
 

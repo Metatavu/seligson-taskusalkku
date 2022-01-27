@@ -1,7 +1,7 @@
 import moment from "moment";
 import { LocalizedValue } from "../generated/client";
 import strings from "../localization/strings";
-import { Publication, PublicationDetails } from "../types";
+import { Publication, PublicationDetails, SubscriptionSettings } from "../types";
 
 /**
  * Class for generic utility methods
@@ -38,6 +38,39 @@ class GenericUtils {
     }
 
     return moment(date).isAfter(startDate) && moment(date).isBefore(endDate);
+  };
+
+  /**
+   * Generates barcode
+   * 
+   * @param subscriptionSettings subscription settings
+   */
+  static generateBarCode = (subscriptionSettings: SubscriptionSettings) => {
+    const { iBAN, dueDate, sum, referenceNumber } = subscriptionSettings;
+
+    const rounded = parseFloat(sum).toFixed(2);
+    const split = rounded.split(".");
+
+    let euro = split[0];
+    let cent = "00";
+
+    const formattedDueDate = moment(dueDate).format("YYMMDD").toString();
+
+    if (split.length > 1) {
+      cent = split[1];
+    }
+
+    if (euro.length > 6) {
+      euro = "000000";
+      cent = "00";
+    }
+
+    const formattedIban = iBAN?.replace("FI", "").replace(/\s/g, "");
+    const formattedReferenceNumber = (`00000000000000000000${referenceNumber}`).slice(-20);
+    euro = (`000000${euro}`).slice(-6);
+    cent = (`00${cent}`).slice(-2);
+
+    return `4${formattedIban}${euro}${cent}000${formattedReferenceNumber}${formattedDueDate}`;
   };
 
 }

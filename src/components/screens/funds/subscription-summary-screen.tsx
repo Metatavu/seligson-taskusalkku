@@ -33,37 +33,6 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
   const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
 
   /**
-   * Generates barcode
-   */
-  const generateBarCode = () => {
-    const { iBAN, dueDate, sum, referenceNumber } = subscriptionSettings;
-
-    const rounded = parseFloat(sum).toFixed(2);
-    const split = rounded.split(".");
-
-    let euro = split[0];
-    let cent = "00";
-
-    const formattedDueDate = moment(dueDate).format("YYMMDD").toString();
-
-    if (split.length > 1) {
-      cent = split[1];
-    }
-
-    if (euro.length > 6) {
-      euro = "000000";
-      cent = "00";
-    }
-
-    const formattedIban = iBAN?.replace("FI", "").replace(/\s/g, "");
-    const formattedReferenceNumber = (`00000000000000000000${referenceNumber}`).slice(-20);
-    euro = (`000000${euro}`).slice(-6);
-    cent = (`00${cent}`).slice(-2);
-
-    return `4${formattedIban}${euro}${cent}000${formattedReferenceNumber}${formattedDueDate}`;
-  };
-
-  /**
    * Renders fund title
    */
   const renderFundTitle = () => (
@@ -82,6 +51,9 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
 
   /**
    * Renders data row
+   * 
+   * @param label label
+   * @param data data
    */
   const renderDataRow = (label: string, data: string) => (
     <>
@@ -96,7 +68,9 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
   );
 
   /**
-   * Renders copy text 
+   * Renders copy text
+   * 
+   * @param text text
    */
   const renderCopyText = (text: string) => (
     <CopyText
@@ -109,6 +83,9 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
 
   /**
    * Renders copy text with label
+   * 
+   * @param label label
+   * @param data data
    */
   const renderCopyTextWithLabel = (label: string, text: string) => (
     <View style={{ marginTop: theme.spacing(1.5), marginBottom: theme.spacing(1.5) }}>
@@ -181,7 +158,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderCopyTextWithLabel(
           strings.subscription.referenceNumber,
-          generateBarCode()
+          GenericUtils.generateBarCode(subscriptionSettings)
         )
       }
       <Divider/>

@@ -37,7 +37,6 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
   const [ referenceOptionVisible, setReferenceOptionVisible ] = React.useState(false);
   const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
-  // TODO set the bank option initial value from the fund
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ referenceOptions, setReferenceOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
@@ -50,6 +49,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Reference options select handler
+   * 
+   * @param bankOption bank option
    */
   const onBankOptionSelect = (bankOption: SubscriptionOption) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
@@ -63,6 +64,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Reference options select handler
+   * 
+   * @param referenceOption reference option
    */
   const onReferenceOptionSelect = (referenceOption: SubscriptionOption) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
@@ -76,6 +79,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Portfolio select handler
+   * 
+   * @param portfolioOption portfolio option
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
     const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
@@ -93,6 +98,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Update reference options handler
+   * 
+   * @param portfolio portfolio
    */
   const updateReferenceOptions = (portfolio: Portfolio) => {
     const options: SubscriptionOption[] = [
@@ -116,6 +123,9 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Select default options
+   * 
+   * @param bankOption bank option
+   * @param portfolio portfolio
    */
   const SelectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
@@ -162,7 +172,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   React.useEffect(() => { loadData(); }, []);
 
   /**
-   * Effect for updating poerfol
+   * Effect for updating reference options
    */
   React.useEffect(() => {
     subscriptionSettings.portfolio && updateReferenceOptions(subscriptionSettings.portfolio);
@@ -170,6 +180,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * On subscription sum change handler
+   * 
+   * @param sum sum
    */
   const onSubscriptionSumChange = (sum: string) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
@@ -181,6 +193,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * On subscription due date change handler
+   * 
+   * @param date date
    */
   const onSubscriptionDueDateChange = (date: Date) => {
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
@@ -228,6 +242,12 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Renders select 
+   * 
+   * @param visible visible
+   * @param setVisible set visible
+   * @param options options
+   * @param selectOption select option
+   * @param selectedOption selected option
    */
   const renderSelect = (
     visible: boolean,
@@ -273,7 +293,9 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders copy text 
+   * Renders copy text
+   *
+   * @param text text
    */
   const renderCopyText = (text: string) => (
     <CopyText
@@ -302,6 +324,9 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Renders data row
+   * 
+   * @param renderLabel label renderer
+   * @param renderContent content renderer
    */
   const renderDataRow = (renderLabel: () => React.ReactNode, renderContent: () => React.ReactNode) => (
     <>
@@ -314,7 +339,14 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders select with label 
+   * Renders select with label
+   * 
+   * @param label label
+   * @param visible visible
+   * @param setVisible set visible
+   * @param options options
+   * @param selectOption select option
+   * @param selectedOption selected option
    */
   const renderSelectWithLabel = (
     label: string,
