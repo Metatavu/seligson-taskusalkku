@@ -128,7 +128,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   };
 
   /**
-   * Loads portfolios
+   * Loads data
    */
   const loadData = async () => {
     try {
