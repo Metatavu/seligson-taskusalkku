@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { StyleProp, View, Text, ViewStyle } from "react-native";
 import { RadioButton } from "react-native-paper";
 import styles from "../../styles/generic/radio-button-option-item";
 import theme from "../../theme";
@@ -15,6 +15,7 @@ interface Props {
   onPress: (value: any) => void;
   color?: string;
   description?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -27,9 +28,10 @@ const RadioButtonOptionItem: React.FC<Props> = ({
   checked,
   onPress,
   color,
+  style,
   description
 }) => (
-  <View style={ styles.radioButtonContainer }>
+  <View style={ style || styles.radioButtonContainer }>
     <RadioButton.Item
       key={ key }
       label={ label }

@@ -11,6 +11,7 @@
     "cancel": "Cancel",
     "save": "Save",
     "noData": "No data",
+    "copied": "Copied to clipboard",
     "saveAndProceed": "Save and proceed",
     "ok": "Ok"
   },
@@ -49,6 +50,9 @@
     "publications": {
       "list": "Error while loading publications",
       "find": "Error while loading publication"
+    },
+    "subscription": {
+      "invalidSum": "Sum value must be greater than 10 euros"
     }
   },
 
@@ -106,6 +110,37 @@
     "aShare": "A-share",
     "bShare": "B-share",
     "myShare": "My share"
+  },
+
+  "subscription": {
+    "settingsDescription": "Below you can copy the fund's account number and your own reference number or create a virtual barcode to be entered in the online bank.",
+    "accountNumber": "Account number",
+    "recipient": "Recipient",
+    "portfolio": "Portfolio",
+    "referenceNumber": "Reference number",
+    "subscriptionAmount": "Subscription amount",
+    "dueDate": "Due date",
+    "createVirtualBarCode": "Create a virtual barcode",
+    "summaryDescription": "Copy the barcode below provided on the online banking payment form\nThe name of the recipient of the fund must be added separately.",
+    "customer": "Customer",
+    "customerNumber": "Customer number",
+    "bank": "Bank",
+    "shareType": "Share type",
+    "sum": "Sum",
+    "virtualBarCode": "virtual barcode",
+    "shares": {
+      "a": {
+        "title": "Growth rate",
+        "recommended": "recommended",
+        "value": "Growth rate",
+        "description": "Dividends or interest received by the fund are added to the fund capital and increase the value of the fund unit. The tax effect only arises when the fund units are sold."
+      },
+      "b": {
+        "title": "Yield share",
+        "value": "Yield share",
+        "description": "Dividend or interest income is distributed once a year to unit-holders."
+      }
+    }
   },
 
   "portfolio": {

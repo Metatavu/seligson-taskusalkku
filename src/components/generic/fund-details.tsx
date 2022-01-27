@@ -10,12 +10,14 @@ import * as WebBrowser from "expo-web-browser";
 import { useAppSelector } from "../../app/hooks";
 import { selectSelectedLanguage } from "../../features/locale/locale-slice";
 import { LocalizedValue } from "../../generated/client";
+import { selectAuth } from "../../features/auth/auth-slice";
 
 /**
  * Component properties
  */
 interface Props {
   fund: Fund;
+  onSubscribePress: () => void;
 }
 
 /**
@@ -23,8 +25,9 @@ interface Props {
  *
  * @param props component properties
  */
-const FundDetails: React.FC<Props> = ({ fund }) => {
+const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
   const { color, aShareValue, bShareValue } = fund;
+  const auth = useAppSelector(selectAuth);
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
   const selectedLanguage = useAppSelector(selectSelectedLanguage);
 
@@ -65,12 +68,15 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
   const renderActionButtons = () => (
     <>
       <View style={ styles.buttonRow }>
-        <Button
-          uppercase={ false }
-          style={ styles.button }
-        >
-          { strings.fundDetailsScreen.buyFund }
-        </Button>
+        { auth &&
+          <Button
+            uppercase={ false }
+            style={ styles.button }
+            onPress={ onSubscribePress }
+          >
+            { strings.fundDetailsScreen.buyFund }
+          </Button>
+        }
       </View>
       <View style={ styles.buttonRow }>
         {/* {lahiTapiola ? (

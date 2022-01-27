@@ -105,7 +105,10 @@ const FundDetailsScreen: React.FC = () => {
         </View>
         <View style={ styles.detailsWrapper }>
           <FundCard fund={ fund }/>
-          <FundDetails fund={ fund }/>
+          <FundDetails
+            fund={ fund }
+            onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
+          />
         </View>
       </>
     );
