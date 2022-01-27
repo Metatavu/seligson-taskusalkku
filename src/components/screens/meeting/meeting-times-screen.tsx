@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button, Card } from "react-native-paper";
 import strings from "../../../localization/strings";
@@ -28,6 +28,7 @@ const MeetingTimesScreen: React.FC = () => {
   const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date | undefined>(new Date());
   const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date | undefined>(new Date());
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
+  const [ startDatePickerOpen, setStartDatePickerOpen ] = React.useState(false);
 
   /**
    * Fetches meeting times
@@ -85,16 +86,30 @@ const MeetingTimesScreen: React.FC = () => {
    * Renders start date picker dialog
    */
   const renderStartDatePicker = () => (
-    <DateTimePicker
-      value={ selectedStartDate || new Date() }
-      mode="date"
-      is24Hour
-      display="default"
-      onChange={ startDatePickerChange }
-      minimumDate={ new Date() }
-      style={{ width: 100, backgroundColor: "#fff" }}
-      locale={ selectedLanguage }
-    />
+    <>
+      { Platform.OS === "ios" &&
+        <DateTimePicker
+          value={ selectedStartDate || new Date() }
+          mode="date"
+          display="inline"
+          onChange={ startDatePickerChange }
+          minimumDate={ new Date() }
+          locale={ selectedLanguage }
+          style={{ marginBottom: -50 }}
+        />
+      }
+      { Platform.OS === "android" && startDatePickerOpen &&
+        <DateTimePicker
+          value={ selectedStartDate || new Date() }
+          mode="date"
+          display="default"
+          onChange={ startDatePickerChange }
+          minimumDate={ new Date() }
+          locale={ selectedLanguage }
+          style={{ marginBottom: -50 }}
+        />
+      }
+    </>
   );
 
   /**
@@ -116,12 +131,19 @@ const MeetingTimesScreen: React.FC = () => {
               <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
                 { strings.meetings.meetingTimes.datePicker.title }
               </Text>
-              <View style={ styles.datePicker }>
-                <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
-                { renderStartDatePicker() }
-              </View>
+              { renderStartDatePicker() }
+              { Platform.OS === "android" &&
+                <View style={ styles.datePicker }>
+                  <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
+                  <Button
+                    style={ styles.datePickerButton }
+                    onPress={ () => setStartDatePickerOpen(true) }
+                  >
+                    { moment(selectedStartDate).format("DD/MM/YYYY") }
+                  </Button>
+                </View>
+              }
               <FlatGrid
-                style={{ marginTop: theme.spacing(1) }}
                 itemDimension={ 130 }
                 data={ meetingTimes }
                 renderItem={ ({ item, index }) => renderMeetingTime(item, index)}

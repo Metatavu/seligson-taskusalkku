@@ -36,6 +36,10 @@ export default StyleSheet.create({
 
   meetingTime: {
     padding: theme.spacing(1)
+  },
+
+  datePickerButton: {
+    width: 120
   }
 
 });

@@ -30,16 +30,28 @@ export default StyleSheet.create({
   input: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: "#899C35",
+    borderColor: theme.colors.grey[400],
     borderStyle: "solid",
     borderRadius: 8,
     padding: theme.spacing(2),
     marginTop: theme.spacing(1)
   },
 
+  multilineInput: {
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: theme.colors.grey[400],
+    borderStyle: "solid",
+    borderRadius: 8,
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(1),
+    minHeight: 100
+  },
+
   radioButtonText: {
-    textAlign: "left",
-    fontSize: 14
+    flexDirection: "row",
+    paddingLeft: 0,
+    paddingBottom: 0
   },
 
   meetingTime: {

@@ -155,7 +155,7 @@
       "time": "klo",
       "meetingType": {
         "title": "Varaan ajan",
-        "phone": "PuhelinKeskusteluun",
+        "phone": "Puhelinkeskusteluun",
         "meeting": "Tapaamiseen"
       },
       "meetingLanguage": "Kieli",

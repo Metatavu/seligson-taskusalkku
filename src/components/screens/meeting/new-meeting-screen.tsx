@@ -12,6 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
 import moment from "moment";
+import RadioButtonOptionItem from "../../generic/radio-button-option-item";
 
 /**
  * New meeting screen
@@ -144,21 +145,21 @@ const NewMeetingScreen: React.FC = () => {
    * Renders meeting language select 
    */
   const renderLanguageSelect = () => (
-    <View style={{ marginTop: theme.spacing(2) }}>
-      <Text>{ strings.meetings.newMeeting.meetingLanguage }</Text>
+    <View>
+      <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+        { strings.meetings.newMeeting.meetingLanguage }
+      </Text>
       <RadioButton.Group onValueChange={ onNewMeetingChange("language") } value={ newMeeting.language }>
         <RadioButton.Item
-          labelStyle={ styles.radioButtonText }
-          position="leading"
+          style={ styles.radioButtonText }
           color={ theme.colors.primary }
-          label={ MeetingLanguage.EN }
+          label={ strings.languages.en }
           value={ MeetingLanguage.EN }
         />
         <RadioButton.Item
-          position="leading"
-          labelStyle={ styles.radioButtonText }
+          style={ styles.radioButtonText }
           color={ theme.colors.primary }
-          label={ MeetingLanguage.FI }
+          label={ strings.languages.fi }
           value={ MeetingLanguage.FI }
         />
       </RadioButton.Group>
@@ -170,24 +171,55 @@ const NewMeetingScreen: React.FC = () => {
    */
   const renderMeetingTypeSelect = () => (
     <View style={{ marginTop: theme.spacing(2) }}>
-      <Text>{ `${strings.meetings.newMeeting.meetingType.title}*` }</Text>
+      <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+        { `${strings.meetings.newMeeting.meetingType.title}*` }
+      </Text>
       <RadioButton.Group onValueChange={ onNewMeetingChange("type") } value={ newMeeting.type }>
         <RadioButton.Item
-          position="leading"
-          labelStyle={ styles.radioButtonText }
+          style={ styles.radioButtonText }
           color={ theme.colors.primary }
           label={ strings.meetings.newMeeting.meetingType.phone }
           value={ MeetingType.Phone }
         />
         <RadioButton.Item
-          position="leading"
-          labelStyle={ styles.radioButtonText }
+          style={ styles.radioButtonText }
           color={ theme.colors.primary }
           label={ strings.meetings.newMeeting.meetingType.meeting }
           value={ MeetingType.Meeting }
         />
       </RadioButton.Group>
     </View>
+  );
+
+  /**
+   * Renders addtional info 
+   */
+  const renderAddtionalInfo = () => (
+    <>
+      <View style={{ marginTop: theme.spacing(2) }}>
+        <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+          { `${strings.meetings.newMeeting.participantCount}*` }
+        </Text>
+        <TextInput
+          style={ styles.input }
+          placeholder={ `${strings.meetings.newMeeting.participantCount}*` }
+          onChangeText={ onNewMeetingChange("participantCount") }
+          keyboardType="numeric"
+        />
+      </View>
+      <View style={{ marginTop: theme.spacing(2) }}>
+        <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+          { strings.meetings.newMeeting.additionalInformation }
+        </Text>
+        <TextInput
+          multiline
+          numberOfLines={ 6 }
+          style={ styles.multilineInput }
+          placeholder={ strings.meetings.newMeeting.additionalInformation }
+          onChangeText={ onNewMeetingChange("additionalInformation") }
+        />
+      </View>
+    </>
   );
 
   /**
@@ -219,7 +251,9 @@ const NewMeetingScreen: React.FC = () => {
     <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
       <ScrollView>
         <View style={ styles.newMeeting }>
-          { renderMeetingTime() }
+          <Card style={ styles.meetingCard }>
+            { renderMeetingTime() }
+          </Card>
           <Card style={ styles.meetingCard }>
             <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
               { strings.meetings.newMeeting.title }
@@ -227,24 +261,9 @@ const NewMeetingScreen: React.FC = () => {
             { renderContactEdit() }
           </Card>
           <Card style={ styles.meetingCard }>
-            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
-              { strings.meetings.newMeeting.title }
-            </Text>
             { renderLanguageSelect() }
             { renderMeetingTypeSelect() }
-            <TextInput
-              style={ styles.input }
-              placeholder={ `${strings.meetings.newMeeting.participantCount}*` }
-              onChangeText={ onNewMeetingChange("participantCount") }
-              keyboardType="numeric"
-            />
-            <TextInput
-              multiline
-              numberOfLines={ 6 }
-              style={ styles.input }
-              placeholder={ `${strings.meetings.newMeeting.participantCount}*` }
-              onChangeText={ onNewMeetingChange("additionalInformation") }
-            />
+            { renderAddtionalInfo() }
           </Card>
           { renderButtons() }
         </View>
