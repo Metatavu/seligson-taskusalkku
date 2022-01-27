@@ -47,6 +47,9 @@
     "publications": {
       "list": "Virhe listattaessa julkaisuja",
       "find": "Virhe haettaessa julkaisua"
+    },
+    "subscription": {
+      "invalidSum": "Sum value must be greater than 10 euros"
     }
   },
 

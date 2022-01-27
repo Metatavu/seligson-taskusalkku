@@ -78,9 +78,13 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * On portfolio select handler
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
+    const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
+    if (!foundPortfolio) {
+      return;
+    }
+
     const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.portfolioId = portfolioOption.key;
-      draft.portfolioName = portfolioOption.value;
+      draft.portfolio = foundPortfolio;
     });
 
     setSubscriptionSettings(updatedSubscriptionSettings);
@@ -90,21 +94,19 @@ const SubscriptionSettingsScreen: React.FC = () => {
   /**
    * Update reference options handler
    */
-  const updateReferenceOptions = (portfolioOption: SubscriptionOption) => {
-    // TODO set the reference options and select the default
-    // const foundPortfolio = portfolios.find(portfolio => portfolio.id === portfolioOption.key);
+  const updateReferenceOptions = (portfolio: Portfolio) => {
     const options: SubscriptionOption[] = [
       {
         label: strings.subscription.shares.a.title,
         description: strings.subscription.shares.a.description,
         key: PORTFOLIO_REFERENCE_TYPE.A,
-        value: "TODO reference number"
+        value: portfolio.aReference || ""
       },
       {
         label: strings.subscription.shares.b.title,
         description: strings.subscription.shares.b.description,
         key: PORTFOLIO_REFERENCE_TYPE.B,
-        value: "TODO reference number"
+        value: portfolio.aReference || ""
       }
     ];
 
@@ -113,9 +115,22 @@ const SubscriptionSettingsScreen: React.FC = () => {
   };
 
   /**
+   * Select default options
+   */
+  const SelectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
+    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
+      draft.bankName = bankOption?.label;
+      draft.iban = bankOption?.value;
+      draft.portfolio = portfolio;
+    });
+
+    setSubscriptionSettings(updatedSubscriptionSettings);
+  };
+
+  /**
    * Loads portfolios
    */
-  const loadPortfolios = async () => {
+  const loadData = async () => {
     try {
       const fetchedPortfolios = await portfoliosApiContext.listPortfolios();
 
@@ -127,39 +142,25 @@ const SubscriptionSettingsScreen: React.FC = () => {
       }));
 
       setPortfolioOptions(fetchedPortfolioOptions);
-      fetchedPortfolioOptions[0] && onPortfolioOptionSelect(fetchedPortfolioOptions[0]);
+
+      const fundBankOptions: SubscriptionOption[] = [
+        {
+          label: "bank1",
+          key: "bank1",
+          value: "bank1"
+        },
+        {
+          label: "bank2",
+          key: "bank2",
+          value: "bank2"
+        }
+      ];
+
+      setBankOptions(fundBankOptions);
+      SelectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
-  };
-
-  /**
-   * Loads bank options
-   */
-  const loadBankOptions = () => {
-    const options: SubscriptionOption[] = [
-      {
-        label: "bank1",
-        key: "bank1",
-        value: "bank1"
-      },
-      {
-        label: "bank2",
-        key: "bank2",
-        value: "bank2"
-      }
-    ];
-
-    setBankOptions(options);
-    onBankOptionSelect(options[0]);
-  };
-
-  /**
-   * Loads data
-   */
-  const loadData = async () => {
-    await loadPortfolios();
-    loadBankOptions();
   };
 
   /**
@@ -171,9 +172,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Effect for updating poerfol
    */
   React.useEffect(() => {
-    const portfolioOption = portfolioOptions.find(option => option.key === subscriptionSettings.portfolioId);
-    portfolioOption && updateReferenceOptions(portfolioOption);
-  }, [ subscriptionSettings.portfolioId ]);
+    subscriptionSettings.portfolio && updateReferenceOptions(subscriptionSettings.portfolio);
+  }, [ subscriptionSettings.portfolio ]);
 
   /**
    * On subscription sum change handler
@@ -200,8 +200,20 @@ const SubscriptionSettingsScreen: React.FC = () => {
   /*
    * Validates settings
    */
-  // eslint-disable-next-line require-jsdoc
-  const validateSettings = () => subscriptionSettings.portfolioId && subscriptionSettings.iban && subscriptionSettings.referenceNumber;
+  const validateSettings = () => subscriptionSettings.portfolio && subscriptionSettings.iban && subscriptionSettings.referenceNumber;
+
+  /**
+   * On create barcode handler
+   */
+  const onCreateBarCode = () => {
+    const { sum } = subscriptionSettings;
+    if (Number.isNaN(sum) || Number(sum) < 10) {
+      errorContext.setError(strings.errorHandling.subscription.invalidSum);
+      return;
+    }
+
+    navigation.navigate("fundSubscriptionSummary", { subscriptionSettings: subscriptionSettings });
+  };
 
   /**
    * Renders fund title
@@ -373,6 +385,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const renderDueDatePicker = () => (
     <DatePicker
       date={ subscriptionSettings.dueDate }
+      startDate={ new Date() }
       onDateChange={ onSubscriptionDueDateChange }
     />
   );
@@ -409,7 +422,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           setPortfolioOptionVisible,
           portfolioOptions,
           onPortfolioOptionSelect,
-          portfolioOptions.find(option => option.key === subscriptionSettings.portfolioId)
+          portfolioOptions.find(option => option.key === subscriptionSettings.portfolio?.id)
         )
       }
       {
@@ -457,10 +470,11 @@ const SubscriptionSettingsScreen: React.FC = () => {
         </Text>
         { renderSettingsContent() }
         <Button
+          disabled={ !validateSettings() }
           icon="arrow-left-circle"
           labelStyle={{ color: "#fff" }}
           style={{ ...styles.backButton, marginTop: theme.spacing(3) }}
-          onPress={ () => navigation.navigate("fundSubscriptionSummary", { subscriptionSettings: subscriptionSettings }) }
+          onPress={ onCreateBarCode }
         >
           <Text style={{ color: "#fff" }}>
             { strings.subscription.createVirtualBarCode }
@@ -476,7 +490,6 @@ const SubscriptionSettingsScreen: React.FC = () => {
   return (
     <>
       <Button
-        disabled={ !validateSettings() }
         icon="arrow-left-circle"
         onPress={ navigation.goBack }
         labelStyle={{ color: "#fff" }}

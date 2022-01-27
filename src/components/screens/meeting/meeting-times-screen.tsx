@@ -106,6 +106,7 @@ const MeetingTimesScreen: React.FC = () => {
               <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
               <DatePicker
                 date={ selectedStartDate }
+                startDate={ new Date() }
                 onDateChange={ startDatePickerChange }
                 style={{ color: colors.primary }}
               />
@@ -114,6 +115,7 @@ const MeetingTimesScreen: React.FC = () => {
               <Text>{ strings.meetings.meetingTimes.datePicker.endDate }</Text>
               <DatePicker
                 date={ selectedEndDate }
+                startDate={ new Date() }
                 onDateChange={ endDatePickerChange }
                 style={{ color: colors.primary }}
               />

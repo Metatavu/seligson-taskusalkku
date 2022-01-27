@@ -61,6 +61,9 @@ export interface Strings extends LocalizedStringsMethods {
       list: string;
       find: string;
     };
+    subscription: {
+      invalidSum: string;
+    };
   };
 
   /**

@@ -47,6 +47,9 @@
     "publications": {
       "list": "Error while loading publications",
       "find": "Error while loading publication"
+    },
+    "subscription": {
+      "invalidSum": "Sum value must be greater than 10 euros"
     }
   },
 
