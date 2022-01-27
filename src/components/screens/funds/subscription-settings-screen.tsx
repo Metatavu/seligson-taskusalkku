@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { Card, Divider, Button, TextInput, IconButton, useTheme, Snackbar } from "react-native-paper";
+import { Card, Divider, Button, TextInput, useTheme, Snackbar } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/subscription-settings";
@@ -8,7 +8,6 @@ import theme from "../../../theme";
 import strings from "../../../localization/strings";
 import GenericUtils from "../../../utils/generic";
 import { PORTFOLIO_REFERENCE_TYPE, SubscriptionOption, SubscriptionSettings } from "../../../types";
-import * as Clipboard from "expo-clipboard";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { TouchableOpacity } from "react-native-gesture-handler";
