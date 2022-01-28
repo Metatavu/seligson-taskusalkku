@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
-import { View, Text } from "react-native";
-import { Button, Card, Divider } from "react-native-paper";
+import { View, Text, Platform } from "react-native";
+import { Button, Card } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
 import { MeetingsApiContext } from "../../providers/meetings-api-provider";
@@ -12,8 +12,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/meeting-times-screen";
 import theme from "../../../theme";
 import { FlatGrid } from "react-native-super-grid";
-import { useAppSelector } from "../../../app/hooks";
-import { selectSelectedLanguage } from "../../../features/locale/locale-slice";
 import DatePicker from "../../generic/date-picker";
 
 /**
@@ -23,10 +21,8 @@ const MeetingTimesScreen: React.FC = () => {
   const meetingsApiContext = React.useContext(MeetingsApiContext);
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
-  const selectedLanguage = useAppSelector(selectSelectedLanguage);
 
-  const [ selectedStartDate, setSelectedStartDate ] = React.useState<Date>(new Date());
-  const [ selectedEndDate, setSelectedEndDate ] = React.useState<Date>(new Date());
+  const [ selectedDate, setSelectedSDate ] = React.useState<Date>(new Date());
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
 
   /**
@@ -34,13 +30,13 @@ const MeetingTimesScreen: React.FC = () => {
    */
   const fetchMeetingTimes = async () => {
     try {
-      if (!selectedStartDate || !selectedEndDate) {
+      if (!selectedDate) {
         return;
       }
 
       setMeetingTimes(await meetingsApiContext.listMeetingTimes({
-        startDate: selectedStartDate,
-        endDate: selectedEndDate
+        startDate: selectedDate,
+        endDate: selectedDate
       }));
     } catch (error) {
       errorContext.setError(strings.errorHandling.meetingTimes.list, error);
@@ -52,25 +48,17 @@ const MeetingTimesScreen: React.FC = () => {
    */
   React.useEffect(() => {
     fetchMeetingTimes();
-  }, [ selectedStartDate, selectedEndDate ]);
+  }, [ selectedDate ]);
 
   /**
    * Handler for start date picker date change
    * 
    * @param pickedDate picked date
    */
-  const startDatePickerChange = (pickedDate: Date) => {
-    moment(pickedDate).isAfter(selectedEndDate) && setSelectedEndDate(pickedDate);
-    setSelectedStartDate(pickedDate);
-  };
-
-  /**
-   * Handler for end date picker date change
-   * 
-   * @param pickedDate picked date
-   */
-  const endDatePickerChange = (pickedDate: Date) => {
-    setSelectedEndDate(pickedDate);
+  const datePickerChange = (pickedDate: Date) => {
+    moment(pickedDate).isAfter(selectedDate) && setSelectedSDate(pickedDate);
+    setSelectedSDate(pickedDate);
+    setSelectedSDate(pickedDate);
   };
 
   /**
@@ -95,38 +83,45 @@ const MeetingTimesScreen: React.FC = () => {
   return (
     <ScrollView>
       <View style={ styles.meetingTimes }>
-        <Text style={ theme.fonts.medium }>{ strings.meetings.meetingTimes.bookTime }</Text>
         <Card style={ styles.meetingCard }>
-          <Text>{ strings.meetings.meetingTimes.bookTimeDescription }</Text>
+          <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+            { strings.meetings.meetingTimes.bookTime }
+          </Text>
+          <Text>
+            { strings.meetings.meetingTimes.bookTimeDescription }
+          </Text>
         </Card>
         <View style={{ marginTop: theme.spacing(2) }}>
-          <Text style={ theme.fonts.medium}>
-            { strings.meetings.meetingTimes.datePicker.title }
-          </Text>
           <Card style={ styles.meetingCard }>
-            <View style={ styles.datePicker }>
-              <Text>{ strings.meetings.meetingTimes.datePicker.startDate }</Text>
-              <DatePicker
-                mode="date"
-                date={ selectedStartDate }
-                startDate={ new Date() }
-                onDateChange={ startDatePickerChange }
-                style={{ color: theme.colors.primary }}
-              />
-            </View>
-            <View style={ styles.datePicker }>
-              <Text>{ strings.meetings.meetingTimes.datePicker.endDate }</Text>
-              <DatePicker
-                mode="date"
-                date={ selectedEndDate }
-                startDate={ new Date() }
-                onDateChange={ endDatePickerChange }
-                style={{ color: theme.colors.primary }}
-              />
-            </View>
-            <Divider/>
+            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+              { strings.meetings.meetingTimes.datePicker.title }
+            </Text>
+            { Platform.OS === "android" &&
+              <View style={ styles.datePicker }>
+                <DatePicker
+                  mode="date"
+                  date={ selectedDate }
+                  startDate={ new Date() }
+                  onDateChange={ datePickerChange }
+                />
+              </View>
+            }
+            { Platform.OS === "ios" &&
+              <View style={ styles.datePickerIos }>
+                <DatePicker
+                  mode="date"
+                  date={ selectedDate }
+                  startDate={ new Date() }
+                  onDateChange={ datePickerChange }
+                />
+              </View>
+            }
+            { meetingTimes.length <= 0 &&
+              <Text style={ styles.noAvailableTime }>
+                { strings.meetings.newMeeting.noAvailableTime }
+              </Text>
+            }
             <FlatGrid
-              style={{ marginTop: theme.spacing(1) }}
               itemDimension={ 130 }
               data={ meetingTimes }
               renderItem={ ({ item, index }) => renderMeetingTime(item, index)}

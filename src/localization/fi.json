@@ -189,6 +189,7 @@
       "title": "Yhteystiedot",
       "selectedTime": "Valittu aika",
       "time": "klo",
+      "noAvailableTime": "Tälle päivälle ei ole varattavissa aikoja.",
       "meetingType": {
         "title": "Varaan ajan",
         "phone": "Puhelinkeskusteluun",

@@ -12,7 +12,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
 import moment from "moment";
-import RadioButtonOptionItem from "../../generic/radio-button-option-item";
 
 /**
  * New meeting screen
@@ -213,6 +212,7 @@ const NewMeetingScreen: React.FC = () => {
         </Text>
         <TextInput
           multiline
+          textAlignVertical="top"
           numberOfLines={ 6 }
           style={ styles.multilineInput }
           placeholder={ strings.meetings.newMeeting.additionalInformation }
