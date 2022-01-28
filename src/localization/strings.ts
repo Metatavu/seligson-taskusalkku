@@ -221,6 +221,7 @@ export interface Strings extends LocalizedStringsMethods {
       title: string;
       selectedTime: string;
       time: string;
+      noAvailableTime: string;
       meetingType: {
         title: string;
         phone: string;

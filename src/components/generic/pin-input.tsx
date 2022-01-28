@@ -57,17 +57,20 @@ const PinInput: React.FC<Props> = ({
     <View style={ styles.actionButtonsContainer }>
       <Button
         uppercase={ false }
-        onPress={ onSavePinCode }
-        disabled={ pinValue.length !== 4 }
+        onPress={ onCancelPinCode }
+        color={ theme.colors.primary }
+        style={ styles.cancelButton }
       >
-        { confirmButtonLabel || strings.generic.save }
+        { strings.generic.cancel }
       </Button>
       <Button
         uppercase={ false }
-        onPress={ onCancelPinCode }
-        color={ theme.colors.error }
+        onPress={ onSavePinCode }
+        disabled={ pinValue.length !== 4 }
+        color="#fff"
+        style={ styles.saveButton }
       >
-        { strings.generic.cancel }
+        { confirmButtonLabel || strings.generic.save }
       </Button>
     </View>
   );
@@ -81,7 +84,7 @@ const PinInput: React.FC<Props> = ({
       contentContainerStyle={ styles.modalContainer }
     >
       <View style={ styles.titleContainer }>
-        <Text style={ styles.title }>
+        <Text style={[ theme.fonts.medium, styles.title ]}>
           { strings.auth.inputPinCode }
         </Text>
       </View>

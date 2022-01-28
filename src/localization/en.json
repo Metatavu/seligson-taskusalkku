@@ -186,9 +186,10 @@
       }
     },
     "newMeeting": {
-      "title": "Contact us",
+      "title": "Contact information",
       "selectedTime": "Selected time",
       "time": "Time",
+      "noAvailableTime": "No available meeting times for the selected date.",
       "meetingType": {
         "title": "Meeting type",
         "phone": "Phone",

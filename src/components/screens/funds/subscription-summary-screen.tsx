@@ -2,15 +2,16 @@ import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
 import styles from "../../../styles/screens/funds/subscription-summary";
 import { Fund } from "../../../generated/client/models/Fund";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { Divider, Card, Snackbar, useTheme, Button } from "react-native-paper";
+import { Divider, Card, Snackbar, useTheme } from "react-native-paper";
 import strings from "../../../localization/strings";
 import theme from "../../../theme";
 import GenericUtils from "../../../utils/generic";
 import moment from "moment";
 import { PORTFOLIO_REFERENCE_TYPE } from "../../../types";
 import CopyText from "../../generic/copy-text";
+import BackButton from "../../generic/back-button";
 
 /**
  * Component properties
@@ -25,7 +26,6 @@ interface Props {
  * @param props component properties
  */
 const SubscriptionSummaryScreen: React.FC<Props> = () => {
-  const navigation = useNavigation<FundsNavigator.NavigationProps>();
   const { colors } = useTheme();
   const { params } = useRoute<FundsNavigator.RouteProps<"fundSubscriptionSummary">>();
   const { subscriptionSettings } = params;
@@ -36,17 +36,12 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    * Renders fund title
    */
   const renderFundTitle = () => (
-    <>
-      <View style={ styles.fundTitle }>
-        <View
-          style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}
-        />
-        <Text style={{ flexWrap: "wrap" }}>
-          { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
-        </Text>
-      </View>
-      <Divider/>
-    </>
+    <View style={ styles.fundTitleContainer }>
+      <View style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}/>
+      <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
+        { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
+      </Text>
+    </View>
   );
 
   /**
@@ -175,7 +170,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    * Renders fund subscription content
    */
   const renderContent = () => (
-    <View style={{ padding: theme.spacing(2) }}>
+    <View style={{ padding: theme.spacing(2), marginBottom: theme.spacing(6) }}>
       <Card style={ styles.subscriptionCard }>
         { renderFundTitle() }
         <Text>
@@ -191,16 +186,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    */
   return (
     <>
-      <Button
-        icon="arrow-left-circle"
-        onPress={ navigation.goBack }
-        labelStyle={{ color: "#fff" }}
-        style={ styles.backButton }
-      >
-        <Text style={{ color: "#fff" }}>
-          { strings.generic.back }
-        </Text>
-      </Button>
+      <BackButton/>
       <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
         <ScrollView>
           { renderContent() }

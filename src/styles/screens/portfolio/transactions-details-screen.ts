@@ -5,7 +5,7 @@ export default StyleSheet.create({
 
   detailsScreen: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "flex-start"
   },
 
   detailsWrapper: {
@@ -48,9 +48,9 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
+    elevation: 8,
     flexDirection: "row",
-    marginHorizontal: theme.spacing(2),
-    marginBottom: theme.spacing(2)
+    margin: theme.spacing(2)
   },
 
   transactionTitle: {

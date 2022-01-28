@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Button, Divider, useTheme } from "react-native-paper";
+import { Button, useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
@@ -77,8 +77,6 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
             { strings.fundDetailsScreen.buyFund }
           </Button>
         }
-      </View>
-      <View style={ styles.buttonRow }>
         {/* {lahiTapiola ? (
           <Image
           // eslint-disable-next-line global-require
@@ -112,7 +110,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
           />
         </View>
         <View style={ styles.cardContent }>
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: theme.spacing(1) }}>
             <View>
               <Text style={ theme.fonts.medium }>
                 { `${strings.fundDetailsScreen.aShare} ${aShareValue}€` }
@@ -124,7 +122,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
               </Text>
             </View>
           </View>
-          <Divider style={{ marginVertical: 5 }}/>
+          {/* <Divider style={{ marginVertical: 5 }}/>
           <View style={ styles.cardRow }>
             <Text style={ theme.fonts.medium }>
               { strings.fundDetailsScreen.myShare }
@@ -132,7 +130,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
             { renderMyShare(strings.fundDetailsScreen.amount, 10) }
             { aShareValue && renderMyShare(strings.fundDetailsScreen.value, Number(aShareValue) * 10) }
             { renderMyShare(strings.fundDetailsScreen.change, 25) }
-          </View>
+          </View> */}
         </View>
       </View>
       { renderActionButtons() }

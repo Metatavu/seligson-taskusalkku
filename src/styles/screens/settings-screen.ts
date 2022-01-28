@@ -32,9 +32,9 @@ export default StyleSheet.create({
 
   backButton: {
     marginHorizontal: theme.spacing(2),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     backgroundColor: "#899C35",
-    borderRadius: 15
+    borderRadius: 25
   },
 
   buttonText: {

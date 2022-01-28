@@ -136,8 +136,8 @@
         "description": "Rahaston saamat osingot tai korot lisästään rahastopääomaan ja ne kasvattavat rahasto-ossuden arvoa. Veroseuraanus syntyy vasta kun rahasto-osuuksia myydään."
       },
       "b": {
-        "title": "Tuotto-ossus",
-        "value": "Tuotto-ossus",
+        "title": "Tuotto-osuus",
+        "value": "Tuotto-osuus",
         "description": "Osinko- tai korkotuotot jaetaan kerran vuodessa osuudenhaltijoille."
       }
     }
@@ -189,9 +189,10 @@
       "title": "Yhteystiedot",
       "selectedTime": "Valittu aika",
       "time": "klo",
+      "noAvailableTime": "Tälle päivälle ei ole varattavissa aikoja.",
       "meetingType": {
         "title": "Varaan ajan",
-        "phone": "PuhelinKeskusteluun",
+        "phone": "Puhelinkeskusteluun",
         "meeting": "Tapaamiseen"
       },
       "meetingLanguage": "Kieli",
