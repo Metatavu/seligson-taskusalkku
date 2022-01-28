@@ -103,26 +103,6 @@ const TransactionsListScreen: React.FC = () => {
   }, [ portfolios, selectedPortfolio ]);
 
   /**
-   * Renders transaction filter button
-   *
-   * TODO: add date filtering functionality
-   */
-  const renderFilterButton = (date?: Date) => () => (
-    <View>
-      <TouchableOpacity style={ styles.filterButton }>
-        <Text>
-          { date && moment(date).format("DD.MM.YYYY") }
-        </Text>
-        <Icon
-          name="calendar"
-          size={ 20 }
-          color={ theme.colors.grey.A400 }
-        />
-      </TouchableOpacity>
-    </View>
-  );
-
-  /**
    * Renders date pickers
    *
    * TODO: add date filtering functionality
@@ -130,9 +110,9 @@ const TransactionsListScreen: React.FC = () => {
   const renderStartDatePicker = () => (
     <>
       <DatePicker
+        mode="date"
         date={ startDate || new Date() }
         onDateChange={ setStartDate }
-        render={ renderFilterButton(startDate) }
       />
     </>
   );
@@ -145,10 +125,10 @@ const TransactionsListScreen: React.FC = () => {
   const renderEndDatePicker = () => (
     <>
       <DatePicker
+        mode="date"
         date={ endDate || new Date() }
         onDateChange={ setEndDate }
         startDate={ startDate }
-        render={ renderFilterButton(endDate) }
       />
     </>
   );

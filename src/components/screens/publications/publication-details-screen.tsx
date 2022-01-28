@@ -14,6 +14,7 @@ import { Title, Button } from "react-native-paper";
 import moment from "moment";
 import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
+import BackButton from "../../generic/back-button";
 
 /**
  * Publication details screen component
@@ -109,18 +110,7 @@ const PublicationDetailsScreen: React.FC = () => {
       colors={[ "transparent", "rgba(0,0,0,0.1)" ]}
       style={{ flex: 1 }}
     >
-      <View style={ styles.buttonContainer }>
-        <Button
-          icon="arrow-left-circle"
-          onPress={ navigation.goBack }
-          labelStyle={{ color: "#fff" }}
-          style={ styles.backButton }
-        >
-          <Text style={{ color: "#fff" }}>
-            { strings.generic.back }
-          </Text>
-        </Button>
-      </View>
+      <BackButton/>
       { renderContent() }
     </LinearGradient>
   );

@@ -40,10 +40,8 @@ const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: 
 
   buttonRow: {
     width: "100%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginTop: theme.spacing(1),
-    alignItems: "center"
+    flexDirection: "column",
+    flexWrap: "nowrap"
   },
 
   button: {
@@ -51,9 +49,18 @@ const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: 
     borderRadius: 25,
     borderWidth: 1,
     borderColor: theme.colors.primary,
-
     flex: 1,
-    minWidth: "50%"
+    margin: theme.spacing(1),
+    marginBottom: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3
+
   },
   
   cardContent: {

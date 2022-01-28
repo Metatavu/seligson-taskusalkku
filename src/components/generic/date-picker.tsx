@@ -3,7 +3,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Modal, Platform, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { IOSMode } from "../../types";
-import styles from "../../styles/screens/meeting/meeting-times-screen";
+import styles from "../../styles/generic/date-picker";
 import { Button } from "react-native-paper";
 import moment from "moment";
 
@@ -100,7 +100,7 @@ const DatePicker: React.FC<Props> = ({
    * Component render
    */
   return (
-    <View style={{ width: "100%" }}>
+    <View>
       <TouchableOpacity onPress={ () => setOpen(true) }>
         {
           render ?

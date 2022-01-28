@@ -12,6 +12,7 @@ import { TransactionType } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
 import moment from "moment";
+import BackButton from "../../generic/back-button";
 
 /**
  * Type for detail row
@@ -108,6 +109,7 @@ const TransactionDetailsScreen: React.FC = () => {
    */
   return (
     <View style={ styles.detailsScreen }>
+      <BackButton/>
       <View style={ styles.cardWrapper }>
         <View style={ styles.gradientContainer }>
           <LinearGradient
@@ -123,16 +125,6 @@ const TransactionDetailsScreen: React.FC = () => {
           { renderDetailRows() }
         </View>
       </View>
-      <Button
-        icon="arrow-left-circle"
-        onPress={ navigation.goBack }
-        labelStyle={{ color: "#fff" }}
-        style={ styles.backButton }
-      >
-        <Text style={{ color: "#fff" }}>
-          { strings.generic.back }
-        </Text>
-      </Button>
     </View>
   );
 };
