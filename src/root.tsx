@@ -13,6 +13,7 @@ import AuthenticationScreen from "./components/screens/authentication-screen";
 import { useAppSelector } from "./app/hooks";
 import { selectAuth } from "./features/auth/auth-slice";
 import RegistrationScreen from "./components/screens/registration-screen";
+import AuthUtils from "./utils/auth";
 
 /**
  * Root stack navigator
@@ -58,7 +59,7 @@ const Root: React.FC = () => {
       fontSize: 16
     },
     headerRight: () => {
-      if (!auth) {
+      if (!auth || AuthUtils.isAnonymousUser(auth)) {
         return null;
       }
 

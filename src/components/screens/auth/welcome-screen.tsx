@@ -1,7 +1,7 @@
 import React from "react";
 import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { anonymousAuthUpdate, authUpdate, selectAuth } from "../../../features/auth/auth-slice";
+import { authUpdate, selectAuth } from "../../../features/auth/auth-slice";
 import AuthNavigator from "../../../types/navigators/auth";
 import RootNavigator from "../../../types/navigators/root";
 import AuthUtils from "../../../utils/auth";
@@ -43,7 +43,7 @@ const WelcomeScreen: React.FC = () => {
   const anonymousLogin = async () => {
     try {
       const anonymousAuth = await AuthUtils.anonymousLogin();
-      dispatch(anonymousAuthUpdate(anonymousAuth));
+      anonymousAuth && dispatch(authUpdate(anonymousAuth));
     } catch (error) {
       errorContext.setError(strings.errorHandling.auth.login, error);
     }

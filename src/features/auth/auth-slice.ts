@@ -8,15 +8,13 @@ import AuthUtils from "../../utils/auth";
  */
 export interface AuthState {
   auth?: Authentication;
-  anonymousAuth?: Authentication;
 }
 
 /**
  * Initial auth state
  */
 const initialState: AuthState = {
-  auth: undefined,
-  anonymousAuth: undefined
+  auth: undefined
 };
 
 /**
@@ -28,11 +26,8 @@ export const authSlice = createSlice({
   reducers: {
     authUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
       const auth = payload;
-      auth && AuthUtils.saveOfflineToken(auth.refreshToken);
+      auth && !AuthUtils.isAnonymousUser(auth) && AuthUtils.saveOfflineToken(auth.refreshToken);
       state.auth = auth;
-    },
-    anonymousAuthUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
-      state.anonymousAuth = payload;
     },
     logout: state => {
       AuthUtils.removeOfflineToken();
@@ -44,7 +39,7 @@ export const authSlice = createSlice({
 /**
  * Auth actions from created auth slice
  */
-export const { authUpdate, anonymousAuthUpdate, logout } = authSlice.actions;
+export const { authUpdate, logout } = authSlice.actions;
 
 /**
  * Select authentication selector, used with useAppSelector custom hook defined for Redux store
@@ -53,14 +48,6 @@ export const { authUpdate, anonymousAuthUpdate, logout } = authSlice.actions;
  * @returns authentication from Redux store
  */
 export const selectAuth = (state: RootState) => state.auth.auth;
-
-/**
- * Select authentication selector, used with useAppSelector custom hook defined for Redux store
- *
- * @param state Redux store root state
- * @returns authentication from Redux store
- */
-export const selectAnonymousAuth = (state: RootState) => state.auth.anonymousAuth;
 
 /**
  * Reducer for auth slice

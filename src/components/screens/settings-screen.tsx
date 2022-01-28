@@ -117,7 +117,7 @@ const SettingsScreen: React.FC = () => {
    */
   const onLogout = async () => {
     dispatch(logout());
-    navigation.replace("home", { screen: "funds" });
+    navigation.replace("authentication", { screen: "welcome" });
   };
 
   /**

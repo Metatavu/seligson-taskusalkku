@@ -2,11 +2,20 @@
 import * as React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
-import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
+import { selectAuth } from "../../features/auth/auth-slice";
 import { CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, MeetingType } from "../../generated/client";
 import { MeetingsApiContextType } from "../../types";
 
-const initialMeeting: Meeting = { contact: { firstName: "", lastName: "" }, type: MeetingType.Meeting, language: "fi", participantCount: 0, time: new Date() };
+const initialMeeting: Meeting = {
+  contact: {
+    firstName: "",
+    lastName: ""
+  },
+  type: MeetingType.Meeting,
+  language: "fi",
+  participantCount: 0,
+  time: new Date()
+};
 
 /**
  * Portfolios api context initialization
@@ -23,7 +32,6 @@ export const MeetingsApiContext = React.createContext<MeetingsApiContextType>({
  */
 const MeetingsApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
-  const anonymousAuth = useAppSelector(selectAnonymousAuth);
 
   /**
    * Lists portfolios with given request parameters
@@ -33,11 +41,11 @@ const MeetingsApiProvider: React.FC = ({ children }) => {
    */
   const createMeeting = async (params: CreateMeetingRequest): Promise<Meeting> => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return await Api.getMeetingsApi(auth || anonymousAuth).createMeeting(params);
+      return await Api.getMeetingsApi(auth).createMeeting(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -51,11 +59,11 @@ const MeetingsApiProvider: React.FC = ({ children }) => {
    */
   const listMeetingTimes = async (params: ListMeetingTimesRequest): Promise<MeetingTime[]> => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return await Api.getMeetingsApi(auth || anonymousAuth).listMeetingTimes(params);
+      return await Api.getMeetingsApi(auth).listMeetingTimes(params);
     } catch (error) {
       return Promise.reject(error);
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { anonymousAuthUpdate, authUpdate, selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
+import { authUpdate, selectAuth } from "../../features/auth/auth-slice";
 import { AppState, AppStateStatus, Alert, View } from "react-native";
 import AuthUtils from "../../utils/auth";
 import strings from "../../localization/strings";
@@ -20,7 +20,6 @@ interface Props {
  * @param props component properties
  */
 const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
-  const anonymousAuth = useAppSelector(selectAnonymousAuth);
   const auth = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
 
@@ -47,21 +46,6 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   };
 
   /**
-   * Refresh anonymous user access token
-   */
-  const refreshAnonymousAuth = async () => {
-    try {
-      if (anonymousAuth && AuthUtils.needsRefresh(anonymousAuth)) {
-        const refreshedToken = await AuthUtils.tryToRefresh(anonymousAuth.refreshToken, anonymousAuth);
-        dispatch(anonymousAuthUpdate(refreshedToken));
-      }
-    } catch {
-      // eslint-disable-next-line no-console
-      console.error("Failed to refresh anonymous access token");
-    }
-  };
-
-  /**
    * Refresh logged in user access token
    */
   const refreshAuth = async () => {
@@ -82,7 +66,6 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
    */
   const handleAppStateChange = async (nextAppState: AppStateStatus) => {
     if (appState.match(/inactive|background/) && nextAppState === "active") {
-      refreshAnonymousAuth();
       refreshAuth();
     }
 
@@ -93,7 +76,6 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
    * Interval for refreshing authentication
    */
   useInterval(() => {
-    refreshAnonymousAuth();
     refreshAuth();
   }, 20 * 1000);
 

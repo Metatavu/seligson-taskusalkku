@@ -2,11 +2,9 @@
 import React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
-import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
+import { selectAuth } from "../../features/auth/auth-slice";
 import { FindSecurityRequest, ListSecuritiesRequest, ListSecurityHistoryValuesRequest, Security, SecurityHistoryValue } from "../../generated/client";
-import TestData from "../../resources/test-data";
 import { SecuritiesApiContextType } from "../../types";
-import AuthUtils from "../../utils/auth";
 
 const initialSecurity: Security = {
   id: "",
@@ -34,7 +32,6 @@ export const SecuritiesApiContext = React.createContext<SecuritiesApiContextType
  */
 const SecuritiesApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
-  const anonymousAuth = useAppSelector(selectAnonymousAuth);
 
   /**
    * Lists securities with given request parameters
@@ -44,13 +41,11 @@ const SecuritiesApiProvider: React.FC = ({ children }) => {
    */
   const listSecurities = async (params: ListSecuritiesRequest) => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth || anonymousAuth) ?
-        TestData.listTestSecurities(20) :
-        await Api.getSecuritiesApi(auth || anonymousAuth).listSecurities(params);
+      return await Api.getSecuritiesApi(auth).listSecurities(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -64,11 +59,11 @@ const SecuritiesApiProvider: React.FC = ({ children }) => {
    */
   const findSecurity = async (params: FindSecurityRequest): Promise<Security> => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return await Api.getSecuritiesApi(auth || anonymousAuth).findSecurity(params);
+      return await Api.getSecuritiesApi(auth).findSecurity(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -82,11 +77,11 @@ const SecuritiesApiProvider: React.FC = ({ children }) => {
    */
   const listSecurityHistoryValues = async (params: ListSecurityHistoryValuesRequest): Promise<SecurityHistoryValue[]> => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return await Api.getSecuritiesApi(auth || anonymousAuth).listSecurityHistoryValues(params);
+      return await Api.getSecuritiesApi(auth).listSecurityHistoryValues(params);
     } catch (error) {
       return Promise.reject(error);
     }

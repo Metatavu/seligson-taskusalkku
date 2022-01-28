@@ -14,6 +14,7 @@ import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
 import TransactionsScreen from "../portfolio/transactions-screen";
 import { Dimensions } from "react-native";
+import AuthUtils from "../../../utils/auth";
 
 /**
  * Portfolio screen tab navigation
@@ -27,7 +28,7 @@ const PortfolioScreen: React.FC = () => {
   const { colors } = useTheme();
   const auth = useAppSelector(selectAuth);
 
-  if (!auth) {
+  if (!auth || AuthUtils.isAnonymousUser(auth)) {
     return <LoginRequiredScreen/>;
   }
 

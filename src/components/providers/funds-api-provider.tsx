@@ -2,7 +2,7 @@
 import React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
-import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
+import { selectAuth } from "../../features/auth/auth-slice";
 import { FindFundRequest, Fund, ListFundsRequest } from "../../generated/client";
 import { FundsApiContextType } from "../../types";
 
@@ -23,7 +23,6 @@ export const FundsApiContext = React.createContext<FundsApiContextType>({
  */
 const FundsApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
-  const anonymousAuth = useAppSelector(selectAnonymousAuth);
 
   /**
    * Lists funds with given request parameters
@@ -33,11 +32,11 @@ const FundsApiProvider: React.FC = ({ children }) => {
    */
   const listFunds = async (params: ListFundsRequest): Promise<Fund[]> => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return await Api.getFundsApi(auth || anonymousAuth).listFunds(params);
+      return await Api.getFundsApi(auth).listFunds(params);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -51,11 +50,11 @@ const FundsApiProvider: React.FC = ({ children }) => {
    */
   const findFund = async (params: FindFundRequest): Promise<Fund> => {
     try {
-      if (!anonymousAuth) {
+      if (!auth) {
         throw new Error("No access token");
       }
 
-      return await Api.getFundsApi(auth || anonymousAuth).findFund(params);
+      return await Api.getFundsApi(auth).findFund(params);
     } catch (error) {
       return Promise.reject(error);
     }

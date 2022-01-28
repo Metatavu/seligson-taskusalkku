@@ -14,7 +14,7 @@ const ANONYMOUS_ROLE = "anonymous";
 const DEMO_ROLE = "demo";
 
 /** Access token refresh slack */
-const ACCESS_TOKEN_REFRESH_SLACK = 60;
+const ACCESS_TOKEN_REFRESH_SLACK = 60 * 5;
 
 /**
  * Utility class for authentication
@@ -171,8 +171,7 @@ namespace AuthUtils {
   export const tryToRefresh = async (refreshToken: string, auth?: Authentication): Promise<Authentication> => {
     try {
       const { clientId, scopes, anonymousScopes, serviceConfiguration } = Config.getStatic().auth;
-
-      if (!clientId || !scopes || !anonymousScopes || !serviceConfiguration) {
+      if (!auth || !clientId || !scopes || !anonymousScopes || !serviceConfiguration) {
         throw new Error("Configuration not in place");
       }
 
