@@ -76,9 +76,7 @@ namespace ChartUtils {
    *
    * @param date date
    */
-  export const getDateKey = (date: Date) => (
-    moment(date).format("YYYY-MM-DD")
-  );
+  export const getDateKey = (date: Date) => moment(date).format("YYYY-MM-DD");
 
   /**
    * Translates list of history value lists to list of history value maps
