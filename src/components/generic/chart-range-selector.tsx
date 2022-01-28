@@ -12,6 +12,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
  */
 interface Props {
   selectedRange: Date[] | ChartRange;
+  loading?: boolean;
   onDateRangeChange: (newRange: Date[] | ChartRange) => void;
 }
 
@@ -20,7 +21,7 @@ interface Props {
  *
  * @param props component properties
  */
-const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange }) => {
+const ChartRangeSelector: React.FC<Props> = ({ selectedRange, loading, onDateRangeChange }) => {
   const [ showDateInputs, setShowDateInputs ] = React.useState(false);
   const [ datePickerOpen, setDatePickerOpen ] = React.useState(false);
   const [ settingStartDate, setSettingStartDate ] = React.useState(true);
@@ -49,6 +50,7 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange 
     if (type === "dismissed") {
       return;
     }
+
     const date = moment(nativeEvent.timestamp).toDate();
     settingStartDate ? setStartDate(date) : setEndDate(date);
   };
@@ -83,6 +85,7 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange 
         mode="outlined"
         uppercase={ false }
         compact
+        disabled={ loading }
         onPress={ onRangeChange(range) }
         style={[ styles.dateRangeButton, selected && styles.dateRangeButtonSelected ]}
         labelStyle={[ styles.dateRangeButtonText, selected && styles.dateRangeButtonTextSelected ]}
@@ -161,8 +164,16 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, onDateRangeChange 
         is24Hour
         display="default"
         onChange={ onDateChange }
-        maximumDate={ settingStartDate ? endDate : new Date() }
-        minimumDate={ settingStartDate ? undefined : startDate }
+        maximumDate={
+          settingStartDate ?
+            moment(endDate).subtract(1, "week").toDate() :
+            new Date()
+        }
+        minimumDate={
+          settingStartDate ?
+            undefined :
+            moment(startDate).add(1, "week").toDate()
+        }
       />
     );
   };

@@ -19,7 +19,7 @@ const ACCESS_TOKEN_REFRESH_SLACK = 60;
 /**
  * Utility class for authentication
  */
-class AuthUtils {
+namespace AuthUtils {
 
   /**
    * Create authentication object from fetch response
@@ -27,7 +27,7 @@ class AuthUtils {
    * @param tokenResponse token response
    * @returns authentication object or undefined if token response does not contain access or refresh token
    */
-  public static createAuthFromKeycloakTokenFetchResponse = (tokenResponse?: any): Authentication | undefined => {
+  export const createAuthFromKeycloakTokenFetchResponse = (tokenResponse?: any): Authentication | undefined => {
     if (!tokenResponse) {
       return undefined;
     }
@@ -48,7 +48,7 @@ class AuthUtils {
    * @param expiresIn expires in
    * @returns created authentication object or undefined
    */
-  public static createAuthentication = (
+  export const createAuthentication = (
     accessToken: string,
     refreshToken: string,
     expiresIn: number
@@ -78,7 +78,7 @@ class AuthUtils {
    * @param tokenResponse token response
    * @returns authentication object or undefined if token response does not contain access or refresh token
    */
-  public static createAuthFromExpoTokenResponse = (tokenResponse?: AuthSession.TokenResponse): Authentication | undefined => {
+  export const createAuthFromExpoTokenResponse = (tokenResponse?: AuthSession.TokenResponse): Authentication | undefined => {
     if (!tokenResponse) {
       return undefined;
     }
@@ -96,7 +96,7 @@ class AuthUtils {
    *
    * @param token token string
    */
-  public static saveOfflineToken = async (token: string) => {
+  export const saveOfflineToken = async (token: string) => {
     try {
       await SecureStore.setItemAsync(OFFLINE_TOKEN_KEY, token);
     } catch (error) {
@@ -109,7 +109,7 @@ class AuthUtils {
    *
    * @returns offline token if found or undefined
    */
-  public static retrieveOfflineToken = async () => {
+  export const retrieveOfflineToken = async () => {
     try {
       return await SecureStore.getItemAsync(OFFLINE_TOKEN_KEY) ?? undefined;
     } catch (error) {
@@ -121,7 +121,7 @@ class AuthUtils {
   /**
    * Removes offline token from Expo secure store
    */
-  public static removeOfflineToken = async () => {
+  export const removeOfflineToken = async () => {
     try {
       await SecureStore.deleteItemAsync(OFFLINE_TOKEN_KEY);
     } catch (error) {
@@ -134,7 +134,7 @@ class AuthUtils {
    *
    * @returns promise of Authentication object or undefined
    */
-  public static anonymousLogin = async (): Promise<Authentication | undefined> => {
+  export const anonymousLogin = async (): Promise<Authentication | undefined> => {
     const { auth, anonymousPassword } = Config.getStatic();
     const tokenEndpoint = auth.serviceConfiguration?.tokenEndpoint;
 
@@ -168,17 +168,18 @@ class AuthUtils {
    * @param auth authentication
    * @returns promise of refreshed authentication
    */
-  public static tryToRefresh = async (refreshToken: string): Promise<Authentication> => {
+  export const tryToRefresh = async (refreshToken: string, auth?: Authentication): Promise<Authentication> => {
     try {
-      const { clientId, scopes, serviceConfiguration } = Config.getStatic().auth;
-      if (!clientId || !scopes || !serviceConfiguration) {
+      const { clientId, scopes, anonymousScopes, serviceConfiguration } = Config.getStatic().auth;
+
+      if (!clientId || !scopes || !anonymousScopes || !serviceConfiguration) {
         throw new Error("Configuration not in place");
       }
 
       const tokenResponse = await AuthSession.refreshAsync(
         {
           clientId: clientId,
-          scopes: scopes,
+          scopes: AuthUtils.isAnonymousUser(auth) ? anonymousScopes : scopes,
           refreshToken: refreshToken
         },
         serviceConfiguration
@@ -192,7 +193,8 @@ class AuthUtils {
 
       return refreshedAuth;
     } catch (error) {
-      AuthUtils.removeOfflineToken();
+      !AuthUtils.isAnonymousUser(auth) && AuthUtils.removeOfflineToken();
+
       console.warn(JSON.stringify(error, null, 2));
       return Promise.reject(error);
     }
@@ -203,7 +205,7 @@ class AuthUtils {
    *
    * @returns if authentication needs refreshing or not
    */
-  public static needsRefresh = ({ expiresAt }: Authentication): boolean => {
+  export const needsRefresh = ({ expiresAt }: Authentication): boolean => {
     if (!expiresAt) {
       return false;
     }
@@ -218,7 +220,7 @@ class AuthUtils {
    *
    * @param token token to logout
    */
-  public static logout = async (token: string) => {
+  export const logout = async (token: string) => {
     try {
       const { scopes, serviceConfiguration } = Config.getStatic().auth;
       if (!scopes || !serviceConfiguration) {
@@ -243,7 +245,7 @@ class AuthUtils {
    * @param auth auth state
    * @returns does user have demo role
    */
-  public static isDemoUser = (auth?: Authentication): boolean => {
+  export const isDemoUser = (auth?: Authentication): boolean => {
     return !!auth?.roles.realm.includes(DEMO_ROLE);
   };
 
@@ -253,7 +255,7 @@ class AuthUtils {
    * @param auth auth state
    * @returns does user have anonymous role
    */
-  public static isAnonymousUser = (auth?: Authentication): boolean => {
+  export const isAnonymousUser = (auth?: Authentication): boolean => {
     return !!auth?.roles.realm?.includes(ANONYMOUS_ROLE);
   };
 

@@ -41,10 +41,6 @@ const PortfolioProvider: React.FC = ({ children }) => {
    * Lists portfolios
    */
   const fetchPortfolios = async () => {
-    if (!auth) {
-      return;
-    }
-
     try {
       setPortfolios(await portfoliosApiContext.listPortfolios());
     } catch (error) {

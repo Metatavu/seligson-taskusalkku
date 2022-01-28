@@ -16,8 +16,8 @@ namespace Injectables {
     <html>
       <head>
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.3.0/luxon.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-luxon/1.1.0/chartjs-adapter-luxon.min.js"></script>
       </head>
       <body style="background-color: ${backgroundColor}">
@@ -42,7 +42,14 @@ namespace Injectables {
   ) => `
     try {
       luxon.Settings.defaultLocale = "${language}";
+
+      const existingChart = Chart.getChart("history-value-chart");
+      if (existingChart) {
+        existingChart.destroy();
+      }
+
       const canvas = document.getElementById("history-value-chart");
+
       Chart.defaults.font.size = 12;
       Chart.defaults.color = "white";
       Chart.defaults.backgroundColor = "${chartColor}20";
@@ -98,21 +105,27 @@ namespace Injectables {
               type: "time",
               time: {
                 displayFormats: {
-                  day: "D"
+                  day: "D",
+                  month: "LLL y"
                 }
               },
               ticks: {
-                maxRotation: 0
+                maxRotation: 0,
+                autoSkipPadding: 16
               }
             },
             y: {
               grace: "50%",
               ticks: {
+                precision: 3,
                 format: {
                   style: "currency",
-                  currency: "${valueCurrency}",
-                  minimumSignificantDigits: 3
+                  currency: "${valueCurrency}"
                 }
+              },
+              afterBuildTicks: axis => {
+                axis.ticks = axis.ticks.filter(tick => tick.value >= 0);
+                if (axis.min < 0) axis.min = 0;
               }
             }
           }

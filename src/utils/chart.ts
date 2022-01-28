@@ -72,26 +72,82 @@ namespace ChartUtils {
   );
 
   /**
+   * Returns string key from given date
+   *
+   * @param date date
+   */
+  export const getDateKey = (date: Date) => (
+    moment(date).format("YYYY-MM-DD")
+  );
+
+  /**
+   * Translates list of history value lists to list of history value maps
+   *
+   * @param lists history value lists
+   * @returns list of maps with date string keys and history value string values
+   */
+  export const translateToMaps = (lists: (PortfolioHistoryValue[] | SecurityHistoryValue[])[]): Map<string, string>[] => {
+    const maps: Map<string, string>[] = [];
+
+    lists.forEach(list => {
+      const map = new Map<string, string>();
+
+      list.forEach(({ date, value }) => {
+        date && value && map.set(getDateKey(date), value.toString());
+      });
+
+      maps.push(map);
+    });
+
+    return maps;
+  };
+
+  /**
+   * Returns all available keys from given list of history value lists
+   *
+   * @param lists list of lists
+   * @returns list of keys
+   */
+  export const getAvailableKeys = (lists: (PortfolioHistoryValue[] | SecurityHistoryValue[])[]): string[] => (
+    lists
+      .reduce<SecurityHistoryValue[]>((longest, value) => (value.length > longest.length ? value : longest), [])
+      .reduce<string[]>((list, { date }) => (date ? [ ...list, getDateKey(date) ] : list), [])
+  );
+
+  /**
    * Aggregates list of historical data lists into single list of historical values
    *
    * @param values list of historical data lists
    * @returns aggregated list of historical values
    */
-  export const aggregateHistoricalData = (values: (PortfolioHistoryValue | SecurityHistoryValue)[][]): SecurityHistoryValue[] => {
-    const historicalValueMaps = values.map(list => (
-      list.reduce((map, { date, value }) => (
-        date && value ? map.set(getDisplayDate(date, "DD-MM-YYYY"), value.toString()) : map
-      ), new Map())
-    ));
+  export const getAggregatedHistoryValues = (valueLists: (PortfolioHistoryValue | SecurityHistoryValue)[][]): SecurityHistoryValue[] => {
+    const availableKeys = getAvailableKeys(valueLists);
+    const historyValueMaps = translateToMaps(valueLists);
 
-    const longestArray = values.reduce((longest, value) => (value.length > longest.length ? value : longest), []);
+    const aggregatedHistoryValues: SecurityHistoryValue[] = [];
+    const lastExistingValues: string[] = Array.from(new Array(availableKeys.length), () => "");
 
-    return longestArray.map(({ date }) => ({
-      date: date,
-      value: historicalValueMaps.reduce((sum, map) => (
-        !date ? sum : new BigNumber(sum).plus(map.get(getDisplayDate(date, "DD-MM-YYYY")) || 0).toString()
-      ), "0")
-    }));
+    availableKeys.forEach(key => {
+      const aggregatedValue = historyValueMaps.reduce((sum, map, mapIndex) => {
+        const previousValue = lastExistingValues[mapIndex];
+        const currentValue = map.get(key);
+
+        if (currentValue) {
+          lastExistingValues[mapIndex] = currentValue;
+        }
+
+        return new BigNumber(sum)
+          .plus(currentValue || previousValue || 0)
+          .toString();
+      }, "0");
+
+      aggregatedHistoryValues.push({
+        date: new Date(key),
+        value: aggregatedValue
+      });
+    });
+
+    return aggregatedHistoryValues;
   };
 
   /**

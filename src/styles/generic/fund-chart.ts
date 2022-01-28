@@ -34,12 +34,15 @@ export default StyleSheet.create({
 
   dateRangeButtonText: {
     color: "#fff",
-    fontSize: 10
+    fontSize: 10,
+    marginVertical: 0,
+    marginHorizontal: 0,
+    padding: 8
   },
 
   dateRangeButtonTextSelected: {
     color: "#3E3F44",
-    fontSize: 12
+    fontSize: 10
   }
 
 });
