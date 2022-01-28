@@ -5,11 +5,18 @@ export default StyleSheet.create({
 
   subscriptionCard: {
     padding: theme.spacing(2),
-    marginTop: theme.spacing(1),
-    overflow: "hidden"
+    width: "100%",
+    elevation: 8,
+    borderRadius: 25,
+    borderTopRightRadius: 0,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5
   },
 
-  fundTitle: {
+  fundTitleContainer: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
@@ -17,16 +24,20 @@ export default StyleSheet.create({
     marginBottom: theme.spacing(2)
   },
 
+  fundTitle: {
+    fontSize: 16
+  },
+
   fundColor: {
-    height: 20,
-    width: 20,
+    height: "100%",
+    width: theme.spacing(1),
     borderRadius: 10,
     marginRight: theme.spacing(1)
   },
 
   backButton: {
     backgroundColor: theme.colors.primary,
-    borderRadius: 0
+    borderRadius: 25
   },
 
   primaryLabel: {

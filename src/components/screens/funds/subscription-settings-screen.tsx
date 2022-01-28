@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { Card, Divider, Button, TextInput, useTheme, Snackbar } from "react-native-paper";
+import { Card, Button, TextInput, useTheme, Snackbar } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/subscription-settings";
@@ -18,6 +18,7 @@ import { Portfolio } from "../../../generated/client";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DatePicker from "../../generic/date-picker";
 import CopyText from "../../generic/copy-text";
+import BackButton from "../../generic/back-button";
 
 /**
  * Subscription settings screen component
@@ -155,7 +156,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
       const fundBankOptions: SubscriptionOption[] = fund.subscriptionBankAccounts?.map(subscriptionBankAccount => ({
         key: subscriptionBankAccount.iBAN || "",
-        label: subscriptionBankAccount.bankAccountName || "",
+        label: subscriptionBankAccount.bankAccountName.split("/ ")[1] || "",
         value: subscriptionBankAccount.iBAN || ""
       })) || [];
 
@@ -228,15 +229,14 @@ const SubscriptionSettingsScreen: React.FC = () => {
    */
   const renderFundTitle = () => (
     <>
-      <View style={ styles.fundTitle }>
+      <View style={ styles.fundTitleContainer }>
         <View
           style={{ ...styles.fundColor, backgroundColor: fund.color }}
         />
-        <Text style={{ flexWrap: "wrap" }}>
+        <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
           { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
         </Text>
       </View>
-      <Divider/>
     </>
   );
 
@@ -334,7 +334,6 @@ const SubscriptionSettingsScreen: React.FC = () => {
         { renderLabel() }
         { renderContent() }
       </View>
-      <Divider/>
     </>
   );
 
@@ -480,16 +479,16 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Renders fund subscription content
    */
   const renderContent = () => (
-    <View style={{ padding: theme.spacing(2) }}>
+    <View style={{ padding: theme.spacing(2), marginBottom: theme.spacing(6) }}>
       <Card style={ styles.subscriptionCard }>
         { renderFundTitle() }
-        <Text>
+        <Text style={{ marginBottom: theme.spacing(2) }}>
           { strings.subscription.settingsDescription }
         </Text>
         { renderSettingsContent() }
         <Button
           disabled={ !validateSettings() }
-          icon="arrow-left-circle"
+          icon="barcode"
           labelStyle={{ color: "#fff" }}
           style={{ ...styles.backButton, marginTop: theme.spacing(3) }}
           onPress={ onCreateBarCode }
@@ -507,16 +506,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
    */
   return (
     <>
-      <Button
-        icon="arrow-left-circle"
-        onPress={ navigation.goBack }
-        labelStyle={{ color: "#fff" }}
-        style={ styles.backButton }
-      >
-        <Text style={{ color: "#fff" }}>
-          { strings.generic.back }
-        </Text>
-      </Button>
+      <BackButton/>
       <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
         <ScrollView>
           { renderContent() }
