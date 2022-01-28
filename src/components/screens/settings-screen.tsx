@@ -98,9 +98,9 @@ const SettingsScreen: React.FC = () => {
   };
 
   /**
-   * Removes local values
+   * Event handler for log out press
    */
-  const removeLocalValues = async () => {
+  const onLogout = async () => {
     dispatch(logout());
     await Promise.all([
       AuthUtils.removeOfflineToken(),
@@ -110,14 +110,6 @@ const SettingsScreen: React.FC = () => {
     ]);
 
     navigation.replace("registration", { screen: "languageSelection" });
-  };
-
-  /**
-   * Event handler for logout press
-   */
-  const onLogout = async () => {
-    dispatch(logout());
-    navigation.replace("home", { screen: "funds" });
   };
 
   /**
@@ -212,24 +204,6 @@ const SettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders remove local values button if development environmental variables is set to true.
-   * Used only for debugging purposes
-   */
-  const renderRemoveLocalValues = () => {
-    if (developmentBuild) {
-      return (
-        <Button onPress={ removeLocalValues } style={ styles.backButton }>
-          <Text style={ styles.buttonText }>
-            RESET LOCAL VALUES
-          </Text>
-        </Button>
-      );
-    }
-
-    return null;
-  };
-
-  /**
    * Component render
    */
   return (
@@ -245,7 +219,6 @@ const SettingsScreen: React.FC = () => {
             { strings.generic.logout }
           </Text>
         </Button>
-        { renderRemoveLocalValues() }
       </ScrollView>
       <PinInput
         inputOpen={ pinInputOpen }
