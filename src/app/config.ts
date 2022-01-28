@@ -40,6 +40,7 @@ class Config {
       auth: {
         clientId: env.REACT_APP_KEYCLOAK_CLIENT_ID,
         scopes: [ "openid", "profile", "offline_access" ],
+        anonymousScopes: [ "openid", "profile" ],
         issuer: issuer,
         serviceConfiguration: {
           tokenEndpoint: `${issuer}/protocol/openid-connect/token`,

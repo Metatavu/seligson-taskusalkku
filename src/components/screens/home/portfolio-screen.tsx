@@ -42,6 +42,7 @@ const PortfolioScreen: React.FC = () => {
         backBehavior="history"
         screenOptions={{
           lazy: true,
+          swipeEnabled: false,
           tabBarActiveTintColor: colors.surface,
           tabBarPressColor: colors.surface,
           tabBarStyle: {

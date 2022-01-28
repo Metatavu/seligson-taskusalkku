@@ -1,17 +1,19 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, View, Text } from "react-native";
+import { ActivityIndicator, GestureResponderEvent, ScrollView, View } from "react-native";
 import FundCard from "../../generic/fund-card";
 import FundDetails from "../../generic/fund-details";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { Button } from "react-native-paper";
+import { Button, Paragraph } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
-import { ChartRange, VictoryChartData } from "../../../types";
+import { ChartRange } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import ChartUtils from "../../../utils/chart";
+import HistoryValueChart from "../../generic/history-value-chart";
+import { SecurityHistoryValue } from "../../../generated/client";
 import ChartRangeSelector from "../../generic/chart-range-selector";
 
 /**
@@ -25,8 +27,10 @@ const FundDetailsScreen: React.FC = () => {
   const fund = params?.fund;
 
   const [ loading, setLoading ] = React.useState(true);
+  const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
+  const [ currency, setCurrency ] = React.useState<string>();
   const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
-  const [ historicalData, setHistoricalData ] = React.useState<VictoryChartData[]>([]);
+  const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   if (!fund) {
     return null;
@@ -63,14 +67,16 @@ const FundDetailsScreen: React.FC = () => {
 
       const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
 
-      const historyValues = await securitiesContext.listSecurityHistoryValues({
-        securityId: aSecurity.id,
-        maxResults: 10000,
-        startDate: startDate,
-        endDate: endDate
-      });
+      setCurrency(aSecurity.currency);
 
-      setHistoricalData(ChartUtils.convertToVictoryChartData(historyValues));
+      setHistoryValues(
+        await securitiesContext.listSecurityHistoryValues({
+          securityId: aSecurity.id,
+          maxResults: 10000,
+          startDate: startDate,
+          endDate: endDate
+        })
+      );
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
@@ -79,31 +85,60 @@ const FundDetailsScreen: React.FC = () => {
   };
 
   /**
+   * Toggles scrolling
+   *
+   * @param enabled enabled
+   */
+  const toggleScroll = (enabled: boolean) => (event: GestureResponderEvent) => {
+    setScrollEnabled(enabled);
+    event.preventDefault();
+  };
+
+  /**
    * Effect for loading history data when selected fund changes
    */
   React.useEffect(() => { loadHistoryData(); }, [ fund, selectedRange ]);
 
   /**
-   * Renders content
+   * Renders history value chart
    */
-  const renderContent = () => {
+  const renderChart = () => {
     if (loading) {
       return (
-        <View>
+        <View style={ styles.loaderContainer }>
           <ActivityIndicator size="large" color={ theme.colors.primary }/>
         </View>
       );
     }
 
     return (
+      <HistoryValueChart
+        historyValues={ historyValues }
+        color={ fund.color }
+        currency={ currency }
+        onChartTouch={ toggleScroll(false) }
+      />
+    );
+  };
+
+  /**
+   * Renders content
+   */
+  const renderContent = () => {
+    return (
       <>
-        <View style={ styles.chart }>
+        <View style={[ styles.chart, !scrollEnabled && styles.focused ]}>
           <ChartRangeSelector
             selectedRange={ selectedRange }
+            loading={ loading }
             onDateRangeChange={ setSelectedRange }
           />
+          { renderChart() }
         </View>
-        <View style={ styles.detailsWrapper }>
+        <View
+          style={ styles.detailsWrapper }
+          onTouchStart={ toggleScroll(true) }
+        >
           <FundCard fund={ fund }/>
           <FundDetails
             fund={ fund }
@@ -125,11 +160,15 @@ const FundDetailsScreen: React.FC = () => {
         labelStyle={{ color: "#fff" }}
         style={ styles.backButton }
       >
-        <Text style={{ color: "#fff" }}>
+        <Paragraph style={{ color: "#fff" }}>
           { strings.generic.back }
-        </Text>
+        </Paragraph>
       </Button>
-      <ScrollView>
+      <ScrollView
+        scrollEventThrottle={ 16 }
+        scrollEnabled={ scrollEnabled }
+        overScrollMode="never"
+      >
         { renderContent() }
       </ScrollView>
     </>

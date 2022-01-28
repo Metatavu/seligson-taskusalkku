@@ -12,6 +12,12 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
 
+  chartLoaderContainer: {
+    height: 200,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
   scrollView: {
     flex: 1
   },
@@ -21,7 +27,7 @@ export default StyleSheet.create({
   },
 
   overview: {
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(1),
     backgroundColor: theme.colors.backgroundDark,
     display: "flex"
   },
@@ -39,18 +45,15 @@ export default StyleSheet.create({
   },
 
   totalText: {
-    color: "white",
     fontSize: 25
   },
 
   purchaseText: {
-    fontSize: 14,
-    color: "white"
+    fontSize: 14
   },
 
   purchaseValue: {
     fontSize: 14,
-    color: "white",
     ...theme.fonts.medium
   },
 
@@ -71,9 +74,19 @@ export default StyleSheet.create({
   },
 
   chart: {
-    borderTopLeftRadius: 30,
     padding: theme.spacing(1),
     backgroundColor: theme.colors.backgroundDark
+  },
+
+  focused: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+    elevation: 24
   },
 
   details: {
