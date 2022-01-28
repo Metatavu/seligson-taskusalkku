@@ -401,6 +401,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
    */
   const renderDueDatePicker = () => (
     <DatePicker
+      mode="date"
       date={ subscriptionSettings.dueDate }
       startDate={ new Date() }
       onDateChange={ onSubscriptionDueDateChange }
