@@ -37,9 +37,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    */
   const renderFundTitle = () => (
     <View style={ styles.fundTitleContainer }>
-      <View
-        style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}
-      />
+      <View style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}/>
       <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
         { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
       </Text>
