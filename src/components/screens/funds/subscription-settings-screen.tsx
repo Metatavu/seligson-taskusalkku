@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { Card, Button, TextInput, useTheme, Snackbar } from "react-native-paper";
+import { Card, Button, TextInput, useTheme, Snackbar, Divider } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/subscription-settings";
@@ -422,6 +422,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           bankOptions.find(option => option.key === subscriptionSettings.iBAN)
         )
       }
+      <Divider/>
       {
         renderDataRow(
           () => (
@@ -432,6 +433,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           () => renderCopyText(GenericUtils.getLocalizedValue(fund.name))
         )
       }
+      <Divider style={{ marginBottom: theme.spacing(2) }}/>
       {
         renderSelectWithLabel(
           strings.subscription.portfolio,
@@ -442,6 +444,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           portfolioOptions.find(option => option.key === subscriptionSettings.portfolio?.id)
         )
       }
+      <Divider/>
       {
         renderDataRow(
           () => (
@@ -452,6 +455,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           renderSumInput
         )
       }
+      <Divider style={{ marginBottom: theme.spacing(2) }}/>
       {
         renderSelectWithLabel(
           strings.subscription.shareType,
@@ -462,6 +466,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
           referenceOptions.find(option => option.key === subscriptionSettings.shareType)
         )
       }
+      <Divider/>
       {
         renderDataRow(
           () => (
