@@ -174,6 +174,43 @@ export interface PortfolioSecurityCategory {
 }
 
 /**
+ * Reference type of portfolio
+ */
+export enum PORTFOLIO_REFERENCE_TYPE {
+  A = "A",
+  B = "B"
+}
+
+/**
+ * Drop down option
+ */
+export interface SubscriptionOption {
+  key: string;
+  label: string;
+  description?: string;
+  value: string;
+}
+
+/**
+ * Subscription settings
+ */
+export interface SubscriptionSettings {
+  bankName?: string;
+  iBAN?: string;
+  referenceNumber?: string;
+  portfolio?: Portfolio;
+  shareType: PORTFOLIO_REFERENCE_TYPE;
+  dueDate: Date;
+  sum: string;
+  fund: Fund;
+}
+
+/**
+ * Date picker mode type
+ */
+export type IOSMode = "date" | "time" | "datetime" | "countdown";
+
+/*
  * Date picker event data
  */
 export interface DatePickerEvent {

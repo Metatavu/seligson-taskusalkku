@@ -49,9 +49,17 @@ const FundDetailsScreen: React.FC = () => {
     setLoading(true);
 
     try {
-      const securities = await securitiesContext.listSecurities({ maxResults: 20000 });
-      const fundSecurities = securities.filter(security => security.fundId === fund.id);
-      const aSecurity = fundSecurities.length === 1 ? fundSecurities[0] : fundSecurities.find(security => security.name.fi.includes("(A)"));
+      const securities = await securitiesContext.listSecurities({
+        maxResults: 20000,
+        seriesId: 1,
+        fundId: fund.id
+      });
+
+      if (securities.length !== 1) {
+        throw new Error("Securities length wasn't 1");
+      }
+
+      const aSecurity = securities[0];
 
       if (!aSecurity?.id) {
         throw new Error("Could not find A security!");
@@ -132,7 +140,10 @@ const FundDetailsScreen: React.FC = () => {
           onTouchStart={ toggleScroll(true) }
         >
           <FundCard fund={ fund }/>
-          <FundDetails fund={ fund }/>
+          <FundDetails
+            fund={ fund }
+            onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
+          />
         </View>
       </>
     );

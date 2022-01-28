@@ -18,10 +18,7 @@ export default StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-
-  datePickerButton: {
-    width: 120
+    paddingBottom: theme.spacing(1)
   },
 
   meetingTime: {

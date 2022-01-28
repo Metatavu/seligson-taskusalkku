@@ -1,17 +1,23 @@
 import React from "react";
-import { View } from "react-native";
-import { Button, Divider, Text, useTheme } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Button, Divider, useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
 import strings from "../../localization/strings";
 import { Fund } from "../../generated/client/models/Fund";
+import * as WebBrowser from "expo-web-browser";
+import { useAppSelector } from "../../app/hooks";
+import { selectSelectedLanguage } from "../../features/locale/locale-slice";
+import { LocalizedValue } from "../../generated/client";
+import { selectAuth } from "../../features/auth/auth-slice";
 
 /**
  * Component properties
  */
 interface Props {
   fund: Fund;
+  onSubscribePress: () => void;
 }
 
 /**
@@ -19,9 +25,22 @@ interface Props {
  *
  * @param props component properties
  */
-const FundDetails: React.FC<Props> = ({ fund }) => {
+const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
   const { color, aShareValue, bShareValue } = fund;
+  const auth = useAppSelector(selectAuth);
   const styles = fundDetailsStyles(useTheme(), color || "#fff");
+  const selectedLanguage = useAppSelector(selectSelectedLanguage);
+
+  /**
+   * Event handler for on brochure download press
+   */
+  const onBrochureDownload = async () => {
+    if (!fund.kIID) {
+      return;
+    }
+
+    await WebBrowser.openBrowserAsync(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
+  };
 
   /**
    * Renders my share
@@ -46,37 +65,39 @@ const FundDetails: React.FC<Props> = ({ fund }) => {
   /**
    * Renders action buttons
    */
-  const renderActionButtons = () => {
-    return (
-      <>
-        <View style={ styles.buttonRow }>
+  const renderActionButtons = () => (
+    <>
+      <View style={ styles.buttonRow }>
+        { auth &&
           <Button
             uppercase={ false }
             style={ styles.button }
+            onPress={ onSubscribePress }
           >
             { strings.fundDetailsScreen.buyFund }
           </Button>
-        </View>
-        <View style={ styles.buttonRow }>
-          {/* {lahiTapiola ? (
-            <Image
-            // eslint-disable-next-line global-require
-              source={ require("../../../assets/lt-logo-wide.png") }
-              resizeMode="contain"
-              style={ styles.logoWide }
-            />
-          ) : null} */}
-          <Button
-            icon="download"
-            uppercase={ false }
-            style={ styles.button }
-          >
-            { strings.fundDetailsScreen.downloadBrochure }
-          </Button>
-        </View>
-      </>
-    );
-  };
+        }
+      </View>
+      <View style={ styles.buttonRow }>
+        {/* {lahiTapiola ? (
+          <Image
+          // eslint-disable-next-line global-require
+            source={ require("../../../assets/lt-logo-wide.png") }
+            resizeMode="contain"
+            style={ styles.logoWide }
+          />
+        ) : null} */}
+        <Button
+          icon="download"
+          uppercase={ false }
+          style={ styles.button }
+          onPress={ onBrochureDownload }
+        >
+          { strings.fundDetailsScreen.downloadBrochure }
+        </Button>
+      </View>
+    </>
+  );
 
   /**
    * Component render
