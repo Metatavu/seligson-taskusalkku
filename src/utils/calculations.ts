@@ -109,16 +109,21 @@ namespace Calculations {
    * Gets summary info for list of portfolios
    *
    * @param summaries list of summaries
-   * @returns array that contains sum of subscriptions and redemptions
+   * @returns object that contains sum of subscriptions and redemptions
    */
-  export const getPortfolioSummaryInfo = (summaries: PortfolioSummary[]) => {
-    return summaries.reduce<[ string, string ]>(
-      ([ subscriptionsSum, redemptionsSum ], { subscriptions, redemptions }) => [
-        new BigNumber(subscriptionsSum).plus(subscriptions || 0).toString(),
-        new BigNumber(redemptionsSum).plus(redemptions || 0).toString()
-      ],
-      [ "0", "0" ]
-    );
+  export const getPortfolioSummaryInfo = (summaries: PortfolioSummary[]): { subscriptionsTotal: string, redemptionsTotal: string } => {
+    let subscriptionsTotal: string = "0";
+    let redemptionsTotal: string = "0";
+
+    summaries.forEach(summary => {
+      subscriptionsTotal = new BigNumber(subscriptionsTotal).plus(summary.subscriptions).toString();
+      redemptionsTotal = new BigNumber(redemptionsTotal).plus(summary.redemptions).toString();
+    });
+
+    return {
+      subscriptionsTotal: Calculations.formatNumberStr(subscriptionsTotal, 2, { suffix: " €" }),
+      redemptionsTotal: Calculations.formatNumberStr(redemptionsTotal, 2, { suffix: " €" })
+    };
   };
 
   /**

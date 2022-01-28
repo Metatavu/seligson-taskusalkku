@@ -1,6 +1,6 @@
 import React from "react";
-import { ScrollView, View, Text } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { GestureResponderEvent, ScrollView, View } from "react-native";
+import { ActivityIndicator, Paragraph, Title } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -16,20 +16,23 @@ import { PortfolioContext } from "../../providers/portfolio-provider";
 import PortfolioSelect from "./portfolio-select";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import theme from "../../../theme";
+import HistoryValueChart from "../../generic/history-value-chart";
 
 /**
  * Statistics screen component
  */
 const StatisticsScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
-  const { selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const focus = useIsFocused();
 
   const [ loading, setLoading ] = React.useState(true);
+  const [ historyLoading, setHistoryLoading ] = React.useState(false);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
-  const [ historicalData, setHistoricalData ] = React.useState<PortfolioHistoryValue[]>();
+  const [ historyValues, setHistoryValues ] = React.useState<PortfolioHistoryValue[]>();
   const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
+  const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   /**
    * Loads fund history
@@ -37,6 +40,8 @@ const StatisticsScreen: React.FC = () => {
    * @param range chart range
    */
   const loadHistoryData = async () => {
+    setHistoryLoading(true);
+
     const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
 
     try {
@@ -46,50 +51,51 @@ const StatisticsScreen: React.FC = () => {
             portfolioId: portfolio.id!,
             startDate: startDate,
             endDate: endDate
-          }, selectedRange)
+          })
         ))
       );
 
-      const skipValue = ChartUtils.getSkipValue(selectedRange);
-      const allValues: PortfolioHistoryValue[] = [];
-
-      portfolioHistoryValues.forEach(values => (
-        allValues.push(...Calculations.aggregateList(values, skipValue))
-      ));
-
       // TODO: Add support for securities dropdown selection
-      setHistoricalData(allValues);
+      setHistoryValues(ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
+
+    setHistoryLoading(false);
   };
 
   /**
-   * Loads own funds
+   * Load portfolio summaries
    */
   const loadSummaries = async () => {
     !summaries && setLoading(true);
-
-    const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
 
     try {
       const portfolioSummaries = await Promise.all(
         getEffectivePortfolios().map(({ id }) => (
           portfoliosApiContext.getPortfolioSummary({
             portfolioId: id!,
-            startDate: startDate,
-            endDate: endDate
+            ...ChartUtils.getDateFilters(selectedRange)
           })
         ))
       );
 
       setSummaries(portfolioSummaries);
-      loadHistoryData();
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
 
     setLoading(false);
+  };
+
+  /**
+   * Toggles scrolling
+   *
+   * @param enabled enabled
+   */
+  const toggleScroll = (enabled: boolean) => (event: GestureResponderEvent) => {
+    setScrollEnabled(enabled);
+    event.preventDefault();
   };
 
   /**
@@ -105,20 +111,31 @@ const StatisticsScreen: React.FC = () => {
   React.useEffect(() => {
     if (focus) {
       loadSummaries();
+      loadHistoryData();
     }
-  }, [ focus ]);
+  }, [ focus, portfolios ]);
 
   /**
    * Renders chart
    */
-  const renderChart = () => (
-    <View style={ styles.chart }>
-      <ChartRangeSelector
-        selectedRange={ selectedRange }
-        onDateRangeChange={ setSelectedRange }
+  const renderChart = () => {
+    if (historyLoading) {
+      return (
+        <View style={ styles.chartLoaderContainer }>
+          <ActivityIndicator size="large" color={ theme.colors.primary }/>
+        </View>
+      );
+    }
+
+    return (
+      <HistoryValueChart
+        historyValues={ historyValues || [] }
+        color={ theme.colors.primary }
+        currency="EUR"
+        onChartTouch={ toggleScroll(false) }
       />
-    </View>
-  );
+    );
+  };
 
   /**
    * Renders info row
@@ -128,59 +145,23 @@ const StatisticsScreen: React.FC = () => {
    */
   const renderDetailRow = (title: string, value: string) => (
     <View style={ styles.detailRow }>
-      <Text style={ styles.detailRowTitle }>
+      <Paragraph style={ styles.detailRowTitle }>
         { title }
-      </Text>
-      <Text style={ styles.detailRowValue }>
+      </Paragraph>
+      <Paragraph style={ styles.detailRowValue }>
         { value }
-      </Text>
+      </Paragraph>
     </View>
   );
 
   /**
    * Renders details
-   *
-   * TODO: Add summary filter when API spec includes portfolio ID for summaries
    */
   const renderDetails = () => {
-    if (!historicalData?.length) {
+    if (!historyValues?.length) {
       return null;
     }
 
-    const currentValue = historicalData[historicalData.length - 1].value;
-    const purchaseValue = historicalData[0].value;
-
-    const totalChangeAmount = Calculations.formatNumberStr(
-      Calculations.getTotalChangeAmount(purchaseValue, currentValue),
-      2,
-      { suffix: " €" }
-    );
-
-    const totalChangePercentage = Calculations.formatNumberStr(
-      Calculations.getTotalChangePercentage(purchaseValue, currentValue),
-      2,
-      { suffix: " %" }
-    );
-
-    const [ subscriptionsSum, redemptionsSum ] = Calculations.getPortfolioSummaryInfo(summaries || []);
-    const totalSubscriptions = Calculations.formatNumberStr(subscriptionsSum, 2, { suffix: " €" });
-    const totalRedemptions = Calculations.formatNumberStr(redemptionsSum, 2, { suffix: " €" });
-    const totalValue = Calculations.formatNumberStr(currentValue || "0", 2, { suffix: " €" });
-
-    return (
-      <View style={ styles.details }>
-        { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
-        { renderDetailRow(strings.portfolio.statistics.subscriptions, totalSubscriptions) }
-        { renderDetailRow(strings.portfolio.statistics.redemptions, totalRedemptions) }
-        { renderDetailRow(strings.portfolio.statistics.total, totalValue) }
-      </View>
-    );
-  };
-
-  /**
-   * Renders overview
-   */
-  const renderOverview = () => {
     const {
       marketValueTotal,
       purchaseTotal,
@@ -188,32 +169,32 @@ const StatisticsScreen: React.FC = () => {
       totalChangePercentage
     } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios());
 
+    const {
+      subscriptionsTotal,
+      redemptionsTotal
+    } = Calculations.getPortfolioSummaryInfo(summaries || []);
+
     return (
-      <View style={ styles.overview }>
-        <PortfolioSelect/>
-        <View style={[ styles.overviewRow, { justifyContent: "center" } ]}>
-          <Icon name="briefcase-outline" size={ 26 } color="white" style={ styles.totalIcon }/>
-          <Text style={[ styles.totalText ]}>
-            { marketValueTotal }
-          </Text>
-        </View>
-        <View style={[ styles.overviewRow, { justifyContent: "space-between" } ]}>
-          <View>
-            <Text style={ styles.purchaseText }>
-              { strings.portfolio.statistics.purchaseTotal }
-            </Text>
-            <Text style={ styles.purchaseValue }>
-              { purchaseTotal }
-            </Text>
+      <View style={ styles.card }>
+        <View
+          style={ styles.details }
+          onTouchStart={ toggleScroll(true) }
+        >
+          <View style={[ styles.overviewRow, { justifyContent: "center" } ]}>
+            <Icon
+              name="briefcase-outline"
+              color={ theme.colors.primary }
+              size={ 26 }
+              style={ styles.totalIcon }
+            />
+            <Title style={{ color: theme.colors.primary }}>
+              { marketValueTotal }
+            </Title>
           </View>
-          <View>
-            <Text style={ styles.purchaseText }>
-              { strings.portfolio.statistics.change }
-            </Text>
-            <Text style={ styles.purchaseValue }>
-              { `${totalChangeAmount}  |  ${totalChangePercentage}` }
-            </Text>
-          </View>
+          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, purchaseTotal) }
+          { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+          { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
+          { renderDetailRow(strings.portfolio.statistics.redemptions, redemptionsTotal) }
         </View>
       </View>
     );
@@ -235,13 +216,27 @@ const StatisticsScreen: React.FC = () => {
       <ScrollView
         style={ styles.scrollView }
         contentContainerStyle={ styles.scrollContentContainer }
+        scrollEnabled={ scrollEnabled }
       >
-        { renderOverview() }
-        <View style={ styles.cardWrapper }>
-          <View style={ styles.card }>
-            { renderChart() }
-            { renderDetails() }
-          </View>
+        <View
+          style={ styles.overview }
+          onTouchStart={ toggleScroll(true) }
+        >
+          <PortfolioSelect/>
+        </View>
+        <View style={[ styles.chart, !scrollEnabled && styles.focused ]}>
+          <ChartRangeSelector
+            selectedRange={ selectedRange }
+            loading={ loading }
+            onDateRangeChange={ setSelectedRange }
+          />
+          { renderChart() }
+        </View>
+        <View
+          style={ styles.cardWrapper }
+          onTouchStart={ toggleScroll(true) }
+        >
+          { renderDetails() }
         </View>
       </ScrollView>
     );

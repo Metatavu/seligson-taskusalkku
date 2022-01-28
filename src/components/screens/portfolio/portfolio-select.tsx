@@ -46,15 +46,15 @@ const PortfolioSelect: React.FC = () => {
     portfolioContext.onChange(portfolios.find(portfolio => portfolio.id === portfolioId));
   };
 
-  /**
-   * Renders content
-   */
-  const renderContent = () => {
-    if (!portfolios?.length) {
-      return null;
-    }
+  if (!portfolios?.length) {
+    return null;
+  }
 
-    return (
+  /**
+   * Component render
+   */
+  return (
+    <View style={ styles.portfolioSelect }>
       <DropDown
         list={[
           { label: strings.portfolio.select.all, value: "" },
@@ -89,15 +89,6 @@ const PortfolioSelect: React.FC = () => {
           underlineColor: "transparent"
         }}
       />
-    );
-  };
-
-  /**
-   * Component render
-   */
-  return (
-    <View style={ styles.portfolioSelect }>
-      { renderContent() }
     </View>
   );
 };

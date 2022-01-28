@@ -52,7 +52,7 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   const refreshAnonymousAuth = async () => {
     try {
       if (anonymousAuth && AuthUtils.needsRefresh(anonymousAuth)) {
-        const refreshedToken = await AuthUtils.tryToRefresh(anonymousAuth.refreshToken);
+        const refreshedToken = await AuthUtils.tryToRefresh(anonymousAuth.refreshToken, anonymousAuth);
         dispatch(anonymousAuthUpdate(refreshedToken));
       }
     } catch {
@@ -67,7 +67,7 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
   const refreshAuth = async () => {
     try {
       if (auth && AuthUtils.needsRefresh(auth)) {
-        const refreshedToken = await AuthUtils.tryToRefresh(auth.refreshToken);
+        const refreshedToken = await AuthUtils.tryToRefresh(auth.refreshToken, auth);
         dispatch(authUpdate(refreshedToken));
       }
     } catch (error) {

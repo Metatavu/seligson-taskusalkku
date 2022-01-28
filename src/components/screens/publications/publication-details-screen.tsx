@@ -84,7 +84,7 @@ const PublicationDetailsScreen: React.FC = () => {
           </View>
           <WebView
             originWhitelist={[ "*" ]}
-            source={{ html: content }}
+            source={{ html: Injectables.getPublicationDetailsHtml(content) }}
             automaticallyAdjustContentInsets={ false }
             scalesPageToFit={ Platform.select({ android: false }) }
             scrollEnabled={ false }
@@ -94,7 +94,7 @@ const PublicationDetailsScreen: React.FC = () => {
             style={{ height: webviewHeight }}
             onMessage={ event => setWebviewHeight(Number(event.nativeEvent.data)) }
             javaScriptEnabled
-            injectedJavaScript={ Injectables.iosWebviewZoomFix }
+            injectedJavaScript={ Injectables.getPublicationsScript() }
           />
         </View>
       </ScrollView>

@@ -120,9 +120,9 @@ export enum MeetingLanguage {
 }
 
 /**
- * Interface for victory chart data
+ * Interface for chart data
  */
-export interface VictoryChartData {
+export interface ChartData {
   x: Date;
   y: number;
 }

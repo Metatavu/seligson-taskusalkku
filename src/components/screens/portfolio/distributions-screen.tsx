@@ -52,7 +52,7 @@ const DistributionsScreen: React.FC = () => {
 
   /**
    * Fetch securities of a portfolio
-   * 
+   *
    * @param portfolio portfolio
    */
   const fetchPortfolioSecurities = async (portfolio: Portfolio): Promise<PortfolioSecurityCategory[]> => {
@@ -190,11 +190,15 @@ const DistributionsScreen: React.FC = () => {
 
   /**
    * Renders securities category
-   * 
+   *
    * @param portfolioSecurityCategory portfolio security category
+   * @param index index
    */
-  const renderCategory = (portfolioSecurityCategory: PortfolioSecurityCategory) => (
-    <View style={ styles.securityCategory }>
+  const renderCategory = (portfolioSecurityCategory: PortfolioSecurityCategory, index: number) => (
+    <View
+      key={ index }
+      style={ styles.securityCategory }
+    >
       <View
         style={{ ...styles.categoryColor, backgroundColor: portfolioSecurityCategory.color }}
       />

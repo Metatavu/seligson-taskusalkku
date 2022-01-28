@@ -97,7 +97,7 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      await Api.getPortfoliosApi(auth).listPortfolioHistoryValues(params);
+      return await Api.getPortfoliosApi(auth).listPortfolioHistoryValues(params);
     } catch (error) {
       return Promise.reject(error);
     }

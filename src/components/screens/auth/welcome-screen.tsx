@@ -173,7 +173,8 @@ const WelcomeScreen: React.FC = () => {
 
       setPinError(true);
     } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 

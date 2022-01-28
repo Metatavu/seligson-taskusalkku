@@ -8,7 +8,6 @@ import theme from "../../theme";
  * Component properties
  */
 interface Props {
-  key: string;
   label: string;
   value: any;
   checked: boolean;
@@ -22,7 +21,6 @@ interface Props {
  * Radio button option item component
  */
 const RadioButtonOptionItem: React.FC<Props> = ({
-  key,
   label,
   value,
   checked,
@@ -33,7 +31,6 @@ const RadioButtonOptionItem: React.FC<Props> = ({
 }) => (
   <View style={ style || styles.radioButtonContainer }>
     <RadioButton.Item
-      key={ key }
       label={ label }
       value={ value }
       status={ checked ? "checked" : "unchecked" }
