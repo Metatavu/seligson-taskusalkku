@@ -15,5 +15,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   extra: {
     ...config.extra,
     ...process.env
-  }
+  },
+  version: "1.0.1"
 });
