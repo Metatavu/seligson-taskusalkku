@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Modal, Platform, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -13,9 +13,13 @@ import moment from "moment";
 interface Props {
   mode: IOSMode;
   date: Date;
-  startDate?: Date;
-  render?: () => React.ReactNode;
   onDateChange: (date: Date) => void;
+  startDate?: Date;
+  customStyles?: CSSProperties;
+  minimumDate?: Date;
+  maxDate?: Date;
+  render?: () => React.ReactNode;
+  onOpen?: () => void;
 }
 
 /**
@@ -27,8 +31,12 @@ const DatePicker: React.FC<Props> = ({
   date,
   startDate,
   mode,
+  customStyles,
+  minimumDate,
+  maxDate,
   render,
-  onDateChange
+  onDateChange,
+  onOpen
 }) => {
   const [ open, setOpen ] = React.useState(false);
 
@@ -54,7 +62,8 @@ const DatePicker: React.FC<Props> = ({
           value={ date }
           display="default"
           onChange={ onDatePickerChange }
-          minimumDate={ startDate }
+          minimumDate={ minimumDate || startDate }
+          maximumDate={ maxDate || undefined }
           onTouchCancel={ () => setOpen(false) }
         />
       }
@@ -72,7 +81,8 @@ const DatePicker: React.FC<Props> = ({
                 themeVariant="light"
                 display="inline"
                 onChange={ onDatePickerChange }
-                minimumDate={ startDate }
+                minimumDate={ minimumDate || startDate }
+                maximumDate={ maxDate || undefined }
                 style={{ margin: 20 }}
                 onTouchCancel={ () => setOpen(false) }
               />
@@ -89,8 +99,7 @@ const DatePicker: React.FC<Props> = ({
   const renderDefault = () => (
     <Button
       color="white"
-      style={ styles.selectedMeetingTime }
-      
+      style={ customStyles || styles.selectedMeetingTime }
     >
       { moment(date).format("DD/MM/YYYY") }
     </Button>
@@ -101,7 +110,7 @@ const DatePicker: React.FC<Props> = ({
    */
   return (
     <View>
-      <TouchableOpacity onPress={ () => setOpen(true) }>
+      <TouchableOpacity onPress={ () => { setOpen(true); onOpen && onOpen(); }}>
         {
           render ?
             render() :

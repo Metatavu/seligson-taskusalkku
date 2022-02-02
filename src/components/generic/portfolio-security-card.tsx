@@ -39,7 +39,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
    * Event handler for card click
    */
   const onClick = () => {
-    navigation.navigate("funds", { screen: "fundDetails", params: { fund: fund } });
+    navigation.navigate("funds", { screen: "fundDetails", params: { fund: fund, navigatedFromPortfolio: true } });
   };
 
   /**

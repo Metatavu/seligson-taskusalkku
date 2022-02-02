@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator, GestureResponderEvent, ScrollView, View } from "react-native";
 import FundCard from "../../generic/fund-card";
 import FundDetails from "../../generic/fund-details";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { CompositeNavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import { Button, Paragraph } from "react-native-paper";
 import strings from "../../../localization/strings";
@@ -15,16 +15,20 @@ import ChartUtils from "../../../utils/chart";
 import HistoryValueChart from "../../generic/history-value-chart";
 import { SecurityHistoryValue } from "../../../generated/client";
 import ChartRangeSelector from "../../generic/chart-range-selector";
+import HomeNavigator from "../../../types/navigators/home";
+
+type FundDetailScreenNavigationProp = CompositeNavigationProp<FundsNavigator.NavigationProps, HomeNavigator.NavigationProps>;
 
 /**
  * Fund details screen component
  */
 const FundDetailsScreen: React.FC = () => {
   const { params } = useRoute<FundsNavigator.RouteProps<"fundDetails">>();
-  const navigation = useNavigation<FundsNavigator.NavigationProps>();
+  const navigation = useNavigation<FundDetailScreenNavigationProp>();
   const errorContext = React.useContext(ErrorContext);
   const securitiesContext = React.useContext(SecuritiesApiContext);
   const fund = params?.fund;
+  const navigatedFromPortfolio = params?.navigatedFromPortfolio;
 
   const [ loading, setLoading ] = React.useState(true);
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
@@ -95,6 +99,11 @@ const FundDetailsScreen: React.FC = () => {
   };
 
   /**
+   * Event handler for on go back press
+   */
+  const onGoBackPress = () => (navigatedFromPortfolio ? navigation.navigate("portfolio", { screen: "mySecurities" }) : navigation.navigate("fundsList"));
+
+  /**
    * Effect for loading history data when selected fund changes
    */
   React.useEffect(() => { loadHistoryData(); }, [ fund, selectedRange ]);
@@ -156,7 +165,7 @@ const FundDetailsScreen: React.FC = () => {
     <>
       <Button
         icon="arrow-left-circle"
-        onPress={ navigation.goBack }
+        onPress={ onGoBackPress }
         labelStyle={{ color: "#fff" }}
         style={ styles.backButton }
       >
