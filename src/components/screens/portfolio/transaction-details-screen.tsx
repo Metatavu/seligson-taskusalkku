@@ -37,7 +37,7 @@ const TransactionDetailsScreen: React.FC = () => {
   const { fund, security, portfolioTransaction } = params;
   const { color } = fund;
   const { name } = security;
-  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue } = portfolioTransaction;
+  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue } = portfolioTransaction;
 
   /**
    *
@@ -63,8 +63,7 @@ const TransactionDetailsScreen: React.FC = () => {
    */
   const renderDetailRows = () => {
     const transactionDisplayType = localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"];
-    const paidTotal = new BigNumber(marketValue).multipliedBy(shareAmount);
-    const totalValue = new BigNumber(paidTotal).minus(provision);
+    const paidTotal = new BigNumber(totalValue).plus(provision);
 
     const rows: DetailRow[] = [
       {
