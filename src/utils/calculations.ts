@@ -7,6 +7,16 @@ import { Portfolio, PortfolioSummary } from "../generated/client";
 namespace Calculations {
 
   /**
+   * Check is a number zero
+   * 
+   * @param number number
+   * @return is the number zero
+   */
+  const isZero = (number: string): boolean => (
+    (new BigNumber(number)).isEqualTo(0)
+  );
+
+  /**
    * Gets current total change amount
    *
    * @param purchaseValue purchase value
@@ -29,7 +39,7 @@ namespace Calculations {
    * @returns calculated percentage
    */
   export const getTotalChangePercentage = (purchaseValue?: string, totalValue?: string): string => {
-    if (!purchaseValue || !totalValue) {
+    if (!purchaseValue || !totalValue || isZero(purchaseValue)) {
       return "0";
     }
 

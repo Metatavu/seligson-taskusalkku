@@ -65,7 +65,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
    * @param transaction transaction
    */
   const renderTransaction = (transaction: PortfolioTransaction) => {
-    const { securityId, id, paymentDate, marketValue, shareAmount } = transaction;
+    const { securityId, id, paymentDate, marketValue, shareAmount, totalValue } = transaction;
 
     const transactionSecurity = securities.find(security => security.id === securityId);
     if (!transactionSecurity) {
@@ -88,11 +88,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       },
       {
         label: strings.portfolio.statistics.total,
-        value: Calculations.formatNumberStr(
-          new BigNumber(marketValue).multipliedBy(shareAmount),
-          2,
-          { suffix: " €" }
-        )
+        value: Calculations.formatNumberStr(totalValue, 2, { suffix: " €" })
       }
     ];
 
