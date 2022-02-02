@@ -28,8 +28,6 @@ export interface FindSecurityRequest {
 }
 
 export interface ListSecuritiesRequest {
-    seriesId?: number;
-    fundId?: string;
     firstResult?: number;
     maxResults?: number;
 }
@@ -93,14 +91,6 @@ export class SecuritiesApi extends runtime.BaseAPI {
      */
     async listSecuritiesRaw(requestParameters: ListSecuritiesRequest): Promise<runtime.ApiResponse<Array<Security>>> {
         const queryParameters: any = {};
-
-        if (requestParameters.seriesId !== undefined) {
-            queryParameters['seriesId'] = requestParameters.seriesId;
-        }
-
-        if (requestParameters.fundId !== undefined) {
-            queryParameters['fundId'] = requestParameters.fundId;
-        }
 
         if (requestParameters.firstResult !== undefined) {
             queryParameters['firstResult'] = requestParameters.firstResult;

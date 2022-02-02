@@ -26,10 +26,6 @@ import {
     LocalizedValueFromJSON,
     LocalizedValueFromJSONTyped,
     LocalizedValueToJSON,
-    SubscriptionBankAccount,
-    SubscriptionBankAccountFromJSON,
-    SubscriptionBankAccountFromJSONTyped,
-    SubscriptionBankAccountToJSON,
 } from './';
 
 /**
@@ -128,12 +124,6 @@ export interface Fund {
      * @memberof Fund
      */
     kIID?: LocalizedValue;
-    /**
-     * Subscription bank accounts
-     * @type {Array<SubscriptionBankAccount>}
-     * @memberof Fund
-     */
-    subscriptionBankAccounts?: Array<SubscriptionBankAccount>;
 }
 
 export function FundFromJSON(json: any): Fund {
@@ -161,7 +151,6 @@ export function FundFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fund
         'color': !exists(json, 'color') ? undefined : json['color'],
         'risk': !exists(json, 'risk') ? undefined : json['risk'],
         'kIID': !exists(json, 'KIID') ? undefined : LocalizedValueFromJSON(json['KIID']),
-        'subscriptionBankAccounts': !exists(json, 'subscriptionBankAccounts') ? undefined : ((json['subscriptionBankAccounts'] as Array<any>).map(SubscriptionBankAccountFromJSON)),
     };
 }
 
@@ -188,7 +177,6 @@ export function FundToJSON(value?: Fund | null): any {
         'color': value.color,
         'risk': value.risk,
         'KIID': LocalizedValueToJSON(value.kIID),
-        'subscriptionBankAccounts': value.subscriptionBankAccounts === undefined ? undefined : ((value.subscriptionBankAccounts as Array<any>).map(SubscriptionBankAccountToJSON)),
     };
 }
 

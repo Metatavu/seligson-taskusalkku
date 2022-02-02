@@ -63,8 +63,8 @@ const TransactionDetailsScreen: React.FC = () => {
    */
   const renderDetailRows = () => {
     const transactionDisplayType = localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"];
-    const totalValue = new BigNumber(marketValue).multipliedBy(shareAmount);
-    const paidTotal = new BigNumber(totalValue).plus(provision);
+    const paidTotal = new BigNumber(marketValue).multipliedBy(shareAmount);
+    const totalValue = new BigNumber(paidTotal).minus(provision);
 
     const rows: DetailRow[] = [
       {
