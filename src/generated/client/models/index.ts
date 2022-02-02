@@ -14,4 +14,5 @@ export * from './PortfolioSummary';
 export * from './PortfolioTransaction';
 export * from './Security';
 export * from './SecurityHistoryValue';
+export * from './SubscriptionBankAccount';
 export * from './TransactionType';
