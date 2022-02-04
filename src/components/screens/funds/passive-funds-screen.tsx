@@ -6,6 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/passive-funds";
+import theme from "../../../theme";
 
 /**
  * Component properties
@@ -32,6 +33,7 @@ const PassiveFundsScreen: React.FC<Props> = ({ funds }) => {
     <TouchableOpacity
       onPress={ () => navigation.navigate("fundDetails", { fund: fund }) }
       key={ `passiveFundsTouchable${fund.id}` }
+      style={ styles.funCard }
     >
       <FundCard fund={ fund } key={`fund${fund.id}`}/>
     </TouchableOpacity>

@@ -64,13 +64,7 @@ export default StyleSheet.create({
   },
 
   card: {
-    width: "100%",
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    marginBottom: 10
+    width: "100%"
   },
 
   chart: {
@@ -92,7 +86,13 @@ export default StyleSheet.create({
   details: {
     borderBottomRightRadius: 30,
     padding: theme.spacing(2),
-    backgroundColor: theme.colors.surface
+    backgroundColor: theme.colors.surface,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    marginBottom: 10
   },
 
   detailContainer: {

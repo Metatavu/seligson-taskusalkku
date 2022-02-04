@@ -175,7 +175,7 @@ const StatisticsScreen: React.FC = () => {
     } = Calculations.getPortfolioSummaryInfo(summaries || []);
 
     return (
-      <View style={ styles.card }>
+      <View>
         <View
           style={ styles.details }
           onTouchStart={ toggleScroll(true) }

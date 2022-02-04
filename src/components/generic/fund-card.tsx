@@ -76,7 +76,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * Component render
    */
   return (
-    <View style={ styles.cardWrapper }>
+    <>
       <View style={ styles.gradientContainer }>
         <LinearGradient
           colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
@@ -109,7 +109,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
           { change20y && renderPriceHistory(strings.fundCard.historyTwentyYears, Number(change20y)) }
         </View>
       </View>
-    </View>
+    </>
   );
 };
 

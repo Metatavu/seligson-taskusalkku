@@ -148,7 +148,9 @@ const FundDetailsScreen: React.FC = () => {
           style={ styles.detailsWrapper }
           onTouchStart={ toggleScroll(true) }
         >
-          <FundCard fund={ fund }/>
+          <View style={ styles.cardWrapper }>
+            <FundCard fund={ fund }/>
+          </View>
           <FundDetails
             fund={ fund }
             onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
