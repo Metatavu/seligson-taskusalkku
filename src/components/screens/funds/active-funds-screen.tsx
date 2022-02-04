@@ -32,6 +32,7 @@ const ActiveFundsScreen: React.FC<Props> = ({ funds }) => {
     <TouchableOpacity
       onPress={ () => navigation.navigate("fundDetails", { fund: fund }) }
       key={ `activeFundsTouchable${fund.id}` }
+      style={ styles.funCard }
     >
       <FundCard fund={ fund }/>
     </TouchableOpacity>

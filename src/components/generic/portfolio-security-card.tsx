@@ -139,23 +139,21 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
    * Component render
    */
   return (
-    <TouchableOpacity onPress={ onClick }>
-      <View style={ styles.cardWrapper }>
-        <View style={ styles.gradientContainer }>
-          <LinearGradient
-            colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-            style={ styles.gradient }
-          />
+    <TouchableOpacity onPress={ onClick } style={ styles.cardWrapper }>
+      <View style={ styles.gradientContainer }>
+        <LinearGradient
+          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+          style={ styles.gradient }
+        />
+      </View>
+      <View style={ styles.cardContent }>
+        <View style={ styles.cardRow }>
+          { renderTitle() }
+          { renderRiskMeter() }
         </View>
-        <View style={ styles.cardContent }>
-          <View style={ styles.cardRow }>
-            { renderTitle() }
-            { renderRiskMeter() }
-          </View>
-          <Divider style={ styles.divider }/>
-          <View style={ styles.shareRow }>
-            { renderMyShares() }
-          </View>
+        <Divider style={ styles.divider }/>
+        <View style={ styles.shareRow }>
+          { renderMyShares() }
         </View>
       </View>
     </TouchableOpacity>
