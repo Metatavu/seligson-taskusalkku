@@ -2,11 +2,13 @@ import moment from "moment";
 import { LocalizedValue } from "../generated/client";
 import strings from "../localization/strings";
 import { Publication, PublicationDetails, SubscriptionSettings } from "../types";
+import * as IntentLauncher from "expo-intent-launcher";
+import * as FileSystem from "expo-file-system";
 
 /**
- * Class for generic utility methods
+ * Namespace for generic utility methods
  */
-class GenericUtils {
+namespace GenericUtils {
 
   /**
    * Returns localized string from given localized value
@@ -14,14 +16,14 @@ class GenericUtils {
    * @param value localized value
    * @returns localized string
    */
-  static getLocalizedValue = (value: LocalizedValue) => value[strings.getLanguage() as keyof LocalizedValue] || value.fi;
+  export const getLocalizedValue = (value: LocalizedValue) => value[strings.getLanguage() as keyof LocalizedValue] || value.fi;
 
   /**
    * Returns author from given publication or publication details
    *
    * @param publication publication
    */
-  static getPublicationAuthor = ({ author }: Publication | PublicationDetails) => (
+  export const getPublicationAuthor = ({ author }: Publication | PublicationDetails) => (
     author.length ? author.join(", ") : "Seligson"
   );
 
@@ -32,7 +34,7 @@ class GenericUtils {
    * @param startDate start date
    * @param endDate end date
    */
-  static checkDateInRange = (date?: Date, startDate?: Date, endDate?: Date) => {
+  export const checkDateInRange = (date?: Date, startDate?: Date, endDate?: Date) => {
     if (!date || !startDate || !endDate) {
       return true;
     }
@@ -45,7 +47,7 @@ class GenericUtils {
    * 
    * @param subscriptionSettings subscription settings
    */
-  static generateBarCode = (subscriptionSettings: SubscriptionSettings) => {
+  export const generateBarCode = (subscriptionSettings: SubscriptionSettings) => {
     const { iBAN, dueDate, sum, referenceNumber } = subscriptionSettings;
 
     const rounded = parseFloat(sum).toFixed(2);
@@ -71,6 +73,24 @@ class GenericUtils {
     cent = (`00${cent}`).slice(-2);
 
     return `4${formattedIban}${euro}${cent}000${formattedReferenceNumber}${formattedDueDate}`;
+  };
+
+  /**
+   * Opens file in Android platform
+   *
+   * @param url download url
+   */
+  export const openFileAndroid = async (url: string) => {
+    const fileDir = `${FileSystem.cacheDirectory}/temp.pdf`;
+    const file = await FileSystem.downloadAsync(url, fileDir);
+
+    await FileSystem.getContentUriAsync(file.uri).then(cUri => {
+      IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
+        data: cUri,
+        flags: 1,
+        type: "application/pdf"
+      });
+    });
   };
 
 }

@@ -1,6 +1,6 @@
 import React from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { Card, Button, TextInput, useTheme, Snackbar, Divider } from "react-native-paper";
+import { KeyboardAvoidingView, Platform, ScrollView, View, Text, TextInput } from "react-native";
+import { Card, Button, useTheme, Snackbar, Divider } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/subscription-settings";
@@ -156,7 +156,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
       const fundBankOptions: SubscriptionOption[] = fund.subscriptionBankAccounts?.map(subscriptionBankAccount => ({
         key: subscriptionBankAccount.iBAN || "",
-        label: subscriptionBankAccount.bankAccountName.split("/ ")[1] || "",
+        label: subscriptionBankAccount.bankAccountName?.split("/ ")[1] || "",
         value: subscriptionBankAccount.iBAN || ""
       })) || [];
 
@@ -205,10 +205,22 @@ const SubscriptionSettingsScreen: React.FC = () => {
     setSubscriptionSettings(updatedSubscriptionSettings);
   };
 
-  /*
+  /**
+   * Checks if given number is valid
+   *
+   * @param number number to check
+   */
+  const validNumber = (number: string) => new RegExp("^[1-9]\\d*(\\.\\d+)?$").test(number) && Number(number) >= 10;
+
+  /**
    * Validates settings
    */
-  const validateSettings = () => subscriptionSettings.portfolio && subscriptionSettings.iBAN && subscriptionSettings.referenceNumber;
+  const validateSettings = () => (
+    !!subscriptionSettings.portfolio &&
+    !!subscriptionSettings.iBAN &&
+    !!subscriptionSettings.referenceNumber &&
+    validNumber(subscriptionSettings.sum)
+  );
 
   /**
    * On create barcode handler
@@ -378,14 +390,15 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Renders sum input
   */
   const renderSumInput = () => (
-    <View style={{
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center"
-    }}
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
+      }}
     >
       <TextInput
-        style={{ height: 30 }}
+        style={[ { height: 30 }, !validNumber(subscriptionSettings.sum) ? { color: "red" } : { color: "black" } ]}
         value={ subscriptionSettings.sum }
         keyboardType="numeric"
         onChangeText={ onSubscriptionSumChange }
@@ -493,11 +506,13 @@ const SubscriptionSettingsScreen: React.FC = () => {
         </Text>
         { renderSettingsContent() }
         <Button
+          mode="contained"
           disabled={ !validateSettings() }
           icon="barcode"
           labelStyle={{ color: "#fff" }}
-          style={{ ...styles.backButton, marginTop: theme.spacing(3) }}
+          style={ styles.backButton }
           onPress={ onCreateBarCode }
+          color={ theme.colors.primary }
         >
           <Text style={{ color: "#fff" }}>
             { strings.subscription.createVirtualBarCode }

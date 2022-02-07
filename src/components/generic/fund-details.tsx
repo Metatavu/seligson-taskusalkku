@@ -6,11 +6,11 @@ import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
 import strings from "../../localization/strings";
 import { Fund } from "../../generated/client/models/Fund";
-import * as WebBrowser from "expo-web-browser";
 import { useAppSelector } from "../../app/hooks";
 import { selectSelectedLanguage } from "../../features/locale/locale-slice";
 import { LocalizedValue } from "../../generated/client";
 import { selectAuth } from "../../features/auth/auth-slice";
+import GenericUtils from "../../utils/generic";
 
 /**
  * Component properties
@@ -39,7 +39,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
       return;
     }
 
-    await WebBrowser.openBrowserAsync(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
+    GenericUtils.openFileAndroid(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
   };
 
   /**
@@ -110,7 +110,13 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
           />
         </View>
         <View style={ styles.cardContent }>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: theme.spacing(1) }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              padding: theme.spacing(1)
+            }}
+          >
             <View>
               <Text style={ theme.fonts.medium }>
                 { `${strings.fundDetailsScreen.aShare} ${aShareValue}€` }
