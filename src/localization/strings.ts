@@ -1,6 +1,7 @@
 import LocalizedStrings, { LocalizedStringsMethods } from "localized-strings";
 import fi from "./fi.json";
 import en from "./en.json";
+import sv from "./sv.json";
 
 /**
  * Interface describing localized strings
@@ -299,6 +300,10 @@ export interface Strings extends LocalizedStringsMethods {
 
 }
 
-const strings: Strings = new LocalizedStrings({ en: en, fi: fi });
+const strings: Strings = new LocalizedStrings({
+  en: en,
+  fi: fi,
+  sv: sv
+});
 
 export default strings;

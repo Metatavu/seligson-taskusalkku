@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
-import { Divider, Text, useTheme } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Divider, useTheme } from "react-native-paper";
 import theme from "../../theme";
 import transactionsCardStyles from "../../styles/generic/transactions-card";
 import strings from "../../localization/strings";
@@ -10,7 +10,6 @@ import GenericUtils from "../../utils/generic";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import TransactionsNavigator from "../../types/navigators/transactions";
-import BigNumber from "bignumber.js";
 import Calculations from "../../utils/calculations";
 
 /**
@@ -84,7 +83,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       },
       {
         label: strings.fundDetailsScreen.amount,
-        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: " kpl" })
+        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: ` ${strings.portfolio.transactions.shareAmount}` })
       },
       {
         label: strings.portfolio.statistics.total,

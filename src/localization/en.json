@@ -82,11 +82,11 @@
     "distributions": "Distributions",
     "ownFunds": "Own funds",
     "transactions": "Transactions",
-    "passiveFunds": "Passive share funds",
-    "activeFunds": "Active share funds",
-    "interestFunds": "Interest funds",
+    "passiveFunds": "Passive equity funds",
+    "activeFunds": "Active Funds",
+    "interestFunds": "Fixed Income Funds",
     "combinationFunds": "Combination funds",
-    "profile": "Profile"
+    "profile": "Settings"
   },
 
   "fundCard": {
@@ -102,11 +102,11 @@
   },
 
   "fundDetailsScreen": {
-    "amount": "Amount",
+    "amount": "Share amount",
     "value": "Value",
     "change": "Change",
     "buyFund": "Buy fund",
-    "downloadBrochure": "Brochure",
+    "downloadBrochure": "Key investor information document",
     "aShare": "A-share",
     "bShare": "B-share",
     "myShare": "My share"
@@ -165,7 +165,7 @@
       "subscription": "Subscription",
       "valueDate": "Value date",
       "paymentDate": "Payment date",
-      "shareAmount": "Share amount",
+      "shareAmount": "pcs",
       "value": "Rate",
       "totalValue": "Total value",
       "provision": "Provision",

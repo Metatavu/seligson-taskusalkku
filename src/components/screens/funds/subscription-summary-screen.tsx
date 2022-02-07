@@ -152,7 +152,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       }
       {
         renderCopyTextWithLabel(
-          strings.subscription.referenceNumber,
+          strings.subscription.virtualBarCode,
           GenericUtils.generateBarCode(subscriptionSettings)
         )
       }

@@ -39,7 +39,8 @@ namespace TranslationUtils {
    */
   export const getLanguageDisplayText = (option: Language) => ({
     [Language.FI]: strings.languages.fi,
-    [Language.EN]: strings.languages.en
+    [Language.EN]: strings.languages.en,
+    [Language.SV]: strings.languages.sv
   })[option];
 
 }

@@ -35,7 +35,8 @@ export interface LocalConfig {
  */
 export enum Language {
   FI = "fi",
-  EN = "en"
+  EN = "en",
+  SV = "sv"
 }
 
 /**

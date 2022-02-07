@@ -1,7 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import theme from "../../../theme";
-import { Button, Divider, Text } from "react-native-paper";
+import { Divider } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import TransactionsNavigator from "../../../types/navigators/transactions";
 import strings from "../../../localization/strings";
@@ -26,7 +26,6 @@ type DetailRow = {
  * Transaction details screen component
  */
 const TransactionDetailsScreen: React.FC = () => {
-  const navigation = useNavigation<TransactionsNavigator.NavigationProps<"transactionsDetails">>();
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
   const localized = strings.portfolio.transactions;
 
@@ -79,8 +78,8 @@ const TransactionDetailsScreen: React.FC = () => {
         value: paymentDate ? moment(paymentDate).format("DD.MM.YYYY") : undefined
       },
       {
-        label: localized.shareAmount,
-        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: " kpl" })
+        label: strings.fundDetailsScreen.amount,
+        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: ` ${strings.portfolio.transactions.shareAmount}` })
       },
       {
         label: localized.value,
