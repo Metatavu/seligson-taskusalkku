@@ -15,8 +15,6 @@ import moment from "moment";
 import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
 import BackButton from "../../generic/back-button";
-import * as IntentLauncher from "expo-intent-launcher";
-import * as FileSystem from "expo-file-system";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
 
 /**
@@ -60,24 +58,6 @@ const PublicationDetailsScreen: React.FC = () => {
   React.useEffect(() => { loadPublicationDetails(); }, [ publicationId ]);
 
   /**
-   * Opens file in Android platform
-   *
-   * @param url download url
-   */
-  const openFileAndroid = async (url: string) => {
-    const fileDir = `${FileSystem.cacheDirectory}/temp.pdf`;
-    const file = await FileSystem.downloadAsync(url, fileDir);
-
-    await FileSystem.getContentUriAsync(file.uri).then(cUri => {
-      IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
-        data: cUri,
-        flags: 1,
-        type: "application/pdf"
-      });
-    });
-  };
-
-  /**
    * Event handler for link press
    *
    * @param event should start load request
@@ -90,7 +70,7 @@ const PublicationDetailsScreen: React.FC = () => {
     }
 
     if (url.endsWith(".pdf") && Platform.OS === "android") {
-      openFileAndroid(url);
+      GenericUtils.openFileAndroid(url);
       return false;
     }
 

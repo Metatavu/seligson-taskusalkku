@@ -107,7 +107,7 @@ const NewMeetingScreen: React.FC = () => {
           { `${strings.meetings.newMeeting.selectedTime}:` }
         </Text>
         <Text style={ theme.fonts.medium }>
-          { `${startDisplayDate} ${strings.meetings.newMeeting.time} ${startDisplayTime}-${endDisplayTime}` }
+          { `${startDisplayDate} ${startDisplayTime}-${endDisplayTime}` }
         </Text>
       </View>
     );
@@ -198,9 +198,9 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Renders addtional info 
+   * Renders additional info
    */
-  const renderAddtionalInfo = () => (
+  const renderAdditionalInfo = () => (
     <>
       <View style={{ marginTop: theme.spacing(2) }}>
         <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
@@ -270,7 +270,7 @@ const NewMeetingScreen: React.FC = () => {
           <Card style={ styles.meetingCard }>
             { renderLanguageSelect() }
             { renderMeetingTypeSelect() }
-            { renderAddtionalInfo() }
+            { renderAdditionalInfo() }
           </Card>
           { renderButtons() }
         </View>
