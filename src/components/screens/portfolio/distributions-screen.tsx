@@ -112,9 +112,9 @@ const DistributionsScreen: React.FC = () => {
    */
   const renderPie = () => {
     const chartData = portfolioSecurityCategories.map(({ name, percentage, totalValue }) => ({
-        x: `${portfolioSecurityCategory.name}- ${portfolioSecurityCategory.percentage}`,
-        y: parseFloat(portfolioSecurityCategory.totalValue)
-      }));
+      x: `${name} - ${percentage}`,
+      y: parseFloat(totalValue)
+    }));
 
     const chartColor = portfolioSecurityCategories.map(portfolioSecurityCategory => portfolioSecurityCategory.color);
 
