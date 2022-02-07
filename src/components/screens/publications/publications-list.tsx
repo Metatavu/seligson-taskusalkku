@@ -9,6 +9,7 @@ import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import GenericUtils from "../../../utils/generic";
+import { unescape } from "html-escaper";
 
 /**
  * Component properties
@@ -55,7 +56,7 @@ const PublicationsList: React.FC<Props> = ({ publications }) => {
             </Text>
             <Divider style={ styles.divider }/>
             <Text>
-              { title }
+              { unescape(title) }
             </Text>
           </View>
           <View style={{ width: "25%" }}>
