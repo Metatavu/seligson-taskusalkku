@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
-import { Divider, Text, useTheme } from "react-native-paper";
+import { View, Text } from "react-native";
+import { Divider, useTheme } from "react-native-paper";
 import theme from "../../theme";
 import transactionsCardStyles from "../../styles/generic/transactions-card";
 import strings from "../../localization/strings";
@@ -10,8 +10,8 @@ import GenericUtils from "../../utils/generic";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import TransactionsNavigator from "../../types/navigators/transactions";
-import BigNumber from "bignumber.js";
 import Calculations from "../../utils/calculations";
+import moment from "moment";
 
 /**
  * Transaction value
@@ -113,7 +113,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
                 }
               </Text>
               <Text style={ styles.labelText }>
-                { paymentDate?.toLocaleDateString() }
+                { paymentDate && moment(paymentDate).format("DD.MM.YYYY") }
               </Text>
             </View>
             <Divider style={{ marginVertical: 5 }}/>

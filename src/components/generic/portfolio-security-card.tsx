@@ -12,6 +12,7 @@ import Calculations from "../../utils/calculations";
 import { useNavigation } from "@react-navigation/native";
 import HomeNavigator from "../../types/navigators/home";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import moment from "moment";
 
 /**
  * Component properties
@@ -55,7 +56,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
       <View style={ styles.cardRow }>
         <Icon name="calendar" size={ 12 } color={ color }/>
         <Text style={ styles.lastUpdated }>
-          { priceDate?.toLocaleDateString() }
+          { priceDate && moment(priceDate).format("DD.MM.YYYY") }
         </Text>
       </View>
     </View>
