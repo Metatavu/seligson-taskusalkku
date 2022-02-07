@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, View, Text, Platform } from "react-native";
+import { ActivityIndicator, ScrollView, View, Text, Platform, Linking } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/publications/publication-details";
@@ -15,6 +15,9 @@ import moment from "moment";
 import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
 import BackButton from "../../generic/back-button";
+import * as IntentLauncher from "expo-intent-launcher";
+import * as FileSystem from "expo-file-system";
+import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
 
 /**
  * Publication details screen component
@@ -28,6 +31,8 @@ const PublicationDetailsScreen: React.FC = () => {
   const [ loading, setLoading ] = React.useState(true);
   const [ publicationDetails, setPublicationDetails ] = React.useState<PublicationDetails>();
   const [ webviewHeight, setWebviewHeight ] = React.useState(1000);
+
+  const webViewRef = React.useRef<WebView>(null);
 
   /**
    * Loads publication details
@@ -53,6 +58,45 @@ const PublicationDetailsScreen: React.FC = () => {
    * Effect for loading publication details when selected publication changes
    */
   React.useEffect(() => { loadPublicationDetails(); }, [ publicationId ]);
+
+  /**
+   * Opens file in Android platform
+   *
+   * @param url download url
+   */
+  const openFileAndroid = async (url: string) => {
+    const fileDir = `${FileSystem.cacheDirectory}/temp.pdf`;
+    const file = await FileSystem.downloadAsync(url, fileDir);
+
+    await FileSystem.getContentUriAsync(file.uri).then(cUri => {
+      IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
+        data: cUri,
+        flags: 1,
+        type: "application/pdf"
+      });
+    });
+  };
+
+  /**
+   * Event handler for link press
+   *
+   * @param event should start load request
+   */
+  const onLinkPress = (event: ShouldStartLoadRequest) => {
+    const { url } = event;
+
+    if (url === "about:blank") {
+      return true;
+    }
+
+    if (url.endsWith(".pdf") && Platform.OS === "android") {
+      openFileAndroid(url);
+      return false;
+    }
+
+    Linking.openURL(event.url);
+    return false;
+  };
 
   /**
    * Renders content
@@ -83,18 +127,19 @@ const PublicationDetailsScreen: React.FC = () => {
             </Text>
           </View>
           <WebView
+            ref={ webViewRef }
             originWhitelist={[ "*" ]}
             source={{ html: Injectables.getPublicationDetailsHtml(content) }}
             automaticallyAdjustContentInsets={ false }
             scalesPageToFit={ Platform.select({ android: false }) }
             scrollEnabled={ false }
-            useWebKit={ false }
             showsHorizontalScrollIndicator={ false }
             showsVerticalScrollIndicator={ false }
             style={{ height: webviewHeight }}
             onMessage={ event => setWebviewHeight(Number(event.nativeEvent.data)) }
             javaScriptEnabled
             injectedJavaScript={ Injectables.getPublicationsScript() }
+            onShouldStartLoadWithRequest={ onLinkPress }
           />
         </View>
       </ScrollView>
