@@ -20,7 +20,7 @@ namespace ChartUtils {
     [ChartRange.THREE_YEARS]: moment().subtract(3, "years").toDate(),
     [ChartRange.FIVE_YEARS]: moment().subtract(5, "years").toDate(),
     [ChartRange.TEN_YEARS]: moment().subtract(10, "years").toDate(),
-    [ChartRange.MAX]: moment().subtract(20, "years").toDate()
+    [ChartRange.MAX]: moment().subtract(30, "years").toDate()
   })[dateRange];
 
   /**
@@ -206,6 +206,25 @@ namespace ChartUtils {
       [ChartRange.TEN_YEARS]: 30,
       [ChartRange.MAX]: 80
     })[dateRange as ChartRange];
+  };
+
+  /**
+   *
+   */
+  export const getDisplayDates = (dateRange: Date[] | ChartRange) => {
+    if (Array.isArray(dateRange) && dateRange.length === 2) {
+      return {
+        startDate: moment(dateRange[0]).format("DD.MM.YYYY"),
+        endDate: moment(dateRange[1]).format("DD.MM.YYYY")
+      };
+    }
+
+    const chartRange = dateRange as ChartRange;
+
+    return {
+      startDate: moment(getStartDate(chartRange)).format("DD.MM.YYYY"),
+      endDate: moment().format("DD.MM.YYYY")
+    };
   };
 }
 

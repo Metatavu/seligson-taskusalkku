@@ -29,7 +29,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const errorContext = React.useContext(ErrorContext);
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
   const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
-
+  const [ loggedIn, setLoggedIn ] = React.useState(false);
   /**
    * Returns effective portfolios
    */
@@ -48,7 +48,19 @@ const PortfolioProvider: React.FC = ({ children }) => {
     }
   };
 
-  React.useEffect(() => { fetchPortfolios(); }, [ auth ]);
+  /**
+   * Effect for fetching portfolios when loggedIn changes
+   */
+  React.useEffect(() => {
+    loggedIn && fetchPortfolios();
+  }, [ loggedIn ]);
+
+  /**
+   * Effect for setting loggedIn value when auth changes
+   */
+  React.useEffect(() => {
+    setLoggedIn(!!auth && !loggedIn);
+  }, [ auth ]);
 
   /**
    * Event handler for on change selected portfolio

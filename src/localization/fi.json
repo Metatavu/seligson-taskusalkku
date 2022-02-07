@@ -151,7 +151,8 @@
       "totalChange": "Kokonaisarvon muutos",
       "redemptions": "Lunastukset",
       "subscriptions": "Merkinnät",
-      "total": "Yhteensä"
+      "total": "Yhteensä",
+      "changeInGivenRange": "Muutos valitulla ajanjaksolla"
     },
     "portfolioSecurities": {
       "title": "Omat rahastot"

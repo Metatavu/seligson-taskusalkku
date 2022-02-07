@@ -41,7 +41,7 @@ namespace Injectables {
     chartColor: string
   ) => `
     try {
-      luxon.Settings.defaultLocale = "${language}";
+      luxon.Settings.defaultLocale = "fi-FI";
 
       const existingChart = Chart.getChart("history-value-chart");
       if (existingChart) {
@@ -106,7 +106,7 @@ namespace Injectables {
               time: {
                 displayFormats: {
                   day: "D",
-                  month: "LLL y"
+                  month: "M/y"
                 }
               },
               ticks: {
@@ -116,6 +116,7 @@ namespace Injectables {
             },
             y: {
               grace: "50%",
+              beginAtZero: true,
               ticks: {
                 precision: 3,
                 format: {
@@ -123,10 +124,6 @@ namespace Injectables {
                   currency: "${valueCurrency}"
                 }
               },
-              afterBuildTicks: axis => {
-                axis.ticks = axis.ticks.filter(tick => tick.value >= 0);
-                if (axis.min < 0) axis.min = 0;
-              }
             }
           }
         }
