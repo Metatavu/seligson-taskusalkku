@@ -147,26 +147,19 @@ const DistributionsScreen: React.FC = () => {
             {
               target: "data",
               eventHandlers: {
-                onPress: () => [
+                onPressIn: () => [
                   {
-                    eventKey: "all",
                     target: "labels",
+                    eventKey: "all",
                     mutation: () => ({ active: false })
-                  },
+                  }
+                ],
+                onPressOut: () => [
                   {
                     target: "labels",
                     mutation: () => ({ active: true })
                   }
                 ]
-              }
-            },
-            {
-              target: "labels",
-              eventHandlers: {
-                onPress: () => [{
-                  target: "labels",
-                  mutation: () => ({ active: false })
-                }]
               }
             }
           ]}
