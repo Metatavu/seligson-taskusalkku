@@ -166,7 +166,7 @@ export interface PublicationDetails extends BasePublication {
  */
 export interface PortfolioSecurityCategory {
   fundId: string;
-  name: LocalizedValue;
+  name: string;
   totalValue: string;
   currency: string;
   color: string;

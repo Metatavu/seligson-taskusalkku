@@ -11,6 +11,7 @@ import { selectSelectedLanguage } from "../../features/locale/locale-slice";
 import { LocalizedValue } from "../../generated/client";
 import { selectAuth } from "../../features/auth/auth-slice";
 import GenericUtils from "../../utils/generic";
+import Calculations from "../../utils/calculations";
 
 /**
  * Component properties
@@ -40,26 +41,6 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
     }
 
     GenericUtils.openFileAndroid(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
-  };
-
-  /**
-   * Renders my share
-   *
-   * @param label price history label
-   * @param value price history percentage
-   */
-  const renderMyShare = (label: string, value: number) => {
-    return (
-      <View style={ styles.shareColumn }>
-        <Text>
-          { label }
-        </Text>
-        <Text style={ styles.priceHistoryPercentage }>
-          { value.toFixed(4) }
-          { label === strings.fundDetailsScreen.change ? "%" : null }
-        </Text>
-      </View>
-    );
   };
 
   /**
@@ -119,12 +100,12 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
           >
             <View>
               <Text style={ theme.fonts.medium }>
-                { `${strings.fundDetailsScreen.aShare} ${aShareValue}€` }
+                { aShareValue && `${strings.fundDetailsScreen.aShare} ${Calculations.formatEuroNumberStr(aShareValue, 3)}` }
               </Text>
             </View>
             <View>
               <Text style={ theme.fonts.medium }>
-                { `${strings.fundDetailsScreen.bShare} ${bShareValue || "-"}€` }
+                { `${strings.fundDetailsScreen.bShare} ${bShareValue ? Calculations.formatEuroNumberStr(bShareValue, 3) : "-€"}` }
               </Text>
             </View>
           </View>

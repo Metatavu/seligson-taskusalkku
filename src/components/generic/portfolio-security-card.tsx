@@ -4,7 +4,7 @@ import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import fundCardStyles from "../../styles/generic/fund-card";
-import { Fund, PortfolioSecurity, Security } from "../../generated/client";
+import { Fund, PortfolioSecurity } from "../../generated/client";
 import strings from "../../localization/strings";
 import GenericUtils from "../../utils/generic";
 import BigNumber from "bignumber.js";
@@ -19,7 +19,6 @@ import moment from "moment";
  */
 interface Props {
   portfolioSecurity: PortfolioSecurity;
-  security: Security;
   fund: Fund;
 }
 
@@ -28,9 +27,8 @@ interface Props {
  *
  * @param props component properties
  */
-const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, fund }) => {
+const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
-  const { currency } = security;
   const { color, risk, priceDate, longName } = fund;
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
@@ -121,7 +119,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { strings.fundDetailsScreen.value }
           </Text>
           <Text>
-            { Calculations.formatNumberStr(totalValue, 2, { suffix: currency }) }
+            { Calculations.formatEuroNumberStr(totalValue) }
           </Text>
         </View>
         <View>
@@ -129,7 +127,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { strings.fundDetailsScreen.change }
           </Text>
           <Text style={ styles[changePercentage < 0 ? "negativeValue" : "positiveValue"] }>
-            { `${changePercentage.toFixed(2)}%` }
+            { Calculations.formatPercentageNumberStr(new BigNumber(changePercentage)) }
           </Text>
         </View>
       </>
