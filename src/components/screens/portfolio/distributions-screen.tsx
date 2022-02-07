@@ -16,6 +16,7 @@ import theme from "../../../theme";
 import BigNumber from "bignumber.js";
 import ChartUtils from "../../../utils/chart";
 import Svg from "react-native-svg";
+import Calculations from "../../../utils/calculations";
 
 /**
  * Distributions screen component
@@ -39,14 +40,16 @@ const DistributionsScreen: React.FC = () => {
   const fetchSecurityFund = (totalValue: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
     const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
     const fund = await fundsApiContext.findFund({ fundId: security.fundId });
+    const percentage = (new BigNumber(portfolioSecurity.totalValue)).dividedBy(totalValue).multipliedBy(100);
+    const name = fund.longName ? GenericUtils.getLocalizedValue(fund.longName) : "";
 
     return {
       fundId: security.fundId,
-      name: security.name,
+      name: name,
       currency: security.currency,
       color: fund.color || "",
       totalValue: portfolioSecurity.totalValue,
-      percentage: `${(new BigNumber(portfolioSecurity.totalValue)).dividedBy(totalValue).multipliedBy(100).toFormat(2)} %`
+      percentage: Calculations.formatPercentageNumberStr(percentage)
     };
   };
 
@@ -105,19 +108,12 @@ const DistributionsScreen: React.FC = () => {
   React.useEffect(() => { loadData(); }, [ selectedPortfolio ]);
 
   /**
-   * Returns category label
-   *
-   * @returns category label
-   */
-  const getCategoryLabel = (name: LocalizedValue) => GenericUtils.getLocalizedValue(name).split("Seligson & Co ")[1];
-
-  /**
    * Renders content
    */
   const renderPie = () => {
     const chartData = portfolioSecurityCategories.map(portfolioSecurityCategory => (
       {
-        x: `${getCategoryLabel(portfolioSecurityCategory.name)}- ${portfolioSecurityCategory.percentage}`,
+        x: `${portfolioSecurityCategory.name}- ${portfolioSecurityCategory.percentage}`,
         y: parseFloat(portfolioSecurityCategory.totalValue)
       }));
 
@@ -204,10 +200,10 @@ const DistributionsScreen: React.FC = () => {
       />
       <View>
         <Text style={ theme.fonts.medium }>
-          { `${portfolioSecurityCategory.percentage}` }
+          { portfolioSecurityCategory.percentage }
         </Text>
         <Text>
-          { getCategoryLabel(portfolioSecurityCategory.name) }
+          { portfolioSecurityCategory.name }
         </Text>
       </View>
     </View>

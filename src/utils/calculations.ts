@@ -108,10 +108,10 @@ namespace Calculations {
     const totalChangePercentage = calculatePortfoliosTotalChangePercentage(portfolios);
 
     return {
-      marketValueTotal: Calculations.formatNumberStr(marketValueTotal, 2, { suffix: " €" }),
-      purchaseTotal: Calculations.formatNumberStr(purchaseTotal, 2, { suffix: " €" }),
-      totalChangeAmount: Calculations.formatNumberStr(totalChange, 2, { suffix: " €" }),
-      totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
+      marketValueTotal: Calculations.formatEuroNumberStr(marketValueTotal),
+      purchaseTotal: Calculations.formatEuroNumberStr(purchaseTotal),
+      totalChangeAmount: Calculations.formatEuroNumberStr(totalChange),
+      totalChangePercentage: Calculations.formatEuroNumberStr(totalChangePercentage)
     };
   };
 
@@ -131,8 +131,8 @@ namespace Calculations {
     });
 
     return {
-      subscriptionsTotal: Calculations.formatNumberStr(subscriptionsTotal, 2, { suffix: " €" }),
-      redemptionsTotal: Calculations.formatNumberStr(redemptionsTotal, 2, { suffix: " €" })
+      subscriptionsTotal: Calculations.formatEuroNumberStr(subscriptionsTotal),
+      redemptionsTotal: Calculations.formatEuroNumberStr(redemptionsTotal)
     };
   };
 
@@ -150,6 +150,26 @@ namespace Calculations {
       decimalSeparator: ",",
       ...format
     })
+  );
+
+  /**
+   * Formats euro number string
+   * 
+   * @param number number to be formatted
+   * @param decimalPlaces number of decimal places, default to 2
+   */
+  export const formatEuroNumberStr = (number: string | BigNumber, decimalPlaces: number = 2) => (
+    Calculations.formatNumberStr(number, decimalPlaces, { suffix: " €" })
+  );
+
+  /**
+   * Formats percentage number string
+   * 
+   * @param number number to be formatted
+   * @param decimalPlaces number of decimal places, default to 2
+   */
+  export const formatPercentageNumberStr = (number: string | BigNumber, decimalPlaces: number = 2) => (
+    Calculations.formatNumberStr(number, decimalPlaces, { suffix: " %" })
   );
 
   /**

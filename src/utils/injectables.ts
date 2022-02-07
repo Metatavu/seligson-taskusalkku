@@ -96,7 +96,13 @@ namespace Injectables {
               caretSize: 6,
               padding: 8,
               callbacks: {
-                title: items => luxon.DateTime.fromMillis(items[0].raw.x).toLocaleString()
+                title: items => luxon.DateTime.fromMillis(items[0].raw.x).toLocaleString(),
+                label: function(context) {
+                  if (context.parsed.y !== null) {
+                      return new Intl.NumberFormat("fi-FI", { style: "currency", currency: "${valueCurrency}" }).format(context.parsed.y);
+                  }
+                  return "";
+                }
               }
             }
           },
@@ -118,9 +124,8 @@ namespace Injectables {
               grace: "50%",
               ticks: {
                 precision: 3,
-                format: {
-                  style: "currency",
-                  currency: "${valueCurrency}"
+                callback: function(value, index, values) {
+                  return new Intl.NumberFormat("fi-FI", { style: "currency", currency: "${valueCurrency}" }).format(value)
                 }
               },
               afterBuildTicks: axis => {

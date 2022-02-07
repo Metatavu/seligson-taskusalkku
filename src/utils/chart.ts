@@ -2,6 +2,7 @@ import moment from "moment";
 import BigNumber from "bignumber.js";
 import { PortfolioHistoryValue, SecurityHistoryValue } from "../generated/client";
 import { ChartData, ChartRange, PortfolioSecurityCategory } from "../types";
+import Calculations from "./calculations";
 
 /**
  * Utility class for charts
@@ -170,9 +171,10 @@ namespace ChartUtils {
     });
 
     const aggregatedList = Array.from(securityMap.values());
+
     return aggregatedList.map(category => ({
       ...category,
-      percentage: `${(new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
+      percentage: Calculations.formatPercentageNumberStr((new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100))
     }));
   };
 

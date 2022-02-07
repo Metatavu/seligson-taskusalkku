@@ -84,19 +84,19 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.value,
-        value: Calculations.formatNumberStr(marketValue, 4, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(marketValue, 4)
       },
       {
         label: localized.totalValue,
-        value: Calculations.formatNumberStr(totalValue, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(totalValue)
       },
       {
         label: localized.provision,
-        value: Calculations.formatNumberStr(provision, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(provision)
       },
       {
         label: localized.paidTotal,
-        value: Calculations.formatNumberStr(paidTotal, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(paidTotal)
       }
     ];
 
