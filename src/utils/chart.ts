@@ -174,7 +174,9 @@ namespace ChartUtils {
 
     return aggregatedList.map(category => ({
       ...category,
-      percentage: Calculations.formatPercentageNumberStr((new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100))
+      percentage: Calculations.formatPercentageNumberStr(
+        new BigNumber(category.totalValue).dividedBy(sumValue).multipliedBy(100)
+      )
     }));
   };
 
