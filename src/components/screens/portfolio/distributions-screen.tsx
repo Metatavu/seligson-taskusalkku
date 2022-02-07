@@ -40,7 +40,7 @@ const DistributionsScreen: React.FC = () => {
   const fetchSecurityFund = (totalValue: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
     const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
     const fund = await fundsApiContext.findFund({ fundId: security.fundId });
-    const percentage = (new BigNumber(portfolioSecurity.totalValue)).dividedBy(totalValue).multipliedBy(100);
+    const percentage = new BigNumber(portfolioSecurity.totalValue).dividedBy(totalValue).multipliedBy(100);
     const name = fund.longName ? GenericUtils.getLocalizedValue(fund.longName) : "";
 
     return {
