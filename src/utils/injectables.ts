@@ -1,9 +1,7 @@
 import { ChartData } from "../types";
 
 /**
- * Hideous injectable html and script strings
- *
- * Ugly hacks - use at your own risk!
+ * Injectable html and script strings
  */
 namespace Injectables {
 

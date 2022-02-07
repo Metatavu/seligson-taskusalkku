@@ -31,7 +31,7 @@ const StatisticsScreen: React.FC = () => {
   const [ historyLoading, setHistoryLoading ] = React.useState(false);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
   const [ historyValues, setHistoryValues ] = React.useState<PortfolioHistoryValue[]>();
-  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   /**

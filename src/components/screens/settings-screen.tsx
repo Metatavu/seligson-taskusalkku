@@ -10,7 +10,6 @@ import { selectSelectedLanguage, setLanguage } from "../../features/locale/local
 import { DefaultRoutes, Language, LoginOptions } from "../../types/config";
 import HomeNavigator from "../../types/navigators/home";
 import RootNavigator from "../../types/navigators/root";
-import AuthUtils from "../../utils/auth";
 import PinInput from "../generic/pin-input";
 import PinCodeAuth from "../../utils/pin-code-auth";
 import styles from "../../styles/screens/settings-screen";
@@ -25,7 +24,6 @@ import theme from "../../theme";
  * Settings screen component
  */
 const SettingsScreen: React.FC = () => {
-  const { developmentBuild } = Config.getStatic();
   const dispatch = useAppDispatch();
   const navigation = useNavigation<RootNavigator.NavigationProps>();
 
@@ -102,14 +100,8 @@ const SettingsScreen: React.FC = () => {
    */
   const onLogout = async () => {
     dispatch(logout());
-    await Promise.all([
-      AuthUtils.removeOfflineToken(),
-      Config.removeLocalValue("@language"),
-      Config.removeLocalValue("@initialRoute"),
-      Config.removeLocalValue("@preferredLogin")
-    ]);
 
-    navigation.replace("registration", { screen: "languageSelection" });
+    navigation.replace("authentication", { screen: "welcome" });
   };
 
   /**

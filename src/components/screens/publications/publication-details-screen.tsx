@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, ScrollView, View, Text, Platform } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/publications/publication-details";
 import { PublicationDetails } from "../../../types";
@@ -10,7 +10,7 @@ import PublicationsNavigator from "../../../types/navigators/publications";
 import { PublicationsApiContext } from "../../providers/publications-api-provider";
 import { LinearGradient } from "expo-linear-gradient";
 import WebView from "react-native-webview";
-import { Title, Button } from "react-native-paper";
+import { Title } from "react-native-paper";
 import moment from "moment";
 import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
@@ -21,7 +21,6 @@ import BackButton from "../../generic/back-button";
  */
 const PublicationDetailsScreen: React.FC = () => {
   const { params } = useRoute<PublicationsNavigator.RouteProps<"publicationDetails">>();
-  const navigation = useNavigation<PublicationsNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
   const publicationsApiContext = React.useContext(PublicationsApiContext);
   const publicationId = params?.publicationId;
