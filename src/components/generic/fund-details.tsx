@@ -11,6 +11,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectSelectedLanguage } from "../../features/locale/locale-slice";
 import { LocalizedValue } from "../../generated/client";
 import { selectAuth } from "../../features/auth/auth-slice";
+import Calculations from "../../utils/calculations";
 
 /**
  * Component properties
@@ -40,26 +41,6 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
     }
 
     await WebBrowser.openBrowserAsync(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
-  };
-
-  /**
-   * Renders my share
-   *
-   * @param label price history label
-   * @param value price history percentage
-   */
-  const renderMyShare = (label: string, value: number) => {
-    return (
-      <View style={ styles.shareColumn }>
-        <Text>
-          { label }
-        </Text>
-        <Text style={ styles.priceHistoryPercentage }>
-          { value.toFixed(4) }
-          { label === strings.fundDetailsScreen.change ? "%" : null }
-        </Text>
-      </View>
-    );
   };
 
   /**
@@ -113,12 +94,12 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between", padding: theme.spacing(1) }}>
             <View>
               <Text style={ theme.fonts.medium }>
-                { `${strings.fundDetailsScreen.aShare} ${aShareValue}€` }
+                { aShareValue && `${strings.fundDetailsScreen.aShare} ${Calculations.formatEuroNumberStr(aShareValue, 3)}` }
               </Text>
             </View>
             <View>
               <Text style={ theme.fonts.medium }>
-                { `${strings.fundDetailsScreen.bShare} ${bShareValue}€` }
+                { bShareValue && `${strings.fundDetailsScreen.bShare} ${Calculations.formatEuroNumberStr(bShareValue, 3)}` }
               </Text>
             </View>
           </View>

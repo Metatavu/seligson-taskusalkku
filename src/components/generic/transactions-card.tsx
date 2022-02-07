@@ -80,7 +80,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
     const transactionValues: TransactionValue[] = [
       {
         label: strings.portfolio.transactions.value,
-        value: Calculations.formatNumberStr(marketValue, 4, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(marketValue, 4)
       },
       {
         label: strings.fundDetailsScreen.amount,
@@ -88,7 +88,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       },
       {
         label: strings.portfolio.statistics.total,
-        value: Calculations.formatNumberStr(totalValue, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(totalValue)
       }
     ];
 
