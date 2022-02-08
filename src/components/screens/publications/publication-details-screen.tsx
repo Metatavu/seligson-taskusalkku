@@ -11,11 +11,11 @@ import { PublicationsApiContext } from "../../providers/publications-api-provide
 import { LinearGradient } from "expo-linear-gradient";
 import WebView from "react-native-webview";
 import { Title } from "react-native-paper";
-import moment from "moment";
 import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
 import BackButton from "../../generic/back-button";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Publication details screen component
@@ -103,7 +103,7 @@ const PublicationDetailsScreen: React.FC = () => {
               { GenericUtils.getPublicationAuthor(publicationDetails) }
             </Text>
             <Text>
-              { moment(date).format("DD.MM.YYYY") }
+              { DateUtils.formatToFinnishDate(date) }
             </Text>
           </View>
           <WebView

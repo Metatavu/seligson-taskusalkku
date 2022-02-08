@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { View, Text, Platform, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Button, Card } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
@@ -95,24 +95,13 @@ const MeetingTimesScreen: React.FC = () => {
         <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
           { strings.meetings.meetingTimes.datePicker.title }
         </Text>
-        { Platform.OS === "android" &&
-          <DatePicker
-            mode="date"
-            date={ selectedDate }
-            startDate={ new Date() }
-            onDateChange={ datePickerChange }
-            minimumDate={ moment().add(1, "day").toDate() }
-          />
-        }
-        { Platform.OS === "ios" &&
-          <DatePicker
-            mode="date"
-            date={ selectedDate }
-            startDate={ new Date() }
-            onDateChange={ datePickerChange }
-            minimumDate={ moment().add(1, "day").toDate() }
-          />
-        }
+        <DatePicker
+          mode="date"
+          date={ selectedDate }
+          startDate={ new Date() }
+          onDateChange={ datePickerChange }
+          minimumDate={ moment().add(1, "day").toDate() }
+        />
         { meetingTimes.length <= 0 &&
           <Text style={ styles.noAvailableTime }>
             { strings.meetings.newMeeting.noAvailableTime }

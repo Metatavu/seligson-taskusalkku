@@ -8,10 +8,10 @@ import { Divider, Card, Snackbar, useTheme } from "react-native-paper";
 import strings from "../../../localization/strings";
 import theme from "../../../theme";
 import GenericUtils from "../../../utils/generic";
-import moment from "moment";
 import { PORTFOLIO_REFERENCE_TYPE } from "../../../types";
 import CopyText from "../../generic/copy-text";
 import BackButton from "../../generic/back-button";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Component properties
@@ -141,7 +141,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderDataRow(
           strings.subscription.dueDate,
-          moment(subscriptionSettings.dueDate).format("DD.MM.YYYY") || ""
+          DateUtils.formatToFinnishDate(subscriptionSettings.dueDate) || ""
         )
       }
       {

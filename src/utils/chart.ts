@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import { PortfolioHistoryValue, SecurityHistoryValue } from "../generated/client";
 import { ChartData, ChartRange, PortfolioSecurityCategory } from "../types";
 import Calculations from "./calculations";
+import DateUtils from "./date-utils";
 
 /**
  * Utility class for charts
@@ -221,16 +222,16 @@ namespace ChartUtils {
   export const getDisplayDates = (dateRange: Date[] | ChartRange) => {
     if (Array.isArray(dateRange) && dateRange.length === 2) {
       return {
-        startDate: moment(dateRange[0]).format("DD.MM.YYYY"),
-        endDate: moment(dateRange[1]).format("DD.MM.YYYY")
+        startDate: DateUtils.formatToFinnishDate(dateRange[0]),
+        endDate: DateUtils.formatToFinnishDate(dateRange[1])
       };
     }
 
     const chartRange = dateRange as ChartRange;
 
     return {
-      startDate: moment(getStartDate(chartRange)).format("DD.MM.YYYY"),
-      endDate: moment().format("DD.MM.YYYY")
+      startDate: DateUtils.formatToFinnishDate(getStartDate(chartRange)),
+      endDate: DateUtils.formatToFinnishDate(new Date())
     };
   };
 }

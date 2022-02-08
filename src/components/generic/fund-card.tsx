@@ -8,8 +8,8 @@ import fundCardStyles from "../../styles/generic/fund-card";
 import { Fund } from "../../generated/client";
 import strings from "../../localization/strings";
 import GenericUtils from "../../utils/generic";
-import moment from "moment";
 import Calculations from "../../utils/calculations";
+import DateUtils from "../../utils/date-utils";
 
 /**
  * Component properties
@@ -96,7 +96,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
             <View style={ styles.cardRow }>
               <Icon name="calendar" size={ 12 } color={ color }/>
               <Text style={ styles.lastUpdated }>
-                { priceDate && moment(priceDate).format("DD.MM.YYYY") }
+                { priceDate && DateUtils.formatToFinnishDate(priceDate) }
               </Text>
             </View>
           </View>

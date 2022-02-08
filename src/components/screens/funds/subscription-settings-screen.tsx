@@ -228,7 +228,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const onCreateBarCode = () => {
     const { sum } = subscriptionSettings;
 
-    if (Number.isNaN(sum) || Number(sum) < 10) {
+    if (!validNumber(sum)) {
       errorContext.setError(strings.errorHandling.subscription.invalidSum);
       return;
     }
@@ -242,9 +242,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   const renderFundTitle = () => (
     <>
       <View style={ styles.fundTitleContainer }>
-        <View
-          style={{ ...styles.fundColor, backgroundColor: fund.color }}
-        />
+        <View style={{ ...styles.fundColor, backgroundColor: fund.color }}/>
         <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
           { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
         </Text>
@@ -390,22 +388,27 @@ const SubscriptionSettingsScreen: React.FC = () => {
    * Renders sum input
   */
   const renderSumInput = () => (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center"
-      }}
-    >
-      <TextInput
-        style={[ { height: 30 }, !validNumber(subscriptionSettings.sum) ? { color: "red" } : { color: "black" } ]}
-        value={ subscriptionSettings.sum }
-        keyboardType="numeric"
-        onChangeText={ onSubscriptionSumChange }
-      />
-      <Text>
-        €
+    <View style={{ flexDirection: "column" }}>
+      <Text style={{ color: "red" }}>
+        { !validNumber(subscriptionSettings.sum) && strings.errorHandling.subscription.invalidSum }
       </Text>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center"
+        }}
+      >
+        <TextInput
+          style={[ { height: 30 }, !validNumber(subscriptionSettings.sum) ? { color: "red" } : { color: "black" } ]}
+          value={ subscriptionSettings.sum }
+          keyboardType="numeric"
+          onChangeText={ onSubscriptionSumChange }
+        />
+        <Text>
+          €
+        </Text>
+      </View>
     </View>
   );
 

@@ -1,8 +1,8 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import theme from "../../../theme";
-import { Button, Divider, Text } from "react-native-paper";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { Divider } from "react-native-paper";
+import { useRoute } from "@react-navigation/native";
 import TransactionsNavigator from "../../../types/navigators/transactions";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/portfolio/transactions-details-screen";
@@ -11,8 +11,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
-import moment from "moment";
 import BackButton from "../../generic/back-button";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Type for detail row
@@ -26,7 +26,6 @@ type DetailRow = {
  * Transaction details screen component
  */
 const TransactionDetailsScreen: React.FC = () => {
-  const navigation = useNavigation<TransactionsNavigator.NavigationProps<"transactionsDetails">>();
   const { params } = useRoute<TransactionsNavigator.RouteProps>();
   const localized = strings.portfolio.transactions;
 
@@ -72,11 +71,11 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.valueDate,
-        value: moment(valueDate).format("DD.MM.YYYY")
+        value: DateUtils.formatToFinnishDate(valueDate)
       },
       {
         label: localized.paymentDate,
-        value: paymentDate ? moment(paymentDate).format("DD.MM.YYYY") : undefined
+        value: paymentDate ? DateUtils.formatToFinnishDate(paymentDate) : undefined
       },
       {
         label: localized.shareAmount,

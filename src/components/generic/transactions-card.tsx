@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import TransactionsNavigator from "../../types/navigators/transactions";
 import Calculations from "../../utils/calculations";
-import moment from "moment";
+import DateUtils from "../../utils/date-utils";
 
 /**
  * Transaction value
@@ -113,7 +113,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
                 }
               </Text>
               <Text style={ styles.labelText }>
-                { paymentDate && moment(paymentDate).format("DD.MM.YYYY") }
+                { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
               </Text>
             </View>
             <Divider style={{ marginVertical: 5 }}/>
