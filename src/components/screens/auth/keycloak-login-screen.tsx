@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import WebView from "react-native-webview";
 import { WebViewErrorEvent, WebViewNavigationEvent } from "react-native-webview/lib/WebViewTypes";
 import Config from "../../../app/config";
@@ -9,24 +9,27 @@ import { useAppDispatch } from "../../../app/hooks";
 import { authUpdate } from "../../../features/auth/auth-slice";
 import AuthUtils from "../../../utils/auth";
 import { URL } from "react-native-url-polyfill";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import RootNavigator from "../../../types/navigators/root";
-import AuthNavigator from "../../../types/navigators/auth";
-import { Button } from "react-native-paper";
-import strings from "../../../localization/strings";
 import { LoginOptions } from "../../../types/config";
 
 /**
- * Strong authentication view component
+ * Component properties
+ */
+interface Props {
+  onAuthSuccess: () => void;
+  strongAuth: boolean;
+  demoLogin?: boolean;
+}
+
+/**
+ * Keycloak login screen component
  *
  * @param props component properties
  */
-const StrongAuthView: React.FC = () => {
-  const navigation = useNavigation<RootNavigator.NavigationProps>();
-  const { params } = useRoute<AuthNavigator.RouteProps>();
-  const demoLogin = params?.demoLogin;
-  const strongAuth = params?.strongAuth;
-
+const KeycloakLoginScreen: React.FC<Props> = ({
+  onAuthSuccess,
+  strongAuth,
+  demoLogin
+}) => {
   const dispatch = useAppDispatch();
   const { auth, demoLoginUrl } = Config.getStatic();
   const discovery = AuthSession.useAutoDiscovery(auth.issuer);
@@ -83,7 +86,7 @@ const StrongAuthView: React.FC = () => {
       !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
       !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
 
-      navigation.replace("home");
+      onAuthSuccess();
     } catch (error) {
       console.error(error);
     }
@@ -111,13 +114,7 @@ const StrongAuthView: React.FC = () => {
    * Component render
    */
   return (
-    <View style={{ flex: 1, marginTop: 40 }}>
-      {/* TODO: Fix styling */}
-      { Platform.OS === "ios" &&
-        <Button onPress={ navigation.goBack }>
-          { strings.generic.back }
-        </Button>
-      }
+    <View style={{ flex: 1 }}>
       <WebView
         incognito
         style={{ height: "100%" }}
@@ -128,4 +125,4 @@ const StrongAuthView: React.FC = () => {
   );
 };
 
-export default StrongAuthView;
+export default KeycloakLoginScreen;

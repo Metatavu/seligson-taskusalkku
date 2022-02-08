@@ -58,10 +58,6 @@ const Root: React.FC = () => {
       fontSize: 16
     },
     headerRight: () => {
-      if (!auth) {
-        return null;
-      }
-
       return (
         <IconButton
           icon="account-outline"

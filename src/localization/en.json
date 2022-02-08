@@ -211,7 +211,8 @@
   "settingsScreen": {
     "initialRoute": "Select default login route",
     "preferredLogin": "Select preferred login",
-    "language": "Application language"
+    "language": "Application language",
+    "loginRequired": "Biometric authentication and PIN-code are not available until you login."
   },
 
   "loginOptions": {

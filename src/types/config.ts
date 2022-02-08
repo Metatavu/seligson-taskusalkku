@@ -43,9 +43,9 @@ export enum Language {
  */
 export enum LoginOptions {
   USERNAME_AND_PASSWORD = "USERNAME_AND_PASSWORD",
+  STRONG_AUTH = "STRONG_AUTH",
   PIN = "PIN",
   BIOMETRIC = "BIOMETRIC",
-  STRONG_AUTH = "STRONG_AUTH",
   DEMO = "DEMO"
 }
 
