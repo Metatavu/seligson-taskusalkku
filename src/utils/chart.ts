@@ -213,7 +213,10 @@ namespace ChartUtils {
   };
 
   /**
+   * Get display dates
    *
+   * @param dateRange date range or array of dates
+   * @returns display dates
    */
   export const getDisplayDates = (dateRange: Date[] | ChartRange) => {
     if (Array.isArray(dateRange) && dateRange.length === 2) {
