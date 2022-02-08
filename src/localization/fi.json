@@ -22,7 +22,7 @@
       "list": "Virhe listattaessa rahastoja"
     },
     "fundHistory": {
-      "list": "Virhe listattaessa rahaston historia tietoja"
+      "list": "Virhe listattaessa rahaston historiatietoja"
     },
     "securities": {
       "list": "Virhe listattaessa rahastotietoja",
@@ -52,7 +52,7 @@
       "find": "Virhe haettaessa julkaisua"
     },
     "subscription": {
-      "invalidSum": "Sum value must be greater than 10 euros"
+      "invalidSum": "Tarkista merkinnän summa. Minimimerkintä on 10 €."
     }
   },
 
@@ -82,15 +82,15 @@
     "distributions": "Jakaumat",
     "ownFunds": "Omat rahastot",
     "transactions": "Tapahtumat",
-    "passiveFunds": "Passiiviset osake rahastot",
-    "activeFunds": "Aktiiviset osake rahastot",
+    "passiveFunds": "Passiiviset osakerahastot",
+    "activeFunds": "Aktiiviset osakerahastot",
     "interestFunds": "Korko rahastot",
-    "combinationFunds": "Yhdistelmä rahastot",
-    "profile": "Profiili"
+    "combinationFunds": "Yhdistelmärahastot",
+    "profile": "Asetukset"
   },
 
   "fundCard": {
-    "riskLevel": "Riskitaso",
+    "riskLevel": "Riskiluokka",
     "historyOneDay": "1pv",
     "historyOneMonth": "1kk",
     "historyOneYear": "1v",
@@ -105,7 +105,7 @@
     "amount": "Määrä",
     "value": "Arvo",
     "change": "Muutos",
-    "buyFund": "Tee merkintä",
+    "buyFund": "Merkitse",
     "downloadBrochure": "Avaintietoesite",
     "aShare": "A-osuus",
     "bShare": "B-osuus",
@@ -166,7 +166,7 @@
       "subscription": "Merkintä",
       "valueDate": "Arvopäivä",
       "paymentDate": "Maksupäivä",
-      "shareAmount": "Osuuksien määrä",
+      "shareAmount": "Kpl",
       "value": "Kurssi",
       "totalValue": "Arvo yhteensä",
       "provision": "Palkkio",
@@ -244,8 +244,8 @@
       "description": "Rahastosalkkusi näytetään heti, kun avaat sovelluksen (Vaatii kirjautumisen tai lukituksen avaamisen)"
     },
     "funds": {
-      "title": "Rahastoarvot",
-      "description": "Rahastoarvot näytetään heti, kun avaat sovelluksen."
+      "title": "Rahastot",
+      "description": "Näet uusimmat rahastoarvot heti ilman kirjautumista tai lukituksen avaamista"
     }
   },
 

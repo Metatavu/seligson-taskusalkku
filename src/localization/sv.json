@@ -1,0 +1,255 @@
+{
+
+  "generic": {
+    "notImplemented": "Ännu inte implementerat.",
+    "close": "Stäng",
+    "back": "Tillbaka",
+    "login": "Logga in",
+    "logout": "Logga ut",
+    "webPage": "För mer information besök vår webbplats.",
+    "reserve": "Boka",
+    "cancel": "Annullera",
+    "save": "Spara",
+    "noData": "Inga data",
+    "copied": "Kopierade till urklipp.",
+    "saveAndProceed": "Spara och fortsätt.",
+    "ok": "Ok"
+  },
+
+  "errorHandling": {
+    "title": "Fel",
+    "funds": {
+      "list": "Fel att lista fonderna."
+    },
+    "fundHistory": {
+      "list": "Fel att lista fonder historiken data."
+    },
+    "securities": {
+      "list": "Fel att lista fonderna data.",
+      "find": "Fel att söka fonderna data."
+    },
+    "portfolio": {
+      "list": "Fel att  lista portfölj historiken data."
+    },
+    "portfolioSecurities": {
+      "list": "Fel att lista portfölj fonderna."
+    },
+    "auth": {
+      "login": "Fel att logga in.",
+      "biometric": "Den biometrisk identifieringen misslyckades. Logga in på appen igen."
+    },
+    "meetingTimes": {
+      "list": "Fel att listan lediga tider."
+    },
+    "meeting": {
+      "create": "Fel att skapa lediga tider."
+    },
+    "portfolioTransactions": {
+      "list": "Fel att lista portfölj händelser."
+    },
+    "publications": {
+      "list": "Fel att lista publikationer.",
+      "find": "Fel att söka publikationer."
+    },
+    "subscription": {
+      "invalidSum": "Kontrollera teckningssumman. Minimiteckningen är 10 €"
+    }
+  },
+
+  "auth": {
+    "loginSessionExpiredTitle": "Inloggningen har gått ut.",
+    "loginSessionExpiredContent": "Inloggningen har gått ut. Logga in igen.",
+    "loginRequired": "Logga in på appen med dina Min portfölj-koder",
+    "login": "Logga in",
+    "newAccount": "Behöver du (nya eller dina första) Min portfölj-koder?",
+    "inputPinCode": "Ange PIN-kod",
+    "incorrectPinCode": "Fel PIN-kod",
+    "loginWithBiometric": "Logga in på appen med biometrisk identifiering.",
+    "tryAgain": "Försök igen"
+  },
+
+  "screenTitles": {
+    "portfolio": "Portfölj",
+    "funds": "Fonderna",
+    "publications": "Publikationer",
+    "meetings": "Boka tid",
+    "reviews": "Kvartalsöversikten",
+    "topical": "Aktuellt",
+    "questions": "Frägor",
+    "phoebus": "Phoebus",
+    "others": "Övrig",
+    "statistics": "Statistik",
+    "distributions": "Fördelning",
+    "ownFunds": "Fonder",
+    "transactions": "Händelser",
+    "passiveFunds": "Passiva aktiefonder",
+    "activeFunds": "Aktiva aktiefonder",
+    "interestFunds": "Räntefonder",
+    "combinationFunds": "Blandfonder",
+    "profile": "inställningar"
+  },
+
+  "fundCard": {
+    "riskLevel": "Riskprofil",
+    "historyOneDay": "1 d",
+    "historyOneMonth": "1 mån",
+    "historyOneYear": "1 år",
+    "historyThreeYears": "3 år",
+    "historyFiveYears": "5 år",
+    "historyTenYears": "10 år",
+    "historyTwentyYears": "20 år",
+    "historyMax": "max"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Antal andelar",
+    "value": "Värde",
+    "change": "Förändring",
+    "buyFund": "Teckna",
+    "downloadBrochure": "Faktablad",
+    "aShare": "A-andel",
+    "bShare": "B-andel",
+    "myShare": "Egen andel"
+  },
+
+  "subscription": {
+    "settingsDescription": "Nedan kan du kopiera fondens kontonummer och ditt eget referensnummer, eller skapa en virtuell streckkod som du matar in i din nätbank.",
+    "accountNumber": "Kontonummer",
+    "recipient": "Mottagare",
+    "portfolio": "Portfölj",
+    "referenceNumber": "Referensnummer",
+    "subscriptionAmount": "Teckningssumma",
+    "dueDate": "Förfallodag",
+    "createVirtualBarCode": "Generera virtuell streckkod",
+    "summaryDescription": "Kopiera streckkoden nedan i det rätta fältet i nätbankens betalningsformulär. Du behöver fylla i mottagarens, alltså fondens, namn separat.",
+    "customer": "Kund",
+    "customerNumber": "Kundnummer",
+    "bank": "Bank",
+    "shareType": "Andelsslag",
+    "sum": "Summa",
+    "virtualBarCode": "Virtuell streckkod",
+    "shares": {
+      "a": {
+        "title": "Tillväxtandel",
+        "recommended": "rekommendation",
+        "value": "Tillväxtandel",
+        "description": "Dividender och räntor som erhålls av fonden fogas till fondkapitalet och de ökar fondandelens värde. En skattepåföljd uppstår först när fondandelar säljs."
+      },
+      "b": {
+        "title": "Avkastningsandel",
+        "value": "Avkastningsandel",
+        "description": "Dividendintäkterna och ränteintäkterna utdelas en gång per år till andelsägarna."
+      }
+    }
+  },
+
+  "portfolio": {
+    "statistics": {
+      "marketValueTotal": "Värde totalt",
+      "purchaseTotal": "Anskaffningsvärde",
+      "change": "Förändring",
+      "totalChange": "Förändring av det totala värdet",
+      "redemptions": "Inlösningar",
+      "subscriptions": "Teckningar",
+      "total": "Totalt"
+    },
+    "portfolioSecurities": {
+      "title": "Egna fonderna"
+    },
+    "select": {
+      "all": "Alla portföljer"
+    },
+    "transactions": {
+      "type": "Händelsetyp",
+      "redemption": "Inlösning",
+      "subscription": "Teckning",
+      "valueDate": "Valuteringsdag",
+      "paymentDate": "Betalningsdag",
+      "shareAmount": "St",
+      "value": "Kurs",
+      "totalValue": "Värde totalt",
+      "provision": "Provision",
+      "paidTotal": "Betalning totalt"
+    }
+  },
+
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "Boka tid för diskussion",
+      "bookTimeDescription": "Vill du diskutera med oss om placeringar eller kapitalförvaltning antingen via telefon eller hos oss på plats?\n\nDu kan nedan boka en lämplig tid för diskussion.\n\nBörja med att välja datum och tid för diskussion. Det finns bokningsbara tider på bankdagar kl. 9:00 - 17:00.\n\nMeddela även gärna antalet besökare samt kortfattat vad du önskar diskutera.",
+      "datePicker": {
+        "title": "Datum och tid",
+        "pickDateTime": "Välj dag",
+        "noAppointment": "Inga lediga tider för den här dagen.",
+        "startDate": "start datum",
+        "endDate": "Slut datum"
+      }
+    },
+    "newMeeting": {
+      "title": "Kontaktuppgifter",
+      "selectedTime": "Vald tid",
+      "time": "klo",
+      "noAvailableTime": "Inga lediga tider för den här dagen.",
+      "meetingType": {
+        "title": "Tidsbokning för",
+        "phone": "Telefondiskussion",
+        "meeting": "Personligt möte'"
+      },
+      "meetingLanguage": "Språk",
+      "participantCount": "Antal personer som deltar",
+      "contact": {
+        "firstName": "Förnamn",
+        "lastName": "Efternamn",
+        "email": "E-post",
+        "phone": "Telefonnummer"
+      },
+      "additionalInformation": "Ytterligare information"
+    }
+  },
+
+  "settingsScreen": {
+    "initialRoute": "Välj startinnehåll",
+    "preferredLogin": "Välj inloggningssätt",
+    "language": "Appens språk"
+  },
+
+  "loginOptions": {
+    "usernameAndPassword": {
+      "title": "Användarnamn och lösenord",
+      "description": "Inloggning på appen kräver användarnamn och lösenord."
+    },
+    "pin": {
+      "title": "PIN-kod",
+      "description": "Du förblir inloggad, men appens låsning öppnas med den PIN-kod du valt."
+    },
+    "biometric": {
+      "title": "Biometrisk identifiering",
+      "description": "Du förblir inloggad, men appens låsning öppnas med biometrisk identifiering."
+    },
+    "strongAuth": {
+      "title": "Stark autentisering",
+      "description": "Du förblir inloggad, men appens låsning öppnas med stark autentisering. "
+    },
+    "demo": {
+      "title": "Demo",
+      "description": "Logga in pä demo."
+    }
+  },
+
+  "defaultRoutes": {
+    "portfolio": {
+      "title": "Portfölj",
+      "description": "Din fondportföljs uppgifter visas genast när du öppnar appen (Kräver att du loggar in eller öppnar låsningen.)"
+    },
+    "funds": {
+      "title": "Fonderna",
+      "description": "Du ser de nyaste fondvärdena genast utan att du loggar in eller öppnar låsningen"
+    }
+  },
+
+  "languages": {
+    "fi": "Suomi",
+    "en": "English",
+    "sv": "Svenska"
+  }
+}

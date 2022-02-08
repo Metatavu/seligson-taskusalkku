@@ -78,8 +78,8 @@ const TransactionDetailsScreen: React.FC = () => {
         value: paymentDate ? DateUtils.formatToFinnishDate(paymentDate) : undefined
       },
       {
-        label: localized.shareAmount,
-        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: " kpl" })
+        label: strings.fundDetailsScreen.amount,
+        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: ` ${strings.portfolio.transactions.shareAmount}` })
       },
       {
         label: localized.value,
