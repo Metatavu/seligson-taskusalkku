@@ -15,6 +15,7 @@ interface Props {
   color?: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
+  disabled?: boolean;
 }
 
 /**
@@ -27,7 +28,8 @@ const RadioButtonOptionItem: React.FC<Props> = ({
   onPress,
   color,
   style,
-  description
+  description,
+  disabled
 }) => (
   <View style={ style || styles.radioButtonContainer }>
     <RadioButton.Item
@@ -38,6 +40,7 @@ const RadioButtonOptionItem: React.FC<Props> = ({
       onPress={ () => onPress(value) }
       style={ styles.radioButtonReversed }
       labelStyle={[ theme.fonts.medium, styles[checked ? "checked" : "notSelected"] ]}
+      disabled={ disabled }
     />
     <Text style={[ { color: theme.colors.primary }, !checked && styles.notSelected, !description && styles.noDescription ]}>
       { description }

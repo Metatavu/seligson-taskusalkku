@@ -5,7 +5,7 @@ import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import Config from "../../app/config";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { logout } from "../../features/auth/auth-slice";
+import { logout, selectAuth } from "../../features/auth/auth-slice";
 import { selectSelectedLanguage, setLanguage } from "../../features/locale/locale-slice";
 import { DefaultRoutes, Language, LoginOptions } from "../../types/config";
 import HomeNavigator from "../../types/navigators/home";
@@ -26,6 +26,7 @@ import theme from "../../theme";
 const SettingsScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<RootNavigator.NavigationProps>();
+  const auth = useAppSelector(selectAuth);
 
   const selectedLanguage = useAppSelector(selectSelectedLanguage);
   const [ selectedInitialRoute, setSelectedInitialRoute ] = React.useState<keyof HomeNavigator.Routes | undefined>();
@@ -151,16 +152,25 @@ const SettingsScreen: React.FC = () => {
       }
 
       const localizedOption = TranslationUtils.getLoginOptionDisplayText(option);
+      const disabled = !auth && (option === LoginOptions.BIOMETRIC || option === LoginOptions.PIN);
 
       return (
-        <RadioButtonOptionItem
-          key={ option }
-          label={ localizedOption.title }
-          checked={ selectedLoginOption === option }
-          value={ option }
-          onPress={ onLoginOptionChange }
-          description={ localizedOption.description }
-        />
+        <View>
+          <RadioButtonOptionItem
+            key={ option }
+            label={ localizedOption.title }
+            checked={ selectedLoginOption === option }
+            value={ option }
+            onPress={ onLoginOptionChange }
+            description={ localizedOption.description }
+            disabled={ disabled }
+          />
+          { disabled &&
+            <Text>
+              { strings.settingsScreen.loginRequired }
+            </Text>
+          }
+        </View>
       );
     })
   );
@@ -206,11 +216,13 @@ const SettingsScreen: React.FC = () => {
           { renderCards(renderLoginOptions, strings.settingsScreen.preferredLogin) }
           { renderCards(renderLanguageOptions, strings.settingsScreen.language) }
         </View>
-        <Button onPress={ onLogout } style={ styles.backButton }>
-          <Text style={ styles.buttonText }>
-            { strings.generic.logout }
-          </Text>
-        </Button>
+        { auth &&
+          <Button onPress={ onLogout } style={ styles.backButton }>
+            <Text style={ styles.buttonText }>
+              { strings.generic.logout }
+            </Text>
+          </Button>
+        }
       </ScrollView>
       <PinInput
         inputOpen={ pinInputOpen }

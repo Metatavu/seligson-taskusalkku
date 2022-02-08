@@ -9,11 +9,11 @@ import StatisticsScreen from "../portfolio/statistics-screen";
 import DistributionsScreen from "../portfolio/distributions-screen";
 import MySecuritiesScreen from "../portfolio/my-securities-screen";
 import PortfolioContextProvider from "../../providers/portfolio-provider";
-import { useAppSelector } from "../../../app/hooks";
-import { selectAuth } from "../../../features/auth/auth-slice";
 import LoginRequiredScreen from "../auth/login-required-screen";
 import TransactionsScreen from "../portfolio/transactions-screen";
 import { Dimensions } from "react-native";
+import { useAppSelector } from "../../../app/hooks";
+import { selectAuth } from "../../../features/auth/auth-slice";
 
 /**
  * Portfolio screen tab navigation
@@ -26,9 +26,10 @@ const PortfolioNavigation = createMaterialTopTabNavigator<PortfolioNavigator.Rou
 const PortfolioScreen: React.FC = () => {
   const { colors } = useTheme();
   const auth = useAppSelector(selectAuth);
+  const [ authReady, setAuthReady ] = React.useState(false);
 
-  if (!auth) {
-    return <LoginRequiredScreen/>;
+  if (!authReady || !auth) {
+    return <LoginRequiredScreen setAuthReady={ setAuthReady }/>;
   }
 
   /**
