@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Linking, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Linking, View, Text } from "react-native";
+import { Button } from "react-native-paper";
 import strings from "../../../localization/strings";
 import RootNavigator from "../../../types/navigators/root";
 import styles from "../../../styles/screens/auth/login-required-screen";

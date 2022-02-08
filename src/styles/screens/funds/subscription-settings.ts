@@ -36,8 +36,8 @@ export default StyleSheet.create({
   },
 
   backButton: {
-    backgroundColor: theme.colors.primary,
-    borderRadius: 25
+    borderRadius: 25,
+    marginTop: theme.spacing(3)
   },
 
   primaryLabel: {

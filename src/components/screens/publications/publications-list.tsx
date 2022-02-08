@@ -5,10 +5,11 @@ import styles from "../../../styles/screens/publications/publications-list";
 import { Publication } from "../../../types";
 import PublicationsNavigator from "../../../types/navigators/publications";
 import { Avatar, Divider } from "react-native-paper";
-import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import GenericUtils from "../../../utils/generic";
+import { unescape } from "html-escaper";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Component properties
@@ -55,7 +56,7 @@ const PublicationsList: React.FC<Props> = ({ publications }) => {
             </Text>
             <Divider style={ styles.divider }/>
             <Text>
-              { title }
+              { unescape(title) }
             </Text>
           </View>
           <View style={{ width: "25%" }}>
@@ -66,7 +67,7 @@ const PublicationsList: React.FC<Props> = ({ publications }) => {
                 color={ styles.dateIcon.color }
               />
               <Text style={ styles.date }>
-                { moment(date).format("DD.MM.YYYY") }
+                { DateUtils.formatToFinnishDate(date) }
               </Text>
             </View>
           </View>

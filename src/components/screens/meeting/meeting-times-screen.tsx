@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Button, Card } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
@@ -22,13 +22,16 @@ const MeetingTimesScreen: React.FC = () => {
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
 
-  const [ selectedDate, setSelectedSDate ] = React.useState<Date>(new Date());
+  const [ loading, setLoading ] = React.useState(true);
+  const [ selectedDate, setSelectedSDate ] = React.useState<Date>(moment().add(1, "day").toDate());
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
 
   /**
    * Fetches meeting times
    */
   const fetchMeetingTimes = async () => {
+    setLoading(true);
+
     try {
       if (!selectedDate) {
         return;
@@ -41,6 +44,8 @@ const MeetingTimesScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.meetingTimes.list, error);
     }
+
+    setLoading(false);
   };
 
   /**
@@ -73,9 +78,43 @@ const MeetingTimesScreen: React.FC = () => {
       style={ styles.meetingTime }
       onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }
     >
-      <Text>{ moment(meetingTime.startTime).format("DD/MM HH:mm") }</Text>
+      <Text>{ moment.utc(meetingTime.startTime).format("HH:mm") }</Text>
     </Button>
   );
+
+  /**
+   * Renders content
+   */
+  const renderContent = () => {
+    if (loading) {
+      return <ActivityIndicator size="large" color={ theme.colors.primary }/>;
+    }
+
+    return (
+      <Card style={ styles.meetingCard }>
+        <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+          { strings.meetings.meetingTimes.datePicker.title }
+        </Text>
+        <DatePicker
+          mode="date"
+          date={ selectedDate }
+          startDate={ new Date() }
+          onDateChange={ datePickerChange }
+          minimumDate={ moment().add(1, "day").toDate() }
+        />
+        { meetingTimes.length <= 0 &&
+          <Text style={ styles.noAvailableTime }>
+            { strings.meetings.newMeeting.noAvailableTime }
+          </Text>
+        }
+        <FlatGrid
+          itemDimension={ 130 }
+          data={ meetingTimes }
+          renderItem={ ({ item, index }) => renderMeetingTime(item, index)}
+        />
+      </Card>
+    );
+  };
 
   /**
    * Component render
@@ -92,41 +131,7 @@ const MeetingTimesScreen: React.FC = () => {
           </Text>
         </Card>
         <View style={{ marginTop: theme.spacing(2) }}>
-          <Card style={ styles.meetingCard }>
-            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
-              { strings.meetings.meetingTimes.datePicker.title }
-            </Text>
-            { Platform.OS === "android" &&
-              <View style={ styles.datePicker }>
-                <DatePicker
-                  mode="date"
-                  date={ selectedDate }
-                  startDate={ new Date() }
-                  onDateChange={ datePickerChange }
-                />
-              </View>
-            }
-            { Platform.OS === "ios" &&
-              <View style={ styles.datePickerIos }>
-                <DatePicker
-                  mode="date"
-                  date={ selectedDate }
-                  startDate={ new Date() }
-                  onDateChange={ datePickerChange }
-                />
-              </View>
-            }
-            { meetingTimes.length <= 0 &&
-              <Text style={ styles.noAvailableTime }>
-                { strings.meetings.newMeeting.noAvailableTime }
-              </Text>
-            }
-            <FlatGrid
-              itemDimension={ 130 }
-              data={ meetingTimes }
-              renderItem={ ({ item, index }) => renderMeetingTime(item, index)}
-            />
-          </Card>
+          { renderContent() }
         </View>
       </View>
     </ScrollView>

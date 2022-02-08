@@ -1,20 +1,19 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import TransactionsCard from "../../generic/transactions-card";
-import theme from "../../../theme";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import { Fund, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
 import { ErrorContext } from "../../error-handler/error-handler";
 import strings from "../../../localization/strings";
 import { PortfolioContext } from "../../providers/portfolio-provider";
-import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "../../../styles/screens/portfolio/transactions-list";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 import DatePicker from "../../generic/date-picker";
-import moment from "moment";
 import GenericUtils from "../../../utils/generic";
+import moment from "moment";
+import theme from "../../../theme";
 
 /**
  * Transactions list screen component
@@ -26,11 +25,12 @@ const TransactionsListScreen: React.FC = () => {
   const securitiesContext = React.useContext(SecuritiesApiContext);
   const portfoliosContext = React.useContext(PortfoliosApiContext);
 
+  const [ loading, setLoading ] = React.useState(true);
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
   const [ securities, setSecurities ] = React.useState<Security[]>([]);
   const [ transactions, setTransactions ] = React.useState<PortfolioTransaction[]>([]);
-  const [ startDate, setStartDate ] = React.useState<Date>();
-  const [ endDate, setEndDate ] = React.useState<Date>();
+  const [ startDate, setStartDate ] = React.useState<Date>(moment().startOf("year").toDate());
+  const [ endDate, setEndDate ] = React.useState<Date>(new Date());
 
   /**
    * Filters transactions
@@ -53,6 +53,8 @@ const TransactionsListScreen: React.FC = () => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.funds.list, error);
     }
+
+    setLoading(false);
   };
 
   /**
@@ -78,7 +80,11 @@ const TransactionsListScreen: React.FC = () => {
       setTransactions(
         (await Promise.all(
           effectivePortfolios.map(
-            async portfolio => portfoliosContext.listPortfolioTransactions({ portfolioId: portfolio.id! })
+            async portfolio => portfoliosContext.listPortfolioTransactions({
+              portfolioId: portfolio.id!,
+              startDate: startDate,
+              endDate: endDate
+            })
           )
         )).flat()
       );
@@ -88,49 +94,50 @@ const TransactionsListScreen: React.FC = () => {
   };
 
   /**
+   * Loads securities and transactions
+   */
+  const loadSecuritiesAndTransactions = async () => {
+    setLoading(true);
+    await loadSecurities();
+    await loadTransactions();
+    setLoading(false);
+  };
+
+  /**
    * Effect for loading funds
    */
-  React.useEffect(() => {
-    loadFunds();
-  }, []);
+  React.useEffect(() => { loadFunds(); }, []);
 
   /**
    * Effect for loading securities and transactions
    */
   React.useEffect(() => {
-    loadSecurities();
-    loadTransactions();
-  }, [ portfolios, selectedPortfolio ]);
+    loadSecuritiesAndTransactions();
+  }, [ portfolios, selectedPortfolio, startDate, endDate ]);
 
   /**
    * Renders date pickers
-   *
-   * TODO: add date filtering functionality
    */
   const renderStartDatePicker = () => (
-    <>
-      <DatePicker
-        mode="date"
-        date={ startDate || new Date() }
-        onDateChange={ setStartDate }
-      />
-    </>
+    <DatePicker
+      mode="date"
+      date={ startDate }
+      onDateChange={ setStartDate }
+      maxDate={ endDate }
+    />
   );
 
   /**
    * Renders date pickers
-   *
-   * TODO: add date filtering functionality
    */
   const renderEndDatePicker = () => (
-    <>
-      <DatePicker
-        mode="date"
-        date={ endDate || new Date() }
-        onDateChange={ setEndDate }
-        startDate={ startDate }
-      />
-    </>
+    <DatePicker
+      mode="date"
+      date={ endDate }
+      onDateChange={ setEndDate }
+      startDate={ startDate }
+      maxDate={ new Date() }
+    />
   );
 
   /**
@@ -158,6 +165,22 @@ const TransactionsListScreen: React.FC = () => {
   );
 
   /**
+   * Renders redemptions and subscriptions
+   */
+  const renderRedemptionsAndSubscriptions = () => {
+    if (loading) {
+      return <ActivityIndicator size="large" color={ theme.colors.primary }/>;
+    }
+
+    return (
+      <>
+        { renderRedemptions() }
+        { renderSubscriptions() }
+      </>
+    );
+  };
+
+  /**
    * Component render
    */
   return (
@@ -167,8 +190,7 @@ const TransactionsListScreen: React.FC = () => {
           { renderStartDatePicker() }
           { renderEndDatePicker() }
         </View>
-        { renderRedemptions() }
-        { renderSubscriptions() }
+        { renderRedemptionsAndSubscriptions() }
       </View>
     </ScrollView>
   );

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Portfolio, PortfolioSummary } from "../generated/client";
+import { Portfolio, PortfolioSummary, SecurityHistoryValue } from "../generated/client";
 
 /**
  * Custom namespace for calculations
@@ -112,6 +112,29 @@ namespace Calculations {
       purchaseTotal: Calculations.formatEuroNumberStr(purchaseTotal),
       totalChangeAmount: Calculations.formatEuroNumberStr(totalChange),
       totalChangePercentage: Calculations.formatEuroNumberStr(totalChangePercentage)
+    };
+  };
+
+  /**
+   * Gets value information for list of history values
+   *
+   * @param historyValues list of security history values
+   * @returns object that contains total change value and total change percentage
+   */
+  export const getTotalPortfolioHistoryInfo = (historyValues: SecurityHistoryValue[]) => {
+    if (historyValues.length < 2) {
+      return {};
+    }
+
+    const startValue = historyValues[0].value;
+    const endValue = historyValues[historyValues.length - 1].value;
+
+    const totalChangePercentage = getTotalChangePercentage(startValue, endValue);
+    const totalChange = new BigNumber(0).plus(getTotalChangeAmount(startValue, endValue)).toString();
+
+    return {
+      totalChangeAmount: Calculations.formatNumberStr(totalChange, 2, { suffix: " €" }),
+      totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
     };
   };
 

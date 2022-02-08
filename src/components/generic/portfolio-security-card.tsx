@@ -12,6 +12,7 @@ import Calculations from "../../utils/calculations";
 import { useNavigation } from "@react-navigation/native";
 import HomeNavigator from "../../types/navigators/home";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import DateUtils from "../../utils/date-utils";
 
 /**
  * Component properties
@@ -53,7 +54,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
       <View style={ styles.cardRow }>
         <Icon name="calendar" size={ 12 } color={ color }/>
         <Text style={ styles.lastUpdated }>
-          { priceDate?.toLocaleDateString() }
+          { priceDate && DateUtils.formatToFinnishDate(priceDate) }
         </Text>
       </View>
     </View>
