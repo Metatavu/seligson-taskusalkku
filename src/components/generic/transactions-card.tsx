@@ -84,7 +84,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       },
       {
         label: strings.fundDetailsScreen.amount,
-        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: " kpl" })
+        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: ` ${strings.portfolio.transactions.shareAmount}` })
       },
       {
         label: strings.portfolio.statistics.total,
