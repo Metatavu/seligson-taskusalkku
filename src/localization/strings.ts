@@ -182,6 +182,7 @@ export interface Strings extends LocalizedStringsMethods {
       redemptions: string;
       subscriptions: string;
       total: string;
+      changeInGivenRange: string;
     };
     portfolioSecurities: {
       title: string;

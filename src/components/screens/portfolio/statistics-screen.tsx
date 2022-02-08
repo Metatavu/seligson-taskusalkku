@@ -1,6 +1,6 @@
 import React from "react";
-import { GestureResponderEvent, ScrollView, View } from "react-native";
-import { ActivityIndicator, Paragraph, Title } from "react-native-paper";
+import { GestureResponderEvent, ScrollView, View, ActivityIndicator, Text } from "react-native";
+import { Paragraph, Title } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -31,7 +31,7 @@ const StatisticsScreen: React.FC = () => {
   const [ historyLoading, setHistoryLoading ] = React.useState(false);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
   const [ historyValues, setHistoryValues ] = React.useState<PortfolioHistoryValue[]>();
-  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   /**
@@ -103,6 +103,7 @@ const StatisticsScreen: React.FC = () => {
    */
   React.useEffect(() => {
     loadHistoryData();
+    loadSummaries();
   }, [ selectedPortfolio, selectedRange ]);
 
   /**
@@ -110,8 +111,8 @@ const StatisticsScreen: React.FC = () => {
    */
   React.useEffect(() => {
     if (focus) {
-      loadSummaries();
       loadHistoryData();
+      loadSummaries();
     }
   }, [ focus, portfolios ]);
 
@@ -155,9 +156,9 @@ const StatisticsScreen: React.FC = () => {
   );
 
   /**
-   * Renders details
+   * Renders total details
    */
-  const renderDetails = () => {
+  const renderTotalDetails = () => {
     if (!historyValues?.length) {
       return null;
     }
@@ -169,13 +170,8 @@ const StatisticsScreen: React.FC = () => {
       totalChangePercentage
     } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios());
 
-    const {
-      subscriptionsTotal,
-      redemptionsTotal
-    } = Calculations.getPortfolioSummaryInfo(summaries || []);
-
     return (
-      <View style={ styles.card }>
+      <View>
         <View
           style={ styles.details }
           onTouchStart={ toggleScroll(true) }
@@ -192,6 +188,44 @@ const StatisticsScreen: React.FC = () => {
             </Title>
           </View>
           { renderDetailRow(strings.portfolio.statistics.purchaseTotal, purchaseTotal) }
+          { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+        </View>
+      </View>
+    );
+  };
+
+  /**
+   * Renders history details
+   */
+  const renderHistoryDetails = () => {
+    if (!historyValues?.length) {
+      return null;
+    }
+
+    const dates = ChartUtils.getDisplayDates(selectedRange);
+
+    const {
+      totalChangeAmount,
+      totalChangePercentage
+    } = Calculations.getTotalPortfolioHistoryInfo(historyValues);
+
+    const {
+      subscriptionsTotal,
+      redemptionsTotal
+    } = Calculations.getPortfolioSummaryInfo(summaries || []);
+
+    return (
+      <View>
+        <View
+          style={ styles.details }
+          onTouchStart={ toggleScroll(true) }
+        >
+          <Text>
+            { strings.portfolio.statistics.changeInGivenRange }
+          </Text>
+          <Text>
+            { `${dates.startDate} - ${dates.endDate}` }
+          </Text>
           { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
           { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
           { renderDetailRow(strings.portfolio.statistics.redemptions, redemptionsTotal) }
@@ -224,6 +258,7 @@ const StatisticsScreen: React.FC = () => {
         >
           <PortfolioSelect/>
         </View>
+        { renderTotalDetails() }
         <View style={[ styles.chart, !scrollEnabled && styles.focused ]}>
           <ChartRangeSelector
             selectedRange={ selectedRange }
@@ -236,7 +271,7 @@ const StatisticsScreen: React.FC = () => {
           style={ styles.cardWrapper }
           onTouchStart={ toggleScroll(true) }
         >
-          { renderDetails() }
+          { renderHistoryDetails() }
         </View>
       </ScrollView>
     );

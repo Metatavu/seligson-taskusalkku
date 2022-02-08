@@ -1,9 +1,7 @@
 import { ChartData } from "../types";
 
 /**
- * Hideous injectable html and script strings
- *
- * Ugly hacks - use at your own risk!
+ * Injectable html and script strings
  */
 namespace Injectables {
 
@@ -41,7 +39,7 @@ namespace Injectables {
     chartColor: string
   ) => `
     try {
-      luxon.Settings.defaultLocale = "${language}";
+      luxon.Settings.defaultLocale = "fi-FI";
 
       const existingChart = Chart.getChart("history-value-chart");
       if (existingChart) {
@@ -96,7 +94,13 @@ namespace Injectables {
               caretSize: 6,
               padding: 8,
               callbacks: {
-                title: items => luxon.DateTime.fromMillis(items[0].raw.x).toLocaleString()
+                title: items => luxon.DateTime.fromMillis(items[0].raw.x).toLocaleString(),
+                label: function(context) {
+                  if (context.parsed.y !== null) {
+                      return new Intl.NumberFormat("fi-FI", { style: "currency", currency: "${valueCurrency}" }).format(context.parsed.y);
+                  }
+                  return "";
+                }
               }
             }
           },
@@ -106,7 +110,7 @@ namespace Injectables {
               time: {
                 displayFormats: {
                   day: "D",
-                  month: "LLL y"
+                  month: "M/y"
                 }
               },
               ticks: {
@@ -116,17 +120,13 @@ namespace Injectables {
             },
             y: {
               grace: "50%",
+              beginAtZero: true,
               ticks: {
                 precision: 3,
-                format: {
-                  style: "currency",
-                  currency: "${valueCurrency}"
+                callback: function(value, index, values) {
+                  return new Intl.NumberFormat("fi-FI", { style: "currency", currency: "${valueCurrency}" }).format(value)
                 }
               },
-              afterBuildTicks: axis => {
-                axis.ticks = axis.ticks.filter(tick => tick.value >= 0);
-                if (axis.min < 0) axis.min = 0;
-              }
             }
           }
         }

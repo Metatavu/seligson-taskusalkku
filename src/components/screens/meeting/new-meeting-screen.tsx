@@ -95,16 +95,23 @@ const NewMeetingScreen: React.FC = () => {
   /**
    * Renders meeting time 
    */
-  const renderMeetingTime = () => (
-    <View style={ styles.meetingTime }>
-      <Text style={ theme.fonts.medium }>
-        { `${strings.meetings.newMeeting.selectedTime}:` }
-      </Text>
-      <Text style={ theme.fonts.medium }>
-        { `${moment(meetingTime.startTime).format("DD.MM.YYYY")} ${strings.meetings.newMeeting.time} ${moment(meetingTime.startTime).format("hh:mm")}-${moment(meetingTime.endTime).format("hh:mm")}` }
-      </Text>
-    </View>
-  );
+  const renderMeetingTime = () => {
+    const { startTime, endTime } = meetingTime;
+    const startDisplayDate = moment.utc(startTime).format("DD.MM.YYYY");
+    const startDisplayTime = moment.utc(startTime).format("HH:mm");
+    const endDisplayTime = moment.utc(endTime).format("HH:mm");
+
+    return (
+      <View style={ styles.meetingTime }>
+        <Text style={ theme.fonts.medium }>
+          { `${strings.meetings.newMeeting.selectedTime}:` }
+        </Text>
+        <Text style={ theme.fonts.medium }>
+          { `${startDisplayDate} ${startDisplayTime}-${endDisplayTime}` }
+        </Text>
+      </View>
+    );
+  };
 
   /**
    * Renders meeting contact edit 
@@ -191,9 +198,9 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Renders addtional info 
+   * Renders additional info
    */
-  const renderAddtionalInfo = () => (
+  const renderAdditionalInfo = () => (
     <>
       <View style={{ marginTop: theme.spacing(2) }}>
         <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
@@ -263,13 +270,12 @@ const NewMeetingScreen: React.FC = () => {
           <Card style={ styles.meetingCard }>
             { renderLanguageSelect() }
             { renderMeetingTypeSelect() }
-            { renderAddtionalInfo() }
+            { renderAdditionalInfo() }
           </Card>
           { renderButtons() }
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
-
   );
 };
 

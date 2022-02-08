@@ -4,7 +4,7 @@ import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import fundCardStyles from "../../styles/generic/fund-card";
-import { Fund, PortfolioSecurity, Security } from "../../generated/client";
+import { Fund, PortfolioSecurity } from "../../generated/client";
 import strings from "../../localization/strings";
 import GenericUtils from "../../utils/generic";
 import BigNumber from "bignumber.js";
@@ -12,13 +12,13 @@ import Calculations from "../../utils/calculations";
 import { useNavigation } from "@react-navigation/native";
 import HomeNavigator from "../../types/navigators/home";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import DateUtils from "../../utils/date-utils";
 
 /**
  * Component properties
  */
 interface Props {
   portfolioSecurity: PortfolioSecurity;
-  security: Security;
   fund: Fund;
 }
 
@@ -27,9 +27,8 @@ interface Props {
  *
  * @param props component properties
  */
-const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, fund }) => {
+const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
-  const { currency } = security;
   const { color, risk, priceDate, longName } = fund;
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
@@ -55,7 +54,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
       <View style={ styles.cardRow }>
         <Icon name="calendar" size={ 12 } color={ color }/>
         <Text style={ styles.lastUpdated }>
-          { priceDate?.toLocaleDateString() }
+          { priceDate && DateUtils.formatToFinnishDate(priceDate) }
         </Text>
       </View>
     </View>
@@ -120,7 +119,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { strings.fundDetailsScreen.value }
           </Text>
           <Text>
-            { Calculations.formatNumberStr(totalValue, 2, { suffix: currency }) }
+            { Calculations.formatEuroNumberStr(totalValue) }
           </Text>
         </View>
         <View>
@@ -128,7 +127,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
             { strings.fundDetailsScreen.change }
           </Text>
           <Text style={ styles[changePercentage < 0 ? "negativeValue" : "positiveValue"] }>
-            { `${changePercentage.toFixed(2)}%` }
+            { Calculations.formatPercentageNumberStr(new BigNumber(changePercentage)) }
           </Text>
         </View>
       </>
@@ -139,23 +138,21 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
    * Component render
    */
   return (
-    <TouchableOpacity onPress={ onClick }>
-      <View style={ styles.cardWrapper }>
-        <View style={ styles.gradientContainer }>
-          <LinearGradient
-            colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-            style={ styles.gradient }
-          />
+    <TouchableOpacity onPress={ onClick } style={ styles.cardWrapper }>
+      <View style={ styles.gradientContainer }>
+        <LinearGradient
+          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
+          style={ styles.gradient }
+        />
+      </View>
+      <View style={ styles.cardContent }>
+        <View style={ styles.cardRow }>
+          { renderTitle() }
+          { renderRiskMeter() }
         </View>
-        <View style={ styles.cardContent }>
-          <View style={ styles.cardRow }>
-            { renderTitle() }
-            { renderRiskMeter() }
-          </View>
-          <Divider style={ styles.divider }/>
-          <View style={ styles.shareRow }>
-            { renderMyShares() }
-          </View>
+        <Divider style={ styles.divider }/>
+        <View style={ styles.shareRow }>
+          { renderMyShares() }
         </View>
       </View>
     </TouchableOpacity>

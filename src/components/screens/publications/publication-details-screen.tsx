@@ -1,6 +1,6 @@
 import React from "react";
-import { ActivityIndicator, ScrollView, View, Text, Platform } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { ActivityIndicator, ScrollView, View, Text, Platform, Linking } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/publications/publication-details";
 import { PublicationDetails } from "../../../types";
@@ -10,18 +10,18 @@ import PublicationsNavigator from "../../../types/navigators/publications";
 import { PublicationsApiContext } from "../../providers/publications-api-provider";
 import { LinearGradient } from "expo-linear-gradient";
 import WebView from "react-native-webview";
-import { Title, Button } from "react-native-paper";
-import moment from "moment";
+import { Title } from "react-native-paper";
 import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
 import BackButton from "../../generic/back-button";
+import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Publication details screen component
  */
 const PublicationDetailsScreen: React.FC = () => {
   const { params } = useRoute<PublicationsNavigator.RouteProps<"publicationDetails">>();
-  const navigation = useNavigation<PublicationsNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
   const publicationsApiContext = React.useContext(PublicationsApiContext);
   const publicationId = params?.publicationId;
@@ -29,6 +29,8 @@ const PublicationDetailsScreen: React.FC = () => {
   const [ loading, setLoading ] = React.useState(true);
   const [ publicationDetails, setPublicationDetails ] = React.useState<PublicationDetails>();
   const [ webviewHeight, setWebviewHeight ] = React.useState(1000);
+
+  const webViewRef = React.useRef<WebView>(null);
 
   /**
    * Loads publication details
@@ -56,6 +58,27 @@ const PublicationDetailsScreen: React.FC = () => {
   React.useEffect(() => { loadPublicationDetails(); }, [ publicationId ]);
 
   /**
+   * Event handler for link press
+   *
+   * @param event should start load request
+   */
+  const onLinkPress = (event: ShouldStartLoadRequest) => {
+    const { url } = event;
+
+    if (url === "about:blank") {
+      return true;
+    }
+
+    if (url.endsWith(".pdf") && Platform.OS === "android") {
+      GenericUtils.openFileAndroid(url);
+      return false;
+    }
+
+    Linking.openURL(event.url);
+    return false;
+  };
+
+  /**
    * Renders content
    */
   const renderContent = () => {
@@ -80,22 +103,23 @@ const PublicationDetailsScreen: React.FC = () => {
               { GenericUtils.getPublicationAuthor(publicationDetails) }
             </Text>
             <Text>
-              { moment(date).format("DD.MM.YYYY") }
+              { DateUtils.formatToFinnishDate(date) }
             </Text>
           </View>
           <WebView
+            ref={ webViewRef }
             originWhitelist={[ "*" ]}
             source={{ html: Injectables.getPublicationDetailsHtml(content) }}
             automaticallyAdjustContentInsets={ false }
             scalesPageToFit={ Platform.select({ android: false }) }
             scrollEnabled={ false }
-            useWebKit={ false }
             showsHorizontalScrollIndicator={ false }
             showsVerticalScrollIndicator={ false }
             style={{ height: webviewHeight }}
             onMessage={ event => setWebviewHeight(Number(event.nativeEvent.data)) }
             javaScriptEnabled
             injectedJavaScript={ Injectables.getPublicationsScript() }
+            onShouldStartLoadWithRequest={ onLinkPress }
           />
         </View>
       </ScrollView>

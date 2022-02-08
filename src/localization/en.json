@@ -151,7 +151,8 @@
       "totalChange": "Total change",
       "redemptions": "Redemptions",
       "subscriptions": "Subscriptions",
-      "total": "Total"
+      "total": "Total",
+      "changeInGivenRange": "Change in given date range"
     },
     "portfolioSecurities": {
       "title": "Own funds"

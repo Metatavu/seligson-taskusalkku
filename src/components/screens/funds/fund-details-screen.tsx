@@ -101,7 +101,11 @@ const FundDetailsScreen: React.FC = () => {
   /**
    * Event handler for on go back press
    */
-  const onGoBackPress = () => (navigatedFromPortfolio ? navigation.navigate("portfolio", { screen: "mySecurities" }) : navigation.navigate("fundsList"));
+  const onGoBackPress = () => (
+    navigatedFromPortfolio ?
+      navigation.navigate("portfolio", { screen: "mySecurities" }) :
+      navigation.navigate("fundsList")
+  );
 
   /**
    * Effect for loading history data when selected fund changes
@@ -133,30 +137,30 @@ const FundDetailsScreen: React.FC = () => {
   /**
    * Renders content
    */
-  const renderContent = () => {
-    return (
-      <>
-        <View style={[ styles.chart, !scrollEnabled && styles.focused ]}>
-          <ChartRangeSelector
-            selectedRange={ selectedRange }
-            loading={ loading }
-            onDateRangeChange={ setSelectedRange }
-          />
-          { renderChart() }
-        </View>
-        <View
-          style={ styles.detailsWrapper }
-          onTouchStart={ toggleScroll(true) }
-        >
+  const renderContent = () => (
+    <>
+      <View style={[ styles.chart, !scrollEnabled && styles.focused ]}>
+        <ChartRangeSelector
+          selectedRange={ selectedRange }
+          loading={ loading }
+          onDateRangeChange={ setSelectedRange }
+        />
+        { renderChart() }
+      </View>
+      <View
+        style={ styles.detailsWrapper }
+        onTouchStart={ toggleScroll(true) }
+      >
+        <View style={ styles.cardWrapper }>
           <FundCard fund={ fund }/>
-          <FundDetails
-            fund={ fund }
-            onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
-          />
         </View>
-      </>
-    );
-  };
+        <FundDetails
+          fund={ fund }
+          onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
+        />
+      </View>
+    </>
+  );
 
   /**
    * Component render

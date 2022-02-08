@@ -2,6 +2,8 @@ import moment from "moment";
 import BigNumber from "bignumber.js";
 import { PortfolioHistoryValue, SecurityHistoryValue } from "../generated/client";
 import { ChartData, ChartRange, PortfolioSecurityCategory } from "../types";
+import Calculations from "./calculations";
+import DateUtils from "./date-utils";
 
 /**
  * Utility class for charts
@@ -20,7 +22,7 @@ namespace ChartUtils {
     [ChartRange.THREE_YEARS]: moment().subtract(3, "years").toDate(),
     [ChartRange.FIVE_YEARS]: moment().subtract(5, "years").toDate(),
     [ChartRange.TEN_YEARS]: moment().subtract(10, "years").toDate(),
-    [ChartRange.MAX]: moment().subtract(20, "years").toDate()
+    [ChartRange.MAX]: moment().subtract(30, "years").toDate()
   })[dateRange];
 
   /**
@@ -170,9 +172,12 @@ namespace ChartUtils {
     });
 
     const aggregatedList = Array.from(securityMap.values());
+
     return aggregatedList.map(category => ({
       ...category,
-      percentage: `${(new BigNumber(category.totalValue)).dividedBy(sumValue).multipliedBy(100).toFormat(2)} %`
+      percentage: Calculations.formatPercentageNumberStr(
+        new BigNumber(category.totalValue).dividedBy(sumValue).multipliedBy(100)
+      )
     }));
   };
 
@@ -206,6 +211,28 @@ namespace ChartUtils {
       [ChartRange.TEN_YEARS]: 30,
       [ChartRange.MAX]: 80
     })[dateRange as ChartRange];
+  };
+
+  /**
+   * Get display dates
+   *
+   * @param dateRange date range or array of dates
+   * @returns display dates
+   */
+  export const getDisplayDates = (dateRange: Date[] | ChartRange) => {
+    if (Array.isArray(dateRange) && dateRange.length === 2) {
+      return {
+        startDate: DateUtils.formatToFinnishDate(dateRange[0]),
+        endDate: DateUtils.formatToFinnishDate(dateRange[1])
+      };
+    }
+
+    const chartRange = dateRange as ChartRange;
+
+    return {
+      startDate: DateUtils.formatToFinnishDate(getStartDate(chartRange)),
+      endDate: DateUtils.formatToFinnishDate(new Date())
+    };
   };
 }
 

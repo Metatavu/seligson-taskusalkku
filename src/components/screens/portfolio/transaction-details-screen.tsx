@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import theme from "../../../theme";
 import { Divider } from "react-native-paper";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import TransactionsNavigator from "../../../types/navigators/transactions";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/portfolio/transactions-details-screen";
@@ -11,8 +11,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
-import moment from "moment";
 import BackButton from "../../generic/back-button";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Type for detail row
@@ -71,11 +71,11 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.valueDate,
-        value: moment(valueDate).format("DD.MM.YYYY")
+        value: DateUtils.formatToFinnishDate(valueDate)
       },
       {
         label: localized.paymentDate,
-        value: paymentDate ? moment(paymentDate).format("DD.MM.YYYY") : undefined
+        value: paymentDate ? DateUtils.formatToFinnishDate(paymentDate) : undefined
       },
       {
         label: strings.fundDetailsScreen.amount,
@@ -83,19 +83,19 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.value,
-        value: Calculations.formatNumberStr(marketValue, 4, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(marketValue, 4)
       },
       {
         label: localized.totalValue,
-        value: Calculations.formatNumberStr(totalValue, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(totalValue)
       },
       {
         label: localized.provision,
-        value: Calculations.formatNumberStr(provision, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(provision)
       },
       {
         label: localized.paidTotal,
-        value: Calculations.formatNumberStr(paidTotal, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(paidTotal)
       }
     ];
 

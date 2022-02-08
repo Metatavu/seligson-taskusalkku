@@ -5,9 +5,9 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import strings from "../../../localization/strings";
 import PublicationsListNavigator from "../../../types/navigators/publications-list";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { ActivityIndicator, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 import PublicationsList from "./publications-list";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 
 const REVIEW_CATEGORY = "katsaus";
 

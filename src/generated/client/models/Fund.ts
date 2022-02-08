@@ -134,6 +134,12 @@ export interface Fund {
      * @memberof Fund
      */
     subscriptionBankAccounts?: Array<SubscriptionBankAccount>;
+    /**
+     * subscribable
+     * @type {boolean}
+     * @memberof Fund
+     */
+    subscribable?: boolean;
 }
 
 export function FundFromJSON(json: any): Fund {
@@ -162,6 +168,7 @@ export function FundFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fund
         'risk': !exists(json, 'risk') ? undefined : json['risk'],
         'kIID': !exists(json, 'KIID') ? undefined : LocalizedValueFromJSON(json['KIID']),
         'subscriptionBankAccounts': !exists(json, 'subscriptionBankAccounts') ? undefined : ((json['subscriptionBankAccounts'] as Array<any>).map(SubscriptionBankAccountFromJSON)),
+        'subscribable': !exists(json, 'subscribable') ? undefined : json['subscribable'],
     };
 }
 
@@ -189,6 +196,7 @@ export function FundToJSON(value?: Fund | null): any {
         'risk': value.risk,
         'KIID': LocalizedValueToJSON(value.kIID),
         'subscriptionBankAccounts': value.subscriptionBankAccounts === undefined ? undefined : ((value.subscriptionBankAccounts as Array<any>).map(SubscriptionBankAccountToJSON)),
+        'subscribable': value.subscribable,
     };
 }
 

@@ -11,6 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import TransactionsNavigator from "../../types/navigators/transactions";
 import Calculations from "../../utils/calculations";
+import DateUtils from "../../utils/date-utils";
 
 /**
  * Transaction value
@@ -79,7 +80,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
     const transactionValues: TransactionValue[] = [
       {
         label: strings.portfolio.transactions.value,
-        value: Calculations.formatNumberStr(marketValue, 4, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(marketValue, 4)
       },
       {
         label: strings.fundDetailsScreen.amount,
@@ -87,7 +88,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       },
       {
         label: strings.portfolio.statistics.total,
-        value: Calculations.formatNumberStr(totalValue, 2, { suffix: " €" })
+        value: Calculations.formatEuroNumberStr(totalValue)
       }
     ];
 
@@ -112,7 +113,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
                 }
               </Text>
               <Text style={ styles.labelText }>
-                { paymentDate?.toLocaleDateString() }
+                { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
               </Text>
             </View>
             <Divider style={{ marginVertical: 5 }}/>
