@@ -166,7 +166,7 @@
       "subscription": "Merkintä",
       "valueDate": "Arvopäivä",
       "paymentDate": "Maksupäivä",
-      "shareAmount": "Osuuksien määrä",
+      "shareAmount": "Kpl",
       "value": "Kurssi",
       "totalValue": "Arvo yhteensä",
       "provision": "Palkkio",
