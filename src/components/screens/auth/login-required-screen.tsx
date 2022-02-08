@@ -26,6 +26,8 @@ interface Props {
 
 /**
  * Login required screen component
+ *
+ * @param props component properties
  */
 const LoginRequiredScreen: React.FC<Props> = ({ setAuthReady }) => {
   const dispatch = useAppDispatch();
