@@ -1,5 +1,8 @@
 import moment from "moment";
 
+/**
+ * Namespace for date utils
+ */
 namespace DateUtils {
   /**
    * Formats date to Finnish DD.MM.YYYY format
