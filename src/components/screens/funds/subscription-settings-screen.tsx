@@ -45,7 +45,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     fund: fund,
     dueDate: new Date(),
     shareType: PORTFOLIO_REFERENCE_TYPE.A,
-    sum: "0"
+    sum: ""
   });
 
   /**
@@ -269,7 +269,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     <>
       <TouchableOpacity onPress={ () => setVisible(true) }>
         <View style={ styles.select }>
-          <Text>
+          <Text style={[ theme.fonts.medium, { marginRight: theme.spacing(1) } ]}>
             { selectedOption?.label }
           </Text>
           <Icon name="chevron-down" color={ colors.primary }/>
@@ -366,7 +366,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     selectedOption?: SubscriptionOption
   ) => (
     <>
-      <Text style={ styles.primaryLabel }>
+      <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
         { label }
       </Text>
       {
@@ -385,30 +385,52 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
+   * Renders Portfolio select with label
+   * 
+   * @param label label
+   * @param visible visible
+   * @param setVisible set visible
+   */
+  const renderSelectPortfolioWithLabel = (
+    label: string,
+    visible: boolean,
+    setVisible: (visible: boolean) => void
+  ) => (
+    <>
+      <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
+        { label }
+      </Text>
+      <View style={{ paddingVertical: theme.spacing(2) }}>
+        {
+          renderSelect(
+            visible,
+            setVisible,
+            portfolioOptions,
+            onPortfolioOptionSelect,
+            portfolioOptions.find(option => option.key === subscriptionSettings.portfolio?.id)
+          )
+        }
+      </View>
+    </>
+  );
+
+  /**
    * Renders sum input
   */
   const renderSumInput = () => (
-    <View style={{ flexDirection: "column" }}>
-      <Text style={{ color: "red" }}>
-        { !validNumber(subscriptionSettings.sum) && strings.errorHandling.subscription.invalidSum }
-      </Text>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center"
-        }}
-      >
+    <View style={ styles.sumInput } >
+      <View style={ styles.sumTextInput }>
         <TextInput
-          style={[ { height: 30 }, !validNumber(subscriptionSettings.sum) ? { color: "red" } : { color: "black" } ]}
+          style={[ styles.sumText, !validNumber(subscriptionSettings.sum) ? { color: "red" } : { color: "black" } ]}
           value={ subscriptionSettings.sum }
           keyboardType="numeric"
           onChangeText={ onSubscriptionSumChange }
+          placeholder="0"
         />
-        <Text>
-          €
-        </Text>
       </View>
+      <Text>
+        €
+      </Text>
     </View>
   );
 
@@ -431,7 +453,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     <>
       {
         renderSelectWithLabel(
-          strings.subscription.bank,
+          strings.subscription.accountNumber,
           bankOptionVisible,
           setBankOptionVisible,
           bankOptions,
@@ -443,39 +465,25 @@ const SubscriptionSettingsScreen: React.FC = () => {
       {
         renderDataRow(
           () => (
-            <Text>
+            <Text style={ theme.fonts.medium }>
               { strings.subscription.recipient }
             </Text>
           ),
-          () => renderCopyText(GenericUtils.getLocalizedValue(fund.name))
+          () => renderCopyText(GenericUtils.getLocalizedValue(fund.name).slice(0, -4))
         )
       }
       <Divider style={{ marginBottom: theme.spacing(2) }}/>
       {
-        renderSelectWithLabel(
+        renderSelectPortfolioWithLabel(
           strings.subscription.portfolio,
           portfolioOptionVisible,
-          setPortfolioOptionVisible,
-          portfolioOptions,
-          onPortfolioOptionSelect,
-          portfolioOptions.find(option => option.key === subscriptionSettings.portfolio?.id)
-        )
-      }
-      <Divider/>
-      {
-        renderDataRow(
-          () => (
-            <Text>
-              { strings.subscription.sum }
-            </Text>
-          ),
-          renderSumInput
+          setPortfolioOptionVisible
         )
       }
       <Divider style={{ marginBottom: theme.spacing(2) }}/>
       {
         renderSelectWithLabel(
-          strings.subscription.shareType,
+          strings.subscription.referenceNumber,
           referenceOptionVisible,
           setReferenceOptionVisible,
           referenceOptions,
@@ -487,7 +495,23 @@ const SubscriptionSettingsScreen: React.FC = () => {
       {
         renderDataRow(
           () => (
-            <Text>
+            <Text style={ theme.fonts.medium }>
+              { strings.subscription.subscriptionAmount }
+            </Text>
+          ),
+          renderSumInput
+        )
+      }
+      <View style={ !validNumber(subscriptionSettings.sum) && subscriptionSettings.sum.length ? styles.validSum : styles.invalidSum }>
+        <Text style={{ color: "red" }}>
+          { strings.errorHandling.subscription.invalidSum }
+        </Text>
+      </View>
+      <Divider/>
+      {
+        renderDataRow(
+          () => (
+            <Text style={ theme.fonts.medium }>
               { strings.subscription.dueDate }
             </Text>
           ),
