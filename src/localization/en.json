@@ -171,6 +171,9 @@
       "totalValue": "Total value",
       "provision": "Provision",
       "paidTotal": "Total paid"
+    },
+    "distribution": {
+      "risk": "Shares, interest"
     }
   },
 

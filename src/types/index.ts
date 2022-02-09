@@ -171,6 +171,7 @@ export interface PortfolioSecurityCategory {
   currency: string;
   color: string;
   percentage: string;
+  riskLevel: number;
 }
 
 /**

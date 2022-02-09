@@ -171,6 +171,9 @@
       "totalValue": "Arvo yhteensä",
       "provision": "Palkkio",
       "paidTotal": "Maksettu yhteensä"
+    },
+    "distribution": {
+      "risk": "Osakkeet, korot"
     }
   },
 

@@ -55,6 +55,17 @@ const theme: ReactNativePaper.Theme = {
       A200: "#AAAAAA",
       A400: "#616161",
       A700: "#303030"
+    },
+    risks: {
+      0: "#DDD",
+      1: "#626312",
+      2: "#A8A217",
+      3: "#A8A217",
+      4: "#D6CE1C",
+      5: "#EE5008",
+      6: "#EE5008",
+      7: "#A7140A",
+      8: "#EE5008"
     }
   },
   roundness: 5,
