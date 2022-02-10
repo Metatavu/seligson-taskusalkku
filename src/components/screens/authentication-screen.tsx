@@ -1,7 +1,6 @@
 import React from "react";
 import AuthNavigator from "../../types/navigators/auth";
 import WelcomeScreen from "./auth/welcome-screen";
-import StrongAuthView from "./auth/strong-auth-view";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 /**
@@ -26,10 +25,6 @@ const AuthenticationScreen: React.FC = () => {
       <AuthNavigation.Screen
         name="welcome"
         component={ WelcomeScreen }
-      />
-      <AuthNavigation.Screen
-        name="login"
-        component={ StrongAuthView }
       />
     </AuthNavigation.Navigator>
   );

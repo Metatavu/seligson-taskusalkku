@@ -254,6 +254,7 @@ export interface Strings extends LocalizedStringsMethods {
     initialRoute: string;
     preferredLogin: string;
     language: string;
+    loginRequired: string;
   };
 
   /**

@@ -217,7 +217,8 @@
   "settingsScreen": {
     "initialRoute": "Valitse aloitussisältö",
     "preferredLogin": "Valitse kirjautumistapa",
-    "language": "Sovelluksen kieli"
+    "language": "Sovelluksen kieli",
+    "loginRequired": "Biometrinen tunnistus ja PIN-koodi eivät ole valittavissa ilman sisäänkirjautumista"
   },
 
   "loginOptions": {

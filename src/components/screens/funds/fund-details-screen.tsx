@@ -32,7 +32,7 @@ const FundDetailsScreen: React.FC = () => {
   const [ loading, setLoading ] = React.useState(true);
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
   const [ currency, setCurrency ] = React.useState<string>();
-  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MONTH);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   if (!fund) {
