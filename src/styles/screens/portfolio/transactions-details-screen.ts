@@ -16,7 +16,7 @@ export default StyleSheet.create({
   backButton: {
     marginHorizontal: theme.spacing(2),
     backgroundColor: "#899C35",
-    borderRadius: 15
+    borderRadius: theme.spacing(3)
   },
 
   detailsRow: {
@@ -30,8 +30,8 @@ export default StyleSheet.create({
     width: "5%",
     borderRadius: 0,
     overflow: "hidden",
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15
+    borderTopLeftRadius: theme.spacing(2),
+    borderBottomLeftRadius: theme.spacing(2)
   },
 
   gradient: {

@@ -44,7 +44,7 @@ export default StyleSheet.create({
     width: "100%",
     padding: theme.spacing(2),
     elevation: 8,
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     borderTopRightRadius: 0,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -70,7 +70,7 @@ export default StyleSheet.create({
   button: {
     marginTop: theme.spacing(2),
     backgroundColor: "#899C35",
-    borderRadius: 25,
+    borderRadius: theme.spacing(3),
     width: "100%",
     borderColor: "#fff",
     borderStyle: "solid",

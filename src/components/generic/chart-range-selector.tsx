@@ -1,12 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Button, IconButton } from "react-native-paper";
+import { Button } from "react-native-paper";
 import styles from "../../styles/generic/fund-chart";
 import strings from "../../localization/strings";
 import { ChartRange } from "../../types";
 import moment from "moment";
 import DatePicker from "./date-picker";
 import theme from "../../theme";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 /**
  * Component properties
@@ -99,12 +100,12 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, loading, onDateRan
           mode="date"
           onDateChange={ onDateChange }
           onOpen={ () => setSettingStartDate(true) }
-          customStyles={{ }}
+          customStyles={ styles.datePickerButton }
           maxDate={ maxDate }
           minimumDate={ minimumDate }
         />
         <View style={{ justifyContent: "center" }}>
-          <Text style={{ color: "white" }}>
+          <Text style={{ color: theme.colors.primary, marginRight: theme.spacing(1) }}>
             -
           </Text>
         </View>
@@ -114,7 +115,7 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, loading, onDateRan
           mode="date"
           onDateChange={ onDateChange }
           onOpen={ () => setSettingStartDate(false) }
-          customStyles={{ marginRight: theme.spacing(1) }}
+          customStyles={ styles.datePickerButton }
           maxDate={ maxDate }
           minimumDate={ minimumDate }
         />
@@ -135,10 +136,11 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, loading, onDateRan
           { renderDateRangeButton(ChartRange.FIVE_YEARS, strings.fundCard.historyFiveYears) }
           { renderDateRangeButton(ChartRange.TEN_YEARS, strings.fundCard.historyTenYears) }
           { renderDateRangeButton(ChartRange.MAX, strings.fundCard.historyMax) }
-          <IconButton
-            icon="calendar"
-            color="#fff"
-            style={{ maxWidth: 25 }}
+          <Icon
+            name="calendar"
+            color={ theme.colors.primary }
+            size={ 16 }
+            style={ styles.iconButton }
             onPress={ () => setShowDateInputs(true) }
           />
         </View>
@@ -146,14 +148,24 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, loading, onDateRan
     }
 
     return (
-      <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+      <View style={ styles.dateRangeButtonRow }>
         { renderDatePicker() }
-        <Button onPress={ onCloseDateSelection }>
-          { strings.generic.cancel }
-        </Button>
-        <Button onPress={ onConfirmDates }>
-          { strings.generic.ok }
-        </Button>
+        <View style={ styles.iconButtonRow }>
+          <Icon
+            name="check"
+            color={ theme.colors.primary }
+            size={ 16 }
+            onPress={ onConfirmDates }
+            style={ styles.iconButton }
+          />
+          <Icon
+            name="close"
+            color={ theme.colors.primary }
+            size={ 16 }
+            onPress={ onCloseDateSelection }
+            style={ styles.iconButton }
+          />
+        </View>
       </View>
     );
   };

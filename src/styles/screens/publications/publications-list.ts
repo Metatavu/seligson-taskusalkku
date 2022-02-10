@@ -12,9 +12,8 @@ export default StyleSheet.create({
   publicationCard: {
     width: "100%",
     marginTop: theme.spacing(1),
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 25,
-    borderBottomLeftRadius: 25,
+    borderRadius: theme.spacing(2),
+    borderTopRightRadius: 0,
     backgroundColor: "#fff",
     overflow: "hidden"
   },

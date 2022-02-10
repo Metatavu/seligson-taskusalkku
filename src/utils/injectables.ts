@@ -18,8 +18,8 @@ namespace Injectables {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-luxon/1.1.0/chartjs-adapter-luxon.min.js"></script>
       </head>
-      <body style="background-color: ${backgroundColor}">
-        <canvas id="history-value-chart"/>
+      <body style="background-color: ${backgroundColor}; padding: 0; margin: 0">
+        <canvas id="history-value-chart" />
       </body>
     </html>
   `;
@@ -49,7 +49,7 @@ namespace Injectables {
       const canvas = document.getElementById("history-value-chart");
 
       Chart.defaults.font.size = 12;
-      Chart.defaults.color = "white";
+      Chart.defaults.color = "black";
       Chart.defaults.backgroundColor = "${chartColor}20";
 
       const data = ${JSON.stringify(data)}.map(item => ({ ...item, x: new Date(item.x).valueOf() }));

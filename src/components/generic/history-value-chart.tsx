@@ -26,7 +26,7 @@ interface Props {
  */
 const HistoryValueChart: React.FC<Props> = ({
   historyValues,
-  color = "#ffffff",
+  color = "#000000",
   currency = "EUR",
   onChartTouch
 }) => {
@@ -66,8 +66,8 @@ const HistoryValueChart: React.FC<Props> = ({
         scrollEnabled={ false }
         overScrollMode="never"
         bounces={ false }
-        source={{ html: Injectables.getChartHtml(theme.colors.backgroundDark) }}
-        containerStyle={{ backgroundColor: theme.colors.backgroundDark }}
+        source={{ html: Injectables.getChartHtml(theme.colors.surface) }}
+        containerStyle={{ backgroundColor: theme.colors.surface }}
         injectedJavaScriptBeforeContentLoaded={ Injectables.getErrorHandlerScript() }
         onTouchStart={ onChartTouch }
         // eslint-disable-next-line no-console

@@ -188,7 +188,9 @@ namespace ChartUtils {
    * @param category2 category 2
    */
   export const compareSecurityCategory = (category1: PortfolioSecurityCategory, category2: PortfolioSecurityCategory): number => {
-    return category1.totalValue.localeCompare(category2.totalValue);
+    const totalValue1 = parseFloat(category1.totalValue) || 0;
+    const totalValue2 = parseFloat(category2.totalValue) || 0;
+    return totalValue1 - totalValue2;
   };
 
   /**

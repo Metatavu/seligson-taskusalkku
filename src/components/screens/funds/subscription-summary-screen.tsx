@@ -132,10 +132,10 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       }
       {
         renderDataRow(
-          strings.subscription.shareType === PORTFOLIO_REFERENCE_TYPE.A ?
+          strings.subscription.shareType,
+          subscriptionSettings.shareType === PORTFOLIO_REFERENCE_TYPE.A ?
             strings.subscription.shares.a.title :
-            strings.subscription.shares.b.title,
-          subscriptionSettings.shareType || ""
+            strings.subscription.shares.b.title
         )
       }
       {
@@ -160,7 +160,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderCopyTextWithLabel(
           strings.subscription.recipient,
-          GenericUtils.getLocalizedValue(subscriptionSettings.fund.name)
+          GenericUtils.getLocalizedValue(subscriptionSettings.fund.name).slice(0, -4)
         )
       }
     </>

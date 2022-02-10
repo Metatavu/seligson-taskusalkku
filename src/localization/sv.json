@@ -140,6 +140,12 @@
         "value": "Avkastningsandel",
         "description": "Dividendintäkterna och ränteintäkterna utdelas en gång per år till andelsägarna."
       }
+    },
+    "nonSubscribableFund": {
+      "description": "OMX Helsingfors 25 är en börsnoterad fond (ETF) och den tecknas inte på samma sätt som våra övriga ”vanliga” fonder.\n\nFondens andelar kan köpas och säljas på börsen via värdepappersförmedlare.\n\nDu hittar mer information om börsnoterade fonders särdrag bl.a. ",
+      "guideLink": "i Fondplacerarens guide (s. 25) ",
+      "videoBlog": "samt vår videoblogg ",
+      "videoBlogLink": "ETF eller 'vanlig'"
     }
   },
 
@@ -151,7 +157,8 @@
       "totalChange": "Förändring av det totala värdet",
       "redemptions": "Inlösningar",
       "subscriptions": "Teckningar",
-      "total": "Totalt"
+      "total": "Totalt",
+      "changeInGivenRange": "Datumintervall"
     },
     "portfolioSecurities": {
       "title": "Egna fonderna"
@@ -213,7 +220,8 @@
   "settingsScreen": {
     "initialRoute": "Välj startinnehåll",
     "preferredLogin": "Välj inloggningssätt",
-    "language": "Appens språk"
+    "language": "Appens språk",
+    "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade."
   },
 
   "loginOptions": {

@@ -14,9 +14,8 @@ const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: 
     marginTop: theme.spacing(1),
     flexDirection: "row",
     elevation: 8,
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15,
+    borderRadius: theme.spacing(2),
+    borderTopRightRadius: 0,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -29,8 +28,8 @@ const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: 
     width: "5%",
     borderRadius: 0,
     overflow: "hidden",
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15
+    borderTopLeftRadius: theme.spacing(2),
+    borderBottomLeftRadius: theme.spacing(2)
   },
   
   gradient: {
@@ -46,7 +45,7 @@ const fundDetailsStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: 
 
   button: {
     backgroundColor: "#FFF",
-    borderRadius: 25,
+    borderRadius: theme.spacing(3),
     borderWidth: 1,
     borderColor: theme.colors.primary,
     flex: 1,

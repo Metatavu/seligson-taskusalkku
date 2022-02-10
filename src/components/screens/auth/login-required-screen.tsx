@@ -16,6 +16,7 @@ import { ErrorContext } from "../../error-handler/error-handler";
 import PinInput from "../../generic/pin-input";
 import PinCodeAuth from "../../../utils/pin-code-auth";
 import KeycloakLoginScreen from "./keycloak-login-screen";
+import theme from "../../../theme";
 
 /**
  * Login required screen component
@@ -181,7 +182,7 @@ const LoginRequiredScreen: React.FC = () => {
    * Renders keycloak login
    */
   const renderKeycloakLogin = () => (
-    <View>
+    <View style={ styles.loginScreen }>
       <View style={ styles.cardWrapper }>
         <View style={ styles.cardContent }>
           <TouchableWithoutFeedback onPress={ handlePress }>

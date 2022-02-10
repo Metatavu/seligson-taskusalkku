@@ -121,7 +121,7 @@
     "subscriptionAmount": "Subscription amount",
     "dueDate": "Due date",
     "createVirtualBarCode": "Create a virtual barcode",
-    "summaryDescription": "Copy the barcode below provided on the online banking payment form\nThe name of the recipient of the fund must be added separately.",
+    "summaryDescription": "Copy the barcode below provided on the online banking payment form.\n\nThe name of the recipient of the fund must be added separately.",
     "customer": "Customer",
     "customerNumber": "Customer number",
     "bank": "Bank",
@@ -130,16 +130,22 @@
     "virtualBarCode": "virtual barcode",
     "shares": {
       "a": {
-        "title": "Growth rate",
+        "title": "Accumulation units",
         "recommended": "recommended",
-        "value": "Growth rate",
+        "value": "Accumulation units",
         "description": "Dividends or interest received by the fund are added to the fund capital and increase the value of the fund unit. The tax effect only arises when the fund units are sold."
       },
       "b": {
-        "title": "Yield share",
-        "value": "Yield share",
+        "title": "Income units",
+        "value": "Income units",
         "description": "Dividend or interest income is distributed once a year to unit-holders."
       }
+    },
+    "nonSubscribableFund": {
+      "description": "OMX Helsinki 25 is an Exchange Traded Fund (ETF) and it cannot be subbscribed to like our other 'regular' funds.\n\nFund units are traded on the Helsinki Stock Exchange like stocks.\n\nMore information about Exchange Traded Funds can be found from: ",
+      "guideLink": "Fund investor guide (p. 25) ",
+      "videoBlog": "Our video blog ",
+      "videoBlogLink": "ETF or 'regular'"
     }
   },
 
@@ -152,7 +158,7 @@
       "redemptions": "Redemptions",
       "subscriptions": "Subscriptions",
       "total": "Total",
-      "changeInGivenRange": "Change in given date range"
+      "changeInGivenRange": "Date range"
     },
     "portfolioSecurities": {
       "title": "Own funds"

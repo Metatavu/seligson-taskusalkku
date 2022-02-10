@@ -5,7 +5,7 @@ export default StyleSheet.create({
 
   webView: {
     height: 200,
-    backgroundColor: theme.colors.backgroundDark
+    backgroundColor: theme.colors.surface
   }
 
 });

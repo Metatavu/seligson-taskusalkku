@@ -15,7 +15,7 @@ export default StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: theme.spacing(2),
     elevation: 10
   }
 

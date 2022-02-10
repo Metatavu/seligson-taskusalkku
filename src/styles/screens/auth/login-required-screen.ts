@@ -12,7 +12,7 @@ export default StyleSheet.create({
   cardWrapper: {
     flexDirection: "row",
     elevation: 8,
-    borderRadius: 15,
+    borderRadius: theme.spacing(2),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -29,7 +29,7 @@ export default StyleSheet.create({
   loginButton: {
     margin: theme.spacing(2),
     backgroundColor: theme.colors.primary,
-    borderRadius: 15
+    borderRadius: theme.spacing(3)
   },
 
   titleText: {

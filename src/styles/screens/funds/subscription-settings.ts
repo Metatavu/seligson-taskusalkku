@@ -7,7 +7,7 @@ export default StyleSheet.create({
     padding: theme.spacing(2),
     width: "100%",
     elevation: 8,
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     borderTopRightRadius: 0,
     backgroundColor: "#fff",
     shadowColor: "#000",
@@ -31,12 +31,12 @@ export default StyleSheet.create({
   fundColor: {
     height: "100%",
     width: theme.spacing(1),
-    borderRadius: 10,
+    borderRadius: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
 
   backButton: {
-    borderRadius: 25,
+    borderRadius: theme.spacing(3),
     marginTop: theme.spacing(3)
   },
 
@@ -57,7 +57,6 @@ export default StyleSheet.create({
   select: {
     display: "flex",
     flexDirection: "row",
-    width: 120,
     alignItems: "center",
     justifyContent: "space-between"
   },
@@ -67,6 +66,46 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+
+  sumInput: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+
+  sumTextInput: {
+    width: 100,
+    padding: theme.spacing(1),
+    flexDirection: "row",
+    borderRadius: 4,
+    borderColor: theme.colors.grey[400],
+    borderStyle: "solid",
+    borderWidth: 1,
+    alignItems: "center",
+    marginRight: theme.spacing(1)
+  },
+
+  sumText: {
+    flex: 1,
+    textAlign: "right",
+    marginRight: 3
+  },
+
+  validSum: {
+    color: "red",
+    marginBottom: theme.spacing(2)
+  },
+
+  invalidSum: {
+    backgroundColor: "red",
+    opacity: 0,
+    height: 0
+  },
+
+  linkText: {
+    color: theme.colors.primary,
+    textDecorationLine: "underline"
   }
 
 });

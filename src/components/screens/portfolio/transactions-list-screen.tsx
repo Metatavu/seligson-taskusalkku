@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Text } from "react-native";
 import TransactionsCard from "../../generic/transactions-card";
 import { ScrollView } from "react-native-gesture-handler";
 import { Fund, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
@@ -188,6 +188,9 @@ const TransactionsListScreen: React.FC = () => {
       <View style={ styles.transactionsWrapper }>
         <View style={ styles.datePickers }>
           { renderStartDatePicker() }
+          <Text>
+            -
+          </Text>
           { renderEndDatePicker() }
         </View>
         { renderRedemptionsAndSubscriptions() }
