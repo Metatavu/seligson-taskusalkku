@@ -587,9 +587,9 @@ const SubscriptionSettingsScreen: React.FC = () => {
    */
   const renderContent = () => (
     <View style={{ padding: theme.spacing(2), marginBottom: theme.spacing(6) }}>
-      { !fund.subscribable
-        ? renderNonsubscribableFund()
-        : renderSubscribableFund()
+      { !fund.subscribable ?
+        renderNonsubscribableFund() :
+        renderSubscribableFund()
       }
     </View>
   );
