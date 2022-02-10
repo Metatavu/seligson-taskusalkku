@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import theme from "../../theme";
 
 export default StyleSheet.create({
 
@@ -10,30 +11,45 @@ export default StyleSheet.create({
 
   dateRangeButtonRow: {
     maxWidth: "100%",
-    overflow: "hidden",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: theme.spacing(1)
   },
 
   dateRangeButton: {
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#fff",
+    borderColor: theme.colors.primary,
     borderStyle: "solid",
     borderWidth: 1,
-    borderRadius: 15,
+    borderRadius: theme.spacing(2),
     margin: 0,
-    minWidth: 40,
-    height: 30
+    minWidth: 40
+  },
+
+  datePickerButton: {
+    backgroundColor: theme.colors.primary,
+    marginRight: theme.spacing(1),
+    borderRadius: theme.spacing(3)
+  },
+
+  iconButton: {
+    padding: theme.spacing(1),
+    borderColor: theme.colors.primary,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRadius: 17,
+    textAlign: "center",
+    marginLeft: theme.spacing(1)
   },
 
   dateRangeButtonSelected: {
-    backgroundColor: "#fff"
+    backgroundColor: theme.colors.primary
   },
 
   dateRangeButtonText: {
-    color: "#fff",
+    color: theme.colors.primary,
     fontSize: 10,
     marginVertical: 0,
     marginHorizontal: 0,
@@ -41,7 +57,7 @@ export default StyleSheet.create({
   },
 
   dateRangeButtonTextSelected: {
-    color: "#3E3F44",
+    color: "#fff",
     fontSize: 10
   }
 

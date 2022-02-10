@@ -28,12 +28,16 @@ export default StyleSheet.create({
 
   overview: {
     paddingTop: theme.spacing(1),
-    backgroundColor: theme.colors.backgroundDark,
-    display: "flex"
+    backgroundColor: theme.colors.primary,
+    display: "flex",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    marginHorizontal: theme.spacing(2),
+    borderRadius: theme.spacing(2),
+    borderTopRightRadius: 0
   },
 
   overviewRow: {
-    marginTop: theme.spacing(1),
     width: "100%",
     display: "flex",
     flexDirection: "row",
@@ -67,32 +71,39 @@ export default StyleSheet.create({
     width: "100%"
   },
 
-  chart: {
-    padding: theme.spacing(1),
-    backgroundColor: theme.colors.backgroundDark
-  },
-
   focused: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 12
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.00,
-    elevation: 24
+    backgroundColor: "white",
+    padding: theme.spacing(2),
+    borderTopLeftRadius: theme.spacing(2),
+    borderColor: theme.colors.primary,
+    borderStyle: "solid",
+    borderWidth: 1
   },
-
+  
+  notFocused: {
+    backgroundColor: "white",
+    padding: theme.spacing(2),
+    borderTopLeftRadius: theme.spacing(2),
+    borderColor: theme.colors.surface,
+    borderStyle: "solid",
+    borderWidth: 1
+  },
+  
+  historyDetails: {
+    padding: theme.spacing(2),
+    paddingTop: 0
+  },
+  
   details: {
-    borderBottomRightRadius: 30,
+    borderBottomRightRadius: theme.spacing(2),
+    borderBottomLeftRadius: theme.spacing(2),
     padding: theme.spacing(2),
     backgroundColor: theme.colors.surface,
     elevation: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
-    marginBottom: 10
+    shadowRadius: 5
   },
 
   detailContainer: {
@@ -114,6 +125,18 @@ export default StyleSheet.create({
   detailRowValue: {
     ...theme.fonts.medium,
     fontSize: 14
+  },
+
+  chartAndDetailsWrapper: {
+    borderRadius: theme.spacing(2),
+    backgroundColor: theme.colors.surface,
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    marginBottom: 10,
+    marginHorizontal: theme.spacing(2)
   }
 
 });

@@ -100,8 +100,9 @@ const DatePicker: React.FC<Props> = ({
     <Button
       color="white"
       style={ customStyles || styles.selectedMeetingTime }
+      labelStyle={{ fontSize: 12 }}
     >
-      { moment(date).format("DD/MM/YYYY") }
+      { moment(date).format("DD.MM.YYYY") }
     </Button>
   );
 

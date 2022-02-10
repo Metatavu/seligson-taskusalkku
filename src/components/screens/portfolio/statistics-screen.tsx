@@ -1,5 +1,5 @@
 import React from "react";
-import { GestureResponderEvent, ScrollView, View, ActivityIndicator, Text } from "react-native";
+import { GestureResponderEvent, ScrollView, View, ActivityIndicator } from "react-native";
 import { Paragraph, Title } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
@@ -216,20 +216,10 @@ const StatisticsScreen: React.FC = () => {
 
     return (
       <View>
-        <View
-          style={ styles.details }
-          onTouchStart={ toggleScroll(true) }
-        >
-          <Text>
-            { strings.portfolio.statistics.changeInGivenRange }
-          </Text>
-          <Text>
-            { `${dates.startDate} - ${dates.endDate}` }
-          </Text>
-          { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
-          { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
-          { renderDetailRow(strings.portfolio.statistics.redemptions, redemptionsTotal) }
-        </View>
+        { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${dates.startDate} - ${dates.endDate}`) }
+        { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+        { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
+        { renderDetailRow(strings.portfolio.statistics.redemptions, redemptionsTotal) }
       </View>
     );
   };
@@ -257,21 +247,23 @@ const StatisticsScreen: React.FC = () => {
           onTouchStart={ toggleScroll(true) }
         >
           <PortfolioSelect/>
+          { renderTotalDetails() }
         </View>
-        { renderTotalDetails() }
-        <View style={[ styles.chart, !scrollEnabled && styles.focused ]}>
-          <ChartRangeSelector
-            selectedRange={ selectedRange }
-            loading={ loading }
-            onDateRangeChange={ setSelectedRange }
-          />
-          { renderChart() }
-        </View>
-        <View
-          style={ styles.cardWrapper }
-          onTouchStart={ toggleScroll(true) }
-        >
-          { renderHistoryDetails() }
+        <View style={ styles.chartAndDetailsWrapper }>
+          <View style={ !scrollEnabled ? styles.focused : styles.notFocused }>
+            <ChartRangeSelector
+              selectedRange={ selectedRange }
+              loading={ loading }
+              onDateRangeChange={ setSelectedRange }
+            />
+            { renderChart() }
+          </View>
+          <View
+            style={ styles.historyDetails }
+            onTouchStart={ toggleScroll(true) }
+          >
+            { renderHistoryDetails() }
+          </View>
         </View>
       </ScrollView>
     );
