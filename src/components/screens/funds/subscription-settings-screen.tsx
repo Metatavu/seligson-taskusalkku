@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View, Text, TextInput } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View, Text, TextInput, Linking } from "react-native";
 import { Card, Button, useTheme, Snackbar, Divider } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
@@ -522,30 +522,69 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
+   * Renders a subscribable fund 
+   */
+  const renderSubscribableFund = () => (
+    <Card style={ styles.subscriptionCard }>
+      { renderFundTitle() }
+      <Text style={{ marginBottom: theme.spacing(2) }}>
+        { strings.subscription.settingsDescription }
+      </Text>
+      { renderSettingsContent() }
+      <Button
+        mode="contained"
+        disabled={ !validateSettings() }
+        icon="barcode"
+        labelStyle={{ color: "#fff" }}
+        style={ styles.backButton }
+        onPress={ onCreateBarCode }
+        color={ theme.colors.primary }
+      >
+        <Text style={{ color: "#fff" }}>
+          { strings.subscription.createVirtualBarCode }
+        </Text>
+      </Button>
+    </Card>
+  );
+
+  /**
+   * Renders a nonsubscribable fund 
+   */
+  const renderNonsubscribableFund = () => (
+    <Card style={ styles.subscriptionCard }>
+      { renderFundTitle() }
+      <View>
+        <Text>
+          { strings.subscription.nonSubscribableFund.description }
+        </Text>
+        <Text
+          onPress={ () => Linking.openURL("https://seligson.fi/resource/rahastosijoittajan_opas.pdf#page=25") }
+          style={ styles.linkText }
+        >
+          { strings.subscription.nonSubscribableFund.guideLink }
+        </Text>
+        <Text>
+          { strings.subscription.nonSubscribableFund.videoBlog }
+        </Text>
+        <Text
+          onPress={ () => Linking.openURL("https://www.seligson.fi/sco/suomi/videoblogi/75/") }
+          style={ styles.linkText }
+        >
+          { strings.subscription.nonSubscribableFund.videoBlogLink }
+        </Text>
+      </View>
+    </Card>
+  );
+
+  /**
    * Renders fund subscription content
    */
   const renderContent = () => (
     <View style={{ padding: theme.spacing(2), marginBottom: theme.spacing(6) }}>
-      <Card style={ styles.subscriptionCard }>
-        { renderFundTitle() }
-        <Text style={{ marginBottom: theme.spacing(2) }}>
-          { strings.subscription.settingsDescription }
-        </Text>
-        { renderSettingsContent() }
-        <Button
-          mode="contained"
-          disabled={ !validateSettings() }
-          icon="barcode"
-          labelStyle={{ color: "#fff" }}
-          style={ styles.backButton }
-          onPress={ onCreateBarCode }
-          color={ theme.colors.primary }
-        >
-          <Text style={{ color: "#fff" }}>
-            { strings.subscription.createVirtualBarCode }
-          </Text>
-        </Button>
-      </Card>
+      { !fund.subscribable
+        ? renderNonsubscribableFund()
+        : renderSubscribableFund()
+      }
     </View>
   );
 

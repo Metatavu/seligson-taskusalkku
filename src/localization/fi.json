@@ -140,6 +140,12 @@
         "value": "Tuotto-osuus",
         "description": "Osinko- tai korkotuotot jaetaan kerran vuodessa osuudenhaltijoille."
       }
+    },
+    "nonSubscribableFund": {
+      "description": "OMX Helsinki 25 on pörssinoteerattu rahasto (ETF) ja sitä ei merkitä samalla tavoin kuin muita ”tavallisia” rahastojamme.\n\nRahaston osuuksia voi ostaa ja myydä pörssissä arvopaperivälittäjien kautta.\n\nLisätietoja pörssinoteeratun rahaston erityispiirteistä löytyy mm. ",
+      "guideLink": "Rahastosijoittajan oppaasta (s. 25) ",
+      "videoBlog": "sekä videoblogistamme ",
+      "videoBlogLink": "ETF vai 'tavallinen'"
     }
   },
 

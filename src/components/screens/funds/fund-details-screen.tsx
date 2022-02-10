@@ -28,7 +28,6 @@ const FundDetailsScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
   const securitiesContext = React.useContext(SecuritiesApiContext);
   const fund = params?.fund;
-  const navigatedFromPortfolio = params?.navigatedFromPortfolio;
 
   const [ loading, setLoading ] = React.useState(true);
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
@@ -97,15 +96,6 @@ const FundDetailsScreen: React.FC = () => {
     setScrollEnabled(enabled);
     event.preventDefault();
   };
-
-  /**
-   * Event handler for on go back press
-   */
-  const onGoBackPress = () => (
-    navigatedFromPortfolio ?
-      navigation.navigate("portfolio", { screen: "mySecurities" }) :
-      navigation.navigate("fundsList")
-  );
 
   /**
    * Effect for loading history data when selected fund changes

@@ -140,6 +140,12 @@
         "value": "Income units",
         "description": "Dividend or interest income is distributed once a year to unit-holders."
       }
+    },
+    "nonSubscribableFund": {
+      "description": "OMX Helsinki 25 is an Exchange Traded Fund (ETF) and it cannot be subbscribed to like our other 'regular' funds.\n\nFund units are traded on the Helsinki Stock Exchange like stocks.\n\nMore information about Exchange Traded Funds can be found from: ",
+      "guideLink": "Fund investor guide (p. 25) ",
+      "videoBlog": "Our video blog ",
+      "videoBlogLink": "ETF or 'regular'"
     }
   },
 

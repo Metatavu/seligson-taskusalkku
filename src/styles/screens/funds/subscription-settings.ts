@@ -101,6 +101,11 @@ export default StyleSheet.create({
     backgroundColor: "red",
     opacity: 0,
     height: 0
+  },
+
+  linkText: {
+    color: theme.colors.primary,
+    textDecorationLine: "underline"
   }
 
 });
