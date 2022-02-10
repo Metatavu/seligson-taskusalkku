@@ -59,7 +59,7 @@
   "auth": {
     "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
     "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään.",
-    "loginRequired": "Kirjaudu sovellukseen Oma Salkku -tunnuksillasi.",
+    "loginRequired": "Kirjaudu Oma Salkku -tunnuksillasi.",
     "login": "Kirjaudu sisään",
     "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?",
     "inputPinCode": "Kirjoita pin-koodi",

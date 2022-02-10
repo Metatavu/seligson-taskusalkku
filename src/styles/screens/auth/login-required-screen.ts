@@ -32,6 +32,12 @@ export default StyleSheet.create({
     borderRadius: theme.spacing(3)
   },
 
+  errorButton: {
+    margin: theme.spacing(2),
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.spacing(3)
+  },
+
   titleText: {
     textAlign: "center",
     marginTop: theme.spacing(1)
