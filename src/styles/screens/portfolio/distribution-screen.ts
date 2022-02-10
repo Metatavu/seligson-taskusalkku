@@ -57,6 +57,13 @@ export default StyleSheet.create({
     width: theme.spacing(1),
     borderRadius: 10,
     marginRight: theme.spacing(1)
+  },
+
+  checkBoxContainer: {
+    marginLeft: "auto",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
   }
 
 });

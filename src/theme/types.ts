@@ -1,3 +1,5 @@
+import { FundGroup } from "../generated/client";
+
 /**
  * Type for extended custom spacing function
  */
@@ -19,7 +21,7 @@ declare global {
 
     interface ThemeColors {
       backgroundDark: string;
-      unSelected: string,
+      unSelected: string;
       grey: {
         100: string;
         200: string;
@@ -34,7 +36,10 @@ declare global {
         A200: string;
         A400: string;
         A700: string;
-      }
+      },
+      fundGroup: {
+        [ K in FundGroup ]: string
+      };
     }
   }
 }

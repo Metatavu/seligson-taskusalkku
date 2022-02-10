@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
-import { LocalizedValue, Portfolio, PortfolioSecurity } from "../../../generated/client";
+import { Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -10,7 +10,7 @@ import { VictoryPie, VictoryTooltip } from "victory-native";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfolioSecurityCategory } from "../../../types";
 import GenericUtils from "../../../utils/generic";
-import { Card } from "react-native-paper";
+import { Card, Switch } from "react-native-paper";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 import theme from "../../../theme";
 import BigNumber from "bignumber.js";
@@ -30,6 +30,7 @@ const DistributionsScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
 
   const [ portfolioSecurityCategories, setPortfolioSecurityCategories ] = React.useState<PortfolioSecurityCategory[]>([]);
+  const [ showGroup, setShowGroup ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
 
   /**
@@ -49,7 +50,8 @@ const DistributionsScreen: React.FC = () => {
       currency: security.currency,
       color: fund.color || "",
       totalValue: portfolioSecurity.totalValue,
-      percentage: Calculations.formatPercentageNumberStr(percentage)
+      percentage: Calculations.formatPercentageNumberStr(percentage),
+      groupColor: GenericUtils.getFundGroupColor(fund.group)
     };
   };
 
@@ -116,7 +118,9 @@ const DistributionsScreen: React.FC = () => {
       y: parseFloat(totalValue)
     }));
 
-    const chartColor = portfolioSecurityCategories.map(portfolioSecurityCategory => portfolioSecurityCategory.color);
+    const chartColor = showGroup ?
+      portfolioSecurityCategories.map(({ groupColor }) => groupColor) :
+      portfolioSecurityCategories.map(({ color }) => color);
 
     /**
      * Renders pie chart
@@ -128,6 +132,7 @@ const DistributionsScreen: React.FC = () => {
           data={ chartData }
           radius={ 120 }
           labelRadius={ 40 }
+          padAngle={ 1 }
           width={ Dimensions.get("window").width }
           height={ 240 }
           innerRadius={ 40 }
@@ -188,7 +193,12 @@ const DistributionsScreen: React.FC = () => {
       style={ styles.securityCategory }
     >
       <View
-        style={{ ...styles.categoryColor, backgroundColor: portfolioSecurityCategory.color }}
+        style={{
+          ...styles.categoryColor,
+          backgroundColor: showGroup ?
+            portfolioSecurityCategory.groupColor :
+            portfolioSecurityCategory.color
+        }}
       />
       <View>
         <Text style={ theme.fonts.medium }>
@@ -213,6 +223,22 @@ const DistributionsScreen: React.FC = () => {
   );
 
   /**
+   * Renders show group color switch
+   */
+  const renderGroupColorSwitch = () => (
+    <View style={ styles.checkBoxContainer }>
+      <Text style={{ marginRight: theme.spacing(2) }}>
+        { strings.portfolio.distribution.shareInterest }
+      </Text>
+      <Switch
+        color={ theme.colors.primary }
+        value={ showGroup }
+        onValueChange={ () => setShowGroup(!showGroup) }
+      />
+    </View>
+  );
+
+  /**
    * Renders content
    */
   const renderContent = () => {
@@ -234,6 +260,7 @@ const DistributionsScreen: React.FC = () => {
 
     return (
       <>
+        { renderGroupColorSwitch() }
         { renderPie() }
         { renderCategories() }
       </>

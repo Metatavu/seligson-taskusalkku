@@ -1,5 +1,6 @@
 import { DefaultTheme } from "react-native-paper";
 import { CustomSpacing } from "./types";
+import { FundGroup } from "../generated/client";
 
 /**
  * Creates custom spacing function for extended React Native Paper theme
@@ -55,6 +56,14 @@ const theme: ReactNativePaper.Theme = {
       A200: "#AAAAAA",
       A400: "#616161",
       A700: "#303030"
+    },
+    fundGroup: {
+      [FundGroup.Active]: "#A7140A",
+      [FundGroup.Passive]: "#A7140A",
+      [FundGroup.FixedIncome]: "#A8A217",
+      [FundGroup.Balanced]: "#EE5008",
+      [FundGroup.Dimension]: "#9E9E9E",
+      [FundGroup.Spiltan]: "#9E9E9E"
     }
   },
   roundness: 5,
