@@ -31,6 +31,12 @@ export interface LocalizedValue {
      * @memberof LocalizedValue
      */
     sv: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LocalizedValue
+     */
+    en?: string;
 }
 
 export function LocalizedValueFromJSON(json: any): LocalizedValue {
@@ -45,6 +51,7 @@ export function LocalizedValueFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'fi': json['fi'],
         'sv': json['sv'],
+        'en': !exists(json, 'en') ? undefined : json['en'],
     };
 }
 
@@ -59,6 +66,7 @@ export function LocalizedValueToJSON(value?: LocalizedValue | null): any {
         
         'fi': value.fi,
         'sv': value.sv,
+        'en': value.en,
     };
 }
 
