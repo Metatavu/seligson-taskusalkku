@@ -10,8 +10,6 @@ import RootNavigator from "./types/navigators/root";
 import HomeScreen from "./components/screens/home-screen";
 import SettingsScreen from "./components/screens/settings-screen";
 import AuthenticationScreen from "./components/screens/authentication-screen";
-import { useAppSelector } from "./app/hooks";
-import { selectAuth } from "./features/auth/auth-slice";
 import RegistrationScreen from "./components/screens/registration-screen";
 
 /**
@@ -23,7 +21,6 @@ const RootNavigation = createNativeStackNavigator<RootNavigator.Routes>();
  * Root component
  */
 const Root: React.FC = () => {
-  const auth = useAppSelector(selectAuth);
   const { colors } = useTheme();
 
   const [ fontsLoaded ] = useFonts({

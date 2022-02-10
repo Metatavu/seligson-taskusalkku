@@ -6,7 +6,7 @@ import { WebViewErrorEvent, WebViewNavigationEvent } from "react-native-webview/
 import Config from "../../../app/config";
 import * as AuthSession from "expo-auth-session";
 import { useAppDispatch } from "../../../app/hooks";
-import { authUpdate } from "../../../features/auth/auth-slice";
+import { authReadyUpdate, authUpdate } from "../../../features/auth/auth-slice";
 import AuthUtils from "../../../utils/auth";
 import { URL } from "react-native-url-polyfill";
 import { LoginOptions } from "../../../types/config";
@@ -15,7 +15,6 @@ import { LoginOptions } from "../../../types/config";
  * Component properties
  */
 interface Props {
-  onAuthSuccess: () => void;
   strongAuth: boolean;
   demoLogin?: boolean;
 }
@@ -25,11 +24,7 @@ interface Props {
  *
  * @param props component properties
  */
-const KeycloakLoginScreen: React.FC<Props> = ({
-  onAuthSuccess,
-  strongAuth,
-  demoLogin
-}) => {
+const KeycloakLoginScreen: React.FC<Props> = ({ strongAuth, demoLogin }) => {
   const dispatch = useAppDispatch();
   const { auth, demoLoginUrl } = Config.getStatic();
   const discovery = AuthSession.useAutoDiscovery(auth.issuer);
@@ -82,11 +77,10 @@ const KeycloakLoginScreen: React.FC<Props> = ({
 
       const authentication = AuthUtils.createAuthFromExpoTokenResponse(result);
       dispatch(authUpdate(authentication));
+      dispatch(authReadyUpdate(true));
 
       !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
       !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
-
-      onAuthSuccess();
     } catch (error) {
       console.error(error);
     }
