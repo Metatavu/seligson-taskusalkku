@@ -13,7 +13,7 @@ export default StyleSheet.create({
   card: {
     paddingVertical: theme.spacing(1),
     paddingHorizontal: theme.spacing(2),
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     borderTopRightRadius: 0,
     backgroundColor: "#fff",
     elevation: 8,
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     marginHorizontal: theme.spacing(2),
     marginBottom: theme.spacing(2),
     backgroundColor: "#899C35",
-    borderRadius: 25
+    borderRadius: theme.spacing(3)
   },
 
   buttonText: {

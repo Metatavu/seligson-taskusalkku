@@ -7,7 +7,7 @@ export default StyleSheet.create({
     padding: theme.spacing(2),
     width: "100%",
     elevation: 8,
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     borderTopRightRadius: 0,
     backgroundColor: "#fff",
     shadowColor: "#000",
@@ -35,7 +35,7 @@ export default StyleSheet.create({
   fundColor: {
     height: "100%",
     width: theme.spacing(1),
-    borderRadius: 10,
+    borderRadius: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
 

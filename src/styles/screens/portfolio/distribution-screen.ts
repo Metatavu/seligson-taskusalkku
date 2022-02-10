@@ -6,7 +6,7 @@ export default StyleSheet.create({
   distributionCard: {
     paddingVertical: theme.spacing(1),
     paddingHorizontal: theme.spacing(2),
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     borderTopRightRadius: 0,
     backgroundColor: "#fff",
     elevation: 8,

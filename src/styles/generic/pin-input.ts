@@ -8,7 +8,7 @@ export default StyleSheet.create({
     backgroundColor: "white",
     padding: theme.spacing(2),
     width: "85%",
-    borderRadius: 25
+    borderRadius: theme.spacing(2)
   },
 
   titleContainer: {
@@ -23,7 +23,7 @@ export default StyleSheet.create({
 
   saveButton: {
     backgroundColor: "#899C35",
-    borderRadius: 25,
+    borderRadius: theme.spacing(3),
     flex: 1,
     maxWidth: "48%"
   },
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#899C35",
     borderWidth: 1,
-    borderRadius: 25
+    borderRadius: theme.spacing(2)
   },
 
   cell: {

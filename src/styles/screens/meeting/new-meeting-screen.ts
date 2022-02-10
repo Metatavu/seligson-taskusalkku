@@ -12,7 +12,7 @@ export default StyleSheet.create({
   meetingCard: {
     padding: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     borderTopRightRadius: 0,
     backgroundColor: "#fff",
     elevation: 8,
@@ -62,7 +62,7 @@ export default StyleSheet.create({
   },
 
   backButton: {
-    borderRadius: 25,
+    borderRadius: theme.spacing(3),
     flex: 1,
     borderWidth: 1,
     borderColor: "#899C35",
@@ -71,7 +71,7 @@ export default StyleSheet.create({
   },
 
   reserveButton: {
-    borderRadius: 25,
+    borderRadius: theme.spacing(3),
     flex: 1,
     backgroundColor: "#899C35",
     maxWidth: "48%"

@@ -11,9 +11,8 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     marginTop: theme.spacing(1),
     flexDirection: "row",
     elevation: 8,
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15,
+    borderRadius: theme.spacing(2),
+    borderTopRightRadius: 0,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -25,8 +24,8 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     width: "5%",
     borderRadius: 0,
     overflow: "hidden",
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15
+    borderTopLeftRadius: theme.spacing(2),
+    borderBottomLeftRadius: theme.spacing(2)
   },
 
   gradient: {

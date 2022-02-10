@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
   datePickerIos: {
     backgroundColor: "white",
-    borderRadius: 25
+    borderRadius: theme.spacing(2)
   },
 
   modalView: {
@@ -26,7 +26,7 @@ export default StyleSheet.create({
 
   selectedMeetingTime: {
     backgroundColor: theme.colors.primary,
-    borderRadius: 25,
+    borderRadius: theme.spacing(2),
     flex: 1
   }
 
