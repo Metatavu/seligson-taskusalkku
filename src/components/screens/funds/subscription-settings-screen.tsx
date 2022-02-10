@@ -421,7 +421,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
     <View style={ styles.sumInput } >
       <View style={ styles.sumTextInput }>
         <TextInput
-          style={[ styles.sumText, !validNumber(subscriptionSettings.sum) ? { color: "red" } : { color: "black" } ]}
+          style={[ styles.sumText, { color: !validNumber(subscriptionSettings.sum) ? "red" : "black" } ]}
           value={ subscriptionSettings.sum }
           keyboardType="numeric"
           onChangeText={ onSubscriptionSumChange }
