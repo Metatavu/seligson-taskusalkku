@@ -152,7 +152,7 @@
       "redemptions": "Lunastukset",
       "subscriptions": "Merkinnät",
       "total": "Yhteensä",
-      "changeInGivenRange": "Muutos valitulla ajanjaksolla"
+      "changeInGivenRange": "Ajanjakso"
     },
     "portfolioSecurities": {
       "title": "Omat rahastot"

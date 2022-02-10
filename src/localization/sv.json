@@ -151,7 +151,8 @@
       "totalChange": "Förändring av det totala värdet",
       "redemptions": "Inlösningar",
       "subscriptions": "Teckningar",
-      "total": "Totalt"
+      "total": "Totalt",
+      "changeInGivenRange": "Datumintervall"
     },
     "portfolioSecurities": {
       "title": "Egna fonderna"
