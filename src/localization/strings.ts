@@ -167,12 +167,12 @@ export interface Strings extends LocalizedStringsMethods {
         title: string;
         description: string;
       };
-    },
+    };
     nonSubscribableFund: {
-      description: string,
-      guideLink: string,
-      videoBlog: string,
-      videoBlogLink: string
+      description: string;
+      guideLink: string;
+      videoBlog: string;
+      videoBlogLink: string;
     };
   };
 
