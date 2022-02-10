@@ -502,7 +502,13 @@ const SubscriptionSettingsScreen: React.FC = () => {
           renderSumInput
         )
       }
-      <View style={ !validNumber(subscriptionSettings.sum) && subscriptionSettings.sum.length ? styles.validSum : styles.invalidSum }>
+      <View
+        style={
+          !validNumber(subscriptionSettings.sum) && subscriptionSettings.sum.length ?
+            styles.validSum :
+            styles.invalidSum
+        }
+      >
         <Text style={{ color: "red" }}>
           { strings.errorHandling.subscription.invalidSum }
         </Text>
