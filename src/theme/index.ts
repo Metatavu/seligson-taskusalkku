@@ -62,8 +62,8 @@ const theme: ReactNativePaper.Theme = {
       [FundGroup.Passive]: "#A7140A",
       [FundGroup.FixedIncome]: "#A8A217",
       [FundGroup.Balanced]: "#EE5008",
-      [FundGroup.Dimension]: "#A8A217",
-      [FundGroup.Spiltan]: "#A8A217"
+      [FundGroup.Dimension]: "#9E9E9E",
+      [FundGroup.Spiltan]: "#9E9E9E"
     }
   },
   roundness: 5,
