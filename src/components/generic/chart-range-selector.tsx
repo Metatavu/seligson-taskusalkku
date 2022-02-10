@@ -150,7 +150,7 @@ const ChartRangeSelector: React.FC<Props> = ({ selectedRange, loading, onDateRan
     return (
       <View style={ styles.dateRangeButtonRow }>
         { renderDatePicker() }
-        <View style={{ flexDirection: "row", flex: 1, alignItems: "center", justifyContent: "flex-end" }}>
+        <View style={ styles.iconButtonRow }>
           <Icon
             name="check"
             color={ theme.colors.primary }

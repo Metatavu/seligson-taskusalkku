@@ -59,6 +59,13 @@ export default StyleSheet.create({
   dateRangeButtonTextSelected: {
     color: "#fff",
     fontSize: 10
+  },
+
+  iconButtonRow: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end"
   }
 
 });
