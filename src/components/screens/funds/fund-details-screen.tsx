@@ -4,7 +4,6 @@ import FundCard from "../../generic/fund-card";
 import FundDetails from "../../generic/fund-details";
 import { CompositeNavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
-import { Button, Paragraph } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
 import { ChartRange } from "../../../types";
@@ -16,6 +15,7 @@ import HistoryValueChart from "../../generic/history-value-chart";
 import { SecurityHistoryValue } from "../../../generated/client";
 import ChartRangeSelector from "../../generic/chart-range-selector";
 import HomeNavigator from "../../../types/navigators/home";
+import BackButton from "../../generic/back-button";
 
 type FundDetailScreenNavigationProp = CompositeNavigationProp<FundsNavigator.NavigationProps, HomeNavigator.NavigationProps>;
 
@@ -167,16 +167,7 @@ const FundDetailsScreen: React.FC = () => {
    */
   return (
     <>
-      <Button
-        icon="arrow-left-circle"
-        onPress={ onGoBackPress }
-        labelStyle={{ color: "#fff" }}
-        style={ styles.backButton }
-      >
-        <Paragraph style={{ color: "#fff" }}>
-          { strings.generic.back }
-        </Paragraph>
-      </Button>
+      <BackButton/>
       <ScrollView
         scrollEventThrottle={ 16 }
         scrollEnabled={ scrollEnabled }
