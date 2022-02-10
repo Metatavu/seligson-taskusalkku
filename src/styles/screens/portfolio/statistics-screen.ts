@@ -119,7 +119,8 @@ export default StyleSheet.create({
   },
 
   detailRowTitle: {
-    fontSize: 14
+    fontSize: 14,
+    maxWidth: "48%"
   },
 
   detailRowValue: {
