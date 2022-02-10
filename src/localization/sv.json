@@ -177,6 +177,9 @@
       "totalValue": "Värde totalt",
       "provision": "Provision",
       "paidTotal": "Betalning totalt"
+    },
+    "distribution": {
+      "shareInterest": "Aktier, ränta"
     }
   },
 

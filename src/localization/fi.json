@@ -177,6 +177,9 @@
       "totalValue": "Arvo yhteensä",
       "provision": "Palkkio",
       "paidTotal": "Maksettu yhteensä"
+    },
+    "distribution": {
+      "shareInterest": "Osakkeet, korot"
     }
   },
 

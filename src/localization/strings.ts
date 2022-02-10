@@ -208,6 +208,9 @@ export interface Strings extends LocalizedStringsMethods {
       provision: string;
       paidTotal: string;
     };
+    distribution: {
+      shareInterest: string;
+    };
   };
 
   /**

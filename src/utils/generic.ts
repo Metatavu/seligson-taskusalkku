@@ -1,9 +1,10 @@
 import moment from "moment";
-import { LocalizedValue } from "../generated/client";
+import { FundGroup, LocalizedValue } from "../generated/client";
 import strings from "../localization/strings";
 import { Publication, PublicationDetails, SubscriptionSettings } from "../types";
 import * as IntentLauncher from "expo-intent-launcher";
 import * as FileSystem from "expo-file-system";
+import theme from "../theme";
 
 /**
  * Namespace for generic utility methods
@@ -92,6 +93,15 @@ namespace GenericUtils {
       });
     });
   };
+
+  /**
+   * Gets fund group color
+   *
+   * @param fundGroup fund group
+   */
+  export const getFundGroupColor = (fundGroup?: FundGroup) => (
+    fundGroup ? theme.colors.fundGroup[fundGroup] : theme.colors.unSelected
+  );
 
 }
 
