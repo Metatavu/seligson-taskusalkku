@@ -220,7 +220,8 @@
   "settingsScreen": {
     "initialRoute": "Välj startinnehåll",
     "preferredLogin": "Välj inloggningssätt",
-    "language": "Appens språk"
+    "language": "Appens språk",
+    "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade."
   },
 
   "loginOptions": {
