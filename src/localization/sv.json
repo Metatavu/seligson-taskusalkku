@@ -59,7 +59,7 @@
   "auth": {
     "loginSessionExpiredTitle": "Inloggningen har gått ut.",
     "loginSessionExpiredContent": "Inloggningen har gått ut. Logga in igen.",
-    "loginRequired": "Logga in på appen med dina Min portfölj-koder",
+    "loginRequired": "Logga in med Min portfölj-koder",
     "login": "Logga in",
     "newAccount": "Behöver du (nya eller dina första) Min portfölj-koder?",
     "inputPinCode": "Ange PIN-kod",

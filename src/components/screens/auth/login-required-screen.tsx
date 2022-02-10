@@ -263,10 +263,12 @@ const LoginRequiredScreen: React.FC = () => {
         />
       }
       { authError &&
-        <>
+        <View style={ styles.loginScreen }>
           <Button
             uppercase={ false }
             onPress={ () => setAuthError(false) }
+            style={ styles.errorButton }
+            color="white"
           >
             { strings.auth.tryAgain }
           </Button>
@@ -276,10 +278,12 @@ const LoginRequiredScreen: React.FC = () => {
               setKeycloakLoginOpen(true);
               setAuthError(false);
             }}
+            style={ styles.errorButton }
+            color="white"
           >
             { strings.auth.loginRequired }
           </Button>
-        </>
+        </View>
       }
     </View>
   );
