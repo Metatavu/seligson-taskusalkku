@@ -30,7 +30,7 @@ const DistributionsScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
 
   const [ portfolioSecurityCategories, setPortfolioSecurityCategories ] = React.useState<PortfolioSecurityCategory[]>([]);
-  const [ showRisk, setShowRisk ] = React.useState(false);
+  const [ showGroup, setShowGroup ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
 
   /**
@@ -51,7 +51,7 @@ const DistributionsScreen: React.FC = () => {
       color: fund.color || "",
       totalValue: portfolioSecurity.totalValue,
       percentage: Calculations.formatPercentageNumberStr(percentage),
-      riskLevel: fund.risk || 0
+      groupColor: GenericUtils.getFundGroupColor(fund.group)
     };
   };
 
@@ -118,9 +118,9 @@ const DistributionsScreen: React.FC = () => {
       y: parseFloat(totalValue)
     }));
 
-    const chartColor = showRisk ?
-      portfolioSecurityCategories.map(({ riskLevel }) => theme.colors.risks[riskLevel as keyof ReactNativePaper.ThemeColors["risks"]]) :
-      portfolioSecurityCategories.map(portfolioSecurityCategory => portfolioSecurityCategory.color);
+    const chartColor = showGroup ?
+      portfolioSecurityCategories.map(({ groupColor }) => groupColor) :
+      portfolioSecurityCategories.map(({ color }) => color);
 
     /**
      * Renders pie chart
@@ -195,8 +195,8 @@ const DistributionsScreen: React.FC = () => {
       <View
         style={{
           ...styles.categoryColor,
-          backgroundColor: showRisk ?
-            theme.colors.risks[portfolioSecurityCategory.riskLevel as keyof ReactNativePaper.ThemeColors["risks"]] :
+          backgroundColor: showGroup ?
+            portfolioSecurityCategory.groupColor :
             portfolioSecurityCategory.color
         }}
       />
@@ -223,17 +223,17 @@ const DistributionsScreen: React.FC = () => {
   );
 
   /**
-   * Renders risk check box
+   * Renders show group color switch
    */
-  const renderRiskCheckBox = () => (
+  const renderGroupColorSwitch = () => (
     <View style={ styles.checkBoxContainer }>
       <Text style={{ marginRight: theme.spacing(2) }}>
-        { strings.portfolio.distribution.risk }
+        { strings.portfolio.distribution.shareInterest }
       </Text>
       <Switch
         color={ theme.colors.primary }
-        value={ showRisk }
-        onValueChange={ () => setShowRisk(!showRisk) }
+        value={ showGroup }
+        onValueChange={ () => setShowGroup(!showGroup) }
       />
     </View>
   );
@@ -260,7 +260,7 @@ const DistributionsScreen: React.FC = () => {
 
     return (
       <>
-        { renderRiskCheckBox() }
+        { renderGroupColorSwitch() }
         { renderPie() }
         { renderCategories() }
       </>

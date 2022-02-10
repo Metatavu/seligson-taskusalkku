@@ -203,7 +203,7 @@ export interface Strings extends LocalizedStringsMethods {
       paidTotal: string;
     };
     distribution: {
-      risk: string;
+      shareInterest: string;
     };
   };
 

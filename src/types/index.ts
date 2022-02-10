@@ -1,4 +1,4 @@
-import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue, ListSecurityHistoryValuesRequest, SecurityHistoryValue } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, LocalizedValue, ListSecurityHistoryValuesRequest, SecurityHistoryValue, FundGroup } from "../generated/client";
 
 /**
  * Parsed access token
@@ -171,7 +171,7 @@ export interface PortfolioSecurityCategory {
   currency: string;
   color: string;
   percentage: string;
-  riskLevel: number;
+  groupColor: string;
 }
 
 /**

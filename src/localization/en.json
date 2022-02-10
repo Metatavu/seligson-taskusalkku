@@ -173,7 +173,7 @@
       "paidTotal": "Total paid"
     },
     "distribution": {
-      "risk": "Shares, interest"
+      "shareInterest": "Shares, interest"
     }
   },
 
