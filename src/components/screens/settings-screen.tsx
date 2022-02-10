@@ -99,7 +99,13 @@ const SettingsScreen: React.FC = () => {
   const onLanguageChange = async (language: Language) => {
     await Config.setLocalValue("@language", language);
     dispatch(setLanguage(language));
-    navigation.reset({ routes: [ { name: "funds" }, { name: "meetings" }, { name: "publications" } ] });
+    navigation.reset({
+      routes: [
+        { name: "funds" },
+        { name: "meetings" },
+        { name: "publications" }
+      ]
+    });
   };
 
   /**
