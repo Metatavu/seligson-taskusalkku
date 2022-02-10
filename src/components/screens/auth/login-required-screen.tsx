@@ -9,7 +9,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AuthUtils from "../../../utils/auth";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Config from "../../../app/config";
-import { selectAuth, authUpdate } from "../../../features/auth/auth-slice";
+import { selectAuth, authUpdate, authReadyUpdate } from "../../../features/auth/auth-slice";
 import { LoginOptions } from "../../../types/config";
 import BiometricAuth from "../../../utils/biometric-auth";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -18,18 +18,11 @@ import PinCodeAuth from "../../../utils/pin-code-auth";
 import KeycloakLoginScreen from "./keycloak-login-screen";
 
 /**
- * Component properties
- */
-interface Props {
-  setAuthReady: (ready: boolean) => void;
-}
-
-/**
  * Login required screen component
  *
  * @param props component properties
  */
-const LoginRequiredScreen: React.FC<Props> = ({ setAuthReady }) => {
+const LoginRequiredScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useAppSelector(selectAuth);
   const errorContext = React.useContext(ErrorContext);
@@ -80,10 +73,10 @@ const LoginRequiredScreen: React.FC<Props> = ({ setAuthReady }) => {
         if (result) {
           try {
             await checkOfflineToken();
+            dispatch(authReadyUpdate(true));
           } catch {
             setLoginOption(LoginOptions.USERNAME_AND_PASSWORD);
           }
-          setAuthReady(true);
           return;
         }
 
@@ -169,10 +162,10 @@ const LoginRequiredScreen: React.FC<Props> = ({ setAuthReady }) => {
       if (result) {
         try {
           await checkOfflineToken();
+          dispatch(authReadyUpdate(true));
         } catch {
           setLoginOption(LoginOptions.USERNAME_AND_PASSWORD);
         }
-        setAuthReady(true);
         return;
       }
 
@@ -264,7 +257,6 @@ const LoginRequiredScreen: React.FC<Props> = ({ setAuthReady }) => {
       { renderContent() }
       { keycloakLoginOpen &&
         <KeycloakLoginScreen
-          onAuthSuccess={ () => setAuthReady(true) }
           strongAuth={ loginOption === LoginOptions.STRONG_AUTH }
           demoLogin={ demoLogin }
         />

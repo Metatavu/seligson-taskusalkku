@@ -7,6 +7,7 @@ import AuthUtils from "../../utils/auth";
  * Interface describing auth state in Redux
  */
 export interface AuthState {
+  authReady: boolean;
   auth?: Authentication;
   anonymousAuth?: Authentication;
 }
@@ -15,6 +16,7 @@ export interface AuthState {
  * Initial auth state
  */
 const initialState: AuthState = {
+  authReady: false,
   auth: undefined,
   anonymousAuth: undefined
 };
@@ -26,6 +28,9 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
+    authReadyUpdate: (state, { payload }: PayloadAction<boolean>) => {
+      state.authReady = payload;
+    },
     authUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
       const auth = payload;
       auth && AuthUtils.saveOfflineToken(auth.refreshToken);
@@ -37,6 +42,7 @@ export const authSlice = createSlice({
     logout: state => {
       AuthUtils.removeOfflineToken();
       state.auth = undefined;
+      state.authReady = false;
     }
   }
 });
@@ -44,7 +50,15 @@ export const authSlice = createSlice({
 /**
  * Auth actions from created auth slice
  */
-export const { authUpdate, anonymousAuthUpdate, logout } = authSlice.actions;
+export const { authReadyUpdate, authUpdate, anonymousAuthUpdate, logout } = authSlice.actions;
+
+/**
+ * Select authReady selector, used with useAppSelector custom hook defined for Redux store
+ *
+ * @param state Redux store root state
+ * @returns authReady from Redux store
+ */
+export const selectAuthReady = (state: RootState) => state.auth.authReady;
 
 /**
  * Select authentication selector, used with useAppSelector custom hook defined for Redux store
