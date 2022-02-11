@@ -166,7 +166,7 @@ const SettingsScreen: React.FC = () => {
       const disabled = !auth && (option === LoginOptions.BIOMETRIC || option === LoginOptions.PIN);
 
       return (
-        <View>
+        <View key={ option }>
           <RadioButtonOptionItem
             key={ option }
             label={ localizedOption.title }
@@ -176,11 +176,6 @@ const SettingsScreen: React.FC = () => {
             description={ localizedOption.description }
             disabled={ disabled }
           />
-          { disabled &&
-            <Text>
-              { strings.settingsScreen.loginRequired }
-            </Text>
-          }
         </View>
       );
     })

@@ -1,7 +1,7 @@
 import moment from "moment";
 import { FundGroup, LocalizedValue } from "../generated/client";
 import strings from "../localization/strings";
-import { Publication, PublicationDetails, SubscriptionSettings } from "../types";
+import { SubscriptionSettings } from "../types";
 import * as IntentLauncher from "expo-intent-launcher";
 import * as FileSystem from "expo-file-system";
 import theme from "../theme";
@@ -24,7 +24,7 @@ namespace GenericUtils {
    *
    * @param publication publication
    */
-  export const getPublicationAuthor = ({ author }: Publication | PublicationDetails) => (
+  export const getPublicationAuthor = (author: string[]) => (
     author.length ? author.join(", ") : "Seligson"
   );
 
@@ -60,7 +60,7 @@ namespace GenericUtils {
     const formattedDueDate = moment(dueDate).format("YYMMDD").toString();
 
     if (split.length > 1) {
-      cent = split[1];
+      [ cent ] = split;
     }
 
     if (euro.length > 6) {
