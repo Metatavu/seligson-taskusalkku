@@ -6,7 +6,7 @@ import { WebViewErrorEvent, WebViewNavigationEvent } from "react-native-webview/
 import Config from "../../../app/config";
 import * as AuthSession from "expo-auth-session";
 import { useAppDispatch } from "../../../app/hooks";
-import { authReadyUpdate, authUpdate } from "../../../features/auth/auth-slice";
+import { authUpdate } from "../../../features/auth/auth-slice";
 import AuthUtils from "../../../utils/auth";
 import { URL } from "react-native-url-polyfill";
 import { LoginOptions } from "../../../types/config";
@@ -77,7 +77,6 @@ const KeycloakLoginScreen: React.FC<Props> = ({ strongAuth, demoLogin }) => {
 
       const authentication = AuthUtils.createAuthFromExpoTokenResponse(result);
       dispatch(authUpdate(authentication));
-      dispatch(authReadyUpdate(true));
 
       !await Config.getLocalValue("@initialRoute") && await Config.setLocalValue("@initialRoute", "portfolio");
       !await Config.getLocalValue("@preferredLogin") && await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
