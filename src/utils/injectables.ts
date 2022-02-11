@@ -1,4 +1,7 @@
-import { ChartData } from "../types";
+import { Theme } from "react-native-paper/lib/typescript/types";
+import { ChartData, PublicationDetails } from "../types";
+import DateUtils from "./date-utils";
+import GenericUtils from "./generic";
 
 /**
  * Injectable html and script strings
@@ -161,15 +164,110 @@ namespace Injectables {
   /**
    * Returns html for publication details
    *
-   * @param content content html string
+   * @param publicationDetails publication details
    */
-  export const getPublicationDetailsHtml = (content: string) => `
+  export const getPublicationDetailsHtml = (
+    { title, author, date, content }: PublicationDetails,
+    subject: string,
+    theme: Theme
+  ) => `
     <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=1">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
       </head>
       <body>
+        <h1>
+          ${unescape(title)}
+        </h1>
+        <hr/>
+        <div class="sub-header">
+          <div class="logo"></div>
+          <div>
+            <p class="meta-data">${GenericUtils.getPublicationAuthor(author)} | ${DateUtils.formatToFinnishDate(date)}</p>
+            <p class="subject">${subject}</p>
+          </div>
+        </div>
         ${content}
+        <style>
+          * {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.5;
+          }
+
+          body {
+            padding: 12px;
+          }
+
+          h1 {
+            font-size: 20px;
+            color: ${theme.colors.primary};
+          }
+
+          h2, p, td {
+            font-size: 14px;
+          }
+
+          hr {
+            height: 2px;
+            border-width: 0;
+            color: #CCC;
+            background-color: #EAEAEA;
+          }
+
+          a {
+            text-decoration: none;
+            color: ${theme.colors.primary};
+          }
+
+          td {
+            padding: 4px;
+          }
+
+          blockquote {
+            border-left: 6px solid ${theme.colors.primary};
+            margin: 1.5em 0;
+            padding: 0.5em 0 0.5em 1em;
+          }
+
+          blockquote p {
+            display: inline;
+          }
+
+          .sub-header {
+            display: flex;
+            align-items: center;
+          }
+
+          .meta-data {
+            margin: 0;
+            font-size: 12px;
+            font-weight: bold;
+          }
+
+          .subject {
+            margin: 0;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: ${theme.colors.primary};
+          }
+
+          .logo {
+            width: 80px;
+            height: 80px;
+            background: url(https://cdn.metatavu.io/assets/seligson/blog_logo.png) no-repeat;
+            background-size: contain;
+            background-position: center;
+          }
+
+          img.alignright {
+            float: right;
+          }
+        </style>
       </body>
     </html>
   `;

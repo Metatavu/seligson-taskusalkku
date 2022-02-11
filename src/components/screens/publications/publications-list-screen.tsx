@@ -79,17 +79,17 @@ const PublicationsListScreen: React.FC = () => {
    * Renders publications tab
    *
    * @param name name
-   * @param component component
+   * @param publicationsList list of publications
    */
-  const renderTab = (
+  const renderPublicationsTab = (
     name: keyof PublicationsListNavigator.Routes,
-    component: React.ReactNode
+    publicationsList: Publication[]
   ) => (
     <PublicationsListNavigation.Screen
       name={ name }
       options={{ title: strings.screenTitles[name] }}
     >
-      { () => component }
+      { () => <PublicationsList route={ name } publications={ publicationsList }/> }
     </PublicationsListNavigation.Screen>
   );
 
@@ -134,10 +134,10 @@ const PublicationsListScreen: React.FC = () => {
         }
       }}
     >
-      { renderTab("reviews", <PublicationsList publications={ reviews }/>) }
-      { renderTab("topical", <PublicationsList publications={ topical }/>) }
-      { renderTab("questions", <PublicationsList publications={ questions }/>) }
-      { renderTab("phoebus", <PublicationsList publications={ phoebus }/>) }
+      { renderPublicationsTab("reviews", reviews) }
+      { renderPublicationsTab("topical", topical) }
+      { renderPublicationsTab("questions", questions) }
+      { renderPublicationsTab("phoebus", phoebus) }
     </PublicationsListNavigation.Navigator>
   );
 };

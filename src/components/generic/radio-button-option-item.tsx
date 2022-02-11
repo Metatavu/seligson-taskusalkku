@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleProp, View, Text, ViewStyle } from "react-native";
 import { RadioButton } from "react-native-paper";
+import strings from "../../localization/strings";
 import styles from "../../styles/generic/radio-button-option-item";
 import theme from "../../theme";
 
@@ -45,6 +46,11 @@ const RadioButtonOptionItem: React.FC<Props> = ({
     <Text style={[ { color: theme.colors.primary }, !checked && styles.notSelected, !description && styles.noDescription ]}>
       { description }
     </Text>
+    { disabled &&
+      <Text style={[ { color: theme.colors.primary }, !checked && styles.notSelected, styles.needsLogin ]}>
+        { strings.settingsScreen.loginRequired }
+      </Text>
+    }
   </View>
 );
 

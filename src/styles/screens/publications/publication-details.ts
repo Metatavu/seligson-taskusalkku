@@ -26,19 +26,9 @@ export default StyleSheet.create({
   },
 
   publicationCard: {
-    padding: theme.spacing(2),
     width: "100%",
-    elevation: 8,
-    borderRadius: theme.spacing(2),
-    borderTopRightRadius: 0,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 5
+    flex: 1
   },
 
   title: {

@@ -12,7 +12,10 @@ namespace PublicationsNavigator {
    */
   export type Routes = {
     publicationsList: NavigatorScreenParams<PublicationsListNavigator.Routes> | undefined;
-    publicationDetails: { publicationId: number };
+    publicationDetails: {
+      publicationId: number;
+      subject: keyof PublicationsListNavigator.Routes;
+    };
   };
 
   /**
