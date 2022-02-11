@@ -13,7 +13,7 @@ import LoginRequiredScreen from "../auth/login-required-screen";
 import TransactionsScreen from "../portfolio/transactions-screen";
 import { Dimensions } from "react-native";
 import { useAppSelector } from "../../../app/hooks";
-import { selectAuth, selectAuthReady } from "../../../features/auth/auth-slice";
+import { selectAuth } from "../../../features/auth/auth-slice";
 
 /**
  * Portfolio screen tab navigation
@@ -26,9 +26,8 @@ const PortfolioNavigation = createMaterialTopTabNavigator<PortfolioNavigator.Rou
 const PortfolioScreen: React.FC = () => {
   const { colors } = useTheme();
   const auth = useAppSelector(selectAuth);
-  const authReady = useAppSelector(selectAuthReady);
 
-  if (!authReady || !auth) {
+  if (!auth) {
     return <LoginRequiredScreen/>;
   }
 

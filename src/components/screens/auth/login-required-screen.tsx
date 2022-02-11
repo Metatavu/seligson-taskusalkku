@@ -9,14 +9,13 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AuthUtils from "../../../utils/auth";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Config from "../../../app/config";
-import { selectAuth, authUpdate, authReadyUpdate } from "../../../features/auth/auth-slice";
+import { selectAuth, authUpdate } from "../../../features/auth/auth-slice";
 import { LoginOptions } from "../../../types/config";
 import BiometricAuth from "../../../utils/biometric-auth";
 import { ErrorContext } from "../../error-handler/error-handler";
 import PinInput from "../../generic/pin-input";
 import PinCodeAuth from "../../../utils/pin-code-auth";
 import KeycloakLoginScreen from "./keycloak-login-screen";
-import theme from "../../../theme";
 
 /**
  * Login required screen component
@@ -74,7 +73,6 @@ const LoginRequiredScreen: React.FC = () => {
         if (result) {
           try {
             await checkOfflineToken();
-            dispatch(authReadyUpdate(true));
           } catch {
             setLoginOption(LoginOptions.USERNAME_AND_PASSWORD);
           }
@@ -163,7 +161,6 @@ const LoginRequiredScreen: React.FC = () => {
       if (result) {
         try {
           await checkOfflineToken();
-          dispatch(authReadyUpdate(true));
         } catch {
           setLoginOption(LoginOptions.USERNAME_AND_PASSWORD);
         }
