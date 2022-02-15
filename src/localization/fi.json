@@ -231,7 +231,7 @@
     },
     "pin": {
       "title": "Tunnusluku",
-      "description": "Pysyt kirjautuneen, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
+      "description": "Pysyt kirjautuneena, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
     },
     "biometric": {
       "title": "Biometrinen tunnistus",

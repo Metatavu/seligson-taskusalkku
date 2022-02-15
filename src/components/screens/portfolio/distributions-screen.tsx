@@ -130,16 +130,18 @@ const DistributionsScreen: React.FC = () => {
         <VictoryPie
           colorScale={ chartColor }
           data={ chartData }
-          radius={ 120 }
+          radius={ Dimensions.get("window").height / 6 }
           labelRadius={ 40 }
-          padAngle={ 1 }
+          padAngle={ 3 }
           width={ Dimensions.get("window").width }
-          height={ 240 }
+          height={ Dimensions.get("window").height / 3 }
           innerRadius={ 40 }
+          animate={{ duration: 100, easing: "linear" }}
           labelComponent={
             <VictoryTooltip
-              constrainToVisibleArea
               orientation="top"
+              constrainToVisibleArea
+              flyoutPadding={ 15 }
               renderInPortal={ false }
             />
           }
@@ -158,6 +160,18 @@ const DistributionsScreen: React.FC = () => {
                   {
                     target: "labels",
                     mutation: () => ({ active: true })
+                  }
+                ]
+              }
+            },
+            {
+              target: "labels",
+              eventHandlers: {
+                onPressIn: () => [
+                  {
+                    target: "labels",
+                    eventKey: "all",
+                    mutation: () => ({ active: false })
                   }
                 ]
               }
@@ -260,8 +274,8 @@ const DistributionsScreen: React.FC = () => {
 
     return (
       <>
-        { renderGroupColorSwitch() }
         { renderPie() }
+        { renderGroupColorSwitch() }
         { renderCategories() }
       </>
     );
