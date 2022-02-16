@@ -49,25 +49,13 @@ export interface Fund {
      * @type {LocalizedValue}
      * @memberof Fund
      */
-    name: LocalizedValue;
+    longName: LocalizedValue;
     /**
      * 
      * @type {LocalizedValue}
      * @memberof Fund
      */
-    longName?: LocalizedValue;
-    /**
-     * 
-     * @type {LocalizedValue}
-     * @memberof Fund
-     */
-    shortName?: LocalizedValue;
-    /**
-     * Bank receiver name
-     * @type {string}
-     * @memberof Fund
-     */
-    bankReceiverName?: string;
+    shortName: LocalizedValue;
     /**
      * 
      * @type {FundGroup}
@@ -153,10 +141,8 @@ export function FundFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fund
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'name': LocalizedValueFromJSON(json['name']),
-        'longName': !exists(json, 'longName') ? undefined : LocalizedValueFromJSON(json['longName']),
-        'shortName': !exists(json, 'shortName') ? undefined : LocalizedValueFromJSON(json['shortName']),
-        'bankReceiverName': !exists(json, 'bankReceiverName') ? undefined : json['bankReceiverName'],
+        'longName': LocalizedValueFromJSON(json['longName']),
+        'shortName': LocalizedValueFromJSON(json['shortName']),
         'group': !exists(json, 'group') ? undefined : FundGroupFromJSON(json['group']),
         'priceDate': !exists(json, 'priceDate') ? undefined : (new Date(json['priceDate'])),
         'aShareValue': !exists(json, 'aShareValue') ? undefined : json['aShareValue'],
@@ -181,10 +167,8 @@ export function FundToJSON(value?: Fund | null): any {
     }
     return {
         
-        'name': LocalizedValueToJSON(value.name),
         'longName': LocalizedValueToJSON(value.longName),
         'shortName': LocalizedValueToJSON(value.shortName),
-        'bankReceiverName': value.bankReceiverName,
         'group': FundGroupToJSON(value.group),
         'priceDate': value.priceDate === undefined ? undefined : (value.priceDate.toISOString().substr(0,10)),
         'aShareValue': value.aShareValue,

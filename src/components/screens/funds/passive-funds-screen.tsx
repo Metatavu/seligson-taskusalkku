@@ -22,7 +22,7 @@ interface Props {
  */
 const PassiveFundsScreen: React.FC<Props> = ({ funds }) => {
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
-  const sortedFunds = funds.sort((a, b) => a.name.fi.localeCompare(b.name.fi));
+  const sortedFunds = funds.sort((a, b) => a.longName.fi.localeCompare(b.longName.fi));
 
   /**
    * Render fund
