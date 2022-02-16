@@ -6,7 +6,18 @@ import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice"
 import { FindFundRequest, Fund, ListFundsRequest } from "../../generated/client";
 import { FundsApiContextType } from "../../types";
 
-const initialFund: Fund = { name: { fi: "", sv: "" } };
+const initialFund: Fund = {
+  longName: {
+    fi: "",
+    sv: "",
+    en: ""
+  },
+  shortName: {
+    fi: "",
+    sv: "",
+    en: ""
+  }
+};
 
 /**
  * Funds API context initialization
