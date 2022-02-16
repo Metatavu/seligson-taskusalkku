@@ -98,19 +98,22 @@ namespace TestData {
    */
   const generateFund = (id: string): Fund => ({
     id: id,
-    name: {
-      fi: "USA Markkina",
-      sv: "USA Markkina"
-    },
     longName: {
       fi: randomName(),
-      sv: "USA Markkina"
+      sv: "USA Markkina",
+      en: ""
     },
     shortName: {
       fi: "USA Markkina",
-      sv: "USA Markkina"
+      sv: "USA Markkina",
+      en: ""
     },
-    bankReceiverName: "Nordea",
+    subscriptionBankAccounts: [
+      {
+        bankAccountName: "Nordea",
+        currency: "€"
+      }
+    ],
     group: FundGroup.Passive,
     priceDate: new Date("2021-01-01"),
     aShareValue: "18.947",
