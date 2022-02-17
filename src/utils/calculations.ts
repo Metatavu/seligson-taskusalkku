@@ -111,7 +111,7 @@ namespace Calculations {
       marketValueTotal: Calculations.formatEuroNumberStr(marketValueTotal),
       purchaseTotal: Calculations.formatEuroNumberStr(purchaseTotal),
       totalChangeAmount: Calculations.formatEuroNumberStr(totalChange),
-      totalChangePercentage: Calculations.formatEuroNumberStr(totalChangePercentage)
+      totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
     };
   };
 
