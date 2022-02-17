@@ -103,6 +103,31 @@ const FundDetailsScreen: React.FC = () => {
   React.useEffect(() => { loadHistoryData(); }, [ fund, selectedRange ]);
 
   /**
+   * Effect for loading history data when selected fund changes
+   */
+  function RGBToHex(rgb:any) {
+    const sep = rgb.indexOf(",") > -1 ? "," : " ";
+    // eslint-disable-next-line no-param-reassign
+    rgb = rgb.substr(4).split(")")[0].split(sep);
+  
+    let r = (+rgb[0]).toString(16);
+    let g = (+rgb[1]).toString(16);
+    let b = (+rgb[2]).toString(16);
+  
+    if (r.length === 1) {
+      r = `0${r}`;
+    }
+    if (r.length === 1) {
+      g = `0${g}`;
+    }
+    if (r.length === 1) {
+      b = `0${b}`;
+    }
+  
+    return `#${r}${g}${b}`;
+  }
+
+  /**
    * Renders history value chart
    */
   const renderChart = () => {
@@ -117,7 +142,7 @@ const FundDetailsScreen: React.FC = () => {
     return (
       <HistoryValueChart
         historyValues={ historyValues }
-        color={ fund.color }
+        color={ RGBToHex(fund.color) }
         currency={ currency }
         onChartTouch={ toggleScroll(false) }
       />

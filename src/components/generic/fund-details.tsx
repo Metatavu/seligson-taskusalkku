@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { Button, useTheme } from "react-native-paper";
-import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
 import strings from "../../localization/strings";
@@ -58,14 +57,6 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
             { strings.fundDetailsScreen.buyFund }
           </Button>
         }
-        {/* {lahiTapiola ? (
-          <Image
-          // eslint-disable-next-line global-require
-            source={ require("../../../assets/lt-logo-wide.png") }
-            resizeMode="contain"
-            style={ styles.logoWide }
-          />
-        ) : null} */}
         <Button
           icon="download"
           uppercase={ false }
@@ -84,12 +75,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
   return (
     <>
       <View style={ styles.cardWrapper }>
-        <View style={ styles.gradientContainer }>
-          <LinearGradient
-            colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-            style={ styles.gradient }
-          />
-        </View>
+        <View style={[ styles.gradientContainer, { backgroundColor: fund.color } ]}/>
         <View style={ styles.cardContent }>
           <View
             style={{
@@ -109,15 +95,6 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
               </Text>
             </View>
           </View>
-          {/* <Divider style={{ marginVertical: 5 }}/>
-          <View style={ styles.cardRow }>
-            <Text style={ theme.fonts.medium }>
-              { strings.fundDetailsScreen.myShare }
-            </Text>
-            { renderMyShare(strings.fundDetailsScreen.amount, 10) }
-            { aShareValue && renderMyShare(strings.fundDetailsScreen.value, Number(aShareValue) * 10) }
-            { renderMyShare(strings.fundDetailsScreen.change, 25) }
-          </View> */}
         </View>
       </View>
       { renderActionButtons() }

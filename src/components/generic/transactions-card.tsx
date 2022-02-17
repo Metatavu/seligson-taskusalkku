@@ -40,7 +40,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
   const styles = transactionsCardStyles(useTheme(), "#fff");
   const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
 
-  const [ closed, setClosed ] = React.useState(true);
+  const [ closed, setClosed ] = React.useState(false);
 
   /**
    * Renders transaction value
@@ -108,8 +108,8 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
           <View style={ styles.transactionContent }>
             <View style={ styles.transactionTitle }>
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
-                { transactionFund.longName &&
-                  GenericUtils.getLocalizedValue(transactionFund.longName)
+                { transactionFund.shortName &&
+                  GenericUtils.getLocalizedValue(transactionFund.shortName)
                 }
               </Text>
               <Text style={ styles.labelText }>
