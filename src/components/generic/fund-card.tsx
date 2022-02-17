@@ -84,7 +84,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         <View style={ styles.cardRow }>
           <View style={ styles.cardColumn }>
             <View style={ styles.fundName }>
-              <View style={ SeligsonFund ? styles.seligsonFund : styles.lahiTapiolaFund }>
+              <View style={ styles.fundLogoContainer }>
                 { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
               </View>
               <Text style={ theme.fonts.medium }>

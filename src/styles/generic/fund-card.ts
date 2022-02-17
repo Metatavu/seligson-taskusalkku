@@ -107,15 +107,7 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     color: theme.colors.grey[600]
   },
 
-  seligsonFund: {
-    height: 24,
-    width: 24,
-    marginRight: theme.spacing(1),
-    justifyContent: "center",
-    alignItems: "center"
-  },
-
-  lahiTapiolaFund: {
+  fundLogoContainer: {
     height: 24,
     width: 24,
     marginRight: theme.spacing(1),
