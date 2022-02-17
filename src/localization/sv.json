@@ -157,6 +157,7 @@
       "totalChange": "Förändring av det totala värdet",
       "redemptions": "Inlösningar",
       "subscriptions": "Teckningar",
+      "securities": "Byten av andelsslag",
       "total": "Totalt",
       "changeInGivenRange": "Datumintervall"
     },
@@ -170,6 +171,7 @@
       "type": "Händelsetyp",
       "redemption": "Inlösning",
       "subscription": "Teckning",
+      "security": "",
       "valueDate": "Valuteringsdag",
       "paymentDate": "Betalningsdag",
       "shareAmount": "St",

@@ -187,6 +187,7 @@ export interface Strings extends LocalizedStringsMethods {
       totalChange: string;
       redemptions: string;
       subscriptions: string;
+      securities: string;
       total: string;
       changeInGivenRange: string;
     };
@@ -200,9 +201,10 @@ export interface Strings extends LocalizedStringsMethods {
       type: string;
       redemption: string;
       subscription: string;
-      valueDate: string,
-      paymentDate: string,
-      shareAmount: string,
+      security: string;
+      valueDate: string;
+      paymentDate: string;
+      shareAmount: string;
       value: string;
       totalValue: string;
       provision: string;

@@ -157,6 +157,7 @@
       "totalChange": "Total change",
       "redemptions": "Redemptions",
       "subscriptions": "Subscriptions",
+      "securities": "Fund unit changes",
       "total": "Total",
       "changeInGivenRange": "Date range"
     },
@@ -170,6 +171,7 @@
       "type": "Transaction type",
       "redemption": "Redemption",
       "subscription": "Subscription",
+      "security": "Change of fund unit",
       "valueDate": "Value date",
       "paymentDate": "Payment date",
       "shareAmount": "pcs",

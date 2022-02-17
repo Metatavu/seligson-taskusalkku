@@ -157,6 +157,7 @@
       "totalChange": "Kokonaisarvon muutos",
       "redemptions": "Lunastukset",
       "subscriptions": "Merkinnät",
+      "securities": "Osuuslajien vaihdot",
       "total": "Yhteensä",
       "changeInGivenRange": "Ajanjakso"
     },
@@ -170,6 +171,7 @@
       "type": "Tapahtumatyyppi",
       "redemption": "Lunastus",
       "subscription": "Merkintä",
+      "security": "Osuuslajin vaihto",
       "valueDate": "Arvopäivä",
       "paymentDate": "Maksupäivä",
       "shareAmount": "Kpl",
