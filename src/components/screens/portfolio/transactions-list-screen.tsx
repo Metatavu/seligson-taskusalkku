@@ -163,6 +163,18 @@ const TransactionsListScreen: React.FC = () => {
       transactions={ filterTransactions(TransactionType.Subscription) }
     />
   );
+  
+  /**
+   * Security transactions
+   */
+  const renderSecurities = () => (
+    <TransactionsCard
+      title={ strings.portfolio.statistics.securities }
+      funds={ funds }
+      securities={ securities }
+      transactions={ filterTransactions(TransactionType.Security) }
+    />
+  );
 
   /**
    * Renders redemptions and subscriptions
@@ -176,6 +188,7 @@ const TransactionsListScreen: React.FC = () => {
       <>
         { renderRedemptions() }
         { renderSubscriptions() }
+        { renderSecurities() }
       </>
     );
   };
