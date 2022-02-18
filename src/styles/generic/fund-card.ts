@@ -113,6 +113,10 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     marginRight: theme.spacing(1),
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  riskText: {
+    color: theme.colors.grey[600]
   }
 
 });

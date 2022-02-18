@@ -67,7 +67,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         <View style={ styles.riskMeterBars }>
           { riskArray }
         </View>
-        <Text style={{ color: theme.colors.grey[600] }}>
+        <Text style={ styles.riskText }>
           { `${strings.fundCard.riskLevel} ${risk}` }
         </Text>
       </View>

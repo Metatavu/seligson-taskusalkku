@@ -63,7 +63,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
         <View style={ styles.riskMeterBars }>
           { riskLevels }
         </View>
-        <Text style={{ color: theme.colors.grey[600] }}>
+        <Text style={ styles.riskText }>
           { `${strings.fundCard.riskLevel} ${risk}` }
         </Text>
       </View>
