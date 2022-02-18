@@ -2,6 +2,7 @@ import React from "react";
 import { getFocusedRouteNameFromRoute, NavigationContainer, Route } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import "moment/locale/fi";
+import "moment/locale/sv";
 import strings from "./localization/strings";
 import { IconButton, useTheme } from "react-native-paper";
 import AppLoading from "expo-app-loading";
