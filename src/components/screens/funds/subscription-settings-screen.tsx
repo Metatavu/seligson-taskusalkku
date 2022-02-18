@@ -469,7 +469,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
               { strings.subscription.recipient }
             </Text>
           ),
-          () => renderCopyText(GenericUtils.getLocalizedValue(fund.longName).slice(0, -4))
+          () => renderCopyText(GenericUtils.getLocalizedValue(fund.longName))
         )
       }
       <Divider style={{ marginBottom: theme.spacing(2) }}/>

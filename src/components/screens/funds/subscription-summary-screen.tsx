@@ -160,7 +160,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderCopyTextWithLabel(
           strings.subscription.recipient,
-          GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName).slice(0, -4)
+          GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName)
         )
       }
     </>
