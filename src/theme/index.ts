@@ -58,12 +58,12 @@ const theme: ReactNativePaper.Theme = {
       A700: "#303030"
     },
     fundGroup: {
-      [FundGroup.Active]: "#A7140A",
-      [FundGroup.Passive]: "#A7140A",
-      [FundGroup.FixedIncome]: "#A8A217",
-      [FundGroup.Balanced]: "#EE5008",
-      [FundGroup.Dimension]: "#9E9E9E",
-      [FundGroup.Spiltan]: "#9E9E9E"
+      [FundGroup.Active]: "#d83c3c",
+      [FundGroup.Passive]: "#d83c3c",
+      [FundGroup.FixedIncome]: "#5da35d",
+      [FundGroup.Balanced]: "#ff950b",
+      [FundGroup.Dimension]: "#767676",
+      [FundGroup.Spiltan]: "#767676"
     }
   },
   roundness: 5,
