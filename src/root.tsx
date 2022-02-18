@@ -57,7 +57,7 @@ const Root: React.FC = () => {
     headerRight: () => {
       return (
         <IconButton
-          icon="account-outline"
+          icon="cog-outline"
           color={ colors.primary }
           onPress={ () => navigation.navigate("account") }
         />
