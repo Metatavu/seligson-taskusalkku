@@ -223,7 +223,7 @@ const SettingsScreen: React.FC = () => {
           { renderCards(renderLanguageOptions, strings.settingsScreen.language) }
         </View>
         { auth &&
-          <Button onPress={ onLogout } style={ styles.backButton }>
+          <Button onPress={ onLogout } style={ styles.logOutButton }>
             <Text style={ styles.buttonText }>
               { strings.generic.logout }
             </Text>
