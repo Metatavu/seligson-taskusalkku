@@ -12,6 +12,8 @@ import HomeScreen from "./components/screens/home-screen";
 import SettingsScreen from "./components/screens/settings-screen";
 import AuthenticationScreen from "./components/screens/authentication-screen";
 import RegistrationScreen from "./components/screens/registration-screen";
+import { useAppSelector } from "./app/hooks";
+import { selectSelectedLanguage } from "./features/locale/locale-slice";
 
 /**
  * Root stack navigator
@@ -23,6 +25,7 @@ const RootNavigation = createNativeStackNavigator<RootNavigator.Routes>();
  */
 const Root: React.FC = () => {
   const { colors } = useTheme();
+  useAppSelector(selectSelectedLanguage);
 
   const [ fontsLoaded ] = useFonts({
     NotoSans_400Regular: NotoSans_400Regular,
@@ -55,15 +58,27 @@ const Root: React.FC = () => {
       fontFamily: "NotoSans_700Bold",
       fontSize: 16
     },
-    headerRight: () => {
+    headerLeft: () => {
+      const currentRoute = route as Route<any>;
+      if (currentRoute.name !== "account") {
+        return null;
+      }
+
       return (
         <IconButton
-          icon="cog-outline"
+          icon="arrow-left"
           color={ colors.primary }
-          onPress={ () => navigation.navigate("account") }
+          onPress={ () => navigation.canGoBack() && navigation.goBack() }
         />
       );
-    }
+    },
+    headerRight: () => (
+      <IconButton
+        icon="cog-outline"
+        color={ colors.primary }
+        onPress={ () => navigation.navigate("account") }
+      />
+    )
   });
 
   if (!fontsLoaded) {
@@ -87,7 +102,10 @@ const Root: React.FC = () => {
         <RootNavigation.Screen
           name="account"
           component={ SettingsScreen }
-          options={{ headerShown: true, title: strings.screenTitles.profile }}
+          options={{
+            headerShown: true,
+            title: strings.screenTitles.profile
+          }}
         />
         <RootNavigation.Screen
           name="authentication"
