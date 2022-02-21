@@ -112,10 +112,10 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
                   GenericUtils.getLocalizedValue(transactionFund.shortName)
                 }
               </Text>
-              <Text style={ styles.labelText }>
-                { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
-              </Text>
             </View>
+            <Text style={ styles.labelText }>
+              { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
+            </Text>
             <Divider style={{ marginVertical: 5 }}/>
             <View style={ styles.cardRow }>
               { transactionValues.map(renderTransactionValue) }

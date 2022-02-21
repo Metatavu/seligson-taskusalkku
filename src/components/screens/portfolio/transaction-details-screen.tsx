@@ -7,7 +7,6 @@ import TransactionsNavigator from "../../../types/navigators/transactions";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/portfolio/transactions-details-screen";
 import GenericUtils from "../../../utils/generic";
-import { LinearGradient } from "expo-linear-gradient";
 import { TransactionType } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
@@ -34,7 +33,6 @@ const TransactionDetailsScreen: React.FC = () => {
   }
 
   const { fund, security, portfolioTransaction } = params;
-  const { color } = fund;
   const { name } = security;
   const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue } = portfolioTransaction;
 
@@ -109,12 +107,7 @@ const TransactionDetailsScreen: React.FC = () => {
     <View style={ styles.detailsScreen }>
       <BackButton/>
       <View style={ styles.cardWrapper }>
-        <View style={ styles.gradientContainer }>
-          <LinearGradient
-            colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-            style={[ styles.gradient, { backgroundColor: color } ]}
-          />
-        </View>
+        <View style={[ styles.gradientContainer, { backgroundColor: fund.color } ]}/>
         <View style={ styles.detailsWrapper }>
           <Text style={[ theme.fonts.medium, styles.transactionTitle ]}>
             { GenericUtils.getLocalizedValue(name) }
