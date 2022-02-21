@@ -157,7 +157,7 @@ const FundDetailsScreen: React.FC = () => {
    */
   return (
     <>
-      <BackButton test={ navigation }/>
+      <BackButton/>
       <ScrollView
         scrollEventThrottle={ 16 }
         scrollEnabled={ scrollEnabled }
