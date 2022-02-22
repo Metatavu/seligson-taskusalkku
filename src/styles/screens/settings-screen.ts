@@ -30,10 +30,10 @@ export default StyleSheet.create({
     fontSize: 16
   },
 
-  backButton: {
+  logOutButton: {
     marginHorizontal: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    backgroundColor: "#899C35",
+    backgroundColor: theme.colors.error,
     borderRadius: theme.spacing(3)
   },
 

@@ -117,7 +117,7 @@ const FundDetailsScreen: React.FC = () => {
     return (
       <HistoryValueChart
         historyValues={ historyValues }
-        color={ fund.color }
+        color={ ChartUtils.RGBToHex(fund.color || "rgb(0,0,0)") }
         currency={ currency }
         onChartTouch={ toggleScroll(false) }
       />

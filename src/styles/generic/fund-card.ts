@@ -51,7 +51,8 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
   },
 
   fundName: {
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: "center"
   },
 
   cardColumn: {
@@ -59,13 +60,16 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
   },
 
   riskMeterContainer: {
-    flexDirection: "column",
-    alignItems: "flex-end"
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "flex-start"
   },
 
   riskMeterBars: {
-    flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
+    height: 16,
+    marginRight: theme.spacing(1)
   },
 
   riskMeterOn: {
@@ -84,13 +88,6 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
     marginLeft: 2
   },
 
-  tinyLogo: {
-    height: 20,
-    width: 20,
-    resizeMode: "cover",
-    marginLeft: theme.spacing(1)
-  },
-
   positiveValue: {
     color: theme.colors.primary,
     ...theme.fonts.medium
@@ -106,7 +103,20 @@ const fundCardStyles = (theme: ReactNativePaper.Theme = defaultTheme, color: str
   },
 
   lastUpdated: {
-    paddingLeft: theme.spacing(1)
+    paddingLeft: theme.spacing(1),
+    color: theme.colors.grey[600]
+  },
+
+  fundLogoContainer: {
+    height: 24,
+    width: 24,
+    marginRight: theme.spacing(1),
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  riskText: {
+    color: theme.colors.grey[600]
   }
 
 });

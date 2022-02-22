@@ -244,7 +244,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
       <View style={ styles.fundTitleContainer }>
         <View style={{ ...styles.fundColor, backgroundColor: fund.color }}/>
         <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
-          { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
+          { GenericUtils.getLocalizedValue(subscriptionSettings.fund.shortName) }
         </Text>
       </View>
     </>
@@ -469,7 +469,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
               { strings.subscription.recipient }
             </Text>
           ),
-          () => renderCopyText(GenericUtils.getLocalizedValue(fund.longName).slice(0, -4))
+          () => renderCopyText(GenericUtils.getLocalizedValue(fund.longName))
         )
       }
       <Divider style={{ marginBottom: theme.spacing(2) }}/>

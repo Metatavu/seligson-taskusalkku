@@ -188,7 +188,7 @@ const StatisticsScreen: React.FC = () => {
             </Title>
           </View>
           { renderDetailRow(strings.portfolio.statistics.purchaseTotal, purchaseTotal) }
-          { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+          { renderDetailRow(strings.portfolio.statistics.change, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
         </View>
       </View>
     );
@@ -211,7 +211,8 @@ const StatisticsScreen: React.FC = () => {
 
     const {
       subscriptionsTotal,
-      redemptionsTotal
+      redemptionsTotal,
+      difference
     } = Calculations.getPortfolioSummaryInfo(summaries || []);
 
     return (
@@ -219,7 +220,8 @@ const StatisticsScreen: React.FC = () => {
         { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${dates.startDate} - ${dates.endDate}`) }
         { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
         { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
-        { renderDetailRow(strings.portfolio.statistics.redemptions, redemptionsTotal) }
+        { renderDetailRow(strings.portfolio.statistics.redemptions, `-${redemptionsTotal}`) }
+        { renderDetailRow(strings.portfolio.statistics.total, difference) }
       </View>
     );
   };

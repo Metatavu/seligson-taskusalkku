@@ -7,7 +7,7 @@ import RootNavigator from "../../../types/navigators/root";
 import AuthUtils from "../../../utils/auth";
 import Config from "../../../app/config";
 import { View } from "react-native";
-import SeligsonLogo from "../../../../assets/seligson-logo";
+import { SeligsonLogo } from "../../../../assets/seligson-logo";
 import theme from "../../../theme";
 import { ProgressBar } from "react-native-paper";
 import strings from "../../../localization/strings";

@@ -111,7 +111,7 @@ namespace Calculations {
       marketValueTotal: Calculations.formatEuroNumberStr(marketValueTotal),
       purchaseTotal: Calculations.formatEuroNumberStr(purchaseTotal),
       totalChangeAmount: Calculations.formatEuroNumberStr(totalChange),
-      totalChangePercentage: Calculations.formatEuroNumberStr(totalChangePercentage)
+      totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
     };
   };
 
@@ -144,7 +144,7 @@ namespace Calculations {
    * @param summaries list of summaries
    * @returns object that contains sum of subscriptions and redemptions
    */
-  export const getPortfolioSummaryInfo = (summaries: PortfolioSummary[]): { subscriptionsTotal: string, redemptionsTotal: string } => {
+  export const getPortfolioSummaryInfo = (summaries: PortfolioSummary[]): { subscriptionsTotal: string, redemptionsTotal: string, difference: string } => {
     let subscriptionsTotal: string = "0";
     let redemptionsTotal: string = "0";
 
@@ -153,9 +153,12 @@ namespace Calculations {
       redemptionsTotal = new BigNumber(redemptionsTotal).plus(summary.redemptions).toString();
     });
 
+    const difference = new BigNumber(subscriptionsTotal).minus(redemptionsTotal).toString();
+
     return {
       subscriptionsTotal: Calculations.formatEuroNumberStr(subscriptionsTotal),
-      redemptionsTotal: Calculations.formatEuroNumberStr(redemptionsTotal)
+      redemptionsTotal: Calculations.formatEuroNumberStr(redemptionsTotal),
+      difference: Calculations.formatEuroNumberStr(difference)
     };
   };
 

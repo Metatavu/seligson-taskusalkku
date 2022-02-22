@@ -63,7 +63,8 @@ export default StyleSheet.create({
     marginLeft: "auto",
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: theme.spacing(1)
   }
 
 });

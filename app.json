@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "entryPoint": "./index.tsx",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app-icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,15 +19,17 @@
     ],
     "ios": {
       "supportsTablet": false,
+      "icon": "./assets/app-icon.png",
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app optionally uses the camera (Face ID) to authenticate users."
       },
       "bundleIdentifier": "fi.metatavu.seligson.taskusalkku.app"
     },
     "android": {
+      "icon": "./assets/app-icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/app-icon-adaptive.png",
+        "backgroundColor": "#899c35"
       },
       "package": "fi.metatavu.seligson.taskusalkku.app"
     },

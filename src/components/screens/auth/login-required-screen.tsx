@@ -4,7 +4,7 @@ import { Linking, View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/auth/login-required-screen";
-import SeligsonLogo from "../../../../assets/seligson-logo";
+import { SeligsonLogo } from "../../../../assets/seligson-logo";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AuthUtils from "../../../utils/auth";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";

@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { LinearGradient } from "expo-linear-gradient";
 import theme from "../../theme";
 import fundCardStyles from "../../styles/generic/fund-card";
 import { Fund } from "../../generated/client";
@@ -10,6 +9,8 @@ import strings from "../../localization/strings";
 import GenericUtils from "../../utils/generic";
 import Calculations from "../../utils/calculations";
 import DateUtils from "../../utils/date-utils";
+import { SeligsonLogoSmall } from "../../../assets/seligson-logo";
+import LahitapiolaLogoSmall from "../../../assets/lahitapiola-logo";
 
 /**
  * Component properties
@@ -24,9 +25,10 @@ interface Props {
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const { color, longName, risk, changeData, priceDate } = fund;
+  const { color, shortName, longName, risk, changeData, priceDate } = fund;
   const { change1d, change1m, change1y, change5y, change20y } = changeData || {};
   const styles = fundCardStyles(useTheme(), color || "#FFF");
+  const SeligsonFund = GenericUtils.getLocalizedValue(longName).includes("Seligson");
 
   /**
    * Component for price history
@@ -54,11 +56,9 @@ const FundCard: React.FC<Props> = ({ fund }) => {
     }
 
     const riskArray = Array.from({ length: 7 }, (_, index) => (
-      <LinearGradient
-        // eslint-disable-next-line react/no-array-index-key
+      <View
         key={ index }
-        colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-        style={ index < risk ? styles.riskMeterOn : styles.riskMeterOff }
+        style={ index < risk ? [ styles.riskMeterOn, { backgroundColor: fund.color } ] : styles.riskMeterOff }
       />
     ));
 
@@ -67,7 +67,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         <View style={ styles.riskMeterBars }>
           { riskArray }
         </View>
-        <Text>
+        <Text style={ styles.riskText }>
           { `${strings.fundCard.riskLevel} ${risk}` }
         </Text>
       </View>
@@ -79,28 +79,27 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    */
   return (
     <>
-      <View style={ styles.gradientContainer }>
-        <LinearGradient
-          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-          style={ styles.gradient }
-        />
-      </View>
+      <View style={[ styles.gradientContainer, { backgroundColor: fund.color } ]}/>
       <View style={ styles.cardContent }>
         <View style={ styles.cardRow }>
           <View style={ styles.cardColumn }>
             <View style={ styles.fundName }>
-              <Text style={ theme.fonts.medium }>
-                { longName && GenericUtils.getLocalizedValue(longName) }
+              <View style={ styles.fundLogoContainer }>
+                { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
+              </View>
+              <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
+                { GenericUtils.getLocalizedValue(shortName) }
               </Text>
             </View>
+            <Divider style={ styles.divider }/>
             <View style={ styles.cardRow }>
-              <Icon name="calendar" size={ 12 } color={ color }/>
+              { renderRiskMeter() }
+              <Icon name="calendar" size={ 12 } color={ theme.colors.grey[600] }/>
               <Text style={ styles.lastUpdated }>
                 { priceDate && DateUtils.formatToFinnishDate(priceDate) }
               </Text>
             </View>
           </View>
-          { renderRiskMeter() }
         </View>
         <Divider style={ styles.divider }/>
         <View style={ styles.cardRow }>

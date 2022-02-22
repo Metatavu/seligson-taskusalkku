@@ -40,7 +40,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
   const styles = transactionsCardStyles(useTheme(), "#fff");
   const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
 
-  const [ closed, setClosed ] = React.useState(true);
+  const [ closed, setClosed ] = React.useState(false);
 
   /**
    * Renders transaction value
@@ -108,14 +108,12 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
           <View style={ styles.transactionContent }>
             <View style={ styles.transactionTitle }>
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
-                { transactionFund.longName &&
-                  GenericUtils.getLocalizedValue(transactionFund.longName)
-                }
-              </Text>
-              <Text style={ styles.labelText }>
-                { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
+                { GenericUtils.getLocalizedValue(transactionFund.shortName) }
               </Text>
             </View>
+            <Text style={ styles.labelText }>
+              { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
+            </Text>
             <Divider style={{ marginVertical: 5 }}/>
             <View style={ styles.cardRow }>
               { transactionValues.map(renderTransactionValue) }

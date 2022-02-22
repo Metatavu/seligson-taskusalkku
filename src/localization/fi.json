@@ -78,13 +78,13 @@
     "questions": "Kysymykset",
     "phoebus": "Phoebus",
     "others": "Muut",
-    "statistics": "Tilastot",
+    "statistics": "Yleisnäkymä",
     "distributions": "Jakaumat",
     "ownFunds": "Omat rahastot",
     "transactions": "Tapahtumat",
     "passiveFunds": "Passiiviset osakerahastot",
     "activeFunds": "Aktiiviset osakerahastot",
-    "interestFunds": "Korko rahastot",
+    "interestFunds": "Korkorahastot",
     "combinationFunds": "Yhdistelmärahastot",
     "profile": "Asetukset"
   },
@@ -121,7 +121,7 @@
     "subscriptionAmount": "Merkintäsumma",
     "dueDate": "Eräpäivä",
     "createVirtualBarCode": "Luo virtuaaliviivakoodi",
-    "summaryDescription": "Kopioi viivakoodi alta verkkopankin maksulomakkeessa sille varattuun kenttään\nMaksun saajan, eli rahaston, nimi tulee lisätä erikseen.",
+    "summaryDescription": "Kopioi viivakoodi alta verkkopankin maksulomakkeessa sille varattuun kenttään.\nMaksun saajan, eli rahaston, nimi tulee lisätä erikseen.",
     "customer": "Asiakas",
     "customerNumber": "Asiakasnumero",
     "bank": "Pankki",
@@ -133,7 +133,7 @@
         "title": "Kasvuosuus",
         "recommended": "suositus",
         "value": "Kasvuosuus",
-        "description": "Rahaston saamat osingot tai korot lisästään rahastopääomaan ja ne kasvattavat rahasto-ossuden arvoa. Veroseuraanus syntyy vasta kun rahasto-osuuksia myydään."
+        "description": "Rahaston saamat osingot tai korot lisästään rahastopääomaan ja ne kasvattavat rahasto-osuuden arvoa. Veroseuraamus syntyy vasta kun rahasto-osuuksia myydään."
       },
       "b": {
         "title": "Tuotto-osuus",
@@ -157,6 +157,7 @@
       "totalChange": "Kokonaisarvon muutos",
       "redemptions": "Lunastukset",
       "subscriptions": "Merkinnät",
+      "securities": "Osuuslajien vaihdot",
       "total": "Yhteensä",
       "changeInGivenRange": "Ajanjakso"
     },
@@ -170,6 +171,7 @@
       "type": "Tapahtumatyyppi",
       "redemption": "Lunastus",
       "subscription": "Merkintä",
+      "security": "Osuuslajin vaihto",
       "valueDate": "Arvopäivä",
       "paymentDate": "Maksupäivä",
       "shareAmount": "Kpl",
@@ -231,7 +233,7 @@
     },
     "pin": {
       "title": "Tunnusluku",
-      "description": "Pysyt kirjautuneen, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
+      "description": "Pysyt kirjautuneena, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
     },
     "biometric": {
       "title": "Biometrinen tunnistus",

@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { LinearGradient } from "expo-linear-gradient";
 import fundCardStyles from "../../styles/generic/fund-card";
 import { Fund, PortfolioSecurity } from "../../generated/client";
 import strings from "../../localization/strings";
@@ -13,6 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 import HomeNavigator from "../../types/navigators/home";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import DateUtils from "../../utils/date-utils";
+import { SeligsonLogoSmall } from "../../../assets/seligson-logo";
+import LahitapiolaLogoSmall from "../../../assets/lahitapiola-logo";
 
 /**
  * Component properties
@@ -29,7 +30,8 @@ interface Props {
  */
 const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
-  const { color, risk, priceDate, longName } = fund;
+  const { color, risk, priceDate, longName, shortName } = fund;
+  const SeligsonFund = GenericUtils.getLocalizedValue(longName).includes("Seligson");
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
   const navigation = useNavigation<HomeNavigator.NavigationProps>();
@@ -42,25 +44,6 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
   };
 
   /**
-   * Renders title section
-   */
-  const renderTitle = () => (
-    <View style={ styles.cardColumn }>
-      <View style={ styles.fundName }>
-        <Text style={ theme.fonts.medium }>
-          { longName && GenericUtils.getLocalizedValue(longName) }
-        </Text>
-      </View>
-      <View style={ styles.cardRow }>
-        <Icon name="calendar" size={ 12 } color={ color }/>
-        <Text style={ styles.lastUpdated }>
-          { priceDate && DateUtils.formatToFinnishDate(priceDate) }
-        </Text>
-      </View>
-    </View>
-  );
-
-  /**
    * Renders risk meter
    */
   const renderRiskMeter = () => {
@@ -69,11 +52,9 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
     }
 
     const riskLevels = Array.from({ length: 7 }, (_, index) => (
-      <LinearGradient
-        // eslint-disable-next-line react/no-array-index-key
+      <View
         key={ index }
-        colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-        style={ index < risk ? styles.riskMeterOn : styles.riskMeterOff }
+        style={ index < risk ? [ styles.riskMeterOn, { backgroundColor: fund.color } ] : styles.riskMeterOff }
       />
     ));
 
@@ -82,12 +63,36 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
         <View style={ styles.riskMeterBars }>
           { riskLevels }
         </View>
-        <Text>
+        <Text style={ styles.riskText }>
           { `${strings.fundCard.riskLevel} ${risk}` }
         </Text>
       </View>
     );
   };
+
+  /**
+   * Renders title section
+   */
+  const renderTitle = () => (
+    <View style={ styles.cardColumn }>
+      <View style={ styles.fundName }>
+        <View style={ styles.fundLogoContainer }>
+          { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
+        </View>
+        <Text style={ theme.fonts.medium }>
+          { GenericUtils.getLocalizedValue(shortName) }
+        </Text>
+      </View>
+      <Divider style={ styles.divider }/>
+      <View style={ styles.cardRow }>
+        { renderRiskMeter() }
+        <Icon name="calendar" size={ 12 } color={ theme.colors.grey[600] }/>
+        <Text style={ styles.lastUpdated }>
+          { priceDate && DateUtils.formatToFinnishDate(priceDate) }
+        </Text>
+      </View>
+    </View>
+  );
 
   /**
    * Renders my shares
@@ -139,16 +144,10 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
    */
   return (
     <TouchableOpacity onPress={ onClick } style={ styles.cardWrapper }>
-      <View style={ styles.gradientContainer }>
-        <LinearGradient
-          colors={[ "transparent", "rgba(0,0,0,0.5)" ]}
-          style={ styles.gradient }
-        />
-      </View>
+      <View style={[ styles.gradientContainer, { backgroundColor: fund.color } ]}/>
       <View style={ styles.cardContent }>
         <View style={ styles.cardRow }>
           { renderTitle() }
-          { renderRiskMeter() }
         </View>
         <Divider style={ styles.divider }/>
         <View style={ styles.shareRow }>

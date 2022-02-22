@@ -39,7 +39,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
     <View style={ styles.fundTitleContainer }>
       <View style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}/>
       <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
-        { GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) }
+        { GenericUtils.getLocalizedValue(subscriptionSettings.fund.shortName) }
       </Text>
     </View>
   );
@@ -160,7 +160,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderCopyTextWithLabel(
           strings.subscription.recipient,
-          GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName).slice(0, -4)
+          GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName)
         )
       }
     </>
