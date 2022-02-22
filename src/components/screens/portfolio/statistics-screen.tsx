@@ -220,7 +220,7 @@ const StatisticsScreen: React.FC = () => {
         { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${dates.startDate} - ${dates.endDate}`) }
         { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
         { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
-        { renderDetailRow(strings.portfolio.statistics.redemptions, redemptionsTotal) }
+        { renderDetailRow(strings.portfolio.statistics.redemptions, `-${redemptionsTotal}`) }
         { renderDetailRow(strings.portfolio.statistics.total, difference) }
       </View>
     );
