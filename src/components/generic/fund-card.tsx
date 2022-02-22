@@ -28,7 +28,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   const { color, shortName, longName, risk, changeData, priceDate } = fund;
   const { change1d, change1m, change1y, change5y, change20y } = changeData || {};
   const styles = fundCardStyles(useTheme(), color || "#FFF");
-  const SeligsonFund = (longName && GenericUtils.getLocalizedValue(longName)).includes("Seligson");
+  const SeligsonFund = GenericUtils.getLocalizedValue(longName).includes("Seligson");
 
   /**
    * Component for price history
