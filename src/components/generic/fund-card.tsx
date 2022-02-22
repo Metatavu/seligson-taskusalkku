@@ -87,7 +87,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
               <View style={ styles.fundLogoContainer }>
                 { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
               </View>
-              <Text style={ theme.fonts.medium }>
+              <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
                 { GenericUtils.getLocalizedValue(shortName) }
               </Text>
             </View>
