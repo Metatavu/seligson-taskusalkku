@@ -244,7 +244,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
       <View style={ styles.fundTitleContainer }>
         <View style={{ ...styles.fundColor, backgroundColor: fund.color }}/>
         <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
-          { subscriptionSettings.fund.longName ? GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName) : "" }
+          { GenericUtils.getLocalizedValue(subscriptionSettings.fund.shortName) }
         </Text>
       </View>
     </>

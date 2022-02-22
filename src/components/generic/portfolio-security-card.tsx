@@ -31,7 +31,7 @@ interface Props {
 const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
   const { color, risk, priceDate, longName, shortName } = fund;
-  const SeligsonFund = (longName && GenericUtils.getLocalizedValue(longName)).includes("Seligson");
+  const SeligsonFund = GenericUtils.getLocalizedValue(longName).includes("Seligson");
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
   const navigation = useNavigation<HomeNavigator.NavigationProps>();
