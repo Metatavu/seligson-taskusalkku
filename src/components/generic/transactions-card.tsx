@@ -108,8 +108,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
           <View style={ styles.transactionContent }>
             <View style={ styles.transactionTitle }>
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
-                { transactionFund.shortName &&
-                  GenericUtils.getLocalizedValue(transactionFund.shortName)
+                { GenericUtils.getLocalizedValue(transactionFund.shortName)
                 }
               </Text>
             </View>
