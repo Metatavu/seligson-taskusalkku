@@ -88,7 +88,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
                 { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
               </View>
               <Text style={ theme.fonts.medium }>
-                { shortName && GenericUtils.getLocalizedValue(shortName) }
+                { GenericUtils.getLocalizedValue(shortName) }
               </Text>
             </View>
             <Divider style={ styles.divider }/>
