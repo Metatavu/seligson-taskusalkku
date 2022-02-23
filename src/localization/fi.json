@@ -84,8 +84,8 @@
     "transactions": "Tapahtumat",
     "passiveFunds": "Passiiviset osakerahastot",
     "activeFunds": "Aktiiviset osakerahastot",
-    "interestFunds": "Korkorahastot",
-    "combinationFunds": "Yhdistelmärahastot",
+    "interestFunds": "Korko-\nrahastot",
+    "combinationFunds": "Yhdistelmä-\nrahastot",
     "profile": "Asetukset"
   },
 

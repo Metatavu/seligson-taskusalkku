@@ -94,14 +94,20 @@ const FundsListScreen: React.FC = () => {
           backgroundColor: colors.primary,
           elevation: 8,
           height: 60,
-          justifyContent: "center"
+          justifyContent: "center",
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.3,
+          shadowRadius: 5
         },
         tabBarIndicatorStyle: { backgroundColor: colors.surface },
         tabBarLabelStyle: {
           fontSize: 10,
           textTransform: "none",
           flexWrap: "nowrap",
-          fontFamily: "NotoSans_400Regular"
+          fontFamily: "NotoSans_400Regular",
+          padding: 0,
+          margin: 0
         }
       }}
     >

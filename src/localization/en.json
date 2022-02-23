@@ -83,8 +83,8 @@
     "ownFunds": "Own funds",
     "transactions": "Transactions",
     "passiveFunds": "Passive equity funds",
-    "activeFunds": "Active Funds",
-    "interestFunds": "Fixed Income Funds",
+    "activeFunds": "Active\nfunds",
+    "interestFunds": "Fixed income Funds",
     "combinationFunds": "Combination funds",
     "profile": "Settings"
   },

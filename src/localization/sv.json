@@ -84,8 +84,8 @@
     "transactions": "Händelser",
     "passiveFunds": "Passiva aktiefonder",
     "activeFunds": "Aktiva aktiefonder",
-    "interestFunds": "Räntefonder",
-    "combinationFunds": "Blandfonder",
+    "interestFunds": "Ränte-\nfonder",
+    "combinationFunds": "Bland-\nfonder",
     "profile": "inställningar"
   },
 
