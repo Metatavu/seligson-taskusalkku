@@ -60,7 +60,20 @@ const TransactionDetailsScreen: React.FC = () => {
    */
   const renderDetailRows = () => {
     const transactionDisplayType = localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"];
-    const paidTotal = new BigNumber(totalValue).plus(provision);
+    const paidTotal = new BigNumber(totalValue);
+    
+    /**
+     * Total value by transaction type
+     */
+    const totalValueByTransactionType = () => {
+      if (transactionType === "SUBSCRIPTION") {
+        return new BigNumber(Number(totalValue) - Number(provision));
+      }
+      if (transactionType === "REDEMPTION") {
+        return new BigNumber(Number(totalValue) + Number(provision));
+      }
+      return new BigNumber(totalValue);
+    };
 
     const rows: DetailRow[] = [
       {
@@ -85,7 +98,7 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.totalValue,
-        value: Calculations.formatEuroNumberStr(totalValue)
+        value: Calculations.formatEuroNumberStr(totalValueByTransactionType())
       },
       {
         label: localized.provision,
