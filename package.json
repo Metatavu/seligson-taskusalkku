@@ -38,6 +38,8 @@
     "expo-random": "~11.2.0",
     "expo-secure-store": "~10.2.0",
     "expo-status-bar": "~1.0.4",
+    "expo-updates": "~0.8.2",
+    "fbjs": "^3.0.4",
     "html-escaper": "^3.0.3",
     "immer": "^9.0.12",
     "jwt-decode": "^3.1.2",
@@ -62,8 +64,7 @@
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.6.2",
     "react-redux": "^7.2.5",
-    "victory-native": "^36.2.0",
-    "expo-updates": "~0.8.2"
+    "victory-native": "^36.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
