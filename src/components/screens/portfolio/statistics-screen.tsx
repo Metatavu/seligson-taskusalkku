@@ -17,6 +17,7 @@ import PortfolioSelect from "./portfolio-select";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import theme from "../../../theme";
 import HistoryValueChart from "../../generic/history-value-chart";
+import DateUtils from "../../../utils/date-utils";
 
 /**
  * Statistics screen component
@@ -42,7 +43,7 @@ const StatisticsScreen: React.FC = () => {
   const loadHistoryData = async () => {
     setHistoryLoading(true);
 
-    const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
+    const { startDate, endDate } = DateUtils.getDateFilters(selectedRange);
 
     try {
       const portfolioHistoryValues = await Promise.all(
@@ -75,7 +76,7 @@ const StatisticsScreen: React.FC = () => {
         getEffectivePortfolios().map(({ id }) => (
           portfoliosApiContext.getPortfolioSummary({
             portfolioId: id!,
-            ...ChartUtils.getDateFilters(selectedRange)
+            ...DateUtils.getDateFilters(selectedRange)
           })
         ))
       );
@@ -207,7 +208,7 @@ const StatisticsScreen: React.FC = () => {
     const {
       totalChangeAmount,
       totalChangePercentage
-    } = Calculations.getTotalPortfolioHistoryInfo(historyValues);
+    } = Calculations.getTotalPortfolioHistoryInfo(selectedRange, historyValues);
 
     const {
       subscriptionsTotal,
@@ -215,9 +216,13 @@ const StatisticsScreen: React.FC = () => {
       difference
     } = Calculations.getPortfolioSummaryInfo(summaries || []);
 
+    const startDate = Calculations.isRangeDateBeforeValueStartDate(selectedRange, historyValues) ?
+      historyValues[0].date && DateUtils.formatToFinnishDate(historyValues[0].date) :
+      dates.startDate;
+
     return (
       <View>
-        { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${dates.startDate} - ${dates.endDate}`) }
+        { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${startDate} - ${dates.endDate}`) }
         { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
         { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
         { renderDetailRow(strings.portfolio.statistics.redemptions, `-${redemptionsTotal}`) }

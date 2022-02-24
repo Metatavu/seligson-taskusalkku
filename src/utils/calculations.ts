@@ -1,5 +1,8 @@
 import BigNumber from "bignumber.js";
+import moment from "moment";
 import { Portfolio, PortfolioSummary, SecurityHistoryValue } from "../generated/client";
+import { ChartRange } from "../types";
+import DateUtils from "./date-utils";
 
 /**
  * Custom namespace for calculations
@@ -116,21 +119,46 @@ namespace Calculations {
   };
 
   /**
+   * Checks if given date range goes over the history values first date
+   *
+   * @param dateRange date range
+   * @param historyValues list of history values
+   */
+  export const isRangeDateBeforeValueStartDate = (dateRange: Date[] | ChartRange, historyValues: SecurityHistoryValue[]) => {
+    if (!Array.isArray(dateRange)) {
+      const { startDate } = DateUtils.getDateFilters(dateRange);
+      const valuesStartDate = historyValues[0].date;
+
+      return moment(startDate).isBefore(valuesStartDate);
+    }
+
+    return false;
+  };
+
+  /**
    * Gets value information for list of history values
    *
+   * @param dateRange selected date range
    * @param historyValues list of security history values
    * @returns object that contains total change value and total change percentage
    */
-  export const getTotalPortfolioHistoryInfo = (historyValues: SecurityHistoryValue[]) => {
+  export const getTotalPortfolioHistoryInfo = (dateRange: Date[] | ChartRange, historyValues: SecurityHistoryValue[]) => {
     if (historyValues.length < 2) {
       return {};
     }
 
     const startValue = historyValues[0].value;
     const endValue = historyValues[historyValues.length - 1].value;
+    let totalChangePercentage: string = "";
+    let totalChange: string = "";
 
-    const totalChangePercentage = getTotalChangePercentage(startValue, endValue);
-    const totalChange = new BigNumber(0).plus(getTotalChangeAmount(startValue, endValue)).toString();
+    if (isRangeDateBeforeValueStartDate(dateRange, historyValues)) {
+      totalChangePercentage = "100";
+      totalChange = new BigNumber(0).plus(getTotalChangeAmount("0", endValue)).toString();
+    } else {
+      totalChangePercentage = getTotalChangePercentage(startValue, endValue);
+      totalChange = new BigNumber(0).plus(getTotalChangeAmount(startValue, endValue)).toString();
+    }
 
     return {
       totalChangeAmount: Calculations.formatNumberStr(totalChange, 2, { suffix: " €" }),

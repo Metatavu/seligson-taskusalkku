@@ -16,6 +16,7 @@ import { SecurityHistoryValue } from "../../../generated/client";
 import ChartRangeSelector from "../../generic/chart-range-selector";
 import HomeNavigator from "../../../types/navigators/home";
 import BackButton from "../../generic/back-button";
+import DateUtils from "../../../utils/date-utils";
 
 type FundDetailScreenNavigationProp = CompositeNavigationProp<FundsNavigator.NavigationProps, HomeNavigator.NavigationProps>;
 
@@ -68,7 +69,7 @@ const FundDetailsScreen: React.FC = () => {
         throw new Error("Could not find A security!");
       }
 
-      const { startDate, endDate } = ChartUtils.getDateFilters(selectedRange);
+      const { startDate, endDate } = DateUtils.getDateFilters(selectedRange);
 
       setCurrency(aSecurity.currency);
 
