@@ -2,16 +2,268 @@
 
   "generic": {
     "notImplemented": "Ei vielä toteutettu",
-    "close": "Sulje"
+    "close": "Sulje",
+    "back": "Takaisin",
+    "login": "Kirjaudu",
+    "logout": "Kirjaudu ulos",
+    "webPage": "Lisätietoja verkkosivuillamme",
+    "reserve": "Varaa",
+    "cancel": "Peruuta",
+    "save": "Tallenna",
+    "noData": "Ei dataa",
+    "copied": "Kopioitu leikepöydälle",
+    "saveAndProceed": "Tallenna ja jatka",
+    "ok": "Ok",
+    "pressAgainToExit": "Sulje painamalla uudelleen"
   },
 
   "errorHandling": {
-    "title": "Virhe"
+    "title": "Virhe",
+    "funds": {
+      "list": "Virhe listattaessa rahastoja"
+    },
+    "fundHistory": {
+      "list": "Virhe listattaessa rahaston historiatietoja"
+    },
+    "securities": {
+      "list": "Virhe listattaessa rahastotietoja",
+      "find": "Virhe haettaessa rahastotietoja"
+    },
+    "portfolio": {
+      "list": "Virhe listattaessa portfolion historiatietoja"
+    },
+    "portfolioSecurities": {
+      "list": "Virhe listattaessa oman portfolion rahastoja"
+    },
+    "auth": {
+      "login": "Kirjautumisessa tapahtui virhe",
+      "biometric": "Biometrisessä tunnistuksessa tapahtui virhe"
+    },
+    "meetingTimes": {
+      "list": "Virhe listattaessa vapaita aikoja"
+    },
+    "meeting": {
+      "create": "Virhe ajanvarausta luodessa"
+    },
+    "portfolioTransactions": {
+      "list": "Virhe listattaessa oman portfolion tapahtumia"
+    },
+    "publications": {
+      "list": "Virhe listattaessa julkaisuja",
+      "find": "Virhe haettaessa julkaisua"
+    },
+    "subscription": {
+      "invalidSum": "Tarkista merkinnän summa. Minimimerkintä on 10 €."
+    }
   },
 
   "auth": {
     "loginSessionExpiredTitle": "Kirjautuminen on vanhentunut",
-    "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään."
-  }
+    "loginSessionExpiredContent": "Kirjautuminen on vanhentunut. Kirjaudu uudelleen sisään.",
+    "loginRequired": "Kirjaudu Oma Salkku -tunnuksillasi.",
+    "login": "Kirjaudu sisään",
+    "newAccount": "Tarvitsetko (uudet tai ensimmäiset) Oma Salkku -tunnukset?",
+    "inputPinCode": "Kirjoita pin-koodi",
+    "incorrectPinCode": "Väärä pin-koodi",
+    "loginWithBiometric": "Kirjaudu sisään biometrisellä tunnisteella",
+    "tryAgain": "Yritä uudelleen"
+  },
 
+  "screenTitles": {
+    "portfolio": "Salkku",
+    "funds": "Rahastot",
+    "publications": "Julkaisut",
+    "meetings": "Tapaamiset",
+    "reviews": "Katsaukset",
+    "topical": "Ajankohtaista",
+    "questions": "Kysymykset",
+    "phoebus": "Phoebus",
+    "others": "Muut",
+    "statistics": "Yleisnäkymä",
+    "distributions": "Jakaumat",
+    "ownFunds": "Omat rahastot",
+    "transactions": "Tapahtumat",
+    "passiveFunds": "Passiiviset osakerahastot",
+    "activeFunds": "Aktiiviset osakerahastot",
+    "interestFunds": "Korko-\nrahastot",
+    "combinationFunds": "Yhdistelmä-\nrahastot",
+    "profile": "Asetukset"
+  },
+
+  "fundCard": {
+    "riskLevel": "Riskiluokka",
+    "historyOneDay": "1pv",
+    "historyOneMonth": "1kk",
+    "historyOneYear": "1v",
+    "historyThreeYears": "3v",
+    "historyFiveYears": "5v",
+    "historyTenYears": "10v",
+    "historyTwentyYears": "20v",
+    "historyMax": "max"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Määrä",
+    "value": "Arvo",
+    "change": "Muutos",
+    "buyFund": "Merkitse",
+    "downloadBrochure": "Avaintietoesite",
+    "aShare": "A-osuus",
+    "bShare": "B-osuus",
+    "myShare": "Oma osuus"
+  },
+
+  "subscription": {
+    "settingsDescription": "Alta voit kopioida rahaston tilinumeron ja oman viitenumerosi tai luoda verkkopankkiin syötettävän virtuaaliviivakoodin.",
+    "accountNumber": "Tilinumero",
+    "recipient": "Saaja",
+    "portfolio": "Salkku",
+    "referenceNumber": "Viitenumero",
+    "subscriptionAmount": "Merkintäsumma",
+    "dueDate": "Eräpäivä",
+    "createVirtualBarCode": "Luo virtuaaliviivakoodi",
+    "summaryDescription": "Kopioi viivakoodi alta verkkopankin maksulomakkeessa sille varattuun kenttään.\nMaksun saajan, eli rahaston, nimi tulee lisätä erikseen.",
+    "customer": "Asiakas",
+    "customerNumber": "Asiakasnumero",
+    "bank": "Pankki",
+    "shareType": "Osuustyyppi",
+    "sum": "Summa",
+    "virtualBarCode": "Virtuaaliviivakoodi",
+    "shares": {
+      "a": {
+        "title": "Kasvuosuus",
+        "recommended": "suositus",
+        "value": "Kasvuosuus",
+        "description": "Rahaston saamat osingot tai korot lisästään rahastopääomaan ja ne kasvattavat rahasto-osuuden arvoa. Veroseuraamus syntyy vasta kun rahasto-osuuksia myydään."
+      },
+      "b": {
+        "title": "Tuotto-osuus",
+        "value": "Tuotto-osuus",
+        "description": "Osinko- tai korkotuotot jaetaan kerran vuodessa osuudenhaltijoille."
+      }
+    },
+    "nonSubscribableFund": {
+      "description": "OMX Helsinki 25 on pörssinoteerattu rahasto (ETF) ja sitä ei merkitä samalla tavoin kuin muita ”tavallisia” rahastojamme.\n\nRahaston osuuksia voi ostaa ja myydä pörssissä arvopaperivälittäjien kautta.\n\nLisätietoja pörssinoteeratun rahaston erityispiirteistä löytyy mm. ",
+      "guideLink": "Rahastosijoittajan oppaasta (s. 25) ",
+      "videoBlog": "sekä videoblogistamme ",
+      "videoBlogLink": "ETF vai 'tavallinen'"
+    }
+  },
+
+  "portfolio": {
+    "statistics": {
+      "marketValueTotal": "Kokonaisarvo",
+      "purchaseTotal": "Hankinta-arvo",
+      "change": "Muutos",
+      "totalChange": "Kokonaisarvon muutos",
+      "redemptions": "Lunastukset",
+      "subscriptions": "Merkinnät",
+      "securities": "Osuuslajien vaihdot",
+      "total": "Yhteensä",
+      "changeInGivenRange": "Ajanjakso"
+    },
+    "portfolioSecurities": {
+      "title": "Omat rahastot"
+    },
+    "select": {
+      "all": "Kaikki portfoliot"
+    },
+    "transactions": {
+      "type": "Tapahtumatyyppi",
+      "redemption": "Lunastus",
+      "subscription": "Merkintä",
+      "security": "Osuuslajin vaihto",
+      "valueDate": "Arvopäivä",
+      "paymentDate": "Maksupäivä",
+      "shareAmount": "Kpl",
+      "value": "Kurssi",
+      "totalValue": "Arvo yhteensä",
+      "provision": "Palkkio",
+      "paidTotal": "Maksettu yhteensä"
+    },
+    "distribution": {
+      "shareInterest": "Osakkeet, korot"
+    }
+  },
+
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "Varaa aika keskustelulle",
+      "bookTimeDescription": "Haluatko keskustella kanssamme sijoittamisesta tai varainhoidosta joko puhelimessa tai tapaamisen muodossa?\n\nAlta voit varata sopivan ajan keskustelulle.\n\nAloita valitsemalla tapaamiselle haluamasi päivämäärä ja aika. Varattavia aikoja on pankkipäivinä klo 9:00 - 17:00.\n\nKerrothan mielellään myös kuinka monta henkilöä on tulossa ja parilla sanalla siitä, mikä on tapaamisen aihe.",
+      "datePicker": {
+        "title": "Päivämäärä ja aika",
+        "pickDateTime": "Valitse päivä",
+        "noAppointment": "Tälle päivälle ei ole varattavia aikoja.",
+        "startDate": "Aloituspäivämäärä",
+        "endDate": "Päättymispäivä"
+      }
+    },
+    "newMeeting": {
+      "title": "Yhteystiedot",
+      "selectedTime": "Valittu aika",
+      "time": "klo",
+      "noAvailableTime": "Tälle päivälle ei ole varattavissa aikoja.",
+      "meetingType": {
+        "title": "Varaan ajan",
+        "phone": "Puhelinkeskusteluun",
+        "meeting": "Tapaamiseen"
+      },
+      "meetingLanguage": "Kieli",
+      "participantCount": "Osallistujien lukumäärä",
+      "contact": {
+        "firstName": "Etunimi",
+        "lastName": "Sukunimi",
+        "email": "Sähköposti",
+        "phone": "Puhelinnumero"
+      },
+      "additionalInformation": "Lisätiedot"
+    }
+  },
+
+  "settingsScreen": {
+    "initialRoute": "Valitse aloitussisältö",
+    "preferredLogin": "Valitse kirjautumistapa",
+    "language": "Sovelluksen kieli",
+    "loginRequired": "Biometrinen tunnistus ja PIN-koodi eivät ole valittavissa ilman sisäänkirjautumista"
+  },
+
+  "loginOptions": {
+    "usernameAndPassword": {
+      "title": "Käyttäjätunnus ja salasana",
+      "description": "Sovellukseen kirjaudutaan käyttäjätunnuksella ja salasanalla."
+    },
+    "pin": {
+      "title": "Tunnusluku",
+      "description": "Pysyt kirjautuneena, mutta sovelluksen lukitus avataan valitsemallasi tunnusluvulla."
+    },
+    "biometric": {
+      "title": "Biometrinen tunnistus",
+      "description": "Pysyt kirjautuneena, mutta sovelluksen lukitus avataan sormenjäljelläsi tai kasvotunnistuksella."
+    },
+    "strongAuth": {
+      "title": "Vahva tunnistautuminen",
+      "description": "Sovellukseen kirjaudutaan vahvalla tunnistuksella"
+    },
+    "demo": {
+      "title": "Demo",
+      "description": "Sovellus ohjaa demo kirjautumiseen"
+    }
+  },
+
+  "defaultRoutes": {
+    "portfolio": {
+      "title": "Salkku",
+      "description": "Rahastosalkkusi näytetään heti, kun avaat sovelluksen (Vaatii kirjautumisen tai lukituksen avaamisen)"
+    },
+    "funds": {
+      "title": "Rahastot",
+      "description": "Näet uusimmat rahastoarvot heti ilman kirjautumista tai lukituksen avaamista"
+    }
+  },
+
+  "languages": {
+    "fi": "Suomi",
+    "en": "English",
+    "sv": "Svenska"
+  }
 }

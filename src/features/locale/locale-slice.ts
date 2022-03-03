@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import moment from "moment";
 import type { RootState } from "../../app/store";
 import strings from "../../localization/strings";
 import { Language } from "../../types/config";
@@ -7,13 +8,13 @@ import { Language } from "../../types/config";
  * Interface describing locale state in Redux
  */
 export interface LocaleState {
-  language?: Language;
+  language: Language;
 }
 
 /**
  * Initial locale state
  */
-const initialState: LocaleState = { };
+const initialState: LocaleState = { language: Language.EN };
 
 /**
  * Locale slice of Redux store
@@ -25,6 +26,7 @@ export const localeSlice = createSlice({
     setLanguage: (state, { payload }: PayloadAction<Language>) => {
       state.language = payload;
       strings.setLanguage(payload);
+      moment.locale(payload);
     }
   }
 });
@@ -40,7 +42,7 @@ export const { setLanguage } = localeSlice.actions;
  * @param state Redux store root state
  * @returns current language from Redux store
  */
-export const selectLanguage = (state: RootState) => state.locale.language;
+export const selectSelectedLanguage = (state: RootState) => state.locale.language;
 
 /**
  * Reducer for locale slice

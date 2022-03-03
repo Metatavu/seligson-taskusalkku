@@ -8,11 +8,10 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-generated/
 
 # macOS
 .DS_Store
 
 # other
 eas.json
-.env
+.env*

@@ -1,4 +1,5 @@
-import * as React from "react";
+/* eslint-disable no-console */
+import React from "react";
 import { View } from "react-native";
 import { Button, Paragraph } from "react-native-paper";
 import strings from "../../localization/strings";
@@ -28,16 +29,21 @@ const ErrorHandler: React.FC = ({ children }) => {
    */
   const logErrorObject = async (err?: any) => {
     try {
-      if (err instanceof Response) {
-        // eslint-disable-next-line no-console
-        console.error(await err.text() || err);
-      } else {
-        // eslint-disable-next-line no-console
+      if (!(err instanceof Response)) {
         console.error(JSON.stringify(err, null, 2));
+        return;
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(JSON.stringify(e, null, 2));
+
+      const responseText = await err.text();
+
+      console.error({
+        responseBody: responseText.startsWith("{") ?
+          JSON.stringify(JSON.parse(responseText), null, 2) :
+          responseText,
+        response: JSON.parse(JSON.stringify(err))
+      });
+    } catch {
+      console.error(err.toString());
     }
   };
 

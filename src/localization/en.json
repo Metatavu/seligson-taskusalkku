@@ -2,16 +2,268 @@
 
   "generic": {
     "notImplemented": "Not yet implemented",
-    "close": "Close"
+    "close": "Close",
+    "back": "Back",
+    "login": "Login",
+    "logout": "Log out",
+    "webPage": "More information on our website",
+    "reserve": "Reserve",
+    "cancel": "Cancel",
+    "save": "Save",
+    "noData": "No data",
+    "copied": "Copied to clipboard",
+    "saveAndProceed": "Save and proceed",
+    "ok": "Ok",
+    "pressAgainToExit": "Press again to exit"
   },
 
   "errorHandling": {
-    "title": "Error"
+    "title": "Error",
+    "funds": {
+      "list": "Error while loading fund list"
+    },
+    "fundHistory": {
+      "list": "Error while loading fund history data"
+    },
+    "securities": {
+      "list": "Error while loading securities",
+      "find": "Error while finding security"
+    },
+    "portfolio": {
+      "list": "Error while loading portfolio data"
+    },
+    "portfolioSecurities": {
+      "list": "Error while loading portfolio funds"
+    },
+    "auth": {
+      "login": "Error while logging in",
+      "biometric": "Error during biometric authentication"
+    },
+    "meetingTimes": {
+      "list": "Error while loading meeting times"
+    },
+    "meeting": {
+      "create": "Error when creating meeting"
+    },
+    "portfolioTransactions": {
+      "list": "Error while loading portfolio transactions data"
+    },
+    "publications": {
+      "list": "Error while loading publications",
+      "find": "Error while loading publication"
+    },
+    "subscription": {
+      "invalidSum": "Sum value must be greater than 10 euros"
+    }
   },
 
   "auth": {
     "loginSessionExpiredTitle": "Login session has expired",
-    "loginSessionExpiredContent": "Login session has expired. Please login again."
-  }
+    "loginSessionExpiredContent": "Login session has expired. Please login again.",
+    "loginRequired": "Login with Oma Salkku credentials",
+    "login": "Login",
+    "newAccount": "Do you need (first or new) Oma Salkku credentials?",
+    "inputPinCode": "Input pin-code",
+    "incorrectPinCode": "Incorrect pin-code",
+    "loginWithBiometric": "Login with biometric authentication",
+    "tryAgain": "Try again"
+  },
 
+  "screenTitles": {
+    "portfolio": "Portfolio",
+    "funds": "Funds",
+    "publications": "Publications",
+    "meetings": "Meetings",
+    "reviews": "Reviews",
+    "topical": "Topical",
+    "questions": "Questions",
+    "phoebus": "Phoebus",
+    "others": "Others",
+    "statistics": "Overview",
+    "distributions": "Distributions",
+    "ownFunds": "Own funds",
+    "transactions": "Transactions",
+    "passiveFunds": "Passive equity funds",
+    "activeFunds": "Active\nfunds",
+    "interestFunds": "Fixed income Funds",
+    "combinationFunds": "Combination funds",
+    "profile": "Settings"
+  },
+
+  "fundCard": {
+    "riskLevel": "Risk level",
+    "historyOneDay": "1d",
+    "historyOneMonth": "1m",
+    "historyOneYear": "1y",
+    "historyThreeYears": "3y",
+    "historyFiveYears": "5y",
+    "historyTenYears": "10y",
+    "historyTwentyYears": "20y",
+    "historyMax": "max"
+  },
+
+  "fundDetailsScreen": {
+    "amount": "Share amount",
+    "value": "Value",
+    "change": "Change",
+    "buyFund": "Buy fund",
+    "downloadBrochure": "Key investor information document",
+    "aShare": "A-share",
+    "bShare": "B-share",
+    "myShare": "My share"
+  },
+
+  "subscription": {
+    "settingsDescription": "Below you can copy the fund's account number and your own reference number or create a virtual barcode to be entered in the online bank.",
+    "accountNumber": "Account number",
+    "recipient": "Recipient",
+    "portfolio": "Portfolio",
+    "referenceNumber": "Reference number",
+    "subscriptionAmount": "Subscription amount",
+    "dueDate": "Due date",
+    "createVirtualBarCode": "Create a virtual barcode",
+    "summaryDescription": "Copy the barcode below provided on the online banking payment form.\n\nThe name of the recipient of the fund must be added separately.",
+    "customer": "Customer",
+    "customerNumber": "Customer number",
+    "bank": "Bank",
+    "shareType": "Share type",
+    "sum": "Sum",
+    "virtualBarCode": "virtual barcode",
+    "shares": {
+      "a": {
+        "title": "Accumulation units",
+        "recommended": "recommended",
+        "value": "Accumulation units",
+        "description": "Dividends or interest received by the fund are added to the fund capital and increase the value of the fund unit. The tax effect only arises when the fund units are sold."
+      },
+      "b": {
+        "title": "Income units",
+        "value": "Income units",
+        "description": "Dividend or interest income is distributed once a year to unit-holders."
+      }
+    },
+    "nonSubscribableFund": {
+      "description": "OMX Helsinki 25 is an Exchange Traded Fund (ETF) and it cannot be subbscribed to like our other 'regular' funds.\n\nFund units are traded on the Helsinki Stock Exchange like stocks.\n\nMore information about Exchange Traded Funds can be found from: ",
+      "guideLink": "Fund investor guide (p. 25) ",
+      "videoBlog": "Our video blog ",
+      "videoBlogLink": "ETF or 'regular'"
+    }
+  },
+
+  "portfolio": {
+    "statistics": {
+      "marketValueTotal": "Market total value",
+      "purchaseTotal": "Purchase value",
+      "change": "Change",
+      "totalChange": "Total change",
+      "redemptions": "Redemptions",
+      "subscriptions": "Subscriptions",
+      "securities": "Fund unit changes",
+      "total": "Total",
+      "changeInGivenRange": "Date range"
+    },
+    "portfolioSecurities": {
+      "title": "Own funds"
+    },
+    "select": {
+      "all": "All portfolios"
+    },
+    "transactions": {
+      "type": "Transaction type",
+      "redemption": "Redemption",
+      "subscription": "Subscription",
+      "security": "Change of fund unit",
+      "valueDate": "Value date",
+      "paymentDate": "Payment date",
+      "shareAmount": "pcs",
+      "value": "Rate",
+      "totalValue": "Total value",
+      "provision": "Provision",
+      "paidTotal": "Total paid"
+    },
+    "distribution": {
+      "shareInterest": "Shares, interest"
+    }
+  },
+
+  "meetings": {
+    "meetingTimes": {
+      "bookTime": "Book time for a meeting",
+      "bookTimeDescription": "Would you like to discuss investing or financial management with us, either over the phone or in the form of an appointment?\n\nYou can make an appointment below.\n\nStart by choosing a date and time for your appointment.\n\nPlease also tell me how many people are coming and what the subject of the meeting will be. ",
+      "datePicker": {
+        "title": "Date time picker",
+        "pickDateTime": "Pick a date",
+        "noAppointment": "There is no available meeting for this day",
+        "startDate": "Start date",
+        "endDate": "End date"
+      }
+    },
+    "newMeeting": {
+      "title": "Contact information",
+      "selectedTime": "Selected time",
+      "time": "Time",
+      "noAvailableTime": "No available meeting times for the selected date.",
+      "meetingType": {
+        "title": "Meeting type",
+        "phone": "Phone",
+        "meeting": "Meeting"
+      },
+      "meetingLanguage": "Meeting language",
+      "participantCount": "Participant count",
+      "contact": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "additionalInformation": "Additional information"
+    }
+  },
+
+  "settingsScreen": {
+    "initialRoute": "Select default login route",
+    "preferredLogin": "Select preferred login",
+    "language": "Application language",
+    "loginRequired": "Biometric authentication and PIN-code are not available until you login."
+  },
+
+  "loginOptions": {
+    "usernameAndPassword": {
+      "title": "Username and password",
+      "description": "You will login with username and password"
+    },
+    "pin": {
+      "title": "Pin-code",
+      "description": "You stay logged in but you have to open the application with pin-code of your choosing."
+    },
+    "biometric": {
+      "title": "Biometric authentication",
+      "description": "You stay logged in but you have to open the application with fingerprint or facial recognition."
+    },
+    "strongAuth": {
+      "title": "Strong authentication",
+      "description": "You will login with strong authentication"
+    },
+    "demo": {
+      "title": "Demo",
+      "description": "You will be redirected to demo login"
+    }
+  },
+
+  "defaultRoutes": {
+    "portfolio": {
+      "title": "Portfolio",
+      "description": "Your portfolio will be shown when you login."
+    },
+    "funds": {
+      "title": "Fund values",
+      "description": "Funds will be shown when you login."
+    }
+  },
+
+  "languages": {
+    "fi": "Suomi",
+    "en": "English",
+    "sv": "Svenska"
+  }
 }

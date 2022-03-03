@@ -1,56 +1,43 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { RootNavigationRoutes, ScreenProps } from "./src/types/navigation";
-import moment from "moment";
-import "moment/locale/fi";
-import strings from "./src/localization/strings";
-import getBaseRoutes from "./src/routes/base";
+import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as StoreProvider } from "react-redux";
+import ApiProvider from "./src/components/providers/api-provider";
+import PortfoliosApiProvider from "./src/components/providers/portfolios-api-provider";
+import FundsApiProvider from "./src/components/providers/funds-api-provider";
+import MeetingsApiProvider from "./src/components/providers/meetings-api-provider";
+import SecuritiesApiProvider from "./src/components/providers/securities-api-provider";
+import PublicationsApiProvider from "./src/components/providers/publications-api-provider";
+import { store } from "./src/app/store";
+import AuthRefresh from "./src/components/containers/auth-refresh";
+import ErrorHandler from "./src/components/error-handler/error-handler";
+import theme from "./src/theme";
+import Root from "./src/root";
 
 /**
- * Initialized root stack navigator
+ * API context provides
  */
-const RootStack = createNativeStackNavigator<RootNavigationRoutes>();
+const providers = [
+  FundsApiProvider,
+  PortfoliosApiProvider,
+  MeetingsApiProvider,
+  SecuritiesApiProvider,
+  PublicationsApiProvider
+];
 
 /**
- * Application component
+ * App component
  */
-const App: React.FC = () => {
-  /**
-   * Effects that need to be executed when application starts
-   */
-  React.useEffect(() => {
-    moment.locale(strings.getLanguage());
-  }, []);
-
-  /**
-   * Renders screen
-   *
-   * @param screenProps screen props
-   * @param index list index
-   */
-  const renderScreen = (screenProps: ScreenProps, index: number) => (
-    <RootStack.Screen key={ index } { ...screenProps }/>
-  );
-
-  /**
-   * Renders all application screens
-   * Include all application screens here to register them to the navigator
-   */
-  const renderScreens = () => [
-    ...getBaseRoutes().map(renderScreen)
-  ];
-
-  /**
-   * Component render
-   */
-  return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Home">
-        { renderScreens() }
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
-};
+const App: React.FC = () => (
+  <StoreProvider store={ store }>
+    <PaperProvider theme={ theme }>
+      <ErrorHandler>
+        <ApiProvider providers={ providers }>
+          <AuthRefresh/>
+          <Root/>
+        </ApiProvider>
+      </ErrorHandler>
+    </PaperProvider>
+  </StoreProvider>
+);
 
 export default App;

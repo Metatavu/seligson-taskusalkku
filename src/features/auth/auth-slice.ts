@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import { Authentication } from "../../types";
-import AuthUtils from "../../utils/auth-utils";
+import AuthUtils from "../../utils/auth";
 
 /**
  * Interface describing auth state in Redux
  */
 export interface AuthState {
   auth?: Authentication;
+  anonymousAuth?: Authentication;
 }
 
 /**
  * Initial auth state
  */
 const initialState: AuthState = {
-  auth: undefined
+  auth: undefined,
+  anonymousAuth: undefined
 };
 
 /**
@@ -24,10 +26,13 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
-    authUpdate: (state, action: PayloadAction<Authentication | undefined>) => {
-      const auth = action?.payload;
+    authUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
+      const auth = payload;
       auth && AuthUtils.saveOfflineToken(auth.refreshToken);
       state.auth = auth;
+    },
+    anonymousAuthUpdate: (state, { payload }: PayloadAction<Authentication | undefined>) => {
+      state.anonymousAuth = payload;
     },
     logout: state => {
       AuthUtils.removeOfflineToken();
@@ -39,7 +44,7 @@ export const authSlice = createSlice({
 /**
  * Auth actions from created auth slice
  */
-export const { authUpdate, logout } = authSlice.actions;
+export const { authUpdate, anonymousAuthUpdate, logout } = authSlice.actions;
 
 /**
  * Select authentication selector, used with useAppSelector custom hook defined for Redux store
@@ -48,6 +53,14 @@ export const { authUpdate, logout } = authSlice.actions;
  * @returns authentication from Redux store
  */
 export const selectAuth = (state: RootState) => state.auth.auth;
+
+/**
+ * Select authentication selector, used with useAppSelector custom hook defined for Redux store
+ *
+ * @param state Redux store root state
+ * @returns authentication from Redux store
+ */
+export const selectAnonymousAuth = (state: RootState) => state.auth.anonymousAuth;
 
 /**
  * Reducer for auth slice

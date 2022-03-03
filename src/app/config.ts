@@ -4,6 +4,7 @@ import { StaticConfig, LocalConfig } from "../types/config";
 import AppConfig from "../../app.json";
 import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 
 /**
  * Validates that environment variables are in place and have correct form
@@ -13,7 +14,10 @@ const env = cleanEnv(Constants.manifest?.extra, {
   REACT_APP_KEYCLOAK_URL: url(),
   REACT_APP_KEYCLOAK_CLIENT_ID: str(),
   REACT_APP_KEYCLOAK_REALM: str(),
-  REACT_APP_API_BASE_PATH: url()
+  REACT_APP_API_BASE_PATH: url(),
+  REACT_APP_AUTH_PROXY_URL: url(),
+  REACT_APP_ANONYMOUS_USER_PASSWORD: str(),
+  REACT_APP_BLOG_API_URL: url()
 });
 
 /**
@@ -32,10 +36,11 @@ class Config {
     return {
       developmentBuild: env.REACT_APP_DEVELOP_BUILD,
       apiBasePath: env.REACT_APP_API_BASE_PATH,
-      authLogoutEndpoint: `${issuer}/protocol/openid-connect/logout?redirect_uri=${Config.createRedirectUrl("Home", true)}`,
+      authLogoutEndpoint: `${issuer}/protocol/openid-connect/logout?redirect_uri=${Config.createRedirectUrl("home", true)}`,
       auth: {
         clientId: env.REACT_APP_KEYCLOAK_CLIENT_ID,
         scopes: [ "openid", "profile", "offline_access" ],
+        anonymousScopes: [ "openid", "profile" ],
         issuer: issuer,
         serviceConfiguration: {
           tokenEndpoint: `${issuer}/protocol/openid-connect/token`,
@@ -43,9 +48,25 @@ class Config {
           registrationEndpoint: `${issuer}/clients-registrations/openid-connect`,
           revocationEndpoint: `${issuer}/protocol/openid-connect/revoke`
         },
-        redirectUrl: Config.createRedirectUrl("Home", true)
-      }
+        redirectUrl: Config.getRedirectUrl()
+      },
+      demoLoginUrl: `${issuer}/protocol/openid-connect/auth?client_id=app&redirect_uri=${Config.getRedirectUrl()}&response_type=code&scope=openid`,
+      anonymousPassword: env.REACT_APP_ANONYMOUS_USER_PASSWORD,
+      blogApiUrl: env.REACT_APP_BLOG_API_URL
     };
+  };
+
+  /**
+   * Gets redirect URL
+   *
+   * @returns redirect URL based on platform
+   */
+  private static getRedirectUrl = () => {
+    if (Platform.OS === "ios") {
+      return env.REACT_APP_AUTH_PROXY_URL;
+    }
+
+    return Config.createRedirectUrl("Login", true);
   };
 
   /**
