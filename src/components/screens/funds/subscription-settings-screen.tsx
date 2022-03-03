@@ -1,8 +1,7 @@
 import React from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View, Text, TextInput, Linking } from "react-native";
+import { Platform, View, Text, TextInput, Linking } from "react-native";
 import { Card, Button, useTheme, Snackbar, Divider } from "react-native-paper";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import FundsNavigator from "../../../types/navigators/funds";
+import { NavigationProp, Route, useNavigation, useRoute } from "@react-navigation/native";
 import styles from "../../../styles/screens/funds/subscription-settings";
 import theme from "../../../theme";
 import strings from "../../../localization/strings";
@@ -14,22 +13,35 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import BasicModal from "../../generic/basic-modal";
 import RadioButtonOptionItem from "../../generic/radio-button-option-item";
 import produce from "immer";
-import { Portfolio } from "../../../generated/client";
+import { Fund, Portfolio } from "../../../generated/client";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DatePicker from "../../generic/date-picker";
 import CopyText from "../../generic/copy-text";
 import BackButton from "../../generic/back-button";
+import { useHardwareGoBack } from "../../../app/hooks";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+/**
+ * Component properties
+ */
+interface Props {
+  onProceed: (
+    navigation: NavigationProp<any>,
+    subscriptionSettings: SubscriptionSettings
+  ) => void;
+}
 
 /**
  * Subscription settings screen component
  *
  * @param props component properties
  */
-const SubscriptionSettingsScreen: React.FC = () => {
-  const navigation = useNavigation<FundsNavigator.NavigationProps>();
-  const { params } = useRoute<FundsNavigator.RouteProps<"fundSubscriptionSettings">>();
-  const { fund } = params;
+const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
+  useHardwareGoBack();
   const { colors } = useTheme();
+  const navigation = useNavigation();
+  const route = useRoute<Route<"", { fund: Fund }>>();
+  const { fund } = route.params;
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const errorContext = React.useContext(ErrorContext);
 
@@ -50,7 +62,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Reference options select handler
-   * 
+   *
    * @param bankOption bank option
    */
   const onBankOptionSelect = (bankOption: SubscriptionOption) => {
@@ -65,7 +77,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Reference options select handler
-   * 
+   *
    * @param referenceOption reference option
    */
   const onReferenceOptionSelect = (referenceOption: SubscriptionOption) => {
@@ -80,7 +92,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Portfolio select handler
-   * 
+   *
    * @param portfolioOption portfolio option
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
@@ -99,7 +111,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Update reference options handler
-   * 
+   *
    * @param portfolio portfolio
    */
   const updateReferenceOptions = (portfolio: Portfolio) => {
@@ -124,7 +136,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Select default options
-   * 
+   *
    * @param bankOption bank option
    * @param portfolio portfolio
    */
@@ -181,7 +193,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * On subscription sum change handler
-   * 
+   *
    * @param sum sum
    */
   const onSubscriptionSumChange = (sum: string) => {
@@ -194,7 +206,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * On subscription due date change handler
-   * 
+   *
    * @param date date
    */
   const onSubscriptionDueDateChange = (date: Date) => {
@@ -233,7 +245,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
       return;
     }
 
-    navigation.navigate("fundSubscriptionSummary", { subscriptionSettings: subscriptionSettings });
+    onProceed(navigation, subscriptionSettings);
   };
 
   /**
@@ -251,8 +263,8 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders select 
-   * 
+   * Renders select
+   *
    * @param visible visible
    * @param setVisible set visible
    * @param options options
@@ -334,7 +346,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Renders data row
-   * 
+   *
    * @param renderLabel label renderer
    * @param renderContent content renderer
    */
@@ -349,7 +361,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Renders select with label
-   * 
+   *
    * @param label label
    * @param visible visible
    * @param setVisible set visible
@@ -386,7 +398,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
 
   /**
    * Renders Portfolio select with label
-   * 
+   *
    * @param label label
    * @param visible visible
    * @param setVisible set visible
@@ -528,7 +540,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders a subscribable fund 
+   * Renders a subscribable fund
    */
   const renderSubscribableFund = () => (
     <Card style={ styles.subscriptionCard }>
@@ -554,7 +566,7 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders a nonsubscribable fund 
+   * Renders a non-subscribable fund
    */
   const renderNonsubscribableFund = () => (
     <Card style={ styles.subscriptionCard }>
@@ -583,28 +595,21 @@ const SubscriptionSettingsScreen: React.FC = () => {
   );
 
   /**
-   * Renders fund subscription content
-   */
-  const renderContent = () => (
-    <View style={{ padding: theme.spacing(2), marginBottom: theme.spacing(6) }}>
-      { !fund.subscribable ?
-        renderNonsubscribableFund() :
-        renderSubscribableFund()
-      }
-    </View>
-  );
-
-  /**
    * Component render
    */
   return (
     <>
-      <BackButton/>
-      <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
-        <ScrollView>
-          { renderContent() }
-        </ScrollView>
-      </KeyboardAvoidingView>
+      <KeyboardAwareScrollView>
+        { Platform.OS === "ios" &&
+          <BackButton/>
+        }
+        <View style={{ padding: theme.spacing(2) }}>
+          { !fund.subscribable ?
+            renderNonsubscribableFund() :
+            renderSubscribableFund()
+          }
+        </View>
+      </KeyboardAwareScrollView>
       { renderSnackBar() }
     </>
   );

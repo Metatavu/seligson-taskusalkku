@@ -37,7 +37,6 @@ namespace Injectables {
    */
   export const getChartScript = (
     data: ChartData[],
-    language: string,
     valueCurrency: string,
     chartColor: string
   ) => `

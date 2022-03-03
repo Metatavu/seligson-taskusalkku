@@ -1,35 +1,215 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TransactionsNavigator from "../../../types/navigators/transactions";
-import TransactionsListScreen from "./transactions-list-screen";
-import TransactionDetailsScreen from "./transaction-details-screen";
-
-/**
- * Transactions screen stack navigation
- */
-const TransactionNavigation = createNativeStackNavigator<TransactionsNavigator.Routes>();
+import { View, ActivityIndicator, Text } from "react-native";
+import TransactionsCard from "../../generic/transactions-card";
+import { ScrollView } from "react-native-gesture-handler";
+import { Fund, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
+import { ErrorContext } from "../../error-handler/error-handler";
+import strings from "../../../localization/strings";
+import { PortfolioContext } from "../../providers/portfolio-provider";
+import styles from "../../../styles/screens/portfolio/transactions-list";
+import { SecuritiesApiContext } from "../../providers/securities-api-provider";
+import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
+import { FundsApiContext } from "../../providers/funds-api-provider";
+import DatePicker from "../../generic/date-picker";
+import GenericUtils from "../../../utils/generic";
+import moment from "moment";
+import theme from "../../../theme";
 
 /**
  * Transactions screen component
  */
-const TransactionsScreen: React.FC = () => (
-  <TransactionNavigation.Navigator
-    initialRouteName="transactionsList"
-    screenOptions={{
-      headerShown: false
-    }}
-  >
-    <TransactionNavigation.Group>
-      <TransactionNavigation.Screen
-        name="transactionsList"
-        component={ TransactionsListScreen }
-      />
-      <TransactionNavigation.Screen
-        name="transactionsDetails"
-        component={ TransactionDetailsScreen }
-      />
-    </TransactionNavigation.Group>
-  </TransactionNavigation.Navigator>
-);
+const TransactionsScreen: React.FC = () => {
+  const errorContext = React.useContext(ErrorContext);
+  const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const fundsContext = React.useContext(FundsApiContext);
+  const securitiesContext = React.useContext(SecuritiesApiContext);
+  const portfoliosContext = React.useContext(PortfoliosApiContext);
+
+  const [ loading, setLoading ] = React.useState(true);
+  const [ funds, setFunds ] = React.useState<Fund[]>([]);
+  const [ securities, setSecurities ] = React.useState<Security[]>([]);
+  const [ transactions, setTransactions ] = React.useState<PortfolioTransaction[]>([]);
+  const [ startDate, setStartDate ] = React.useState<Date>(moment().startOf("year").toDate());
+  const [ endDate, setEndDate ] = React.useState<Date>(new Date());
+
+  /**
+   * Filters transactions
+   *
+   * @param type transaction type
+   */
+  const filterTransactions = (type: TransactionType) => {
+    const filteredByType = transactions.filter(({ transactionType }) => transactionType === type);
+    const filteredByDate = filteredByType.filter(transaction => GenericUtils.checkDateInRange(transaction.paymentDate, startDate, endDate));
+
+    return filteredByDate;
+  };
+
+  /**
+   * Loads funds from API
+   */
+  const loadFunds = async () => {
+    try {
+      setFunds(await fundsContext.listFunds({ maxResults: 100 }));
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.funds.list, error);
+    }
+
+    setLoading(false);
+  };
+
+  /**
+   * Loads securities from API
+   */
+  const loadSecurities = async () => {
+    try {
+      setSecurities(await securitiesContext.listSecurities({ maxResults: 100 }));
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.securities.list, error);
+    }
+  };
+
+  /**
+   * Loads transactions from API
+   *
+   * TODO: add pagination support
+   */
+  const loadTransactions = async () => {
+    const effectivePortfolios = getEffectivePortfolios().filter(({ id }) => !!id);
+
+    try {
+      setTransactions(
+        (await Promise.all(
+          effectivePortfolios.map(
+            async portfolio => portfoliosContext.listPortfolioTransactions({
+              portfolioId: portfolio.id!,
+              startDate: startDate,
+              endDate: endDate
+            })
+          )
+        )).flat()
+      );
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.portfolioTransactions.list, error);
+    }
+  };
+
+  /**
+   * Loads securities and transactions
+   */
+  const loadSecuritiesAndTransactions = async () => {
+    setLoading(true);
+    await loadSecurities();
+    await loadTransactions();
+    setLoading(false);
+  };
+
+  /**
+   * Effect for loading funds
+   */
+  React.useEffect(() => { loadFunds(); }, []);
+
+  /**
+   * Effect for loading securities and transactions
+   */
+  React.useEffect(() => {
+    loadSecuritiesAndTransactions();
+  }, [ portfolios, selectedPortfolio, startDate, endDate ]);
+
+  /**
+   * Renders date pickers
+   */
+  const renderStartDatePicker = () => (
+    <DatePicker
+      mode="date"
+      date={ startDate }
+      onDateChange={ setStartDate }
+      maxDate={ endDate }
+    />
+  );
+
+  /**
+   * Renders date pickers
+   */
+  const renderEndDatePicker = () => (
+    <DatePicker
+      mode="date"
+      date={ endDate }
+      onDateChange={ setEndDate }
+      startDate={ startDate }
+      maxDate={ new Date() }
+    />
+  );
+
+  /**
+   * Redemption transactions
+   */
+  const renderRedemptions = () => (
+    <TransactionsCard
+      title={ strings.portfolio.statistics.redemptions }
+      funds={ funds }
+      securities={ securities }
+      transactions={ filterTransactions(TransactionType.Redemption) }
+    />
+  );
+
+  /**
+   * Subscription transactions
+   */
+  const renderSubscriptions = () => (
+    <TransactionsCard
+      title={ strings.portfolio.statistics.subscriptions }
+      funds={ funds }
+      securities={ securities }
+      transactions={ filterTransactions(TransactionType.Subscription) }
+    />
+  );
+
+  /**
+   * Security transactions
+   */
+  const renderSecurities = () => (
+    <TransactionsCard
+      title={ strings.portfolio.statistics.securities }
+      funds={ funds }
+      securities={ securities }
+      transactions={ filterTransactions(TransactionType.Security) }
+    />
+  );
+
+  /**
+   * Renders redemptions and subscriptions
+   */
+  const renderRedemptionsAndSubscriptions = () => {
+    if (loading) {
+      return <ActivityIndicator size="large" color={ theme.colors.primary }/>;
+    }
+
+    return (
+      <>
+        { renderRedemptions() }
+        { renderSubscriptions() }
+        { renderSecurities() }
+      </>
+    );
+  };
+
+  /**
+   * Component render
+   */
+  return (
+    <ScrollView>
+      <View style={ styles.transactionsWrapper }>
+        <View style={ styles.datePickers }>
+          { renderStartDatePicker() }
+          <Text>
+            -
+          </Text>
+          { renderEndDatePicker() }
+        </View>
+        { renderRedemptionsAndSubscriptions() }
+      </View>
+    </ScrollView>
+  );
+};
 
 export default TransactionsScreen;

@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import Config from "../../app/config";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector, useHardwareGoBack } from "../../app/hooks";
 import { logout, selectAuth } from "../../features/auth/auth-slice";
 import { selectSelectedLanguage, setLanguage } from "../../features/locale/locale-slice";
 import { DefaultRoutes, Language, LoginOptions } from "../../types/config";
@@ -32,6 +32,7 @@ const SettingsScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<SettingsScreenNavigationProp>();
   const auth = useAppSelector(selectAuth);
+  useHardwareGoBack();
 
   const selectedLanguage = useAppSelector(selectSelectedLanguage);
   const [ selectedInitialRoute, setSelectedInitialRoute ] = React.useState<keyof HomeNavigator.Routes | undefined>();

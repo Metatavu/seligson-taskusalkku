@@ -13,7 +13,8 @@
     "noData": "Ei dataa",
     "copied": "Kopioitu leikepöydälle",
     "saveAndProceed": "Tallenna ja jatka",
-    "ok": "Ok"
+    "ok": "Ok",
+    "pressAgainToExit": "Sulje painamalla uudelleen"
   },
 
   "errorHandling": {

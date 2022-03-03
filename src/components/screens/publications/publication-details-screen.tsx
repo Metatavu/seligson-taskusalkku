@@ -14,11 +14,13 @@ import GenericUtils from "../../../utils/generic";
 import Injectables from "../../../utils/injectables";
 import BackButton from "../../generic/back-button";
 import { ShouldStartLoadRequest } from "react-native-webview/lib/WebViewTypes";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Publication details screen component
  */
 const PublicationDetailsScreen: React.FC = () => {
+  useHardwareGoBack();
   const { params } = useRoute<PublicationsNavigator.RouteProps<"publicationDetails">>();
   const errorContext = React.useContext(ErrorContext);
   const publicationsApiContext = React.useContext(PublicationsApiContext);
@@ -120,7 +122,7 @@ const PublicationDetailsScreen: React.FC = () => {
       colors={[ "transparent", "rgba(0,0,0,0.1)" ]}
       style={{ flex: 1 }}
     >
-      <BackButton/>
+      { Platform.OS === "ios" && <BackButton/> }
       { renderContent() }
     </LinearGradient>
   );

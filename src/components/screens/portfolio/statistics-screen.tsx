@@ -17,11 +17,13 @@ import PortfolioSelect from "./portfolio-select";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import theme from "../../../theme";
 import HistoryValueChart from "../../generic/history-value-chart";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Statistics screen component
  */
 const StatisticsScreen: React.FC = () => {
+  useHardwareGoBack();
   const errorContext = React.useContext(ErrorContext);
   const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);

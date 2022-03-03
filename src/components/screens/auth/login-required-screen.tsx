@@ -252,7 +252,6 @@ const LoginRequiredScreen: React.FC = () => {
    */
   return (
     <View style={{ width: "100%", height: "100%" }}>
-      { renderContent() }
       { keycloakLoginOpen &&
         <KeycloakLoginScreen
           strongAuth={ loginOption === LoginOptions.STRONG_AUTH }
@@ -272,6 +271,7 @@ const LoginRequiredScreen: React.FC = () => {
           <Button
             uppercase={ false }
             onPress={ () => {
+              setLoginOption(LoginOptions.USERNAME_AND_PASSWORD);
               setKeycloakLoginOpen(true);
               setAuthError(false);
             }}
@@ -282,6 +282,7 @@ const LoginRequiredScreen: React.FC = () => {
           </Button>
         </View>
       }
+      { !authError && renderContent() }
     </View>
   );
 };
