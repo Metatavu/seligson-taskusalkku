@@ -1,5 +1,5 @@
 import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
-import { MaterialBottomTabNavigationProp } from "@react-navigation/material-bottom-tabs";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 import PortfolioNavigator from "./portfolio";
 import FundsNavigator from "./funds";
@@ -23,7 +23,7 @@ namespace HomeNavigator {
   /**
    * Navigation properties
    */
-  export type NavigationProps<RouteName extends keyof Routes = keyof Routes> = MaterialBottomTabNavigationProp<Routes, RouteName>;
+  export type NavigationProps<RouteName extends keyof Routes = keyof Routes> = BottomTabNavigationProp<Routes, RouteName>;
 
   /**
    * Route properties

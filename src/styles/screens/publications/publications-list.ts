@@ -35,6 +35,18 @@ export default StyleSheet.create({
     padding: theme.spacing(2)
   },
 
+  logoContainer: {
+    height: 60,
+    width: 60,
+    marginRight: theme.spacing(2)
+  },
+
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+
   author: {
     ...theme.fonts.medium,
     fontSize: 16
@@ -52,7 +64,8 @@ export default StyleSheet.create({
   date: {
     fontSize: 12,
     marginLeft: theme.spacing(1),
-    color: theme.colors.grey[600]
+    color: theme.colors.grey[600],
+    alignSelf: "center"
   }
 
 });

@@ -13,9 +13,6 @@ const PublicationsNavigation = createNativeStackNavigator<PublicationsNavigator.
  * Publications screen component
  */
 const PublicationsScreen: React.FC = () => {
-  /**
-   * Component render
-   */
   return (
     <PublicationsNavigation.Navigator
       initialRouteName="publicationsList"

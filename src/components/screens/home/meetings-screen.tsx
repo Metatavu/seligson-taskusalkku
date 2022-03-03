@@ -10,31 +10,22 @@ import NewMeetingScreen from "../meeting/new-meeting-screen";
 const MeetingSelectionNavigation = createNativeStackNavigator<MeetingSelectionNavigator.Routes>();
 
 /**
- * Active funds screen
+ * Meetings screen
  */
-const MeetingsScreen: React.FC = () => {
-  /**
-   * Component render
-   */
-  return (
-    <MeetingSelectionNavigation.Navigator
-      initialRouteName="meetingTimes"
-      screenOptions={{
-        headerShown: false
-      }}
-    >
-      <MeetingSelectionNavigation.Group>
-        <MeetingSelectionNavigation.Screen
-          name="meetingTimes"
-          component={ MeetingTimesScreen }
-        />
-        <MeetingSelectionNavigation.Screen
-          name="newMeeting"
-          component={ NewMeetingScreen }
-        />
-      </MeetingSelectionNavigation.Group>
-    </MeetingSelectionNavigation.Navigator>
-  );
-};
+const MeetingsScreen: React.FC = () => (
+  <MeetingSelectionNavigation.Navigator
+    initialRouteName="meetingTimes"
+    screenOptions={{ headerShown: false }}
+  >
+    <MeetingSelectionNavigation.Screen
+      name="meetingTimes"
+      component={ MeetingTimesScreen }
+    />
+    <MeetingSelectionNavigation.Screen
+      name="newMeeting"
+      component={ NewMeetingScreen }
+    />
+  </MeetingSelectionNavigation.Navigator>
+);
 
 export default MeetingsScreen;

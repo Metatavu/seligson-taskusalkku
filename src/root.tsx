@@ -1,6 +1,6 @@
 import React from "react";
 import { getFocusedRouteNameFromRoute, NavigationContainer, Route } from "@react-navigation/native";
-import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import "moment/locale/fi";
 import "moment/locale/sv";
 import strings from "./localization/strings";
@@ -12,8 +12,9 @@ import HomeScreen from "./components/screens/home-screen";
 import SettingsScreen from "./components/screens/settings-screen";
 import AuthenticationScreen from "./components/screens/authentication-screen";
 import RegistrationScreen from "./components/screens/registration-screen";
-import { useAppSelector } from "./app/hooks";
+import { useAppSelector, useExitAppHandler } from "./app/hooks";
 import { selectSelectedLanguage } from "./features/locale/locale-slice";
+import { Platform } from "react-native";
 
 /**
  * Root stack navigator
@@ -24,6 +25,7 @@ const RootNavigation = createNativeStackNavigator<RootNavigator.Routes>();
  * Root component
  */
 const Root: React.FC = () => {
+  useExitAppHandler();
   const { colors } = useTheme();
   useAppSelector(selectSelectedLanguage);
 
@@ -43,44 +45,6 @@ const Root: React.FC = () => {
     return strings.screenTitles[routeName as keyof typeof strings.screenTitles];
   };
 
-  /**
-   * Returns screen options
-   *
-   * @param props root navigation properties
-   */
-  const getScreenOptions = ({ navigation, route }: RootNavigator.ScreenProps): NativeStackNavigationOptions => ({
-    gestureEnabled: false,
-    headerShown: false,
-    title: getHeaderTitle(route),
-    headerTitleAlign: "center",
-    headerTitleStyle: {
-      color: colors.primary,
-      fontFamily: "NotoSans_700Bold",
-      fontSize: 16
-    },
-    headerLeft: () => {
-      const currentRoute = route as Route<any>;
-      if (currentRoute.name !== "account") {
-        return null;
-      }
-
-      return (
-        <IconButton
-          icon="arrow-left"
-          color={ colors.primary }
-          onPress={ () => navigation.canGoBack() && navigation.goBack() }
-        />
-      );
-    },
-    headerRight: () => (
-      <IconButton
-        icon="cog-outline"
-        color={ colors.primary }
-        onPress={ () => navigation.navigate("account") }
-      />
-    )
-  });
-
   if (!fontsLoaded) {
     return <AppLoading/>;
   }
@@ -92,7 +56,40 @@ const Root: React.FC = () => {
     <NavigationContainer>
       <RootNavigation.Navigator
         initialRouteName="registration"
-        screenOptions={ getScreenOptions }
+        screenOptions={
+          ({ navigation, route }) => ({
+            gestureEnabled: false,
+            headerShown: false,
+            headerBackVisible: false,
+            title: getHeaderTitle(route),
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              color: colors.primary,
+              fontFamily: "NotoSans_700Bold",
+              fontSize: 16
+            },
+            headerLeft: () => {
+              if (Platform.OS !== "ios" || route.name !== "account") {
+                return;
+              }
+
+              return (
+                <IconButton
+                  icon="arrow-left"
+                  color={ colors.primary }
+                  onPress={ navigation.goBack }
+                />
+              );
+            },
+            headerRight: () => (
+              <IconButton
+                icon="cog-outline"
+                color={ colors.primary }
+                onPress={ () => navigation.navigate("account") }
+              />
+            )
+          })
+        }
       >
         <RootNavigation.Screen
           name="home"

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform, Linking } from "react-native";
 import { Button, useTheme } from "react-native-paper";
 import theme from "../../theme";
 import fundDetailsStyles from "../../styles/generic/fund-details";
@@ -39,7 +39,9 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
       return;
     }
 
-    GenericUtils.openFileAndroid(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
+    Platform.OS === "android" ?
+      GenericUtils.openFileAndroid(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`) :
+      Linking.openURL(`https://${fund.kIID[selectedLanguage as keyof LocalizedValue]}`);
   };
 
   /**

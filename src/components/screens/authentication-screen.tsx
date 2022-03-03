@@ -11,23 +11,18 @@ const AuthNavigation = createNativeStackNavigator<AuthNavigator.Routes>();
 /**
  * Authentication screen component
  */
-const AuthenticationScreen: React.FC = () => {
-  /**
-   * Component render
-   */
-  return (
-    <AuthNavigation.Navigator
-      initialRouteName="welcome"
-      screenOptions={{
-        headerShown: false
-      }}
-    >
-      <AuthNavigation.Screen
-        name="welcome"
-        component={ WelcomeScreen }
-      />
-    </AuthNavigation.Navigator>
-  );
-};
+const AuthenticationScreen: React.FC = () => (
+  <AuthNavigation.Navigator
+    initialRouteName="welcome"
+    screenOptions={{
+      headerShown: false
+    }}
+  >
+    <AuthNavigation.Screen
+      name="welcome"
+      component={ WelcomeScreen }
+    />
+  </AuthNavigation.Navigator>
+);
 
 export default AuthenticationScreen;

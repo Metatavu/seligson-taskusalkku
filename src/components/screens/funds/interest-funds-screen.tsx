@@ -6,6 +6,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/interest-funds";
+import FundUtils from "../../../utils/funds";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Component properties
@@ -20,8 +22,9 @@ interface Props {
  * @param props component properties
  */
 const InterestFundsScreen: React.FC<Props> = ({ funds }) => {
+  useHardwareGoBack();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
-  const sortedFunds = funds.sort((a, b) => a.longName.fi.localeCompare(b.longName.fi));
+  const sortedFunds = funds.sort(FundUtils.SortFundsByName);
 
   /**
    * Render fund
@@ -30,7 +33,7 @@ const InterestFundsScreen: React.FC<Props> = ({ funds }) => {
    */
   const renderFund = (fund: Fund) => (
     <TouchableOpacity
-      onPress={ () => navigation.navigate("fundDetails", { fund: fund }) }
+      onPress={ () => navigation.push("fundDetails", { fund: fund }) }
       key={ `interestFundsTouchable${fund.id}` }
       style={ styles.funCard }
     >

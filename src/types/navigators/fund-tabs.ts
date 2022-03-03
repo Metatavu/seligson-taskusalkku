@@ -2,9 +2,9 @@ import { RouteProp } from "@react-navigation/native";
 import { MaterialTopTabBarProps, MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 
 /**
- * Funds list navigator
+ * Fund tabs navigator
  */
-namespace FundsListNavigator {
+namespace FundTabsNavigator {
 
   /**
    * Routes
@@ -33,4 +33,4 @@ namespace FundsListNavigator {
 
 }
 
-export default FundsListNavigator;
+export default FundTabsNavigator;

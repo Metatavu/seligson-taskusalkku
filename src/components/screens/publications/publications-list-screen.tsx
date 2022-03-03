@@ -8,6 +8,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useTheme } from "react-native-paper";
 import PublicationsList from "./publications-list";
 import { View, ActivityIndicator } from "react-native";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 const REVIEW_CATEGORY = "katsaus";
 
@@ -20,6 +21,7 @@ const PublicationsListNavigation = createMaterialTopTabNavigator<PublicationsLis
  * Publications list screen component
  */
 const PublicationsListScreen: React.FC = () => {
+  useHardwareGoBack();
   const { colors } = useTheme();
   const publicationsApiContext = React.useContext(PublicationsApiContext);
   const errorContext = React.useContext(ErrorContext);
@@ -123,7 +125,11 @@ const PublicationsListScreen: React.FC = () => {
           backgroundColor: colors.primary,
           elevation: 8,
           height: 60,
-          justifyContent: "center"
+          justifyContent: "center",
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.3,
+          shadowRadius: 5
         },
         tabBarIndicatorStyle: { backgroundColor: colors.surface },
         tabBarLabelStyle: {

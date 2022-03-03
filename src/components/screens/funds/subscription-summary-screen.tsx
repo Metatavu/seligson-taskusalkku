@@ -12,6 +12,7 @@ import { PORTFOLIO_REFERENCE_TYPE } from "../../../types";
 import CopyText from "../../generic/copy-text";
 import BackButton from "../../generic/back-button";
 import DateUtils from "../../../utils/date-utils";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Component properties
@@ -26,9 +27,11 @@ interface Props {
  * @param props component properties
  */
 const SubscriptionSummaryScreen: React.FC<Props> = () => {
+  useHardwareGoBack();
   const { colors } = useTheme();
   const { params } = useRoute<FundsNavigator.RouteProps<"fundSubscriptionSummary">>();
   const { subscriptionSettings } = params;
+  const { dueDate, fund, shareType, sum, portfolio, bankName } = subscriptionSettings;
 
   const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
 
@@ -37,16 +40,16 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    */
   const renderFundTitle = () => (
     <View style={ styles.fundTitleContainer }>
-      <View style={{ ...styles.fundColor, backgroundColor: subscriptionSettings.fund.color }}/>
+      <View style={{ ...styles.fundColor, backgroundColor: fund.color }}/>
       <Text style={[ theme.fonts.medium, styles.fundTitle ]}>
-        { GenericUtils.getLocalizedValue(subscriptionSettings.fund.shortName) }
+        { GenericUtils.getLocalizedValue(fund.shortName) }
       </Text>
     </View>
   );
 
   /**
    * Renders data row
-   * 
+   *
    * @param label label
    * @param data data
    */
@@ -64,7 +67,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
 
   /**
    * Renders copy text
-   * 
+   *
    * @param text text
    */
   const renderCopyText = (text: string) => (
@@ -78,12 +81,12 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
 
   /**
    * Renders copy text with label
-   * 
+   *
    * @param label label
    * @param data data
    */
   const renderCopyTextWithLabel = (label: string, text: string) => (
-    <View style={{ marginTop: theme.spacing(1.5), marginBottom: theme.spacing(1.5) }}>
+    <View style={{ marginVertical: theme.spacing(1.5) }}>
       <Text
         style={{
           color: colors.primary,
@@ -121,19 +124,19 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderDataRow(
           strings.subscription.portfolio,
-          subscriptionSettings.portfolio?.name || ""
+          portfolio?.name || ""
         )
       }
       {
         renderDataRow(
           strings.subscription.bank,
-          subscriptionSettings.bankName || ""
+          bankName || ""
         )
       }
       {
         renderDataRow(
           strings.subscription.shareType,
-          subscriptionSettings.shareType === PORTFOLIO_REFERENCE_TYPE.A ?
+          shareType === PORTFOLIO_REFERENCE_TYPE.A ?
             strings.subscription.shares.a.title :
             strings.subscription.shares.b.title
         )
@@ -141,13 +144,13 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderDataRow(
           strings.subscription.dueDate,
-          DateUtils.formatToFinnishDate(subscriptionSettings.dueDate) || ""
+          DateUtils.formatToFinnishDate(dueDate) || ""
         )
       }
       {
         renderDataRow(
           strings.subscription.sum,
-          `${subscriptionSettings.sum} €` || ""
+          `${sum} €` || ""
         )
       }
       {
@@ -160,7 +163,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
       {
         renderCopyTextWithLabel(
           strings.subscription.recipient,
-          GenericUtils.getLocalizedValue(subscriptionSettings.fund.longName)
+          GenericUtils.getLocalizedValue(fund.longName)
         )
       }
     </>
@@ -186,7 +189,7 @@ const SubscriptionSummaryScreen: React.FC<Props> = () => {
    */
   return (
     <>
-      <BackButton/>
+      { Platform.OS === "ios" && <BackButton/> }
       <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
         <ScrollView>
           { renderContent() }

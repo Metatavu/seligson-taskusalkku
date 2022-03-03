@@ -66,8 +66,8 @@ namespace AuthUtils {
         },
         expiresAt: moment().add(expiresIn, "seconds").toDate()
       };
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       return undefined;
     }
   };

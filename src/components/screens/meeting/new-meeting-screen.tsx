@@ -7,16 +7,18 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { MeetingLanguage } from "../../../types";
 import { Button, Card, RadioButton } from "react-native-paper";
 import strings from "../../../localization/strings";
-import { KeyboardAvoidingView, Platform, View, Text, TextInput } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, Text, TextInput } from "react-native";
 import styles from "../../../styles/screens/meeting/new-meeting-screen";
 import theme from "../../../theme";
 import moment from "moment";
+import { useHardwareGoBack } from "../../../app/hooks";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 /**
  * New meeting screen
  */
 const NewMeetingScreen: React.FC = () => {
+  useHardwareGoBack();
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
   const meetingsApiContext = React.useContext(MeetingsApiContext);
   const errorContext = React.useContext(ErrorContext);
@@ -44,7 +46,7 @@ const NewMeetingScreen: React.FC = () => {
   const isNewMeetingInvalid = () => !newMeeting.contact.firstName || !newMeeting.contact.lastName || !newMeeting.type || !newMeeting.participantCount;
 
   /**
-   * Handler for new meeting change 
+   * Handler for new meeting change
    *
    * @param name name of the input
    * @param value value of the input
@@ -55,7 +57,7 @@ const NewMeetingScreen: React.FC = () => {
   };
 
   /**
-   * Handler for meeting contact change 
+   * Handler for meeting contact change
    *
    * @param name name of the input
    * @param value value of the input
@@ -66,12 +68,12 @@ const NewMeetingScreen: React.FC = () => {
   };
 
   /**
-   * Handler for meeting cancel 
+   * Handler for meeting cancel
    */
   const onMeetingCancel = () => navigation.navigate("meetingTimes");
 
   /**
-   * Handler for meeting create 
+   * Handler for meeting create
    */
   const onMeetingCreate = async () => {
     try {
@@ -93,7 +95,7 @@ const NewMeetingScreen: React.FC = () => {
   };
 
   /**
-   * Renders meeting time 
+   * Renders meeting time
    */
   const renderMeetingTime = () => {
     const { startTime, endTime } = meetingTime;
@@ -114,7 +116,7 @@ const NewMeetingScreen: React.FC = () => {
   };
 
   /**
-   * Renders meeting contact edit 
+   * Renders meeting contact edit
    */
   const renderContactEdit = () => (
     <>
@@ -148,7 +150,7 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Renders meeting language select 
+   * Renders meeting language select
    */
   const renderLanguageSelect = () => (
     <View>
@@ -173,7 +175,7 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Renders meeting type select 
+   * Renders meeting type select
    */
   const renderMeetingTypeSelect = () => (
     <View style={{ marginTop: theme.spacing(2) }}>
@@ -230,7 +232,7 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Renders buttons 
+   * Renders buttons
    */
   const renderButtons = () => (
     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -252,30 +254,28 @@ const NewMeetingScreen: React.FC = () => {
   );
 
   /**
-   * Component render 
+   * Component render
    */
   return (
-    <KeyboardAvoidingView behavior={ Platform.OS === "ios" ? "padding" : "height" }>
-      <ScrollView>
-        <View style={ styles.newMeeting }>
-          <Card style={ styles.meetingCard }>
-            { renderMeetingTime() }
-          </Card>
-          <Card style={ styles.meetingCard }>
-            <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
-              { strings.meetings.newMeeting.title }
-            </Text>
-            { renderContactEdit() }
-          </Card>
-          <Card style={ styles.meetingCard }>
-            { renderLanguageSelect() }
-            { renderMeetingTypeSelect() }
-            { renderAdditionalInfo() }
-          </Card>
-          { renderButtons() }
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <KeyboardAwareScrollView>
+      <View style={ styles.newMeeting }>
+        <Card style={ styles.meetingCard }>
+          { renderMeetingTime() }
+        </Card>
+        <Card style={ styles.meetingCard }>
+          <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>
+            { strings.meetings.newMeeting.title }
+          </Text>
+          { renderContactEdit() }
+        </Card>
+        <Card style={ styles.meetingCard }>
+          { renderLanguageSelect() }
+          { renderMeetingTypeSelect() }
+          { renderAdditionalInfo() }
+        </Card>
+        { renderButtons() }
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -1,14 +1,14 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RegistrationNavigator from "../../types/navigators/registration";
-import PortfolioScreen from "./home/portfolio-screen";
+import PortfolioScreen from "./portfolio/portfolio-tabs-screen";
 import FundsScreen from "./home/funds-screen";
 import PublicationsScreen from "./home/publications-screen";
 import MeetingsScreen from "./home/meetings-screen";
 import LanguageSelectionScreen from "./registration/language-selection-screen";
 
 /**
- * Registration screen stack navigation
+ * Registration screen navigation
  */
 const RegistrationNavigation = createNativeStackNavigator<RegistrationNavigator.Routes>();
 

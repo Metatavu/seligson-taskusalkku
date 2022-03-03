@@ -13,7 +13,8 @@
     "noData": "Ei dataa",
     "copied": "Kopioitu leikepöydälle",
     "saveAndProceed": "Tallenna ja jatka",
-    "ok": "Ok"
+    "ok": "Ok",
+    "pressAgainToExit": "Sulje painamalla uudelleen"
   },
 
   "errorHandling": {
@@ -84,8 +85,8 @@
     "transactions": "Tapahtumat",
     "passiveFunds": "Passiiviset osakerahastot",
     "activeFunds": "Aktiiviset osakerahastot",
-    "interestFunds": "Korkorahastot",
-    "combinationFunds": "Yhdistelmärahastot",
+    "interestFunds": "Korko-\nrahastot",
+    "combinationFunds": "Yhdistelmä-\nrahastot",
     "profile": "Asetukset"
   },
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, Pressable, Image } from "react-native";
+import { View, Text, FlatList, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../../../styles/screens/publications/publications-list";
 import { Publication } from "../../../types";
@@ -11,6 +11,7 @@ import GenericUtils from "../../../utils/generic";
 import { unescape } from "html-escaper";
 import DateUtils from "../../../utils/date-utils";
 import PublicationsListNavigator from "../../../types/navigators/publications-list";
+import { SeligsonLogoSmall } from "../../../../assets/seligson-logo";
 
 /**
  * Component properties
@@ -54,35 +55,29 @@ const PublicationsList: React.FC<Props> = ({ route, publications }) => {
             { opacity: pressed ? 0.25 : 1 }
           ]}
         >
-          <View style={{ width: "25%" }}>
-            <Image
-              source={{ uri: "https://cdn.metatavu.io/assets/seligson/blog_logo.png" }}
-              style={{ width: 80, height: 80 }}
-              height={ 80 }
-              width={ 80 }
-              resizeMode="contain"
-            />
+          <View style={ styles.logoContainer }>
+            <SeligsonLogoSmall/>
           </View>
-          <View style={{ width: "50%" }}>
-            <Text style={ styles.author }>
-              { GenericUtils.getPublicationAuthor(author) }
-            </Text>
+          <View style={{ flex: 1 }}>
+            <View style={ styles.titleRow }>
+              <Text style={ styles.author }>
+                { GenericUtils.getPublicationAuthor(author) }
+              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <MaterialCommunityIcons
+                  name="calendar-range"
+                  size={ styles.dateIcon.fontSize }
+                  color={ styles.dateIcon.color }
+                />
+                <Text style={ styles.date }>
+                  { DateUtils.formatToFinnishDate(date) }
+                </Text>
+              </View>
+            </View>
             <Divider style={ styles.divider }/>
             <Text>
               { unescape(title) }
             </Text>
-          </View>
-          <View style={{ width: "25%" }}>
-            <View style={{ flexDirection: "row" }}>
-              <MaterialCommunityIcons
-                name="calendar-range"
-                size={ styles.dateIcon.fontSize }
-                color={ styles.dateIcon.color }
-              />
-              <Text style={ styles.date }>
-                { DateUtils.formatToFinnishDate(date) }
-              </Text>
-            </View>
           </View>
         </Pressable>
       </View>

@@ -9,11 +9,12 @@ import GenericUtils from "../../utils/generic";
 import BigNumber from "bignumber.js";
 import Calculations from "../../utils/calculations";
 import { useNavigation } from "@react-navigation/native";
-import HomeNavigator from "../../types/navigators/home";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import DateUtils from "../../utils/date-utils";
 import { SeligsonLogoSmall } from "../../../assets/seligson-logo";
 import LahitapiolaLogoSmall from "../../../assets/lahitapiola-logo";
+import FundUtils from "../../utils/funds";
+import PortfolioNavigator from "../../types/navigators/portfolio";
 
 /**
  * Component properties
@@ -30,18 +31,11 @@ interface Props {
  */
 const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
-  const { color, risk, priceDate, longName, shortName } = fund;
-  const SeligsonFund = GenericUtils.getLocalizedValue(longName).includes("Seligson");
+  const { color, risk, priceDate, shortName } = fund;
+  const SeligsonFund = FundUtils.isSeligsonFund(fund);
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
-  const navigation = useNavigation<HomeNavigator.NavigationProps>();
-
-  /**
-   * Event handler for card click
-   */
-  const onClick = () => {
-    navigation.navigate("funds", { screen: "fundDetails", params: { fund: fund, navigatedFromPortfolio: true } });
-  };
+  const navigation = useNavigation<PortfolioNavigator.NavigationProps>();
 
   /**
    * Renders risk meter
@@ -143,7 +137,10 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
    * Component render
    */
   return (
-    <TouchableOpacity onPress={ onClick } style={ styles.cardWrapper }>
+    <TouchableOpacity
+      onPress={ () => navigation.navigate("mySecurityDetails", { fund: fund }) }
+      style={ styles.cardWrapper }
+    >
       <View style={[ styles.gradientContainer, { backgroundColor: fund.color } ]}/>
       <View style={ styles.cardContent }>
         <View style={ styles.cardRow }>

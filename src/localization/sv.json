@@ -13,7 +13,8 @@
     "noData": "Inga data",
     "copied": "Kopierade till urklipp.",
     "saveAndProceed": "Spara och fortsätt.",
-    "ok": "Ok"
+    "ok": "Ok",
+    "pressAgainToExit": "Tryck igen för att avsluta"
   },
 
   "errorHandling": {
@@ -84,8 +85,8 @@
     "transactions": "Händelser",
     "passiveFunds": "Passiva aktiefonder",
     "activeFunds": "Aktiva aktiefonder",
-    "interestFunds": "Räntefonder",
-    "combinationFunds": "Blandfonder",
+    "interestFunds": "Ränte-\nfonder",
+    "combinationFunds": "Bland-\nfonder",
     "profile": "inställningar"
   },
 
