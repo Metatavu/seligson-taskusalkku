@@ -600,9 +600,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   return (
     <>
       <KeyboardAwareScrollView>
-        { Platform.OS === "ios" &&
-          <BackButton/>
-        }
+        { Platform.OS === "ios" && <BackButton/> }
         <View style={{ padding: theme.spacing(2) }}>
           { !fund.subscribable ?
             renderNonsubscribableFund() :
