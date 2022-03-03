@@ -71,9 +71,11 @@ const TransactionDetailsScreen: React.FC = () => {
       if (transactionType === "SUBSCRIPTION") {
         return new BigNumber(Number(totalValue) - Number(provision));
       }
+
       if (transactionType === "REDEMPTION") {
         return new BigNumber(Number(totalValue) + Number(provision));
       }
+
       return new BigNumber(totalValue);
     };
 
