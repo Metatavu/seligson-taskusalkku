@@ -1,9 +1,9 @@
 import React, { DependencyList } from "react";
-import { BackHandler } from "react-native";
+import { BackHandler, ToastAndroid } from "react-native";
 import type { RootState, AppDispatch } from "./store";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { ParamListBase, useFocusEffect, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NavigationProp, ParamListBase, useFocusEffect, useNavigation } from "@react-navigation/native";
+import strings from "../localization/strings";
 
 /**
  * Custom hook for accessing dispatch function for Redux state
@@ -76,20 +76,76 @@ export const useDelayUnmount = (isMounted: boolean, delayTime: number) => {
  * @param dependencies hook dependencies
  */
 export const useGoBackHandler = <ParamList extends ParamListBase, RouteName extends keyof ParamList & string>(
-  onGoBackCallback: () => boolean | null | undefined,
+  onGoBackCallback: (navigation: NavigationProp<ParamList, RouteName>) => boolean | null | undefined,
   dependencies?: DependencyList
 ) => {
-  const navigation = useNavigation<NativeStackNavigationProp<ParamList, RouteName>>();
+  const navigation = useNavigation<NavigationProp<ParamList, RouteName>>();
 
   useFocusEffect(
     React.useCallback(() => {
-      BackHandler.addEventListener("hardwareBackPress", onGoBackCallback);
-      navigation.addListener("beforeRemove", onGoBackCallback);
+      const hardwareBackPressSubscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        () => onGoBackCallback(navigation)
+      );
 
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", onGoBackCallback);
-        navigation.removeListener("beforeRemove", onGoBackCallback);
-      };
+      return hardwareBackPressSubscription.remove;
     }, [ navigation, onGoBackCallback, dependencies ])
   );
+};
+
+/**
+ * Check whether previous screen exists in navigation stack
+ *
+ * @param navigation navigation
+ */
+export const previousScreenExists = (navigation: NavigationProp<ParamListBase>): boolean => {
+  if (navigation.canGoBack()) {
+    return true;
+  }
+
+  const parentNavigation = navigation.getParent();
+
+  return !!parentNavigation && previousScreenExists(parentNavigation);
+};
+
+/**
+ * React hook that dispatches navigation.goBack if possible when hardware back button is pressed
+ */
+export const useHardwareGoBack = () => useGoBackHandler(navigation => {
+  if (!previousScreenExists(navigation)) {
+    return false;
+  }
+
+  navigation.goBack();
+  return true;
+});
+
+/**
+ * React hook that handles exiting the app when hardware back button is pressed
+ */
+export const useExitAppHandler = () => {
+  const [ exitingTimeout, setExitingTimeout ] = React.useState<NodeJS.Timeout>();
+  const [ exiting, setExiting ] = React.useState(false);
+
+  React.useEffect(() => {
+    const exitListener = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (exitingTimeout) {
+        clearTimeout(exitingTimeout);
+        setExitingTimeout(undefined);
+      }
+
+      if (exiting) {
+        setExiting(false);
+        BackHandler.exitApp();
+      } else {
+        setExiting(true);
+        setExitingTimeout(setTimeout(() => setExiting(false), 2000));
+        ToastAndroid.show(strings.generic.pressAgainToExit, ToastAndroid.SHORT);
+      }
+
+      return true;
+    });
+
+    return () => exitListener.remove();
+  });
 };

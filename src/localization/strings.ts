@@ -25,6 +25,7 @@ export interface Strings extends LocalizedStringsMethods {
     copied: string;
     saveAndProceed: string;
     ok: string;
+    pressAgainToExit: string;
   };
 
   /**

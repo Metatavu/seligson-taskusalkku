@@ -13,11 +13,13 @@ import styles from "../../../styles/screens/meeting/meeting-times-screen";
 import theme from "../../../theme";
 import { FlatGrid } from "react-native-super-grid";
 import DatePicker from "../../generic/date-picker";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Meeting times screen
  */
 const MeetingTimesScreen: React.FC = () => {
+  useHardwareGoBack();
   const meetingsApiContext = React.useContext(MeetingsApiContext);
   const navigation = useNavigation<MeetingNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
@@ -57,7 +59,7 @@ const MeetingTimesScreen: React.FC = () => {
 
   /**
    * Handler for start date picker date change
-   * 
+   *
    * @param pickedDate picked date
    */
   const datePickerChange = (pickedDate: Date) => {
@@ -108,9 +110,10 @@ const MeetingTimesScreen: React.FC = () => {
           </Text>
         }
         <FlatGrid
+          disableVirtualization
           itemDimension={ 130 }
           data={ meetingTimes }
-          renderItem={ ({ item, index }) => renderMeetingTime(item, index)}
+          renderItem={ ({ item, index }) => renderMeetingTime(item, index) }
         />
       </Card>
     );

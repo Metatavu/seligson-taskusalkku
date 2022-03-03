@@ -7,11 +7,10 @@ import strings from "../../localization/strings";
 import { Fund, PortfolioTransaction, Security } from "../../generated/client";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import GenericUtils from "../../utils/generic";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-import TransactionsNavigator from "../../types/navigators/transactions";
 import Calculations from "../../utils/calculations";
 import DateUtils from "../../utils/date-utils";
+import PortfolioNavigator from "../../types/navigators/portfolio";
 
 /**
  * Transaction value
@@ -38,9 +37,7 @@ interface Props {
  */
 const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transactions }) => {
   const styles = transactionsCardStyles(useTheme(), "#fff");
-  const navigation = useNavigation<TransactionsNavigator.NavigationProps>();
-
-  const [ closed, setClosed ] = React.useState(false);
+  const navigation = useNavigation<PortfolioNavigator.NavigationProps>();
 
   /**
    * Renders transaction value
@@ -140,20 +137,12 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
     <>
       <View style={ styles.cardWrapper }>
         <View style={ styles.cardContent }>
-          <TouchableOpacity
-            onPress={ () => setClosed(!closed) }
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={[ theme.fonts.medium, { fontSize: 16 } ]}>
-              { `${title} (${transactions.length})` }
-            </Text>
-            <Icon name="angle-down" size={ 20 }/>
-          </TouchableOpacity>
-          { closed &&
-            <View style={ styles.transactionsList }>
-              { renderTransactions() }
-            </View>
-          }
+          <Text style={[ theme.fonts.medium, { fontSize: 16 } ]}>
+            { `${title} (${transactions.length})` }
+          </Text>
+          <View style={ styles.transactionsList }>
+            { renderTransactions() }
+          </View>
         </View>
       </View>
     </>

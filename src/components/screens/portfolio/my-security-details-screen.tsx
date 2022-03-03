@@ -2,8 +2,7 @@ import React from "react";
 import { ActivityIndicator, GestureResponderEvent, Platform, ScrollView, View } from "react-native";
 import FundCard from "../../generic/fund-card";
 import FundDetails from "../../generic/fund-details";
-import { CompositeNavigationProp, useNavigation, useRoute } from "@react-navigation/native";
-import FundsNavigator from "../../../types/navigators/funds";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
 import { ChartRange } from "../../../types";
@@ -14,20 +13,18 @@ import ChartUtils from "../../../utils/chart";
 import HistoryValueChart from "../../generic/history-value-chart";
 import { SecurityHistoryValue } from "../../../generated/client";
 import ChartRangeSelector from "../../generic/chart-range-selector";
-import HomeNavigator from "../../../types/navigators/home";
 import BackButton from "../../generic/back-button";
-import DateUtils from "../../../utils/date-utils";
+import PortfolioNavigator from "../../../types/navigators/portfolio";
 import { useHardwareGoBack } from "../../../app/hooks";
-
-type FundDetailScreenNavigationProp = CompositeNavigationProp<FundsNavigator.NavigationProps, HomeNavigator.NavigationProps>;
+import DateUtils from "../../../utils/date-utils";
 
 /**
- * Fund details screen component
+ * My security details screen component
  */
-const FundDetailsScreen: React.FC = () => {
+const MySecurityDetailsScreen: React.FC = () => {
   useHardwareGoBack();
-  const { params } = useRoute<FundsNavigator.RouteProps<"fundDetails">>();
-  const navigation = useNavigation<FundDetailScreenNavigationProp>();
+  const { params } = useRoute<PortfolioNavigator.RouteProps<"mySecurityDetails">>();
+  const navigation = useNavigation<PortfolioNavigator.NavigationProps>();
   const errorContext = React.useContext(ErrorContext);
   const securitiesContext = React.useContext(SecuritiesApiContext);
   const fund = params?.fund;
@@ -172,4 +169,4 @@ const FundDetailsScreen: React.FC = () => {
   );
 };
 
-export default FundDetailsScreen;
+export default MySecurityDetailsScreen;

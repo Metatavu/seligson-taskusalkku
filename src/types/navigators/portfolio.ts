@@ -1,5 +1,9 @@
-import { RouteProp } from "@react-navigation/native";
-import { MaterialTopTabBarProps, MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
+import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
+import { Fund } from "../../generated/client/models/Fund";
+import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import PortfolioTabsNavigator from "./portfolio-tabs";
+import { SubscriptionSettings } from "..";
+import { PortfolioTransaction, Security } from "../../generated/client";
 
 /**
  * Portfolio navigator
@@ -10,16 +14,21 @@ namespace PortfolioNavigator {
    * Routes
    */
   export type Routes = {
-    statistics: undefined;
-    distributions: undefined;
-    mySecurities: undefined;
-    transactions: undefined;
+    portfolioTabs: NavigatorScreenParams<PortfolioTabsNavigator.Routes> | undefined;
+    mySecurityDetails: { fund: Fund };
+    transactionsDetails: {
+      fund: Fund;
+      security: Security;
+      portfolioTransaction: PortfolioTransaction;
+    };
+    fundSubscriptionSettings: { fund: Fund };
+    fundSubscriptionSummary: { subscriptionSettings: SubscriptionSettings };
   };
 
   /**
    * Navigation properties
    */
-  export type NavigationProps = MaterialTopTabBarProps;
+  export type NavigationProps<RouteName extends keyof Routes = keyof Routes> = NativeStackNavigationProp<Routes, RouteName>;
 
   /**
    * Route properties
@@ -29,7 +38,7 @@ namespace PortfolioNavigator {
   /**
    * Screen properties
    */
-  export type ScreenProps<RouteName extends keyof Routes = keyof Routes> = MaterialTopTabScreenProps<Routes, RouteName>;
+  export type ScreenProps<RouteName extends keyof Routes = keyof Routes> = NativeStackScreenProps<Routes, RouteName>;
 
 }
 

@@ -11,6 +11,7 @@ import styles from "../../../styles/screens/portfolio/my-funds-screen";
 import theme from "../../../theme";
 import PortfolioSecurityCard from "../../generic/portfolio-security-card";
 import { FundsApiContext } from "../../providers/funds-api-provider";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * My security info
@@ -26,6 +27,7 @@ interface MySecurityInfo {
  * My securities screen component
  */
 const MySecuritiesScreen: React.FC = () => {
+  useHardwareGoBack();
   const errorContext = React.useContext(ErrorContext);
   const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);

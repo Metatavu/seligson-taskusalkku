@@ -16,8 +16,8 @@ namespace PinCodeAuth {
   export const enabled = async () => {
     try {
       return !!(await SecureStore.getItemAsync(PIN_CODE));
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       return false;
     }
   };
@@ -31,8 +31,8 @@ namespace PinCodeAuth {
   export const create = async (pinCode: string) => {
     try {
       await SecureStore.setItemAsync(PIN_CODE, pinCode);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -46,8 +46,8 @@ namespace PinCodeAuth {
     try {
       const validator = await SecureStore.getItemAsync(PIN_CODE);
       return validator && validator === pinCode;
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       return false;
     }
   };
@@ -60,8 +60,8 @@ namespace PinCodeAuth {
   export const remove = async () => {
     try {
       await SecureStore.deleteItemAsync(PIN_CODE);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
     }
   };
 

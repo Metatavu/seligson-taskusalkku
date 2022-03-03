@@ -7,7 +7,7 @@ import styles from "../../../styles/screens/auth/login-required-screen";
 import { SeligsonLogo } from "../../../../assets/seligson-logo";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AuthUtils from "../../../utils/auth";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector, useHardwareGoBack } from "../../../app/hooks";
 import Config from "../../../app/config";
 import { selectAuth, authUpdate } from "../../../features/auth/auth-slice";
 import { LoginOptions } from "../../../types/config";
@@ -23,6 +23,7 @@ import KeycloakLoginScreen from "./keycloak-login-screen";
  * @param props component properties
  */
 const LoginRequiredScreen: React.FC = () => {
+  useHardwareGoBack();
   const dispatch = useAppDispatch();
   const auth = useAppSelector(selectAuth);
   const errorContext = React.useContext(ErrorContext);
@@ -252,7 +253,6 @@ const LoginRequiredScreen: React.FC = () => {
    */
   return (
     <View style={{ width: "100%", height: "100%" }}>
-      { renderContent() }
       { keycloakLoginOpen &&
         <KeycloakLoginScreen
           strongAuth={ loginOption === LoginOptions.STRONG_AUTH }
@@ -272,6 +272,7 @@ const LoginRequiredScreen: React.FC = () => {
           <Button
             uppercase={ false }
             onPress={ () => {
+              setLoginOption(LoginOptions.USERNAME_AND_PASSWORD);
               setKeycloakLoginOpen(true);
               setAuthError(false);
             }}
@@ -281,6 +282,9 @@ const LoginRequiredScreen: React.FC = () => {
             { strings.auth.loginRequired }
           </Button>
         </View>
+      }
+      { (!authError || loginOption === LoginOptions.PIN) &&
+        renderContent()
       }
     </View>
   );

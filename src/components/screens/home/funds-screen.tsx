@@ -1,47 +1,52 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import FundSelectionNavigator from "../../../types/navigators/funds";
+import FundsNavigator from "../../../types/navigators/funds";
 import FundDetailsScreen from "../funds/fund-details-screen";
-import FundsListScreen from "../funds/funds-list-screen";
+import FundTabsScreen from "../funds/fund-tabs-screen";
 import SubscriptionSettingsScreen from "../funds/subscription-settings-screen";
 import SubscriptionSummaryScreen from "../funds/subscription-summary-screen";
 
 /**
- * Fund selection screen stack navigation
+ * Fund screen stack navigation
  */
-const FundSelectionNavigation = createNativeStackNavigator<FundSelectionNavigator.Routes>();
+const FundsNavigation = createNativeStackNavigator<FundsNavigator.Routes>();
 
 /**
- * Active funds screen component
+ * Funds screen component
  */
 const FundsScreen: React.FC = () => {
-  /**
-   * Component render
-   */
   return (
-    <FundSelectionNavigation.Navigator
-      initialRouteName="fundsList"
+    <FundsNavigation.Navigator
+      initialRouteName="fundTabs"
       screenOptions={{ headerShown: false }}
     >
-      <FundSelectionNavigation.Group>
-        <FundSelectionNavigation.Screen
-          name="fundsList"
-          component={ FundsListScreen }
-        />
-        <FundSelectionNavigation.Screen
-          name="fundDetails"
-          component={ FundDetailsScreen }
-        />
-        <FundSelectionNavigation.Screen
-          name="fundSubscriptionSettings"
-          component={ SubscriptionSettingsScreen }
-        />
-        <FundSelectionNavigation.Screen
-          name="fundSubscriptionSummary"
-          component={ SubscriptionSummaryScreen }
-        />
-      </FundSelectionNavigation.Group>
-    </FundSelectionNavigation.Navigator>
+      <FundsNavigation.Screen
+        name="fundTabs"
+        component={ FundTabsScreen }
+      />
+      <FundsNavigation.Screen
+        name="fundDetails"
+        component={ FundDetailsScreen }
+      />
+      <FundsNavigation.Screen
+        name="fundSubscriptionSettings"
+      >
+        { () =>
+          <SubscriptionSettingsScreen
+            onProceed={ (navigation, subscriptionSettings) =>
+              navigation.navigate(
+                "fundSubscriptionSummary",
+                { subscriptionSettings: subscriptionSettings }
+              )
+            }
+          />
+        }
+      </FundsNavigation.Screen>
+      <FundsNavigation.Screen
+        name="fundSubscriptionSummary"
+        component={ SubscriptionSummaryScreen }
+      />
+    </FundsNavigation.Navigator>
   );
 };
 

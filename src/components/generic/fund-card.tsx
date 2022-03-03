@@ -11,6 +11,7 @@ import Calculations from "../../utils/calculations";
 import DateUtils from "../../utils/date-utils";
 import { SeligsonLogoSmall } from "../../../assets/seligson-logo";
 import LahitapiolaLogoSmall from "../../../assets/lahitapiola-logo";
+import FundUtils from "../../utils/funds";
 
 /**
  * Component properties
@@ -25,10 +26,10 @@ interface Props {
  * @param props component properties
  */
 const FundCard: React.FC<Props> = ({ fund }) => {
-  const { color, shortName, longName, risk, changeData, priceDate } = fund;
+  const { color, shortName, risk, changeData, priceDate } = fund;
   const { change1d, change1m, change1y, change5y, change20y } = changeData || {};
   const styles = fundCardStyles(useTheme(), color || "#FFF");
-  const SeligsonFund = GenericUtils.getLocalizedValue(longName).includes("Seligson");
+  const SeligsonFund = FundUtils.isSeligsonFund(fund);
 
   /**
    * Component for price history

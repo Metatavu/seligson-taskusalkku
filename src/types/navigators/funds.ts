@@ -1,11 +1,11 @@
 import { NavigatorScreenParams, RouteProp } from "@react-navigation/native";
 import { Fund } from "../../generated/client/models/Fund";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import FundsListNavigator from "./funds-list";
+import FundTabsNavigator from "./fund-tabs";
 import { SubscriptionSettings } from "..";
 
 /**
- * Fund selection navigator
+ * Funds navigator
  */
 namespace FundsNavigator {
 
@@ -13,8 +13,8 @@ namespace FundsNavigator {
    * Routes
    */
   export type Routes = {
-    fundsList: NavigatorScreenParams<FundsListNavigator.Routes> | undefined;
-    fundDetails: { fund: Fund; navigatedFromPortfolio?: boolean; };
+    fundTabs: NavigatorScreenParams<FundTabsNavigator.Routes> | undefined;
+    fundDetails: { fund: Fund };
     fundSubscriptionSettings: { fund: Fund };
     fundSubscriptionSummary: { subscriptionSettings: SubscriptionSettings };
   };

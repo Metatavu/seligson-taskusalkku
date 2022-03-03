@@ -13,7 +13,8 @@
     "noData": "No data",
     "copied": "Copied to clipboard",
     "saveAndProceed": "Save and proceed",
-    "ok": "Ok"
+    "ok": "Ok",
+    "pressAgainToExit": "Press again to exit"
   },
 
   "errorHandling": {

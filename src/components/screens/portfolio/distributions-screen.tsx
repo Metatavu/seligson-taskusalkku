@@ -17,11 +17,13 @@ import BigNumber from "bignumber.js";
 import ChartUtils from "../../../utils/chart";
 import Svg from "react-native-svg";
 import Calculations from "../../../utils/calculations";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Distributions screen component
  */
 const DistributionsScreen: React.FC = () => {
+  useHardwareGoBack();
   const portfolioContext = React.useContext(PortfolioContext);
   const { selectedPortfolio } = portfolioContext;
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
@@ -180,7 +182,7 @@ const DistributionsScreen: React.FC = () => {
         />
       );
     };
-      
+
     return (
       <View style={ styles.chartContainer }>
         { Platform.OS === "ios" &&

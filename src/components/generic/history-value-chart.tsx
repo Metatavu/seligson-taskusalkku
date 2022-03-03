@@ -2,8 +2,6 @@ import React from "react";
 import { GestureResponderEvent, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import WebView from "react-native-webview";
-import { useAppSelector } from "../../app/hooks";
-import { selectSelectedLanguage } from "../../features/locale/locale-slice";
 import { PortfolioHistoryValue, SecurityHistoryValue } from "../../generated/client";
 import ChartUtils from "../../utils/chart";
 import Injectables from "../../utils/injectables";
@@ -31,7 +29,6 @@ const HistoryValueChart: React.FC<Props> = ({
   onChartTouch
 }) => {
   const theme = useTheme();
-  const selectedLanguage = useAppSelector(selectSelectedLanguage);
 
   const webViewRef = React.useRef<WebView>(null);
   const [ webViewReady, setWebViewReady ] = React.useState(false);
@@ -45,7 +42,6 @@ const HistoryValueChart: React.FC<Props> = ({
       webViewRef.current?.injectJavaScript(
         Injectables.getChartScript(
           ChartUtils.convertToChartData(historyValues),
-          selectedLanguage,
           currency,
           color
         )
