@@ -21,8 +21,7 @@ namespace FundUtils {
   /**
    * Returns true if given fund is Seligson fund
    */
-  export const isSeligsonFund = ({ longName }: Fund): boolean =>
-    GenericUtils.getLocalizedValue(longName).includes("Seligson");
+  export const isSeligsonFund = ({ longName }: Fund): boolean => GenericUtils.getLocalizedValue(longName).includes("Seligson");
 
 }
 
