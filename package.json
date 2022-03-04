@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans": "^0.2.0",
+    "@openapitools/openapi-generator-cli": "^2.4.26",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/datetimepicker": "3.5.2",
     "@react-navigation/bottom-tabs": "^6.2.0",
@@ -69,7 +70,6 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@expo/ngrok": "^2.5.0",
-    "@openapitools/openapi-generator-cli": "^2.4.12",
     "@types/html-escaper": "^3.0.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "^0.62.0",
