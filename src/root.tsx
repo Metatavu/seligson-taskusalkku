@@ -12,8 +12,7 @@ import HomeScreen from "./components/screens/home-screen";
 import SettingsScreen from "./components/screens/settings-screen";
 import AuthenticationScreen from "./components/screens/authentication-screen";
 import RegistrationScreen from "./components/screens/registration-screen";
-import { useAppSelector, useExitAppHandler } from "./app/hooks";
-import { selectSelectedLanguage } from "./features/locale/locale-slice";
+import { useExitAppHandler } from "./app/hooks";
 import { Platform } from "react-native";
 
 /**
@@ -27,7 +26,8 @@ const RootNavigation = createNativeStackNavigator<RootNavigator.Routes>();
 const Root: React.FC = () => {
   useExitAppHandler();
   const { colors } = useTheme();
-  useAppSelector(selectSelectedLanguage);
+  // TODO: fix hardware back button functionalities in settings screen
+  // useAppSelector(selectSelectedLanguage);
 
   const [ fontsLoaded ] = useFonts({
     NotoSans_400Regular: NotoSans_400Regular,
