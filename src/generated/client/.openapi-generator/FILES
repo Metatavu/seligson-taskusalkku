@@ -8,6 +8,7 @@ index.ts
 models/ChangeData.ts
 models/Fund.ts
 models/FundGroup.ts
+models/FundHistoryValue.ts
 models/LocalizedValue.ts
 models/Meeting.ts
 models/MeetingContact.ts
@@ -20,8 +21,6 @@ models/PortfolioSecurity.ts
 models/PortfolioSummary.ts
 models/PortfolioTransaction.ts
 models/Security.ts
-models/SecurityHistoryValue.ts
-models/SubscriptionBankAccount.ts
 models/TransactionType.ts
 models/index.ts
 runtime.ts

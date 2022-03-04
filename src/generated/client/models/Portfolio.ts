@@ -49,18 +49,6 @@ export interface Portfolio {
      * @memberof Portfolio
      */
     readonly purchaseTotal?: string;
-    /**
-     * Reference value A
-     * @type {string}
-     * @memberof Portfolio
-     */
-    readonly aReference?: string;
-    /**
-     * Reference value B
-     * @type {string}
-     * @memberof Portfolio
-     */
-    readonly bReference?: string;
 }
 
 export function PortfolioFromJSON(json: any): Portfolio {
@@ -78,8 +66,6 @@ export function PortfolioFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'totalAmount': !exists(json, 'totalAmount') ? undefined : json['totalAmount'],
         'marketValueTotal': !exists(json, 'marketValueTotal') ? undefined : json['marketValueTotal'],
         'purchaseTotal': !exists(json, 'purchaseTotal') ? undefined : json['purchaseTotal'],
-        'aReference': !exists(json, 'aReference') ? undefined : json['aReference'],
-        'bReference': !exists(json, 'bReference') ? undefined : json['bReference'],
     };
 }
 

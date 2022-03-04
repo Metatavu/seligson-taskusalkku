@@ -18,10 +18,21 @@ import {
     Fund,
     FundFromJSON,
     FundToJSON,
+    FundHistoryValue,
+    FundHistoryValueFromJSON,
+    FundHistoryValueToJSON,
 } from '../models';
 
 export interface FindFundRequest {
     fundId: string;
+}
+
+export interface ListFundHistoryValuesRequest {
+    fundId: string;
+    firstResult?: number;
+    maxResults?: number;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export interface ListFundsRequest {
@@ -71,6 +82,62 @@ export class FundsApi extends runtime.BaseAPI {
      */
     async findFund(requestParameters: FindFundRequest): Promise<Fund> {
         const response = await this.findFundRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Lists fund history values
+     * Lists fund history values
+     */
+    async listFundHistoryValuesRaw(requestParameters: ListFundHistoryValuesRequest): Promise<runtime.ApiResponse<Array<FundHistoryValue>>> {
+        if (requestParameters.fundId === null || requestParameters.fundId === undefined) {
+            throw new runtime.RequiredError('fundId','Required parameter requestParameters.fundId was null or undefined when calling listFundHistoryValues.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.firstResult !== undefined) {
+            queryParameters['firstResult'] = requestParameters.firstResult;
+        }
+
+        if (requestParameters.maxResults !== undefined) {
+            queryParameters['maxResults'] = requestParameters.maxResults;
+        }
+
+        if (requestParameters.startDate !== undefined) {
+            queryParameters['startDate'] = (requestParameters.startDate as any).toISOString().substr(0,10);
+        }
+
+        if (requestParameters.endDate !== undefined) {
+            queryParameters['endDate'] = (requestParameters.endDate as any).toISOString().substr(0,10);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/v1/funds/{fundId}/historyValues`.replace(`{${"fundId"}}`, encodeURIComponent(String(requestParameters.fundId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(FundHistoryValueFromJSON));
+    }
+
+    /**
+     * Lists fund history values
+     * Lists fund history values
+     */
+    async listFundHistoryValues(requestParameters: ListFundHistoryValuesRequest): Promise<Array<FundHistoryValue>> {
+        const response = await this.listFundHistoryValuesRaw(requestParameters);
         return await response.value();
     }
 

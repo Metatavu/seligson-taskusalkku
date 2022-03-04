@@ -18,9 +18,6 @@ import {
     Security,
     SecurityFromJSON,
     SecurityToJSON,
-    SecurityHistoryValue,
-    SecurityHistoryValueFromJSON,
-    SecurityHistoryValueToJSON,
 } from '../models';
 
 export interface FindSecurityRequest {
@@ -28,18 +25,8 @@ export interface FindSecurityRequest {
 }
 
 export interface ListSecuritiesRequest {
-    seriesId?: number;
-    fundId?: string;
     firstResult?: number;
     maxResults?: number;
-}
-
-export interface ListSecurityHistoryValuesRequest {
-    securityId: string;
-    firstResult?: number;
-    maxResults?: number;
-    startDate?: Date;
-    endDate?: Date;
 }
 
 /**
@@ -94,14 +81,6 @@ export class SecuritiesApi extends runtime.BaseAPI {
     async listSecuritiesRaw(requestParameters: ListSecuritiesRequest): Promise<runtime.ApiResponse<Array<Security>>> {
         const queryParameters: any = {};
 
-        if (requestParameters.seriesId !== undefined) {
-            queryParameters['seriesId'] = requestParameters.seriesId;
-        }
-
-        if (requestParameters.fundId !== undefined) {
-            queryParameters['fundId'] = requestParameters.fundId;
-        }
-
         if (requestParameters.firstResult !== undefined) {
             queryParameters['firstResult'] = requestParameters.firstResult;
         }
@@ -136,62 +115,6 @@ export class SecuritiesApi extends runtime.BaseAPI {
      */
     async listSecurities(requestParameters: ListSecuritiesRequest): Promise<Array<Security>> {
         const response = await this.listSecuritiesRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * Lists security history values
-     * Lists security history values
-     */
-    async listSecurityHistoryValuesRaw(requestParameters: ListSecurityHistoryValuesRequest): Promise<runtime.ApiResponse<Array<SecurityHistoryValue>>> {
-        if (requestParameters.securityId === null || requestParameters.securityId === undefined) {
-            throw new runtime.RequiredError('securityId','Required parameter requestParameters.securityId was null or undefined when calling listSecurityHistoryValues.');
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters.firstResult !== undefined) {
-            queryParameters['firstResult'] = requestParameters.firstResult;
-        }
-
-        if (requestParameters.maxResults !== undefined) {
-            queryParameters['maxResults'] = requestParameters.maxResults;
-        }
-
-        if (requestParameters.startDate !== undefined) {
-            queryParameters['startDate'] = (requestParameters.startDate as any).toISOString().substr(0,10);
-        }
-
-        if (requestParameters.endDate !== undefined) {
-            queryParameters['endDate'] = (requestParameters.endDate as any).toISOString().substr(0,10);
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/v1/securities/{securityId}/historyValues`.replace(`{${"securityId"}}`, encodeURIComponent(String(requestParameters.securityId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SecurityHistoryValueFromJSON));
-    }
-
-    /**
-     * Lists security history values
-     * Lists security history values
-     */
-    async listSecurityHistoryValues(requestParameters: ListSecurityHistoryValuesRequest): Promise<Array<SecurityHistoryValue>> {
-        const response = await this.listSecurityHistoryValuesRaw(requestParameters);
         return await response.value();
     }
 

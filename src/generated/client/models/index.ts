@@ -1,6 +1,7 @@
 export * from './ChangeData';
 export * from './Fund';
 export * from './FundGroup';
+export * from './FundHistoryValue';
 export * from './LocalizedValue';
 export * from './Meeting';
 export * from './MeetingContact';
@@ -13,6 +14,4 @@ export * from './PortfolioSecurity';
 export * from './PortfolioSummary';
 export * from './PortfolioTransaction';
 export * from './Security';
-export * from './SecurityHistoryValue';
-export * from './SubscriptionBankAccount';
 export * from './TransactionType';

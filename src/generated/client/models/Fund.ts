@@ -26,10 +26,6 @@ import {
     LocalizedValueFromJSON,
     LocalizedValueFromJSONTyped,
     LocalizedValueToJSON,
-    SubscriptionBankAccount,
-    SubscriptionBankAccountFromJSON,
-    SubscriptionBankAccountFromJSONTyped,
-    SubscriptionBankAccountToJSON,
 } from './';
 
 /**
@@ -49,13 +45,25 @@ export interface Fund {
      * @type {LocalizedValue}
      * @memberof Fund
      */
-    longName: LocalizedValue;
+    name: LocalizedValue;
     /**
      * 
      * @type {LocalizedValue}
      * @memberof Fund
      */
-    shortName: LocalizedValue;
+    longName?: LocalizedValue;
+    /**
+     * 
+     * @type {LocalizedValue}
+     * @memberof Fund
+     */
+    shortName?: LocalizedValue;
+    /**
+     * Bank receiver name
+     * @type {string}
+     * @memberof Fund
+     */
+    bankReceiverName?: string;
     /**
      * 
      * @type {FundGroup}
@@ -116,18 +124,6 @@ export interface Fund {
      * @memberof Fund
      */
     kIID?: LocalizedValue;
-    /**
-     * Subscription bank accounts
-     * @type {Array<SubscriptionBankAccount>}
-     * @memberof Fund
-     */
-    subscriptionBankAccounts?: Array<SubscriptionBankAccount>;
-    /**
-     * subscribable
-     * @type {boolean}
-     * @memberof Fund
-     */
-    subscribable?: boolean;
 }
 
 export function FundFromJSON(json: any): Fund {
@@ -141,8 +137,10 @@ export function FundFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fund
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'longName': LocalizedValueFromJSON(json['longName']),
-        'shortName': LocalizedValueFromJSON(json['shortName']),
+        'name': LocalizedValueFromJSON(json['name']),
+        'longName': !exists(json, 'longName') ? undefined : LocalizedValueFromJSON(json['longName']),
+        'shortName': !exists(json, 'shortName') ? undefined : LocalizedValueFromJSON(json['shortName']),
+        'bankReceiverName': !exists(json, 'bankReceiverName') ? undefined : json['bankReceiverName'],
         'group': !exists(json, 'group') ? undefined : FundGroupFromJSON(json['group']),
         'priceDate': !exists(json, 'priceDate') ? undefined : (new Date(json['priceDate'])),
         'aShareValue': !exists(json, 'aShareValue') ? undefined : json['aShareValue'],
@@ -153,8 +151,6 @@ export function FundFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fund
         'color': !exists(json, 'color') ? undefined : json['color'],
         'risk': !exists(json, 'risk') ? undefined : json['risk'],
         'kIID': !exists(json, 'KIID') ? undefined : LocalizedValueFromJSON(json['KIID']),
-        'subscriptionBankAccounts': !exists(json, 'subscriptionBankAccounts') ? undefined : ((json['subscriptionBankAccounts'] as Array<any>).map(SubscriptionBankAccountFromJSON)),
-        'subscribable': !exists(json, 'subscribable') ? undefined : json['subscribable'],
     };
 }
 
@@ -167,8 +163,10 @@ export function FundToJSON(value?: Fund | null): any {
     }
     return {
         
+        'name': LocalizedValueToJSON(value.name),
         'longName': LocalizedValueToJSON(value.longName),
         'shortName': LocalizedValueToJSON(value.shortName),
+        'bankReceiverName': value.bankReceiverName,
         'group': FundGroupToJSON(value.group),
         'priceDate': value.priceDate === undefined ? undefined : (value.priceDate.toISOString().substr(0,10)),
         'aShareValue': value.aShareValue,
@@ -179,8 +177,6 @@ export function FundToJSON(value?: Fund | null): any {
         'color': value.color,
         'risk': value.risk,
         'KIID': LocalizedValueToJSON(value.kIID),
-        'subscriptionBankAccounts': value.subscriptionBankAccounts === undefined ? undefined : ((value.subscriptionBankAccounts as Array<any>).map(SubscriptionBankAccountToJSON)),
-        'subscribable': value.subscribable,
     };
 }
 
