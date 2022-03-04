@@ -7,12 +7,10 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src",
-    "eas-build-post-install": "git submodule update --init && npm run build-client",
     "build-client": "openapi-generator-cli generate -i taskusalkku-spec/swagger.yaml -o src/generated/client -c generator-config.json -g typescript-fetch"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans": "^0.2.0",
-    "@openapitools/openapi-generator-cli": "^2.4.26",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/datetimepicker": "3.5.2",
     "@react-navigation/bottom-tabs": "^6.2.0",
@@ -83,7 +81,8 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "typescript": "4.4.3"
+    "typescript": "4.4.3",
+    "@openapitools/openapi-generator-cli": "^2.4.26"
   },
   "private": true
 }
