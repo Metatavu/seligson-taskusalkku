@@ -30,7 +30,7 @@
       "find": "Fel att söka fonderna data."
     },
     "portfolio": {
-      "list": "Fel att  lista portfölj historiken data."
+      "list": "Fel att lista portfölj historiken data."
     },
     "portfolioSecurities": {
       "list": "Fel att lista portfölj fonderna."
@@ -54,6 +54,9 @@
     },
     "subscription": {
       "invalidSum": "Kontrollera teckningssumman. Minimiteckningen är 10 €"
+    },
+    "transactionDetails": {
+      "find": "Fel att söka transaktionsdetaljer"
     }
   },
 
@@ -172,14 +175,15 @@
       "type": "Händelsetyp",
       "redemption": "Inlösning",
       "subscription": "Teckning",
-      "security": "",
+      "security": "Andelsslag",
       "valueDate": "Valuteringsdag",
       "paymentDate": "Betalningsdag",
       "shareAmount": "St",
       "value": "Kurs",
       "totalValue": "Värde totalt",
       "provision": "Provision",
-      "paidTotal": "Betalning totalt"
+      "paidTotal": "Betalning totalt",
+      "targetSecurity": ""
     },
     "distribution": {
       "shareInterest": "Aktier, ränta"

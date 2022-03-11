@@ -44,6 +44,24 @@ namespace GenericUtils {
   };
 
   /**
+   * Returns bar code currency value based on given currency value string
+   *
+   * @param value currency value as string
+   */
+  export const getBarCodeCurrencyValue = (value: string) => {
+    let [ euro, cents ] = parseFloat(value).toFixed(2).split(".");
+
+    if (euro.length > 6) {
+      euro = "0";
+      cents = "0";
+    }
+
+    const euroString = `000000${euro}`.slice(-6);
+    const centsString = `00${cents}`.slice(-2);
+    return `${euroString}${centsString}`;
+  };
+
+  /**
    * Generates barcode
    * 
    * @param subscriptionSettings subscription settings
@@ -51,29 +69,12 @@ namespace GenericUtils {
   export const generateBarCode = (subscriptionSettings: SubscriptionSettings) => {
     const { iBAN, dueDate, sum, referenceNumber } = subscriptionSettings;
 
-    const rounded = parseFloat(sum).toFixed(2);
-    const split = rounded.split(".");
-
-    let euro = split[0];
-    let cent = "00";
-
+    const formattedIban = iBAN?.replace("FI", "").replace(/\s/g, "");
+    const barCodeCurrencyValue = getBarCodeCurrencyValue(sum);
+    const formattedReferenceNumber = (`00000000000000000000${referenceNumber}`).slice(-20);
     const formattedDueDate = moment(dueDate).format("YYMMDD").toString();
 
-    if (split.length > 1) {
-      [ cent ] = split;
-    }
-
-    if (euro.length > 6) {
-      euro = "000000";
-      cent = "00";
-    }
-
-    const formattedIban = iBAN?.replace("FI", "").replace(/\s/g, "");
-    const formattedReferenceNumber = (`00000000000000000000${referenceNumber}`).slice(-20);
-    euro = (`000000${euro}`).slice(-6);
-    cent = (`00${cent}`).slice(-2);
-
-    return `4${formattedIban}${euro}${cent}000${formattedReferenceNumber}${formattedDueDate}`;
+    return `4${formattedIban}${barCodeCurrencyValue}000${formattedReferenceNumber}${formattedDueDate}`;
   };
 
   /**

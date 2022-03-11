@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
+import { CommonActions, CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
@@ -23,7 +23,7 @@ import theme from "../../theme";
 /**
  * Custom navigation prop type for SettingsScreen. Consists of HomeNavigator and RootNavigator
  */
-type SettingsScreenNavigationProp = CompositeNavigationProp<HomeNavigator.NavigationProps, RootNavigator.NavigationProps>;
+type SettingsScreenNavigationProp = CompositeNavigationProp<RootNavigator.NavigationProps, HomeNavigator.NavigationProps>;
 
 /**
  * Settings screen component
@@ -93,6 +93,25 @@ const SettingsScreen: React.FC = () => {
   };
 
   /**
+   * Construct new navigation state
+   *
+   * @param state navigation state
+   */
+  const constructNewNavigationState = (state: any): any => {
+    if (!state) return;
+
+    return {
+      ...state,
+      routes: state.routes.map((route: any) => ({
+        ...route,
+        state: route.state ?
+          constructNewNavigationState(route.state) :
+          undefined
+      }))
+    };
+  };
+
+  /**
    * Event handler for language change
    *
    * @param language clicked language
@@ -100,13 +119,8 @@ const SettingsScreen: React.FC = () => {
   const onLanguageChange = async (language: Language) => {
     await Config.setLocalValue("@language", language);
     dispatch(setLanguage(language));
-    navigation.reset({
-      routes: [
-        { name: "funds" },
-        { name: "meetings" },
-        { name: "publications" }
-      ]
-    });
+    
+    navigation.dispatch(state => CommonActions.reset(constructNewNavigationState(state)));
   };
 
   /**

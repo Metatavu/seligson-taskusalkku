@@ -6,13 +6,15 @@ import { useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/portfolio/transactions-details-screen";
 import GenericUtils from "../../../utils/generic";
-import { TransactionType } from "../../../generated/client";
+import { Security, TransactionType } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
 import BackButton from "../../generic/back-button";
 import DateUtils from "../../../utils/date-utils";
 import PortfolioNavigator from "../../../types/navigators/portfolio";
 import { useHardwareGoBack } from "../../../app/hooks";
+import { SecuritiesApiContext } from "../../providers/securities-api-provider";
+import { ErrorContext } from "../../error-handler/error-handler";
 
 /**
  * Type for detail row
@@ -27,8 +29,11 @@ type DetailRow = {
  */
 const TransactionDetailsScreen: React.FC = () => {
   useHardwareGoBack();
+  const errorContext = React.useContext(ErrorContext);
+  const securitiesApiContext = React.useContext(SecuritiesApiContext);
   const { params } = useRoute<PortfolioNavigator.RouteProps<"transactionsDetails">>();
   const localized = strings.portfolio.transactions;
+  const [ targetSecurity, setTargetSecurity ] = React.useState<Security>();
 
   if (!params) {
     return null;
@@ -36,7 +41,37 @@ const TransactionDetailsScreen: React.FC = () => {
 
   const { fund, security, portfolioTransaction } = params;
   const { name } = security;
-  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue } = portfolioTransaction;
+  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue, targetSecurityId } = portfolioTransaction;
+
+  /**
+   * Loads target security if needed
+   */
+  const loadTargetSecurity = async () => {
+    if (!targetSecurityId) return;
+
+    try {
+      setTargetSecurity(await securitiesApiContext.findSecurity({ securityId: targetSecurityId }));
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.transactionDetails.find, error);
+    }
+  };
+
+  /**
+   * Effect to load target security if needed
+   */
+  React.useEffect(() => { loadTargetSecurity(); }, []);
+
+  /**
+   * Returns target security row or undefined if target security is not present
+   *
+   * @param target target security
+   */
+  const getTargetSecurityRow = (target?: Security): DetailRow | undefined => (
+    target ? {
+      label: strings.portfolio.transactions.security,
+      value: GenericUtils.getLocalizedValue(target.name)
+    } : undefined
+  );
 
   /**
    *
@@ -44,7 +79,9 @@ const TransactionDetailsScreen: React.FC = () => {
    *
    * @param detailRow detail row
    */
-  const renderDetailsRow = ({ label, value }: DetailRow) => {
+  const renderDetailsRow = (detailRow?: DetailRow) => {
+    const { label, value } = detailRow || {};
+
     return (
       <View key={ label } style={ styles.detailsRow }>
         <Text style={ theme.fonts.medium }>
@@ -61,7 +98,7 @@ const TransactionDetailsScreen: React.FC = () => {
    * Renders detail rows
    */
   const renderDetailRows = () => {
-    const transactionDisplayType = localized[transactionType === TransactionType.Redemption ? "redemption" : "subscription"];
+    const transactionDisplayType = localized[transactionType.toLowerCase() as keyof typeof localized];
     const paidTotal = new BigNumber(totalValue);
     
     /**
@@ -79,11 +116,12 @@ const TransactionDetailsScreen: React.FC = () => {
       return new BigNumber(totalValue);
     };
 
-    const rows: DetailRow[] = [
+    const rows: (DetailRow | undefined)[] = [
       {
         label: localized.type,
         value: transactionDisplayType
       },
+      getTargetSecurityRow(targetSecurity),
       {
         label: localized.valueDate,
         value: DateUtils.formatToFinnishDate(valueDate)

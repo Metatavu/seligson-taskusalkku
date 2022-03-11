@@ -54,6 +54,9 @@
     },
     "subscription": {
       "invalidSum": "Tarkista merkinnän summa. Minimimerkintä on 10 €."
+    },
+    "transactionDetails": {
+      "find": "Virhe haettaessa tapahtuman tietoja"
     }
   },
 
