@@ -121,7 +121,7 @@ const TransactionDetailsScreen: React.FC = () => {
         label: localized.type,
         value: transactionDisplayType
       },
-      getTargetSecurityRow(targetSecurity),
+      // getTargetSecurityRow(targetSecurity),
       {
         label: localized.valueDate,
         value: DateUtils.formatToFinnishDate(valueDate)
