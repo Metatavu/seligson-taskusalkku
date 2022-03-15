@@ -54,6 +54,9 @@
     },
     "subscription": {
       "invalidSum": "Sum value must be greater than 10 euros"
+    },
+    "transactionDetails": {
+      "find": "Error while loading transaction details"
     }
   },
 

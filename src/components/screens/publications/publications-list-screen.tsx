@@ -118,6 +118,7 @@ const PublicationsListScreen: React.FC = () => {
   return (
     <PublicationsListNavigation.Navigator
       initialRouteName="reviews"
+      backBehavior="history"
       screenOptions={{
         tabBarActiveTintColor: colors.surface,
         tabBarPressColor: colors.surface,

@@ -69,6 +69,9 @@ export interface Strings extends LocalizedStringsMethods {
     subscription: {
       invalidSum: string;
     };
+    transactionDetails: {
+      find: string;
+    };
   };
 
   /**
@@ -210,6 +213,7 @@ export interface Strings extends LocalizedStringsMethods {
       totalValue: string;
       provision: string;
       paidTotal: string;
+      targetSecurity: string;
     };
     distribution: {
       shareInterest: string;

@@ -49,6 +49,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-confirmation-code-field": "6.7.0",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-get-random-values": "~1.7.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-pager-view": "^5.4.8",
     "react-native-paper": "^4.9.2",
@@ -68,6 +69,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@expo/ngrok": "^2.5.0",
+    "@openapitools/openapi-generator-cli": "^2.4.26",
     "@types/html-escaper": "^3.0.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "^0.62.0",
@@ -81,8 +83,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "typescript": "4.4.3",
-    "@openapitools/openapi-generator-cli": "^2.4.26"
+    "typescript": "4.4.3"
   },
   "private": true
 }

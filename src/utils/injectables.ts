@@ -124,7 +124,7 @@ namespace Injectables {
               grace: "0%",
               beginAtZero: true,
               ticks: {
-                precision: 3,
+                precision: 0,
                 callback: function(value, index, values) {
                   return new Intl.NumberFormat("fi-FI", { style: "currency", currency: "${valueCurrency}" }).format(value).replace(",00", "")
                 }

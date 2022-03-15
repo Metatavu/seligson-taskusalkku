@@ -12,6 +12,7 @@ import { unescape } from "html-escaper";
 import DateUtils from "../../../utils/date-utils";
 import PublicationsListNavigator from "../../../types/navigators/publications-list";
 import { SeligsonLogoSmall } from "../../../../assets/seligson-logo";
+import { useHardwareGoBack } from "../../../app/hooks";
 
 /**
  * Component properties
@@ -27,6 +28,7 @@ interface Props {
  * @param props component properties
  */
 const PublicationsList: React.FC<Props> = ({ route, publications }) => {
+  useHardwareGoBack();
   const navigation = useNavigation<PublicationsNavigator.NavigationProps>();
 
   /**
