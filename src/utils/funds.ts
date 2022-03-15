@@ -7,6 +7,11 @@ import GenericUtils from "./generic";
 namespace FundUtils {
 
   /**
+   * Returns true if given fund is Seligson fund
+   */
+  export const isSeligsonFund = ({ longName }: Fund): boolean => GenericUtils.getLocalizedValue(longName).includes("Seligson");
+
+  /**
    * Sorts given funds by name
    *
    * @param a fund A
@@ -19,9 +24,30 @@ namespace FundUtils {
   };
 
   /**
-   * Returns true if given fund is Seligson fund
+   * Returns Lähitapiola funds from given list
+   *
+   * @param funds funds
    */
-  export const isSeligsonFund = ({ longName }: Fund): boolean => GenericUtils.getLocalizedValue(longName).includes("Seligson");
+  export const getLtFunds = (funds: Fund[]) => funds.filter(fund => !isSeligsonFund(fund));
+
+  /**
+   * Returns Seligson funds from given list
+   *
+   * @param funds funds
+   */
+  export const getSeligsonFunds = (funds: Fund[]) => funds.filter(isSeligsonFund);
+
+  /**
+   * Sorts funds with following criteria:
+   * - Seligson funds first, Lähitapiola second
+   * - ascending names
+   *
+   * @param funds funds
+   */
+  export const sortFunds = (funds: Fund[]) => [
+    ...getSeligsonFunds(funds).sort(FundUtils.SortFundsByName),
+    ...getLtFunds(funds).sort(FundUtils.SortFundsByName)
+  ];
 
 }
 

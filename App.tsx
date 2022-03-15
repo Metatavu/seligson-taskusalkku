@@ -12,6 +12,7 @@ import AuthRefresh from "./src/components/containers/auth-refresh";
 import ErrorHandler from "./src/components/error-handler/error-handler";
 import theme from "./src/theme";
 import Root from "./src/root";
+import { StatusBar } from "expo-status-bar";
 
 /**
  * API context provides
@@ -33,6 +34,7 @@ const App: React.FC = () => (
       <ErrorHandler>
         <ApiProvider providers={ providers }>
           <AuthRefresh/>
+          <StatusBar/>
           <Root/>
         </ApiProvider>
       </ErrorHandler>

@@ -62,7 +62,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
    * @param transaction transaction
    */
   const renderTransaction = (transaction: PortfolioTransaction) => {
-    const { securityId, id, paymentDate, marketValue, shareAmount, totalValue } = transaction;
+    const { securityId, id, paymentDate, marketValue, shareAmount, totalValue, valueDate } = transaction;
 
     const transactionSecurity = securities.find(security => security.id === securityId);
     if (!transactionSecurity) {
@@ -109,7 +109,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
               </Text>
             </View>
             <Text style={ styles.labelText }>
-              { paymentDate && DateUtils.formatToFinnishDate(paymentDate) }
+              { paymentDate ? DateUtils.formatToFinnishDate(paymentDate) : DateUtils.formatToFinnishDate(valueDate)}
             </Text>
             <Divider style={{ marginVertical: 5 }}/>
             <View style={ styles.cardRow }>

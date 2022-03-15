@@ -24,7 +24,6 @@ interface Props {
 const ActiveFundsScreen: React.FC<Props> = ({ funds }) => {
   useHardwareGoBack();
   const navigation = useNavigation<FundsNavigator.NavigationProps>();
-  const sortedFunds = funds.sort(FundUtils.SortFundsByName);
 
   /**
    * Renders fund
@@ -47,7 +46,7 @@ const ActiveFundsScreen: React.FC<Props> = ({ funds }) => {
   return (
     <ScrollView>
       <View style={ styles.fundList }>
-        { sortedFunds.map(renderFund) }
+        { FundUtils.sortFunds(funds).map(renderFund) }
       </View>
     </ScrollView>
   );
