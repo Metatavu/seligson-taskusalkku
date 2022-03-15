@@ -43,13 +43,13 @@
     "jwt-decode": "^3.1.2",
     "localized-strings": "^0.2.4",
     "moment": "^2.29.1",
-    "nanoid": "^3.3.1",
     "query-string": "^7.0.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-confirmation-code-field": "6.7.0",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-get-random-values": "~1.7.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-pager-view": "^5.4.8",
     "react-native-paper": "^4.9.2",
@@ -64,8 +64,7 @@
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.6.2",
     "react-redux": "^7.2.5",
-    "victory-native": "^36.2.0",
-    "react-native-get-random-values": "~1.7.0"
+    "victory-native": "^36.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
