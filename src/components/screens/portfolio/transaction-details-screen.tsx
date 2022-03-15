@@ -6,7 +6,7 @@ import { useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/portfolio/transactions-details-screen";
 import GenericUtils from "../../../utils/generic";
-import { Security, TransactionType } from "../../../generated/client";
+import { Security } from "../../../generated/client";
 import BigNumber from "bignumber.js";
 import Calculations from "../../../utils/calculations";
 import BackButton from "../../generic/back-button";
@@ -21,7 +21,7 @@ import { ErrorContext } from "../../error-handler/error-handler";
  */
 type DetailRow = {
   label: string;
-  value?: string;
+  detailValue?: string;
 };
 
 /**
@@ -41,7 +41,7 @@ const TransactionDetailsScreen: React.FC = () => {
 
   const { fund, security, portfolioTransaction } = params;
   const { name } = security;
-  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue, targetSecurityId } = portfolioTransaction;
+  const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue, targetSecurityId, value } = portfolioTransaction;
 
   /**
    * Loads target security if needed
@@ -62,25 +62,13 @@ const TransactionDetailsScreen: React.FC = () => {
   React.useEffect(() => { loadTargetSecurity(); }, []);
 
   /**
-   * Returns target security row or undefined if target security is not present
-   *
-   * @param target target security
-   */
-  const getTargetSecurityRow = (target?: Security): DetailRow | undefined => (
-    target ? {
-      label: strings.portfolio.transactions.security,
-      value: GenericUtils.getLocalizedValue(target.name)
-    } : undefined
-  );
-
-  /**
    *
    * Render details row
    *
    * @param detailRow detail row
    */
   const renderDetailsRow = (detailRow?: DetailRow) => {
-    const { label, value } = detailRow || {};
+    const { label, detailValue } = detailRow || {};
 
     return (
       <View key={ label } style={ styles.detailsRow }>
@@ -88,7 +76,7 @@ const TransactionDetailsScreen: React.FC = () => {
           { label }
         </Text>
         <Text>
-          { value }
+          { detailValue }
         </Text>
       </View>
     );
@@ -113,42 +101,45 @@ const TransactionDetailsScreen: React.FC = () => {
         return new BigNumber(Number(totalValue) + Number(provision));
       }
 
+      if (transactionType === "SECURITY") {
+        return new BigNumber(Number(value) + Number(provision));
+      }
+
       return new BigNumber(totalValue);
     };
 
     const rows: (DetailRow | undefined)[] = [
       {
         label: localized.type,
-        value: transactionDisplayType
+        detailValue: transactionDisplayType
       },
-      // getTargetSecurityRow(targetSecurity),
       {
         label: localized.valueDate,
-        value: DateUtils.formatToFinnishDate(valueDate)
+        detailValue: DateUtils.formatToFinnishDate(valueDate)
       },
       {
         label: localized.paymentDate,
-        value: paymentDate ? DateUtils.formatToFinnishDate(paymentDate) : undefined
+        detailValue: paymentDate ? DateUtils.formatToFinnishDate(paymentDate) : "-"
       },
       {
         label: strings.fundDetailsScreen.amount,
-        value: Calculations.formatNumberStr(shareAmount, 4, { suffix: ` ${strings.portfolio.transactions.shareAmount}` })
+        detailValue: Calculations.formatNumberStr(shareAmount, 4, { suffix: ` ${strings.portfolio.transactions.shareAmount}` })
       },
       {
         label: localized.value,
-        value: Calculations.formatEuroNumberStr(marketValue, 4)
+        detailValue: Calculations.formatEuroNumberStr(marketValue, 4)
       },
       {
         label: localized.totalValue,
-        value: Calculations.formatEuroNumberStr(totalValueByTransactionType())
+        detailValue: Calculations.formatEuroNumberStr(totalValueByTransactionType())
       },
       {
         label: localized.provision,
-        value: Calculations.formatEuroNumberStr(provision)
+        detailValue: Calculations.formatEuroNumberStr(provision)
       },
       {
         label: localized.paidTotal,
-        value: Calculations.formatEuroNumberStr(paidTotal)
+        detailValue: Calculations.formatEuroNumberStr(paidTotal)
       }
     ];
 
@@ -166,6 +157,7 @@ const TransactionDetailsScreen: React.FC = () => {
         <View style={ styles.detailsWrapper }>
           <Text style={[ theme.fonts.medium, styles.transactionTitle ]}>
             { GenericUtils.getLocalizedValue(name) }
+            { targetSecurity !== undefined && ` - > ${GenericUtils.getLocalizedValue(targetSecurity?.name).slice(-3)}`}
           </Text>
           <Divider style={{ marginVertical: 5 }}/>
           { renderDetailRows() }
