@@ -103,7 +103,13 @@ const LoginRequiredScreen: React.FC = () => {
    * Initializes app data
    */
   const initialize = async () => {
-    setLoginOption(await Config.getLocalValue("@preferredLogin"));
+    const savedLoginOption = await Config.getLocalValue("@preferredLogin");
+
+    if (!savedLoginOption) {
+      await Config.setLocalValue("@preferredLogin", LoginOptions.USERNAME_AND_PASSWORD);
+    }
+
+    setLoginOption(savedLoginOption ?? LoginOptions.USERNAME_AND_PASSWORD);
     setAuthError(false);
     setKeycloakLoginOpen(false);
   };
