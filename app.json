@@ -41,6 +41,7 @@
       "favicon": "./assets/favicon.png"
     },
     "privacy": "unlisted",
-    "scheme": "fi.metatavu.seligson.taskusalkku"
+    "scheme": "fi.metatavu.seligson.taskusalkku",
+    "plugins": ["sentry-expo"]
   }
 }
