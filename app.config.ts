@@ -16,5 +16,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ...config.extra,
     ...process.env
   },
-  version: "1.0.5"
+  version: "1.0.7",
+  hooks: {
+    postPublish: [
+      {
+        file: "sentry-expo/upload-sourcemaps"
+      }
+    ]
+  }
 });
