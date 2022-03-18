@@ -1,4 +1,5 @@
 import { Fund } from "../generated/client";
+import { SecuritiesApiContextType } from "../types";
 import GenericUtils from "./generic";
 
 /**
@@ -48,6 +49,34 @@ namespace FundUtils {
     ...getSeligsonFunds(funds).sort(FundUtils.SortFundsByName),
     ...getLtFunds(funds).sort(FundUtils.SortFundsByName)
   ];
+
+  /**
+   * Resolves "main" security for the fund
+   * 
+   * @param fundId fund id
+   * @returns main security or null if not found
+   */
+  export const resolveMainSecurity = async (securitiesContext: SecuritiesApiContextType, fundId: string) => {
+    const securitiesSeries1 = await securitiesContext.listSecurities({
+      maxResults: 1,
+      seriesId: 1,
+      fundId: fundId
+    });
+
+    if (securitiesSeries1.length === 1) {
+      return securitiesSeries1[0];
+    }
+
+    const securities = await securitiesContext.listSecurities({
+      fundId: fundId
+    });
+
+    if (securities.length === 1) {
+      return securities[0];
+    }
+
+    return null;
+  };
 
 }
 

@@ -32,6 +32,16 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
   const selectedLanguage = useAppSelector(selectSelectedLanguage);
 
   /**
+   * Returns whether buy button should be disabled or not
+   * 
+   * @returns whether buy button should be disabled or not
+   */
+  const isBuyDisabled = () => {
+    const { subscriptionBankAccounts } = fund;
+    return !subscriptionBankAccounts?.length;
+  };
+
+  /**
    * Event handler for on brochure download press
    */
   const onBrochureDownload = async () => {
@@ -52,6 +62,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
       <View style={ styles.buttonRow }>
         { auth &&
           <Button
+            disabled={ isBuyDisabled() }
             uppercase={ false }
             style={ styles.button }
             onPress={ onSubscribePress }
@@ -60,6 +71,7 @@ const FundDetails: React.FC<Props> = ({ fund, onSubscribePress }) => {
           </Button>
         }
         <Button
+          disabled={ !fund.kIID }
           icon="download"
           uppercase={ false }
           style={ styles.button }

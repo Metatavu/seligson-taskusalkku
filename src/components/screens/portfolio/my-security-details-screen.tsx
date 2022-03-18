@@ -17,6 +17,7 @@ import BackButton from "../../generic/back-button";
 import PortfolioNavigator from "../../../types/navigators/portfolio";
 import { useHardwareGoBack } from "../../../app/hooks";
 import DateUtils from "../../../utils/date-utils";
+import FundUtils from "../../../utils/funds";
 
 /**
  * My security details screen component
@@ -52,29 +53,18 @@ const MySecurityDetailsScreen: React.FC = () => {
     setLoading(true);
 
     try {
-      const securities = await securitiesContext.listSecurities({
-        maxResults: 20000,
-        seriesId: 1,
-        fundId: fund.id
-      });
-
-      if (securities.length !== 1) {
-        throw new Error("Securities length wasn't 1");
-      }
-
-      const aSecurity = securities[0];
-
-      if (!aSecurity?.id) {
-        throw new Error("Could not find A security!");
+      const mainSecurity = await FundUtils.resolveMainSecurity(securitiesContext, fund.id);
+      if (!mainSecurity?.id) {
+        throw new Error("Could not find main security!");
       }
 
       const { startDate, endDate } = DateUtils.getDateFilters(selectedRange);
 
-      setCurrency(aSecurity.currency);
+      setCurrency(mainSecurity.currency);
 
       setHistoryValues(
         await securitiesContext.listSecurityHistoryValues({
-          securityId: aSecurity.id,
+          securityId: mainSecurity.id,
           maxResults: 10000,
           startDate: startDate,
           endDate: endDate
