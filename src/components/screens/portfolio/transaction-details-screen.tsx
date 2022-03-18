@@ -157,7 +157,7 @@ const TransactionDetailsScreen: React.FC = () => {
         <View style={ styles.detailsWrapper }>
           <Text style={[ theme.fonts.medium, styles.transactionTitle ]}>
             { GenericUtils.getLocalizedValue(name) }
-            { targetSecurity !== undefined && ` - > ${GenericUtils.getLocalizedValue(targetSecurity?.name).slice(-3)}`}
+            { targetSecurity !== undefined && transactionType === "SECURITY" && ` - > ${GenericUtils.getLocalizedValue(targetSecurity?.name).slice(-3)}`}
           </Text>
           <Divider style={{ marginVertical: 5 }}/>
           { renderDetailRows() }
