@@ -150,6 +150,11 @@
       "guideLink": "Rahastosijoittajan oppaasta (s. 25) ",
       "videoBlog": "sekä videoblogistamme ",
       "videoBlogLink": "ETF vai 'tavallinen'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -226,7 +231,7 @@
   "settingsScreen": {
     "initialRoute": "Valitse aloitussisältö",
     "preferredLogin": "Valitse kirjautumistapa",
-    "language": "Sovelluksen kieli",
+    "language": "Valitse sovelluksen kieli",
     "loginRequired": "Biometrinen tunnistus ja PIN-koodi eivät ole valittavissa ilman sisäänkirjautumista"
   },
 

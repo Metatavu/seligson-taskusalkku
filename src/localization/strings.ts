@@ -178,6 +178,11 @@ export interface Strings extends LocalizedStringsMethods {
       videoBlog: string;
       videoBlogLink: string;
     };
+    bankNames: {
+      OP: string;
+      NORDEA: string;
+      "S-PANKKI": string;
+    }
   };
 
   /**

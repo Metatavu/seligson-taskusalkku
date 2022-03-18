@@ -150,6 +150,11 @@
       "guideLink": "i Fondplacerarens guide (s. 25) ",
       "videoBlog": "samt vår videoblogg ",
       "videoBlogLink": "ETF eller 'vanlig'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -227,7 +232,7 @@
   "settingsScreen": {
     "initialRoute": "Välj startinnehåll",
     "preferredLogin": "Välj inloggningssätt",
-    "language": "Appens språk",
+    "language": "Välj appens språk",
     "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade."
   },
 

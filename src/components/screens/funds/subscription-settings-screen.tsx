@@ -166,11 +166,19 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
 
       setPortfolioOptions(fetchedPortfolioOptions);
 
-      const fundBankOptions: SubscriptionOption[] = fund.subscriptionBankAccounts?.map(subscriptionBankAccount => ({
-        key: subscriptionBankAccount.iBAN || "",
-        label: subscriptionBankAccount.bankAccountName?.split("/ ")[1] || "",
-        value: subscriptionBankAccount.iBAN || ""
-      })) || [];
+      const fundBankOptions = (fund.subscriptionBankAccounts || []).reduce<SubscriptionOption[]>((options, { iBAN, bankAccountName }) => {
+        const bankName = bankAccountName?.split("/ ")[1];
+
+        if (iBAN && bankName) {
+          options.push({
+            key: iBAN,
+            label: strings.subscription.bankNames[bankName as keyof typeof strings.subscription.bankNames] || "",
+            value: iBAN
+          });
+        }
+
+        return options;
+      }, []);
 
       setBankOptions(fundBankOptions);
       SelectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);

@@ -150,6 +150,11 @@
       "guideLink": "Fund investor guide (p. 25) ",
       "videoBlog": "Our video blog ",
       "videoBlogLink": "ETF or 'regular'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -226,7 +231,7 @@
   "settingsScreen": {
     "initialRoute": "Select default login route",
     "preferredLogin": "Select preferred login",
-    "language": "Application language",
+    "language": "Select application language",
     "loginRequired": "Biometric authentication and PIN-code are not available until you login."
   },
 
