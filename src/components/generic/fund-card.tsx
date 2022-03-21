@@ -104,6 +104,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
               { logoContainer() }
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
                 { GenericUtils.getLocalizedValue(shortName) }
+                { fund.shortName.fi.includes("Russia") && "(Suljettu, osuuden arvo perustuu rahaston viimeisempää 25.02.2022 laskettuun arvoon. Nykyinen arvo ei ole tiedossa"}
               </Text>
             </View>
             <Divider style={ styles.divider }/>
