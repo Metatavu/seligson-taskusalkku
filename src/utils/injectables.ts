@@ -1,5 +1,6 @@
 import { Theme } from "react-native-paper/lib/typescript/types";
-import { ChartData, PublicationDetails } from "../types";
+import strings from "../localization/strings";
+import { ChartData, Currency, PublicationDetails } from "../types";
 import DateUtils from "./date-utils";
 import GenericUtils from "./generic";
 
@@ -126,7 +127,7 @@ namespace Injectables {
               ticks: {
                 precision: 0,
                 callback: function(value, index, values) {
-                  return new Intl.NumberFormat("fi-FI", { style: "currency", currency: "${valueCurrency}" }).format(value).replace(",00", "")
+                  return parseFloat(value).toFixed() + " ${strings.currency.symbol[valueCurrency as Currency]}";
                 }
               },
             }

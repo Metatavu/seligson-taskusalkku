@@ -5,7 +5,7 @@ import FundDetails from "../../generic/fund-details";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
-import { ChartRange } from "../../../types";
+import { ChartRange, Currency } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
@@ -32,7 +32,7 @@ const MySecurityDetailsScreen: React.FC = () => {
 
   const [ loading, setLoading ] = React.useState(true);
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
-  const [ currency, setCurrency ] = React.useState<string>();
+  const [ currency, setCurrency ] = React.useState<Currency>();
   const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
@@ -54,13 +54,14 @@ const MySecurityDetailsScreen: React.FC = () => {
 
     try {
       const mainSecurity = await FundUtils.resolveMainSecurity(securitiesContext, fund.id);
+
       if (!mainSecurity?.id) {
         throw new Error("Could not find main security!");
       }
 
       const { startDate, endDate } = DateUtils.getDateFilters(selectedRange);
 
-      setCurrency(mainSecurity.currency);
+      setCurrency(mainSecurity.currency as Currency);
 
       setHistoryValues(
         await securitiesContext.listSecurityHistoryValues({
@@ -136,6 +137,7 @@ const MySecurityDetailsScreen: React.FC = () => {
         </View>
         <FundDetails
           fund={ fund }
+          currency={ currency }
           onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
         />
       </View>
