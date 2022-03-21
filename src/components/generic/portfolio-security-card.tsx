@@ -133,7 +133,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
               { strings.fundDetailsScreen.value }
             </Text>
             <Text>
-              { Calculations.formatCurrency(totalValue, security.currency as Currency) }
+              { Calculations.formatCurrency(totalValue, "EUR") }
             </Text>
           </View>
           <View>
