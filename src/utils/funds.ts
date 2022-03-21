@@ -13,6 +13,11 @@ namespace FundUtils {
   export const isSeligsonFund = ({ longName }: Fund): boolean => GenericUtils.getLocalizedValue(longName).includes("Seligson");
 
   /**
+   * Returns true if given fund is Lähi-Tapiola fund
+   */
+  export const isLtFund = ({ longName }: Fund): boolean => longName.fi.includes("LähiTapiola");
+
+  /**
    * Sorts given funds by name
    *
    * @param a fund A
