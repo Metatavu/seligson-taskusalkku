@@ -16,6 +16,13 @@
     "ok": "Ok",
     "pressAgainToExit": "Press again to exit"
   },
+  
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
+  },
 
   "errorHandling": {
     "title": "Error",

@@ -16,6 +16,13 @@
     "ok": "Ok",
     "pressAgainToExit": "Tryck igen för att avsluta"
   },
+  
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
+  },
 
   "errorHandling": {
     "title": "Fel",
@@ -187,8 +194,7 @@
       "value": "Kurs",
       "totalValue": "Värde totalt",
       "provision": "Provision",
-      "paidTotal": "Betalning totalt",
-      "targetSecurity": ""
+      "paidTotal": "Betalning totalt"
     },
     "distribution": {
       "shareInterest": "Aktier, ränta"

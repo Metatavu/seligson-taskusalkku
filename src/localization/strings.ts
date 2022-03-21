@@ -29,6 +29,16 @@ export interface Strings extends LocalizedStringsMethods {
   };
 
   /**
+   * Translations for currencies
+   */
+  currency: {
+    symbol: {
+      EUR: string;
+      SEK: string;
+    }
+  };
+
+  /**
    * Translations related to error handling
    */
   errorHandling: {
@@ -218,7 +228,6 @@ export interface Strings extends LocalizedStringsMethods {
       totalValue: string;
       provision: string;
       paidTotal: string;
-      targetSecurity: string;
     };
     distribution: {
       shareInterest: string;

@@ -16,6 +16,13 @@
     "ok": "Ok",
     "pressAgainToExit": "Sulje painamalla uudelleen"
   },
+  
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
+  },
 
   "errorHandling": {
     "title": "Virhe",
