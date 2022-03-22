@@ -34,7 +34,7 @@ const App: React.FC = () => (
       <ErrorHandler>
         <ApiProvider providers={ providers }>
           <AuthRefresh/>
-          <StatusBar/>
+          <StatusBar style="auto"/>
           <Root/>
         </ApiProvider>
       </ErrorHandler>
