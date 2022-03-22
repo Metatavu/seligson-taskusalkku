@@ -220,3 +220,5 @@ export interface DatePickerEvent {
   };
   type: string;
 }
+
+export type Currency = "EUR" | "SEK";

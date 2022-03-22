@@ -29,7 +29,8 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   const { color, shortName, risk, changeData, priceDate } = fund;
   const { change1d, change1m, change1y, change5y, change20y } = changeData || {};
   const styles = fundCardStyles(useTheme(), color || "#FFF");
-  const SeligsonFund = FundUtils.isSeligsonFund(fund);
+  const seligsonFund = FundUtils.isSeligsonFund(fund);
+  const ltFund = FundUtils.isLtFund(fund);
 
   /**
    * Component for price history
@@ -76,6 +77,22 @@ const FundCard: React.FC<Props> = ({ fund }) => {
   };
 
   /**
+   * Renders logo container if fund is either Seligson fund or LähiTapiola fund
+   */
+  const logoContainer = () => {
+    if (!seligsonFund && !ltFund) {
+      return null;
+    }
+
+    return (
+      <View style={ styles.fundLogoContainer }>
+        { seligsonFund && <SeligsonLogoSmall/> }
+        { ltFund && <LahitapiolaLogoSmall/> }
+      </View>
+    );
+  };
+  
+  /**
    * Component render
    */
   return (
@@ -85,11 +102,10 @@ const FundCard: React.FC<Props> = ({ fund }) => {
         <View style={ styles.cardRow }>
           <View style={ styles.cardColumn }>
             <View style={ styles.fundName }>
-              <View style={ styles.fundLogoContainer }>
-                { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
-              </View>
+              { logoContainer() }
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
                 { GenericUtils.getLocalizedValue(shortName) }
+                { fund.shortName.fi.includes("Russia") && strings.fundCard.closed }
               </Text>
             </View>
             <Divider style={ styles.divider }/>

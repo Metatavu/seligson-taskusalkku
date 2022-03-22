@@ -29,6 +29,16 @@ export interface Strings extends LocalizedStringsMethods {
   };
 
   /**
+   * Translations for currencies
+   */
+  currency: {
+    symbol: {
+      EUR: string;
+      SEK: string;
+    }
+  };
+
+  /**
    * Translations related to error handling
    */
   errorHandling: {
@@ -126,6 +136,7 @@ export interface Strings extends LocalizedStringsMethods {
     historyTenYears: string;
     historyTwentyYears: string;
     historyMax: string;
+    closed: string;
   };
 
   /**
@@ -178,6 +189,11 @@ export interface Strings extends LocalizedStringsMethods {
       videoBlog: string;
       videoBlogLink: string;
     };
+    bankNames: {
+      OP: string;
+      NORDEA: string;
+      "S-PANKKI": string;
+    }
   };
 
   /**
@@ -213,7 +229,6 @@ export interface Strings extends LocalizedStringsMethods {
       totalValue: string;
       provision: string;
       paidTotal: string;
-      targetSecurity: string;
     };
     distribution: {
       shareInterest: string;

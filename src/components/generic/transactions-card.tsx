@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import Calculations from "../../utils/calculations";
 import DateUtils from "../../utils/date-utils";
 import PortfolioNavigator from "../../types/navigators/portfolio";
+import { Currency } from "../../types";
 
 /**
  * Transaction value
@@ -77,7 +78,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
     const transactionValues: TransactionValue[] = [
       {
         label: strings.portfolio.transactions.value,
-        value: Calculations.formatEuroNumberStr(marketValue, 4)
+        value: Calculations.formatCurrency(marketValue, transactionSecurity.currency as Currency, 4)
       },
       {
         label: strings.fundDetailsScreen.amount,
@@ -85,7 +86,7 @@ const TransactionsCard: React.FC<Props> = ({ title, funds, securities, transacti
       },
       {
         label: strings.portfolio.statistics.total,
-        value: Calculations.formatEuroNumberStr(totalValue)
+        value: Calculations.formatCurrency(totalValue, transactionSecurity.currency as Currency)
       }
     ];
 

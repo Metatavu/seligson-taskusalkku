@@ -16,6 +16,13 @@
     "ok": "Ok",
     "pressAgainToExit": "Tryck igen för att avsluta"
   },
+  
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
+  },
 
   "errorHandling": {
     "title": "Fel",
@@ -102,7 +109,8 @@
     "historyFiveYears": "5 år",
     "historyTenYears": "10 år",
     "historyTwentyYears": "20 år",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Stängt, värdet på andelen baseras på fondens senaste värde från 25. 02. 2022. Nuvarande värde är okänt.)"
   },
 
   "fundDetailsScreen": {
@@ -150,6 +158,11 @@
       "guideLink": "i Fondplacerarens guide (s. 25) ",
       "videoBlog": "samt vår videoblogg ",
       "videoBlogLink": "ETF eller 'vanlig'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -182,8 +195,7 @@
       "value": "Kurs",
       "totalValue": "Värde totalt",
       "provision": "Provision",
-      "paidTotal": "Betalning totalt",
-      "targetSecurity": ""
+      "paidTotal": "Betalning totalt"
     },
     "distribution": {
       "shareInterest": "Aktier, ränta"
@@ -227,7 +239,7 @@
   "settingsScreen": {
     "initialRoute": "Välj startinnehåll",
     "preferredLogin": "Välj inloggningssätt",
-    "language": "Appens språk",
+    "language": "Välj appens språk",
     "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade."
   },
 

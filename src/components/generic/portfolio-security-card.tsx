@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import fundCardStyles from "../../styles/generic/fund-card";
-import { Fund, PortfolioSecurity } from "../../generated/client";
+import { Fund, PortfolioSecurity, Security } from "../../generated/client";
 import strings from "../../localization/strings";
 import GenericUtils from "../../utils/generic";
 import BigNumber from "bignumber.js";
@@ -15,12 +15,14 @@ import { SeligsonLogoSmall } from "../../../assets/seligson-logo";
 import LahitapiolaLogoSmall from "../../../assets/lahitapiola-logo";
 import FundUtils from "../../utils/funds";
 import PortfolioNavigator from "../../types/navigators/portfolio";
+import { Currency } from "../../types";
 
 /**
  * Component properties
  */
 interface Props {
   portfolioSecurity: PortfolioSecurity;
+  security: Security;
   fund: Fund;
 }
 
@@ -29,10 +31,11 @@ interface Props {
  *
  * @param props component properties
  */
-const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => {
+const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, fund }) => {
   const { amount, purchaseValue, totalValue } = portfolioSecurity;
   const { color, risk, priceDate, shortName } = fund;
-  const SeligsonFund = FundUtils.isSeligsonFund(fund);
+  const seligsonFund = FundUtils.isSeligsonFund(fund);
+  const ltFund = FundUtils.isLtFund(fund);
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
   const navigation = useNavigation<PortfolioNavigator.NavigationProps>();
@@ -65,14 +68,28 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
   };
 
   /**
+   * Renders logo container if fund is either Seligson fund or LähiTapiola fund
+   */
+  const logoContainer = () => {
+    if (!seligsonFund && !ltFund) {
+      return null;
+    }
+
+    return (
+      <View style={ styles.fundLogoContainer }>
+        { seligsonFund && <SeligsonLogoSmall/> }
+        { ltFund && <LahitapiolaLogoSmall/> }
+      </View>
+    );
+  };
+
+  /**
    * Renders title section
    */
   const renderTitle = () => (
     <View style={ styles.cardColumn }>
       <View style={ styles.fundName }>
-        <View style={ styles.fundLogoContainer }>
-          { SeligsonFund ? <SeligsonLogoSmall/> : <LahitapiolaLogoSmall/> }
-        </View>
+        { logoContainer() }
         <Text style={ theme.fonts.medium }>
           { GenericUtils.getLocalizedValue(shortName) }
         </Text>
@@ -99,37 +116,37 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, fund }) => 
       .toNumber();
 
     return (
-      <>
-        <View>
-          <Text style={{ fontWeight: theme.fonts.medium.fontWeight }}>
-            { strings.fundDetailsScreen.myShare }
-          </Text>
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontWeight: theme.fonts.medium.fontWeight }}>
+          { strings.fundDetailsScreen.myShare }
+        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View>
+            <Text style={{ color: theme.colors.primary }}>
+              { strings.fundDetailsScreen.amount }
+            </Text>
+            <Text>
+              { Calculations.formatNumberStr(amount, 4) }
+            </Text>
+          </View>
+          <View>
+            <Text style={{ color: theme.colors.primary }}>
+              { strings.fundDetailsScreen.value }
+            </Text>
+            <Text>
+              { Calculations.formatCurrency(totalValue, "EUR") }
+            </Text>
+          </View>
+          <View>
+            <Text style={{ color: theme.colors.primary }}>
+              { strings.fundDetailsScreen.change }
+            </Text>
+            <Text style={ styles[changePercentage < 0 ? "negativeValue" : "positiveValue"] }>
+              { Calculations.formatPercentageNumberStr(new BigNumber(changePercentage)) }
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={{ color: theme.colors.primary }}>
-            { strings.fundDetailsScreen.amount }
-          </Text>
-          <Text>
-            { Calculations.formatNumberStr(amount, 4) }
-          </Text>
-        </View>
-        <View>
-          <Text style={{ color: theme.colors.primary }}>
-            { strings.fundDetailsScreen.value }
-          </Text>
-          <Text>
-            { Calculations.formatEuroNumberStr(totalValue) }
-          </Text>
-        </View>
-        <View>
-          <Text style={{ color: theme.colors.primary }}>
-            { strings.fundDetailsScreen.change }
-          </Text>
-          <Text style={ styles[changePercentage < 0 ? "negativeValue" : "positiveValue"] }>
-            { Calculations.formatPercentageNumberStr(new BigNumber(changePercentage)) }
-          </Text>
-        </View>
-      </>
+      </View>
     );
   };
 

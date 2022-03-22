@@ -57,9 +57,11 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
+      const result = AuthUtils.isDemoUser(auth) ?
         TestData.listTestPortfolios(8) :
         await Api.getPortfoliosApi(auth).listPortfolios();
+
+      return result;
     } catch (error) {
       return Promise.reject(error);
     }
@@ -77,9 +79,11 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
+      const result = AuthUtils.isDemoUser(auth) ?
         TestData.getTestPortfolioSummary() :
         await Api.getPortfoliosApi(auth).getPortfolioSummary(params);
+
+      return result;
     } catch (error) {
       return Promise.reject(error);
     }
@@ -115,9 +119,11 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
+      const result = AuthUtils.isDemoUser(auth) ?
         TestData.listTestPortfolioSecurities(20) :
         await Api.getPortfoliosApi(auth).listPortfolioSecurities(params);
+
+      return result;
     } catch (error) {
       return Promise.reject(error);
     }
@@ -135,9 +141,11 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth) ?
+      const result = AuthUtils.isDemoUser(auth) ?
         TestData.listTestPortfolioTransactions(20) :
         await Api.getPortfoliosApi(auth).listPortfolioTransactions(params);
+
+      return result;
     } catch (error) {
       return Promise.reject(error);
     }

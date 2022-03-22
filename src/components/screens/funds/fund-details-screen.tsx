@@ -6,7 +6,7 @@ import { CompositeNavigationProp, useNavigation, useRoute } from "@react-navigat
 import FundsNavigator from "../../../types/navigators/funds";
 import strings from "../../../localization/strings";
 import styles from "../../../styles/screens/funds/funds-details-screen";
-import { ChartRange } from "../../../types";
+import { ChartRange, Currency } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
 import theme from "../../../theme";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
@@ -18,6 +18,7 @@ import HomeNavigator from "../../../types/navigators/home";
 import BackButton from "../../generic/back-button";
 import DateUtils from "../../../utils/date-utils";
 import { useHardwareGoBack } from "../../../app/hooks";
+import FundUtils from "../../../utils/funds";
 
 type FundDetailScreenNavigationProp = CompositeNavigationProp<FundsNavigator.NavigationProps, HomeNavigator.NavigationProps>;
 
@@ -34,7 +35,7 @@ const FundDetailsScreen: React.FC = () => {
 
   const [ loading, setLoading ] = React.useState(true);
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
-  const [ currency, setCurrency ] = React.useState<string>();
+  const [ currency, setCurrency ] = React.useState<Currency>();
   const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
@@ -55,29 +56,19 @@ const FundDetailsScreen: React.FC = () => {
     setLoading(true);
 
     try {
-      const securities = await securitiesContext.listSecurities({
-        maxResults: 20000,
-        seriesId: 1,
-        fundId: fund.id
-      });
+      const mainSecurity = await FundUtils.resolveMainSecurity(securitiesContext, fund.id);
 
-      if (securities.length !== 1) {
-        throw new Error("Securities length wasn't 1");
-      }
-
-      const aSecurity = securities[0];
-
-      if (!aSecurity?.id) {
-        throw new Error("Could not find A security!");
+      if (!mainSecurity?.id) {
+        throw new Error("Could not find main security!");
       }
 
       const { startDate, endDate } = DateUtils.getDateFilters(selectedRange);
 
-      setCurrency(aSecurity.currency);
+      setCurrency(mainSecurity.currency as Currency);
 
       setHistoryValues(
         await securitiesContext.listSecurityHistoryValues({
-          securityId: aSecurity.id,
+          securityId: mainSecurity.id,
           maxResults: 10000,
           startDate: startDate,
           endDate: endDate
@@ -149,6 +140,7 @@ const FundDetailsScreen: React.FC = () => {
         </View>
         <FundDetails
           fund={ fund }
+          currency={ currency }
           onSubscribePress={ () => navigation.navigate("fundSubscriptionSettings", { fund: fund }) }
         />
       </View>
