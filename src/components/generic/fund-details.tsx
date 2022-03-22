@@ -48,10 +48,7 @@ const FundDetails: React.FC<Props> = ({ fund, currency, onSubscribePress }) => {
    * 
    * @returns whether buy button should be disabled or not
    */
-  const isBuyDisabled = () => {
-    const { subscriptionBankAccounts } = fund;
-    return !subscriptionBankAccounts?.length;
-  };
+  const isBuyDisabled = () => !fund.subscriptionBankAccounts?.length;
 
   /**
    * Event handler for on brochure download press
