@@ -99,9 +99,9 @@ const NewMeetingScreen: React.FC = () => {
    */
   const renderMeetingTime = () => {
     const { startTime, endTime } = meetingTime;
-    const startDisplayDate = moment.utc(startTime).format("DD.MM.YYYY");
-    const startDisplayTime = moment.utc(startTime).format("HH:mm");
-    const endDisplayTime = moment.utc(endTime).format("HH:mm");
+    const startDisplayDate = moment(startTime).format("DD.MM.YYYY");
+    const startDisplayTime = moment(startTime).format("HH:mm");
+    const endDisplayTime = moment(endTime).format("HH:mm");
 
     return (
       <View style={ styles.meetingTime }>

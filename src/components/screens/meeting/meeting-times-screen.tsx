@@ -80,7 +80,7 @@ const MeetingTimesScreen: React.FC = () => {
       style={ styles.meetingTime }
       onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }
     >
-      <Text>{ moment.utc(meetingTime.startTime).format("HH:mm") }</Text>
+      <Text>{ moment(meetingTime.startTime).format("HH:mm") }</Text>
     </Button>
   );
 
