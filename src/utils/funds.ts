@@ -57,7 +57,8 @@ namespace FundUtils {
 
   /**
    * Resolves "main" security for the fund
-   * 
+   *
+   * @param securitiesContext securities context
    * @param fundId fund id
    * @returns main security or null if not found
    */
