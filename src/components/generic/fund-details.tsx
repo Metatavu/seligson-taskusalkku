@@ -96,7 +96,6 @@ const FundDetails: React.FC<Props> = ({ fund, currency, onSubscribePress }) => {
    * Renders share values
    *
    * @param currency currency value
-   * @returns 
    */
   const renderShareValues = (currencyValue?: string) => {
     if (!currencyValue) {
