@@ -109,7 +109,9 @@
     "historyFiveYears": "5y",
     "historyTenYears": "10y",
     "historyTwentyYears": "20y",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Closed, share value is based on the last value from 25.02.2022. Current value is unknown.)"
+
   },
 
   "fundDetailsScreen": {

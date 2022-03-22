@@ -80,15 +80,16 @@ const FundCard: React.FC<Props> = ({ fund }) => {
    * Renders logo container if fund is either Seligson fund or LähiTapiola fund
    */
   const logoContainer = () => {
-    if (seligsonFund || ltFund) {
-      return (
-        <View style={ styles.fundLogoContainer }>
-          { seligsonFund && <SeligsonLogoSmall/> }
-          { ltFund && <LahitapiolaLogoSmall/> }
-        </View>
-      );
+    if (!seligsonFund && !ltFund) {
+      return null;
     }
-    return null;
+
+    return (
+      <View style={ styles.fundLogoContainer }>
+        { seligsonFund && <SeligsonLogoSmall/> }
+        { ltFund && <LahitapiolaLogoSmall/> }
+      </View>
+    );
   };
   
   /**
@@ -104,7 +105,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
               { logoContainer() }
               <Text style={[ theme.fonts.medium, { flex: 1 } ]}>
                 { GenericUtils.getLocalizedValue(shortName) }
-                { fund.shortName.fi.includes("Russia") && "(Suljettu, osuuden arvo perustuu rahaston viimeisempää 25.02.2022 laskettuun arvoon. Nykyinen arvo ei ole tiedossa"}
+                { fund.shortName.fi.includes("Russia") && strings.fundCard.closed }
               </Text>
             </View>
             <Divider style={ styles.divider }/>

@@ -109,7 +109,8 @@
     "historyFiveYears": "5 år",
     "historyTenYears": "10 år",
     "historyTwentyYears": "20 år",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Stängt, värdet på andelen baseras på fondens senaste värde från 25. 02. 2022. Nuvarande värde är okänt.)"
   },
 
   "fundDetailsScreen": {

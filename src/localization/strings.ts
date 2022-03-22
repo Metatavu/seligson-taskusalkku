@@ -136,6 +136,7 @@ export interface Strings extends LocalizedStringsMethods {
     historyTenYears: string;
     historyTwentyYears: string;
     historyMax: string;
+    closed: string;
   };
 
   /**

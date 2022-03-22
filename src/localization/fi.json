@@ -109,7 +109,8 @@
     "historyFiveYears": "5v",
     "historyTenYears": "10v",
     "historyTwentyYears": "20v",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Suljettu, osuuden arvo perustuu rahaston viimeisempään 25.02.2022 laskettuun arvoon. Nykyinen arvo ei ole tiedossa.)"
   },
 
   "fundDetailsScreen": {

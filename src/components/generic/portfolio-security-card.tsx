@@ -71,15 +71,16 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
    * Renders logo container if fund is either Seligson fund or LähiTapiola fund
    */
   const logoContainer = () => {
-    if (seligsonFund || ltFund) {
-      return (
-        <View style={ styles.fundLogoContainer }>
-          { seligsonFund && <SeligsonLogoSmall/> }
-          { ltFund && <LahitapiolaLogoSmall/> }
-        </View>
-      );
+    if (!seligsonFund && !ltFund) {
+      return null;
     }
-    return null;
+
+    return (
+      <View style={ styles.fundLogoContainer }>
+        { seligsonFund && <SeligsonLogoSmall/> }
+        { ltFund && <LahitapiolaLogoSmall/> }
+      </View>
+    );
   };
 
   /**
