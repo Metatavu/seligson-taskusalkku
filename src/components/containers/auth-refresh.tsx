@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from "react";
 import { anonymousAuthUpdate, authUpdate, selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice";
 import { AppState, AppStateStatus, Alert, View } from "react-native";
@@ -55,8 +56,16 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
         const refreshedToken = await AuthUtils.tryToRefresh(anonymousAuth.refreshToken, anonymousAuth);
         dispatch(anonymousAuthUpdate(refreshedToken));
       }
+
+      return;
     } catch {
-      // eslint-disable-next-line no-console
+      console.warn("Failed to refresh anonymous access token, trying to log in again");
+    }
+
+    try {
+      const refreshedToken = await AuthUtils.anonymousLogin();
+      dispatch(anonymousAuthUpdate(refreshedToken));
+    } catch {
       console.error("Failed to refresh anonymous access token");
     }
   };
@@ -70,7 +79,22 @@ const AuthRefresh: React.FC<Props> = ({ onLoginFail }) => {
         const refreshedToken = await AuthUtils.tryToRefresh(auth.refreshToken, auth);
         dispatch(authUpdate(refreshedToken));
       }
+
+      return;
     } catch (error) {
+      console.warn("Failed to refresh access token, trying to login again with offline token.");
+    }
+
+    try {
+      const offlineToken = await AuthUtils.retrieveOfflineToken();
+
+      if (!offlineToken) {
+        throw new Error("Offline token not found");
+      }
+
+      const refreshedToken = await AuthUtils.tryToRefresh(offlineToken);
+      dispatch(authUpdate(refreshedToken));
+    } catch {
       displayAuthExpiredAlert();
     }
   };
