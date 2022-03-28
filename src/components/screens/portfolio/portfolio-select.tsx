@@ -50,6 +50,23 @@ const PortfolioSelect: React.FC = () => {
     return null;
   }
 
+  if (portfolios.length === 1) {
+    return (
+      <View style={ styles.portfolioSelect }>
+        <Text
+          style={{
+            color: "white",
+            paddingLeft: 10,
+            paddingTop: 10,
+            fontSize: 14
+          }}
+        >
+          { portfolios[0].name }
+        </Text>
+      </View>
+    );
+  }
+
   /**
    * Component render
    */

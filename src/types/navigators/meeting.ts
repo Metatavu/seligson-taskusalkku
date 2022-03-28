@@ -1,6 +1,6 @@
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MeetingTime } from "../../generated/client";
+import { Meeting, MeetingTime } from "../../generated/client";
 
 /**
  * Fund selection navigator
@@ -11,7 +11,7 @@ namespace MeetingNavigator {
    * Routes
    */
   export type Routes = {
-    meetingTimes: undefined;
+    meetingTimes: { createdMeeting: Meeting } | undefined;
     newMeeting: { meetingTime: MeetingTime };
   };
 

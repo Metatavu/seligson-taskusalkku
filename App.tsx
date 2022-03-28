@@ -34,6 +34,7 @@ const App: React.FC = () => (
       <ErrorHandler>
         <ApiProvider providers={ providers }>
           <AuthRefresh/>
+          {/* eslint-disable-next-line react/style-prop-object */}
           <StatusBar style="auto"/>
           <Root/>
         </ApiProvider>

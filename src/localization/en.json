@@ -14,9 +14,10 @@
     "copied": "Copied to clipboard",
     "saveAndProceed": "Save and proceed",
     "ok": "Ok",
+    "okay": "Okay!",
     "pressAgainToExit": "Press again to exit"
   },
-  
+
   "currency": {
     "symbol": {
       "EUR": "€",
@@ -213,6 +214,13 @@
         "noAppointment": "There is no available meeting for this day",
         "startDate": "Start date",
         "endDate": "End date"
+      },
+      "meetingCreatedDialog": {
+        "title": "Your reservation has been saved",
+        "date": "Date",
+        "info1": "The recipient of the reservation will confirm the booking on their own behalf and will ask for further information if necessary.",
+        "info2": "Personal confirmation will normally be received no later than the working day following the booking.",
+        "info3": "If you do not receive confirmation or have questions, you can also contact us directly by email: info@seligson.fi."
       }
     },
     "newMeeting": {
@@ -231,7 +239,8 @@
         "firstName": "First name",
         "lastName": "Last name",
         "email": "Email",
-        "phone": "Phone"
+        "phone": "Phone",
+        "emailIsInvalid": "Check that email is correct"
       },
       "additionalInformation": "Additional information"
     }

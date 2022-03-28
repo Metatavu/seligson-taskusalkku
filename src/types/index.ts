@@ -222,3 +222,13 @@ export interface DatePickerEvent {
 }
 
 export type Currency = "EUR" | "SEK";
+
+/**
+ * My security info
+ */
+export interface MySecurityInfo {
+  portfolioId: string;
+  portfolioSecurity: PortfolioSecurity;
+  security: Security;
+  fund: Fund;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { ActivityIndicator, ScrollView, View } from "react-native";
-import { Fund, PortfolioSecurity, Security } from "../../../generated/client";
+import { PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -12,16 +12,8 @@ import theme from "../../../theme";
 import PortfolioSecurityCard from "../../generic/portfolio-security-card";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 import { useHardwareGoBack } from "../../../app/hooks";
-
-/**
- * My security info
- */
-interface MySecurityInfo {
-  portfolioId: string;
-  portfolioSecurity: PortfolioSecurity;
-  security: Security;
-  fund: Fund;
-}
+import { MySecurityInfo } from "../../../types";
+import MySecurityUtils from "../../../utils/my-securities";
 
 /**
  * My securities screen component
@@ -117,7 +109,7 @@ const MySecuritiesScreen: React.FC = () => {
 
     return (
       <View>
-        { mySecurities.map(renderPortfolioSecurityCard) }
+        { MySecurityUtils.sortMySecurities(mySecurities).map(renderPortfolioSecurityCard) }
       </View>
     );
   };

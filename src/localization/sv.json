@@ -14,9 +14,10 @@
     "copied": "Kopierade till urklipp.",
     "saveAndProceed": "Spara och fortsätt.",
     "ok": "Ok",
+    "okay": "Klar!",
     "pressAgainToExit": "Tryck igen för att avsluta"
   },
-  
+
   "currency": {
     "symbol": {
       "EUR": "€",
@@ -212,6 +213,13 @@
         "noAppointment": "Inga lediga tider för den här dagen.",
         "startDate": "start datum",
         "endDate": "Slut datum"
+      },
+      "meetingCreatedDialog": {
+        "title": "Din bokning har registrerats",
+        "date": "Datum och tid",
+        "info1": "Personen som tar emot dig bekräftar ännu själv bokningen och frågar vid behov om mera information.",
+        "info2": "Normalt får du den personliga bekräftelsen inom en vardag efter att du bokat.",
+        "info3": "Om du inte får en bekräftelse, eller om du har andra frågor, kontakta oss direkt per e-post info@seligson.fi."
       }
     },
     "newMeeting": {
@@ -230,7 +238,8 @@
         "firstName": "Förnamn",
         "lastName": "Efternamn",
         "email": "E-post",
-        "phone": "Telefonnummer"
+        "phone": "Telefonnummer",
+        "emailIsInvalid": "Kontrollera stavningen av mejlet"
       },
       "additionalInformation": "Ytterligare information"
     }

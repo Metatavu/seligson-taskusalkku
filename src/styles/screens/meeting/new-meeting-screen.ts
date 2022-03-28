@@ -34,7 +34,18 @@ export default StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 8,
     padding: theme.spacing(2),
+    paddingRight: theme.spacing(6),
     marginTop: theme.spacing(1)
+  },
+
+  emailValidIcon: {
+    position: "absolute",
+    right: 0,
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: theme.spacing(1),
+    paddingHorizontal: theme.spacing(2)
   },
 
   multilineInput: {

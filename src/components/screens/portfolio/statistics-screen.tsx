@@ -208,11 +208,6 @@ const StatisticsScreen: React.FC = () => {
     const dates = ChartUtils.getDisplayDates(selectedRange);
 
     const {
-      totalChangeAmount,
-      totalChangePercentage
-    } = Calculations.getTotalPortfolioHistoryInfo(selectedRange, historyValues);
-
-    const {
       subscriptionsTotal,
       redemptionsTotal,
       difference
@@ -225,7 +220,6 @@ const StatisticsScreen: React.FC = () => {
     return (
       <View>
         { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${startDate} - ${dates.endDate}`) }
-        { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
         { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
         { renderDetailRow(strings.portfolio.statistics.redemptions, `-${redemptionsTotal}`) }
         { renderDetailRow(strings.portfolio.statistics.total, difference) }

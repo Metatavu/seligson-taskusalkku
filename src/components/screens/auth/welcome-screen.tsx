@@ -46,7 +46,7 @@ const WelcomeScreen: React.FC = () => {
   const initialize = async () => {
     await anonymousLogin();
     const initialRoute = await Config.getLocalValue("@initialRoute");
-    navigation.replace("home", { screen: (initialRoute || "funds") as keyof HomeNavigator.Routes });
+    navigation.replace("home", { screen: (initialRoute || "portfolio") as keyof HomeNavigator.Routes });
   };
 
   /**

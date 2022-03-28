@@ -48,10 +48,9 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
   const [ bankOptionVisible, setBankOptionVisible ] = React.useState(false);
   const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
-  const [ referenceOptionVisible, setReferenceOptionVisible ] = React.useState(false);
   const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
-  const [ referenceOptions, setReferenceOptions ] = React.useState<SubscriptionOption[]>([]);
+  const [ reference, setReference ] = React.useState<SubscriptionOption>();
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
   const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
     fund: fund,
@@ -76,27 +75,13 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   };
 
   /**
-   * Reference options select handler
-   *
-   * @param referenceOption reference option
-   */
-  const onReferenceOptionSelect = (referenceOption: SubscriptionOption) => {
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.referenceNumber = referenceOption.value;
-      draft.shareType = referenceOption.key as PORTFOLIO_REFERENCE_TYPE;
-    });
-
-    setSubscriptionSettings(updatedSubscriptionSettings);
-    setReferenceOptionVisible(false);
-  };
-
-  /**
    * Portfolio select handler
    *
    * @param portfolioOption portfolio option
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
     const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
+
     if (!foundPortfolio) {
       return;
     }
@@ -110,28 +95,17 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   };
 
   /**
-   * Update reference options handler
+   * Update reference handler
    *
    * @param portfolio portfolio
    */
-  const updateReferenceOptions = (portfolio: Portfolio) => {
-    const options: SubscriptionOption[] = [
-      {
-        label: strings.subscription.shares.a.title,
-        description: strings.subscription.shares.a.description,
-        key: PORTFOLIO_REFERENCE_TYPE.A,
-        value: portfolio.aReference || ""
-      },
-      {
-        label: strings.subscription.shares.b.title,
-        description: strings.subscription.shares.b.description,
-        key: PORTFOLIO_REFERENCE_TYPE.B,
-        value: portfolio.bReference || ""
-      }
-    ];
-
-    setReferenceOptions(options);
-    onReferenceOptionSelect(options[0]);
+  const updateReference = (portfolio: Portfolio) => {
+    setReference({
+      label: strings.subscription.shares.a.title,
+      description: strings.subscription.shares.a.description,
+      key: PORTFOLIO_REFERENCE_TYPE.A,
+      value: portfolio.aReference || ""
+    });
   };
 
   /**
@@ -196,7 +170,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * Effect for updating reference options
    */
   React.useEffect(() => {
-    subscriptionSettings.portfolio && updateReferenceOptions(subscriptionSettings.portfolio);
+    subscriptionSettings.portfolio && updateReference(subscriptionSettings.portfolio);
   }, [ subscriptionSettings.portfolio ]);
 
   /**
@@ -501,14 +475,17 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
         )
       }
       <Divider style={{ marginBottom: theme.spacing(2) }}/>
+      <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
+        { strings.subscription.referenceNumber }
+      </Text>
       {
-        renderSelectWithLabel(
-          strings.subscription.referenceNumber,
-          referenceOptionVisible,
-          setReferenceOptionVisible,
-          referenceOptions,
-          onReferenceOptionSelect,
-          referenceOptions.find(option => option.key === subscriptionSettings.shareType)
+        renderDataRow(
+          () => (
+            <Text style={ theme.fonts.medium }>
+              { strings.subscription.shares.a.title }
+            </Text>
+          ),
+          () => renderCopyText(reference?.value || "")
         )
       }
       <Divider/>

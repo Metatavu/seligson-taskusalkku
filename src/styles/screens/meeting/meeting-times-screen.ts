@@ -9,6 +9,12 @@ export default StyleSheet.create({
     padding: theme.spacing(2)
   },
 
+  meetingTimeRow: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: "100%"
+  },
+
   meetingCard: {
     padding: theme.spacing(2),
     width: "100%",
@@ -28,11 +34,25 @@ export default StyleSheet.create({
   },
 
   meetingTime: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
+    width: "50%"
   },
 
   noAvailableTime: {
     marginTop: theme.spacing(2)
+  },
+
+  dialogTitle: {
+    color: theme.colors.primary
+  },
+
+  dialogMeetingTimeLabel: {
+    fontSize: 14,
+    color: theme.colors.primary
+  },
+
+  dialogParagraph: {
+    marginBottom: theme.spacing(1)
   }
 
 });
