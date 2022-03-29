@@ -241,7 +241,7 @@
         "lastName": "Last name",
         "email": "Email",
         "phone": "Phone",
-        "emailIsInvalid": "Check that email is correct"
+        "emailIsInvalid": "Check email format"
       },
       "additionalInformation": "Additional information"
     }
