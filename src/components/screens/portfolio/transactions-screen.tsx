@@ -2,7 +2,7 @@ import React from "react";
 import { View, ActivityIndicator, Text } from "react-native";
 import TransactionsCard from "../../generic/transactions-card";
 import { ScrollView } from "react-native-gesture-handler";
-import { Fund, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
+import { Fund, Portfolio, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
 import { ErrorContext } from "../../error-handler/error-handler";
 import strings from "../../../localization/strings";
 import { PortfolioContext } from "../../providers/portfolio-provider";
@@ -72,24 +72,20 @@ const TransactionsScreen: React.FC = () => {
 
   /**
    * Loads transactions from API
-   *
-   * TODO: add pagination support
    */
-  const loadTransactions = async () => {
-    const effectivePortfolios = getEffectivePortfolios().filter(({ id }) => !!id);
-
+  const loadTransactions = async (effectivePortfolios: Portfolio[]) => {
     try {
-      setTransactions(
-        (await Promise.all(
-          effectivePortfolios.map(
-            async portfolio => portfoliosContext.listPortfolioTransactions({
-              portfolioId: portfolio.id!,
-              startDate: startDate,
-              endDate: endDate
-            })
-          )
-        )).flat()
+      const effectivePortfolioLists = await Promise.all(
+        effectivePortfolios.map(
+          async portfolio => portfoliosContext.listPortfolioTransactions({
+            portfolioId: portfolio.id!,
+            startDate: startDate,
+            endDate: endDate
+          })
+        )
       );
+
+      setTransactions(effectivePortfolioLists.flat());
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolioTransactions.list, error);
     }
@@ -99,9 +95,15 @@ const TransactionsScreen: React.FC = () => {
    * Loads securities and transactions
    */
   const loadSecuritiesAndTransactions = async () => {
+    const effectivePortfolios = getEffectivePortfolios()?.filter(({ id }) => !!id);
+
+    if (!effectivePortfolios) return;
+
     setLoading(true);
+
     await loadSecurities();
-    await loadTransactions();
+    await loadTransactions(effectivePortfolios);
+
     setLoading(false);
   };
 
@@ -114,7 +116,7 @@ const TransactionsScreen: React.FC = () => {
    * Effect for loading securities and transactions
    */
   React.useEffect(() => {
-    loadSecuritiesAndTransactions();
+    !!portfolios && loadSecuritiesAndTransactions();
   }, [ portfolios, selectedPortfolio, startDate, endDate ]);
 
   /**

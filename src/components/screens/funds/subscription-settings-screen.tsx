@@ -65,12 +65,12 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * @param bankOption bank option
    */
   const onBankOptionSelect = (bankOption: SubscriptionOption) => {
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.bankName = bankOption.label;
-      draft.iBAN = bankOption.value;
+    setSubscriptionSettings({
+      ...subscriptionSettings,
+      bankName: bankOption.label,
+      iBAN: bankOption.value
     });
 
-    setSubscriptionSettings(updatedSubscriptionSettings);
     setBankOptionVisible(false);
   };
 
@@ -82,15 +82,12 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
     const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
 
-    if (!foundPortfolio) {
-      return;
-    }
+    if (!foundPortfolio) return;
 
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.portfolio = foundPortfolio;
+    setSubscriptionSettings({
+      ...subscriptionSettings,
+      portfolio: foundPortfolio
     });
-
-    setSubscriptionSettings(updatedSubscriptionSettings);
     setPortfolioOptionVisible(false);
   };
 
@@ -114,14 +111,14 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * @param bankOption bank option
    * @param portfolio portfolio
    */
-  const SelectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.bankName = bankOption?.label;
-      draft.iBAN = bankOption?.value;
-      draft.portfolio = portfolio;
+  const selectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
+    setSubscriptionSettings({
+      ...subscriptionSettings,
+      bankName: bankOption?.label,
+      iBAN: bankOption?.value,
+      portfolio: portfolio,
+      referenceNumber: portfolio?.aReference
     });
-
-    setSubscriptionSettings(updatedSubscriptionSettings);
   };
 
   /**
@@ -155,7 +152,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
       }, []);
 
       setBankOptions(fundBankOptions);
-      SelectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
+      selectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }

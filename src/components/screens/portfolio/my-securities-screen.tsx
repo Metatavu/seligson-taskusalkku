@@ -53,7 +53,11 @@ const MySecuritiesScreen: React.FC = () => {
    */
   const loadMySecurities = async () => {
     try {
-      const effectivePortfolios = getEffectivePortfolios().filter(({ id }) => !!id);
+      if (!portfolios) return;
+
+      const effectivePortfolios = getEffectivePortfolios()?.filter(({ id }) => !!id);
+
+      if (!effectivePortfolios) return;
 
       const identifiedPortfolioSecurities = await Promise.all(
         effectivePortfolios.map(async ({ id }) => ({

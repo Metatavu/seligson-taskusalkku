@@ -177,7 +177,8 @@
       "subscriptions": "Merkinnät",
       "securities": "Osuuslajien vaihdot",
       "total": "Yhteensä",
-      "changeInGivenRange": "Ajanjakso"
+      "changeInGivenRange": "Ajanjakso",
+      "noSecurities": "Ei rahastoja"
     },
     "portfolioSecurities": {
       "title": "Salkun rahastot"

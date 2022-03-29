@@ -80,9 +80,9 @@ const MeetingTimesScreen: React.FC = () => {
    * @param meetingTime meeting time
    * @param index index of the meeting time
    */
-  const renderMeetingTime = (meetingTime: MeetingTime, index: number) => (
+  const renderMeetingTime = (meetingTime: MeetingTime) => (
     <Button
-      key={ index }
+      key={ meetingTime.startTime.getTime() }
       style={ styles.meetingTime }
       onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }
     >
@@ -107,7 +107,7 @@ const MeetingTimesScreen: React.FC = () => {
 
     while (items.length) {
       rows.push(
-        <View key={ rows.length } style={ styles.meetingTimeRow }>
+        <View key={ items.length } style={ styles.meetingTimeRow }>
           { items.splice(0, 2).map(renderMeetingTime) }
         </View>
       );
@@ -182,6 +182,7 @@ const MeetingTimesScreen: React.FC = () => {
         <Dialog
           visible={ meetingNotificationVisible }
           dismissable={ false }
+          style={{ borderRadius: theme.spacing(2) }}
         >
           <Dialog.Title style={ styles.dialogTitle }>
             { localized.title }
@@ -198,6 +199,7 @@ const MeetingTimesScreen: React.FC = () => {
               uppercase={ false }
               labelStyle={{ color: "white" }}
               contentStyle={{ paddingHorizontal: theme.spacing(2) }}
+              style={{ borderRadius: theme.spacing(6) }}
               onPress={ () => setMeetingNotificationVisible(false) }
             >
               { strings.generic.okay }

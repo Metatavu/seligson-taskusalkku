@@ -211,6 +211,7 @@ export interface Strings extends LocalizedStringsMethods {
       securities: string;
       total: string;
       changeInGivenRange: string;
+      noSecurities: string;
     };
     portfolioSecurities: {
       title: string;

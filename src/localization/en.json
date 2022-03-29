@@ -178,7 +178,8 @@
       "subscriptions": "Subscriptions",
       "securities": "Fund unit changes",
       "total": "Total",
-      "changeInGivenRange": "Date range"
+      "changeInGivenRange": "Date range",
+      "noSecurities": "No funds"
     },
     "portfolioSecurities": {
       "title": "Own funds"

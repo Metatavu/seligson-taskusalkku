@@ -177,7 +177,8 @@
       "subscriptions": "Teckningar",
       "securities": "Byten av andelsslag",
       "total": "Totalt",
-      "changeInGivenRange": "Datumintervall"
+      "changeInGivenRange": "Datumintervall",
+      "noSecurities": "Inga fonder"
     },
     "portfolioSecurities": {
       "title": "Egna fonderna"
