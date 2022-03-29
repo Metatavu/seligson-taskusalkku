@@ -1,5 +1,5 @@
 import React from "react";
-import { GestureResponderEvent, ScrollView, View, ActivityIndicator } from "react-native";
+import { GestureResponderEvent, ScrollView, View, ActivityIndicator, Text } from "react-native";
 import { Paragraph, Title } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
@@ -38,18 +38,21 @@ const StatisticsScreen: React.FC = () => {
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   /**
-   * Loads fund history
-   *
-   * @param range chart range
+   * Loads history data
    */
   const loadHistoryData = async () => {
+    const effectivePortfolios = getEffectivePortfolios();
+
+    if (!effectivePortfolios) return;
+
     setHistoryLoading(true);
+    setHistoryValues(undefined);
 
     const { startDate, endDate } = DateUtils.getDateFilters(selectedRange);
 
     try {
       const portfolioHistoryValues = await Promise.all(
-        getEffectivePortfolios().map(portfolio => (
+        effectivePortfolios.map(portfolio => (
           portfoliosApiContext.listPortfolioHistoryValues({
             portfolioId: portfolio.id!,
             startDate: startDate,
@@ -58,7 +61,6 @@ const StatisticsScreen: React.FC = () => {
         ))
       );
 
-      // TODO: Add support for securities dropdown selection
       setHistoryValues(ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues));
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
@@ -71,11 +73,15 @@ const StatisticsScreen: React.FC = () => {
    * Load portfolio summaries
    */
   const loadSummaries = async () => {
+    const effectivePortfolios = getEffectivePortfolios();
+
+    if (!effectivePortfolios) return;
+
     !summaries && setLoading(true);
 
     try {
       const portfolioSummaries = await Promise.all(
-        getEffectivePortfolios().map(({ id }) => (
+        effectivePortfolios.map(({ id }) => (
           portfoliosApiContext.getPortfolioSummary({
             portfolioId: id!,
             ...DateUtils.getDateFilters(selectedRange)
@@ -102,44 +108,14 @@ const StatisticsScreen: React.FC = () => {
   };
 
   /**
-   * Effect for loading history data when selected portfolio or chart range changes
-   */
-  React.useEffect(() => {
-    loadHistoryData();
-    loadSummaries();
-  }, [ selectedPortfolio, selectedRange ]);
-
-  /**
    * Effect for loading own funds when this screen gets focused
    */
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (focus) {
       loadHistoryData();
       loadSummaries();
     }
-  }, [ focus, portfolios ]);
-
-  /**
-   * Renders chart
-   */
-  const renderChart = () => {
-    if (historyLoading) {
-      return (
-        <View style={ styles.chartLoaderContainer }>
-          <ActivityIndicator size="large" color={ theme.colors.primary }/>
-        </View>
-      );
-    }
-
-    return (
-      <HistoryValueChart
-        historyValues={ historyValues || [] }
-        color={ theme.colors.primary }
-        currency="EUR"
-        onChartTouch={ toggleScroll(false) }
-      />
-    );
-  };
+  }, [ focus, portfolios, selectedPortfolio, selectedRange ]);
 
   /**
    * Renders info row
@@ -162,16 +138,12 @@ const StatisticsScreen: React.FC = () => {
    * Renders total details
    */
   const renderTotalDetails = () => {
-    if (!historyValues?.length) {
-      return null;
-    }
-
     const {
       marketValueTotal,
       purchaseTotal,
       totalChangeAmount,
       totalChangePercentage
-    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios());
+    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios() || []);
 
     return (
       <View>
@@ -198,6 +170,54 @@ const StatisticsScreen: React.FC = () => {
   };
 
   /**
+   * Renders chart
+   */
+  const renderChart = () => {
+    if (historyLoading) {
+      return (
+        <View style={ styles.chartLoaderContainer }>
+          <ActivityIndicator size="large" color={ theme.colors.primary }/>
+        </View>
+      );
+    }
+
+    return (
+      <HistoryValueChart
+        historyValues={ historyValues || [] }
+        color={ theme.colors.primary }
+        currency="EUR"
+        onChartTouch={ toggleScroll(false) }
+      />
+    );
+  };
+
+  /**
+   * Renders chart container
+   */
+  const renderChartContainer = () => {
+    if (!!historyValues && !historyValues.length) {
+      return (
+        <View style={ styles.chartLoaderContainer }>
+          <Text style={{ marginTop: 10 }}>
+            { strings.portfolio.statistics.noSecurities }
+          </Text>
+        </View>
+      );
+    }
+
+    return (
+      <>
+        <ChartRangeSelector
+          selectedRange={ selectedRange }
+          loading={ loading }
+          onDateRangeChange={ setSelectedRange }
+        />
+        { renderChart() }
+      </>
+    );
+  };
+
+  /**
    * Renders history details
    */
   const renderHistoryDetails = () => {
@@ -206,11 +226,6 @@ const StatisticsScreen: React.FC = () => {
     }
 
     const dates = ChartUtils.getDisplayDates(selectedRange);
-
-    const {
-      totalChangeAmount,
-      totalChangePercentage
-    } = Calculations.getTotalPortfolioHistoryInfo(selectedRange, historyValues);
 
     const {
       subscriptionsTotal,
@@ -225,7 +240,6 @@ const StatisticsScreen: React.FC = () => {
     return (
       <View>
         { renderDetailRow(strings.portfolio.statistics.changeInGivenRange, `${startDate} - ${dates.endDate}`) }
-        { renderDetailRow(strings.portfolio.statistics.totalChange, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
         { renderDetailRow(strings.portfolio.statistics.subscriptions, subscriptionsTotal) }
         { renderDetailRow(strings.portfolio.statistics.redemptions, `-${redemptionsTotal}`) }
         { renderDetailRow(strings.portfolio.statistics.total, difference) }
@@ -260,12 +274,7 @@ const StatisticsScreen: React.FC = () => {
         </View>
         <View style={ styles.chartAndDetailsWrapper }>
           <View style={ !scrollEnabled ? styles.focused : styles.notFocused }>
-            <ChartRangeSelector
-              selectedRange={ selectedRange }
-              loading={ loading }
-              onDateRangeChange={ setSelectedRange }
-            />
-            { renderChart() }
+            { renderChartContainer() }
           </View>
           <View
             style={ styles.historyDetails }

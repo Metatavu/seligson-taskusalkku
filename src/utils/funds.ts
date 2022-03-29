@@ -23,7 +23,7 @@ namespace FundUtils {
    * @param a fund A
    * @param b fund B
    */
-  export const SortFundsByName = (a: Fund, b: Fund): number => {
+  export const sortFundsByName = (a: Fund, b: Fund): number => {
     const nameA = a.longName.fi;
     const nameB = b.longName.fi;
     return nameA.localeCompare(nameB);
@@ -51,8 +51,8 @@ namespace FundUtils {
    * @param funds funds
    */
   export const sortFunds = (funds: Fund[]) => [
-    ...getSeligsonFunds(funds).sort(FundUtils.SortFundsByName),
-    ...getLtFunds(funds).sort(FundUtils.SortFundsByName)
+    ...getSeligsonFunds(funds).sort(FundUtils.sortFundsByName),
+    ...getLtFunds(funds).sort(FundUtils.sortFundsByName)
   ];
 
   /**

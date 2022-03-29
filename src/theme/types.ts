@@ -21,6 +21,7 @@ declare global {
 
     interface ThemeColors {
       backgroundDark: string;
+      success: string;
       unSelected: string;
       grey: {
         100: string;

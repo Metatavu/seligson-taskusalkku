@@ -10,7 +10,7 @@ import { VictoryPie, VictoryTooltip } from "victory-native";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfolioSecurityCategory } from "../../../types";
 import GenericUtils from "../../../utils/generic";
-import { Card, Switch } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { FundsApiContext } from "../../providers/funds-api-provider";
 import theme from "../../../theme";
 import BigNumber from "bignumber.js";
@@ -32,7 +32,6 @@ const DistributionsScreen: React.FC = () => {
   const errorContext = React.useContext(ErrorContext);
 
   const [ portfolioSecurityCategories, setPortfolioSecurityCategories ] = React.useState<PortfolioSecurityCategory[]>([]);
-  const [ showGroup, setShowGroup ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
 
   /**
@@ -120,17 +119,13 @@ const DistributionsScreen: React.FC = () => {
       y: parseFloat(totalValue)
     }));
 
-    const chartColor = showGroup ?
-      portfolioSecurityCategories.map(({ groupColor }) => groupColor) :
-      portfolioSecurityCategories.map(({ color }) => color);
-
     /**
      * Renders pie chart
      */
     const pieChart = () => {
       return (
         <VictoryPie
-          colorScale={ chartColor }
+          colorScale={ portfolioSecurityCategories.map(({ color }) => color) }
           data={ chartData }
           radius={ Dimensions.get("window").height / 6 }
           labelRadius={ 40 }
@@ -211,9 +206,7 @@ const DistributionsScreen: React.FC = () => {
       <View
         style={{
           ...styles.categoryColor,
-          backgroundColor: showGroup ?
-            portfolioSecurityCategory.groupColor :
-            portfolioSecurityCategory.color
+          backgroundColor: portfolioSecurityCategory.color
         }}
       />
       <View>
@@ -239,22 +232,6 @@ const DistributionsScreen: React.FC = () => {
   );
 
   /**
-   * Renders show group color switch
-   */
-  const renderGroupColorSwitch = () => (
-    <View style={ styles.checkBoxContainer }>
-      <Text style={{ marginRight: theme.spacing(2) }}>
-        { strings.portfolio.distribution.shareInterest }
-      </Text>
-      <Switch
-        color={ theme.colors.primary }
-        value={ showGroup }
-        onValueChange={ () => setShowGroup(!showGroup) }
-      />
-    </View>
-  );
-
-  /**
    * Renders content
    */
   const renderContent = () => {
@@ -277,7 +254,6 @@ const DistributionsScreen: React.FC = () => {
     return (
       <>
         { renderPie() }
-        { renderGroupColorSwitch() }
         { renderCategories() }
       </>
     );

@@ -117,7 +117,7 @@ const PublicationsListScreen: React.FC = () => {
    */
   return (
     <PublicationsListNavigation.Navigator
-      initialRouteName="reviews"
+      initialRouteName="topical"
       backBehavior="history"
       screenOptions={{
         tabBarActiveTintColor: colors.surface,
@@ -141,8 +141,8 @@ const PublicationsListScreen: React.FC = () => {
         }
       }}
     >
-      { renderPublicationsTab("reviews", reviews) }
       { renderPublicationsTab("topical", topical) }
+      { renderPublicationsTab("reviews", reviews) }
       { renderPublicationsTab("questions", questions) }
       { renderPublicationsTab("phoebus", phoebus) }
     </PublicationsListNavigation.Navigator>

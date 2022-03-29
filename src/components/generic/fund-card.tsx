@@ -91,7 +91,7 @@ const FundCard: React.FC<Props> = ({ fund }) => {
       </View>
     );
   };
-  
+
   /**
    * Component render
    */

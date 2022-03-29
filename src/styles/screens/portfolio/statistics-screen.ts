@@ -27,14 +27,14 @@ export default StyleSheet.create({
   },
 
   overview: {
-    paddingTop: theme.spacing(1),
     backgroundColor: theme.colors.primary,
     display: "flex",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
     marginHorizontal: theme.spacing(2),
     borderRadius: theme.spacing(2),
-    borderTopRightRadius: 0
+    borderTopRightRadius: 0,
+    overflow: "hidden"
   },
 
   overviewRow: {
@@ -79,7 +79,7 @@ export default StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1
   },
-  
+
   notFocused: {
     backgroundColor: "white",
     padding: theme.spacing(2),
@@ -88,12 +88,12 @@ export default StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1
   },
-  
+
   historyDetails: {
     padding: theme.spacing(2),
     paddingTop: 0
   },
-  
+
   details: {
     borderBottomRightRadius: theme.spacing(2),
     borderBottomLeftRadius: theme.spacing(2),

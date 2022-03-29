@@ -13,6 +13,7 @@ import ErrorHandler from "./src/components/error-handler/error-handler";
 import theme from "./src/theme";
 import Root from "./src/root";
 import { StatusBar } from "expo-status-bar";
+import PortfolioProvider from "./src/components/providers/portfolio-provider";
 
 /**
  * API context provides
@@ -33,9 +34,12 @@ const App: React.FC = () => (
     <PaperProvider theme={ theme }>
       <ErrorHandler>
         <ApiProvider providers={ providers }>
-          <AuthRefresh/>
-          <StatusBar style="auto"/>
-          <Root/>
+          <PortfolioProvider>
+            <AuthRefresh/>
+            {/* eslint-disable-next-line react/style-prop-object */}
+            <StatusBar style="auto"/>
+            <Root/>
+          </PortfolioProvider>
         </ApiProvider>
       </ErrorHandler>
     </PaperProvider>

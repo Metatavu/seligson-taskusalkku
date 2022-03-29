@@ -25,6 +25,7 @@ export interface Strings extends LocalizedStringsMethods {
     copied: string;
     saveAndProceed: string;
     ok: string;
+    okay: string;
     pressAgainToExit: string;
   };
 
@@ -210,6 +211,7 @@ export interface Strings extends LocalizedStringsMethods {
       securities: string;
       total: string;
       changeInGivenRange: string;
+      noSecurities: string;
     };
     portfolioSecurities: {
       title: string;
@@ -249,6 +251,13 @@ export interface Strings extends LocalizedStringsMethods {
         startDate: string;
         endDate: string;
       };
+      meetingCreatedDialog: {
+        title: string;
+        date: string;
+        info1: string;
+        info2: string;
+        info3: string;
+      };
     };
     newMeeting: {
       title: string;
@@ -267,6 +276,7 @@ export interface Strings extends LocalizedStringsMethods {
         lastName: string;
         email: string;
         phone: string;
+        emailIsInvalid: string;
       },
       additionalInformation: string;
     };
@@ -337,6 +347,6 @@ const strings: Strings = new LocalizedStrings({
   en: en,
   fi: fi,
   sv: sv
-});
+}, { customLanguageInterface: () => "fi" });
 
 export default strings;

@@ -9,6 +9,8 @@ import { PortfolioContext } from "../../providers/portfolio-provider";
 import styles from "../../../styles/screens/portfolio/portfolio-select";
 import { ErrorContext } from "../../error-handler/error-handler";
 
+const CONTAINER_HEIGHT = 48;
+
 /**
  * Portfolio select component
  */
@@ -47,14 +49,26 @@ const PortfolioSelect: React.FC = () => {
   };
 
   if (!portfolios?.length) {
-    return null;
+    return <View style={{ height: CONTAINER_HEIGHT }}/>;
+  }
+
+  if (portfolios.length === 1) {
+    return (
+      <View style={ styles.root }>
+        <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
+          <Text style={ styles.singlePortfolioText }>
+            { portfolios[0].name }
+          </Text>
+        </View>
+      </View>
+    );
   }
 
   /**
    * Component render
    */
   return (
-    <View style={ styles.portfolioSelect }>
+    <View style={ styles.root }>
       <DropDown
         list={[
           { label: strings.portfolio.select.all, value: "" },
@@ -68,23 +82,18 @@ const PortfolioSelect: React.FC = () => {
         mode="flat"
         dropDownContainerMaxHeight={ 500 }
         inputProps={{
-          dense: true,
           render: ({ value }) => (
-            <Text
-              style={{
-                color: "white",
-                paddingLeft: 10,
-                paddingTop: 10,
-                fontSize: 14
-              }}
-            >
-              { value }
-            </Text>
+            <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
+              <Text style={ styles.portfolioSelectInputText }>
+                { value }
+              </Text>
+            </View>
           ),
           right: <TextInput.Icon name="tune" color="white"/>,
           style: {
             backgroundColor: "transparent",
-            borderColor: "transparent"
+            borderColor: "transparent",
+            height: CONTAINER_HEIGHT
           },
           underlineColor: "transparent"
         }}

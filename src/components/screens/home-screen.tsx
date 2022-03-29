@@ -40,11 +40,12 @@ const HomeScreen: React.FC = () => {
    */
   return (
     <HomeNavigation.Navigator
-      initialRouteName="funds"
+      initialRouteName="portfolio"
       backBehavior="history"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.grey[400],
         unmountOnBlur: true,
         tabBarItemStyle: { paddingVertical: 4 },
         tabBarHideOnKeyboard: true
