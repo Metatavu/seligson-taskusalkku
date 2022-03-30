@@ -16,6 +16,34 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 /**
+ * Custom hook for creating saved timeout.
+ * Resets timeout when called before callback execution.
+ */
+export const useTimeout = () => {
+  const timer = React.useRef<NodeJS.Timeout>();
+
+  /**
+   * Clears current timer and sets a new one with given callback
+   *
+   * @param callback callback
+   */
+  const setTimer = (callback: (() => any) | undefined) => {
+    timer.current && clearTimeout(timer.current);
+    timer.current = callback ? setTimeout(callback, 1000) : undefined;
+  };
+
+  /**
+   * Clears timer if one exists
+   */
+  const clearTimer = () => timer.current && clearTimeout(timer.current);
+
+  return {
+    setTimer: setTimer,
+    clearTimer: clearTimer
+  };
+};
+
+/**
  * Custom hook for running given callback function in intervals
  *
  * @param callback callback function

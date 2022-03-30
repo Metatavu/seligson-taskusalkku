@@ -58,10 +58,19 @@ const PortfolioProvider: React.FC = ({ children }) => {
   }, [ loggedIn ]);
 
   /**
-   * Effect for setting loggedIn value when auth changes
+   * Effect for setting logged in value when auth changes
    */
   React.useEffect(() => {
-    setLoggedIn(!!auth && !loggedIn);
+    auth ? !loggedIn && setLoggedIn(true) : loggedIn && setLoggedIn(false);
+  }, [ auth ]);
+
+  /**
+   * Effect for removing portfolios when auth is removed
+   */
+  React.useEffect(() => {
+    if (auth) return;
+    setSelectedPortfolio(undefined);
+    setPortfolios(undefined);
   }, [ auth ]);
 
   /**
