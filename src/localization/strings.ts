@@ -234,6 +234,9 @@ export interface Strings extends LocalizedStringsMethods {
     };
     distribution: {
       shareInterest: string;
+      equityFunds: string;
+      fixedIncomeFunds: string;
+      combinationFunds: string;
     };
   };
 
