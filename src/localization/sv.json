@@ -92,7 +92,7 @@
     "others": "Övrig",
     "statistics": "Översikt",
     "distributions": "Fördelning",
-    "ownFunds": "Fonder",
+    "ownFunds": "Mina fonder",
     "transactions": "Händelser",
     "passiveFunds": "Passiva aktiefonder",
     "activeFunds": "Aktiva aktiefonder",
@@ -200,7 +200,10 @@
       "paidTotal": "Betalning totalt"
     },
     "distribution": {
-      "shareInterest": "Aktier, ränta"
+      "shareInterest": "Aktier, ränta",
+      "equityFunds": "Aktiefonder",
+      "fixedIncomeFunds": "Räntefonder",
+      "combinationFunds": "Blandfonder"
     }
   },
 

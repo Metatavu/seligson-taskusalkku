@@ -84,7 +84,7 @@
     "portfolio": "Salkku",
     "funds": "Rahastovalikoima",
     "publications": "Julkaisut",
-    "meetings": "Tapaamiset",
+    "meetings": "Ajanvaraus",
     "reviews": "Katsaukset",
     "topical": "Ajankohtaista",
     "questions": "Kysymykset",
@@ -200,7 +200,10 @@
       "paidTotal": "Maksettu yhteensä"
     },
     "distribution": {
-      "shareInterest": "Osakkeet, korot"
+      "shareInterest": "Osakkeet, korot",
+      "equityFunds": "Osakerahastot",
+      "fixedIncomeFunds": "Korkorahastot",
+      "combinationFunds": "Yhdistelmärahastot"
     }
   },
 
