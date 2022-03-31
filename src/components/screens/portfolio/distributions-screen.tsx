@@ -147,6 +147,9 @@ const DistributionsScreen: React.FC = () => {
 
   /**
    * Renders legend
+   * 
+   * @param color color
+   * @param legend legend
    */
   const renderlegend = (color: string, legend: string) => (
     <View style={ styles.legendRow }>
