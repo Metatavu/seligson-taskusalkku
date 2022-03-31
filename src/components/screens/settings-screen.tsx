@@ -128,7 +128,7 @@ const SettingsScreen: React.FC = () => {
    */
   const onLogout = async () => {
     dispatch(logout());
-    navigation.replace("authentication", { screen: "welcome" });
+    navigation.reset({ routes: [{ name: "authentication" }] });
   };
 
   /**

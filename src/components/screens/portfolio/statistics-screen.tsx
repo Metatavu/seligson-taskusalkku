@@ -61,7 +61,7 @@ const StatisticsScreen: React.FC = () => {
         ))
       );
 
-      setHistoryValues(ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues));
+      return ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues);
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
@@ -77,8 +77,6 @@ const StatisticsScreen: React.FC = () => {
 
     if (!effectivePortfolios) return;
 
-    !summaries && setLoading(true);
-
     try {
       const portfolioSummaries = await Promise.all(
         effectivePortfolios.map(({ id }) => (
@@ -89,12 +87,10 @@ const StatisticsScreen: React.FC = () => {
         ))
       );
 
-      setSummaries(portfolioSummaries);
+      return portfolioSummaries;
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
-
-    setLoading(false);
   };
 
   /**
@@ -108,13 +104,33 @@ const StatisticsScreen: React.FC = () => {
   };
 
   /**
+   * Fetch component data
+   */
+  const fetchData = async () => {
+    !summaries && setLoading(true);
+    setHistoryLoading(true);
+
+    const [ portfolioHistoryValues, portfolioSummaries ] = await Promise.all([
+      loadHistoryData(),
+      loadSummaries()
+    ]);
+
+    if (portfolioHistoryValues) {
+      setHistoryValues(portfolioHistoryValues);
+      setHistoryLoading(false);
+    }
+
+    if (portfolioSummaries) {
+      setSummaries(portfolioSummaries);
+      setLoading(false);
+    }
+  };
+
+  /**
    * Effect for loading own funds when this screen gets focused
    */
   React.useLayoutEffect(() => {
-    if (focus) {
-      loadHistoryData();
-      loadSummaries();
-    }
+    focus && fetchData();
   }, [ focus, portfolios, selectedPortfolio, selectedRange ]);
 
   /**
