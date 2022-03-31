@@ -200,7 +200,10 @@
       "paidTotal": "Maksettu yhteensä"
     },
     "distribution": {
-      "shareInterest": "Osakkeet, korot"
+      "shareInterest": "Osakkeet, korot",
+      "equityFunds": "Osakerahastot",
+      "fixedIncomeFunds": "Korkorahastot",
+      "combinationFunds": "Yhdistelmärahastot"
     }
   },
 

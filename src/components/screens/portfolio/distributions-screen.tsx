@@ -170,9 +170,9 @@ const DistributionsScreen: React.FC = () => {
    */
   const renderLegends = () => (
     <Card style={[ styles.distributionCard, { marginTop: theme.spacing(2) } ]}>
-      { renderlegend("rgb(200, 40, 40)", "Osakerahastot") }
-      { renderlegend("rgb(230, 130, 40)", "Yhdistelmärahastot") }
-      { renderlegend("rgb(80, 140, 80)", "korkorahastot") }
+      { renderlegend("rgb(200, 40, 40)", strings.portfolio.distribution.equityFunds) }
+      { renderlegend("rgb(230, 130, 40)", strings.portfolio.distribution.combinationFunds) }
+      { renderlegend("rgb(80, 140, 80)", strings.portfolio.distribution.fixedIncomeFunds) }
     </Card>
   );
 

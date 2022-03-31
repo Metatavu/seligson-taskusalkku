@@ -201,7 +201,10 @@
       "paidTotal": "Total paid"
     },
     "distribution": {
-      "shareInterest": "Shares, interest"
+      "shareInterest": "Shares, interest",
+      "equityFunds": "Equity funds",
+      "fixedIncomeFunds": "Fixed income funds",
+      "combinationFunds": "Combination funds"
     }
   },
 
