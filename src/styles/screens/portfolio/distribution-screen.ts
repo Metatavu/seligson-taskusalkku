@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import theme from "../../../theme";
 
 export default StyleSheet.create({
@@ -16,8 +16,7 @@ export default StyleSheet.create({
       height: 2
     },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
-    maxHeight: Dimensions.get("window").height / 3
+    shadowRadius: 5
   },
 
   chartContainer: {
@@ -65,6 +64,11 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: theme.spacing(1)
+  },
+
+  legendRow: {
+    flexDirection: "row",
+    paddingVertical: theme.spacing(1)
   }
 
 });

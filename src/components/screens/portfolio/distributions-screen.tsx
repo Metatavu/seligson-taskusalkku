@@ -1,12 +1,11 @@
 import React from "react";
-import { ScrollView, View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
+import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
 import { Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
 import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
-import { VictoryPie, VictoryTooltip } from "victory-native";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfolioSecurityCategory } from "../../../types";
 import GenericUtils from "../../../utils/generic";
@@ -15,7 +14,6 @@ import { FundsApiContext } from "../../providers/funds-api-provider";
 import theme from "../../../theme";
 import BigNumber from "bignumber.js";
 import ChartUtils from "../../../utils/chart";
-import Svg from "react-native-svg";
 import Calculations from "../../../utils/calculations";
 import { useHardwareGoBack } from "../../../app/hooks";
 
@@ -109,89 +107,7 @@ const DistributionsScreen: React.FC = () => {
    * Effect that loads data
    */
   React.useEffect(() => { loadData(); }, [ selectedPortfolio ]);
-
-  /**
-   * Renders content
-   */
-  const renderPie = () => {
-    const chartData = portfolioSecurityCategories.map(({ name, percentage, totalValue }) => ({
-      x: `${name} - ${percentage}`,
-      y: parseFloat(totalValue)
-    }));
-
-    /**
-     * Renders pie chart
-     */
-    const pieChart = () => {
-      return (
-        <VictoryPie
-          colorScale={ portfolioSecurityCategories.map(({ color }) => color) }
-          data={ chartData }
-          radius={ Dimensions.get("window").height / 6 }
-          labelRadius={ 40 }
-          padAngle={ 3 }
-          width={ Dimensions.get("window").width }
-          height={ Dimensions.get("window").height / 3 }
-          innerRadius={ 40 }
-          animate={{ duration: 100, easing: "linear" }}
-          labelComponent={
-            <VictoryTooltip
-              orientation="top"
-              constrainToVisibleArea
-              flyoutPadding={ 15 }
-              renderInPortal={ false }
-            />
-          }
-          events={[
-            {
-              target: "data",
-              eventHandlers: {
-                onPressIn: () => [
-                  {
-                    target: "labels",
-                    eventKey: "all",
-                    mutation: () => ({ active: false })
-                  }
-                ],
-                onPressOut: () => [
-                  {
-                    target: "labels",
-                    mutation: () => ({ active: true })
-                  }
-                ]
-              }
-            },
-            {
-              target: "labels",
-              eventHandlers: {
-                onPressIn: () => [
-                  {
-                    target: "labels",
-                    eventKey: "all",
-                    mutation: () => ({ active: false })
-                  }
-                ]
-              }
-            }
-          ]}
-        />
-      );
-    };
-
-    return (
-      <View style={ styles.chartContainer }>
-        { Platform.OS === "ios" &&
-          pieChart()
-        }
-        { Platform.OS === "android" &&
-          <Svg style={{ width: Dimensions.get("window").width }}>
-            { pieChart() }
-          </Svg>
-        }
-      </View>
-    );
-  };
-
+  
   /**
    * Renders securities category
    *
@@ -221,13 +137,42 @@ const DistributionsScreen: React.FC = () => {
   );
 
   /**
-   * Renders legends
+   * Renders categories
    */
   const renderCategories = () => (
     <Card style={ styles.distributionCard }>
-      <ScrollView>
-        { portfolioSecurityCategories.map(renderCategory) }
-      </ScrollView>
+      { portfolioSecurityCategories.map(renderCategory) }
+    </Card>
+  );
+
+  /**
+   * Renders legend
+   * 
+   * @param color color
+   * @param legend legend
+   */
+  const renderlegend = (color: string, legend: string) => (
+    <View style={ styles.legendRow }>
+      <View
+        style={{
+          ...styles.categoryColor,
+          backgroundColor: color
+        }}
+      />
+      <Text style={ theme.fonts.medium }>
+        { legend }
+      </Text>
+    </View>
+  );
+
+  /**
+   * Renders legends
+   */
+  const renderLegends = () => (
+    <Card style={[ styles.distributionCard, { marginTop: theme.spacing(2) } ]}>
+      { renderlegend("rgb(200, 40, 40)", strings.portfolio.distribution.equityFunds) }
+      { renderlegend("rgb(230, 130, 40)", strings.portfolio.distribution.combinationFunds) }
+      { renderlegend("rgb(80, 140, 80)", strings.portfolio.distribution.fixedIncomeFunds) }
     </Card>
   );
 
@@ -253,8 +198,8 @@ const DistributionsScreen: React.FC = () => {
 
     return (
       <>
-        { renderPie() }
         { renderCategories() }
+        { renderLegends() }
       </>
     );
   };
@@ -263,9 +208,11 @@ const DistributionsScreen: React.FC = () => {
    * Component render
    */
   return (
-    <View style={ styles.viewContainer }>
-      { renderContent() }
-    </View>
+    <ScrollView>
+      <View style={ styles.viewContainer }>
+        { renderContent() }
+      </View>
+    </ScrollView>
   );
 };
 
