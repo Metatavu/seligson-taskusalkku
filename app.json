@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Taskusalkku",
-    "slug": "taskusalkku",
-    "version": "1.0.0",
+    "name": "Seligson & Co",
+    "slug": "seligson-co",
+    "version": "25.0.1",
     "orientation": "portrait",
     "entryPoint": "./index.tsx",
     "icon": "./assets/app-icon.png",
@@ -20,10 +20,11 @@
     "ios": {
       "supportsTablet": false,
       "icon": "./assets/app-icon.png",
+      "buildNumber": "25.0.1",
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app optionally uses the camera (Face ID) to authenticate users."
       },
-      "bundleIdentifier": "fi.metatavu.seligson.taskusalkku.app"
+      "bundleIdentifier": "fi.seligson"
     },
     "android": {
       "icon": "./assets/app-icon.png",
@@ -41,7 +42,7 @@
       "favicon": "./assets/favicon.png"
     },
     "privacy": "unlisted",
-    "scheme": "fi.metatavu.seligson.taskusalkku",
+    "scheme": "fi.seligson",
     "plugins": ["sentry-expo"]
   }
 }
