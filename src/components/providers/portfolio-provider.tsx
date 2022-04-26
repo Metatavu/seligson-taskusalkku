@@ -35,7 +35,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    * Returns effective portfolios
    */
   const getEffectivePortfolios = (company: Company | undefined) => (
-    portfolios?.filter(portfolio => portfolio.companyId === company?.id && (!selectedPortfolio || portfolio.id === selectedPortfolio.id))
+    portfolios?.filter(portfolio => (!company?.id || portfolio.companyId === company.id) && (!selectedPortfolio || portfolio.id === selectedPortfolio.id))
   );
 
   /**
