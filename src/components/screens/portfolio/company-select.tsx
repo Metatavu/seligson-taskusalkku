@@ -2,13 +2,13 @@ import React from "react";
 import { View, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-import styles from "../../../styles/screens/portfolio/portfolio-select";
+import styles from "../../../styles/screens/portfolio/company-select";
 import { CompanyContext } from "../../providers/company-provider";
 
 const CONTAINER_HEIGHT = 48;
 
 /**
- * Portfolio select component
+ * Company select component
  */
 const CompanySelect: React.FC = () => {
   const { companies, selectedCompany, onChange } = React.useContext(CompanyContext);
@@ -32,7 +32,7 @@ const CompanySelect: React.FC = () => {
     return (
       <View style={ styles.root }>
         <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-          <Text style={ styles.singlePortfolioText }>
+          <Text style={ styles.singleCompanyText }>
             { companies[0].name }
           </Text>
         </View>
@@ -57,7 +57,7 @@ const CompanySelect: React.FC = () => {
         inputProps={{
           render: ({ value }) => (
             <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-              <Text style={ styles.portfolioSelectInputText }>
+              <Text style={ styles.companySelectInputText }>
                 { value }
               </Text>
             </View>
