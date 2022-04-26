@@ -35,9 +35,8 @@ const CompanyApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      // TODO fix test
       const result = AuthUtils.isDemoUser(auth) ?
-        TestData.listTestPortfolios(8) :
+        TestData.listTestCompanies(8) :
         await Promise.all(companyIds.map(companyId => Api.getCompaniesApi(auth).findCompany({ companyId: companyId })));
 
       return result;
