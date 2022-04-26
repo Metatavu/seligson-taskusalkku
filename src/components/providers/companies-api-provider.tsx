@@ -20,7 +20,7 @@ export const CompaniesApiContext = React.createContext<CompanyApiContextType>({
  *
  * @param props component properties
  */
-const CompanyApiProvider: React.FC = ({ children }) => {
+const CompaniesApiProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
 
   /**
@@ -59,4 +59,4 @@ const CompanyApiProvider: React.FC = ({ children }) => {
   );
 };
 
-export default CompanyApiProvider;
+export default CompaniesApiProvider;

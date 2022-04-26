@@ -50,7 +50,7 @@ export interface ErrorContextType {
 export interface PortfolioContextType {
   portfolios?: Portfolio[];
   selectedPortfolio?: Portfolio;
-  getEffectivePortfolios: (company: Company | undefined) => Portfolio[] | undefined;
+  getEffectivePortfolios: (company: Company | undefined) => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
 }
 

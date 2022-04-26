@@ -2,12 +2,11 @@ import React from "react";
 import { View, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-import { Portfolio } from "../../../generated/client";
 import strings from "../../../localization/strings";
-import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { PortfolioContext } from "../../providers/portfolio-provider";
 import styles from "../../../styles/screens/portfolio/portfolio-select";
-import { ErrorContext } from "../../error-handler/error-handler";
+import { CompanyContext } from "../../providers/company-provider";
+import { Portfolio } from "../../../generated/client";
 
 const CONTAINER_HEIGHT = 48;
 
@@ -15,28 +14,14 @@ const CONTAINER_HEIGHT = 48;
  * Portfolio select component
  */
 const PortfolioSelect: React.FC = () => {
-  const portfolioContext = React.useContext(PortfolioContext);
-  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
-  const errorContext = React.useContext(ErrorContext);
-
+  const { selectedCompany } = React.useContext(CompanyContext);
+  const { portfolios, onChange, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
-  const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
+  const [ effectivePortfolios, setEffectivePortfolios ] = React.useState<Portfolio[]>([]);
 
-  /**
-   * Loads portfolios
-   */
-  const loadPortfolios = async () => {
-    try {
-      setPortfolios(await portfoliosApiContext.listPortfolios());
-    } catch (error) {
-      errorContext.setError(strings.errorHandling.portfolio.list, error);
-    }
-  };
-
-  /**
-   * Effect for loading portfolios when component mounts
-   */
-  React.useEffect(() => { loadPortfolios(); }, []);
+  React.useEffect(() => {
+    setEffectivePortfolios(getEffectivePortfolios(selectedCompany));
+  }, [ selectedCompany ]);
 
   /**
    * Event handler for select value change
@@ -45,19 +30,19 @@ const PortfolioSelect: React.FC = () => {
    */
   const onSelectValueChange = (value: any) => {
     const portfolioId = value as string;
-    portfolioContext.onChange(portfolios.find(portfolio => portfolio.id === portfolioId));
+    onChange((portfolios || []).find(portfolio => portfolio.id === portfolioId));
   };
 
   if (!portfolios?.length) {
     return <View style={{ height: CONTAINER_HEIGHT }}/>;
   }
 
-  if (portfolios.length === 1) {
+  if (effectivePortfolios.length === 1) {
     return (
       <View style={ styles.root }>
         <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
           <Text style={ styles.singlePortfolioText }>
-            { portfolios[0].name }
+            { effectivePortfolios[0].name }
           </Text>
         </View>
       </View>
@@ -72,10 +57,10 @@ const PortfolioSelect: React.FC = () => {
       <DropDown
         list={[
           { label: strings.portfolio.select.all, value: "" },
-          ...portfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
+          ...effectivePortfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
         ]}
         onDismiss={ () => setShowDropDown(false) }
-        value={ portfolioContext.selectedPortfolio?.id || "" }
+        value={ selectedPortfolio?.id || "" }
         setValue={ onSelectValueChange }
         showDropDown={ () => setShowDropDown(true) }
         visible={ showDropDown }

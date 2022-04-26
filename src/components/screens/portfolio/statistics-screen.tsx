@@ -134,7 +134,7 @@ const StatisticsScreen: React.FC = () => {
    */
   React.useLayoutEffect(() => {
     focus && fetchData();
-  }, [ focus, portfolios, selectedPortfolio, selectedRange ]);
+  }, [ focus, portfolios, selectedPortfolio, selectedRange, selectedCompany ]);
 
   /**
    * Renders info row

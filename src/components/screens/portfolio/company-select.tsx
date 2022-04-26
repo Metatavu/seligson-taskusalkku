@@ -11,7 +11,7 @@ const CONTAINER_HEIGHT = 48;
  * Company select component
  */
 const CompanySelect: React.FC = () => {
-  const { companies, selectedCompany, onChange } = React.useContext(CompanyContext);
+  const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
 
   /**
