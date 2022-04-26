@@ -19,6 +19,8 @@ import theme from "../../../theme";
 import HistoryValueChart from "../../generic/history-value-chart";
 import DateUtils from "../../../utils/date-utils";
 import { useHardwareGoBack } from "../../../app/hooks";
+import CompanySelect from "./company-select";
+import { CompanyContext } from "../../providers/company-provider";
 
 /**
  * Statistics screen component
@@ -26,6 +28,7 @@ import { useHardwareGoBack } from "../../../app/hooks";
 const StatisticsScreen: React.FC = () => {
   useHardwareGoBack();
   const errorContext = React.useContext(ErrorContext);
+  const { selectedCompany } = React.useContext(CompanyContext);
   const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const focus = useIsFocused();
@@ -41,7 +44,7 @@ const StatisticsScreen: React.FC = () => {
    * Loads history data
    */
   const loadHistoryData = async () => {
-    const effectivePortfolios = getEffectivePortfolios();
+    const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
 
@@ -73,7 +76,7 @@ const StatisticsScreen: React.FC = () => {
    * Load portfolio summaries
    */
   const loadSummaries = async () => {
-    const effectivePortfolios = getEffectivePortfolios();
+    const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
 
@@ -159,7 +162,7 @@ const StatisticsScreen: React.FC = () => {
       purchaseTotal,
       totalChangeAmount,
       totalChangePercentage
-    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios() || []);
+    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios(selectedCompany) || []);
 
     return (
       <View>
@@ -281,6 +284,7 @@ const StatisticsScreen: React.FC = () => {
         contentContainerStyle={ styles.scrollContentContainer }
         scrollEnabled={ scrollEnabled }
       >
+        <CompanySelect/>
         <View
           style={ styles.overview }
           onTouchStart={ toggleScroll(true) }

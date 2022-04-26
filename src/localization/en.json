@@ -40,6 +40,9 @@
     "portfolio": {
       "list": "Error while loading portfolio data"
     },
+    "company": {
+      "list": "Error while loading company data"
+    },
     "portfolioSecurities": {
       "list": "Error while loading portfolio funds"
     },

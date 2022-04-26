@@ -7,6 +7,7 @@ import FundsApiProvider from "./src/components/providers/funds-api-provider";
 import MeetingsApiProvider from "./src/components/providers/meetings-api-provider";
 import SecuritiesApiProvider from "./src/components/providers/securities-api-provider";
 import PublicationsApiProvider from "./src/components/providers/publications-api-provider";
+import CompanyApiProvider from "./src/components/providers/companies-api-provider";
 import { store } from "./src/app/store";
 import AuthRefresh from "./src/components/containers/auth-refresh";
 import ErrorHandler from "./src/components/error-handler/error-handler";
@@ -23,7 +24,8 @@ const providers = [
   PortfoliosApiProvider,
   MeetingsApiProvider,
   SecuritiesApiProvider,
-  PublicationsApiProvider
+  PublicationsApiProvider,
+  CompanyApiProvider
 ];
 
 /**

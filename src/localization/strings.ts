@@ -57,6 +57,9 @@ export interface Strings extends LocalizedStringsMethods {
     portfolio: {
       list: string;
     };
+    company: {
+      list: string;
+    };
     portfolioSecurities: {
       list: string;
     };

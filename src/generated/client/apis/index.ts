@@ -1,3 +1,4 @@
+export * from './CompaniesApi';
 export * from './FundsApi';
 export * from './MeetingsApi';
 export * from './PortfoliosApi';

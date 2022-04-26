@@ -15,7 +15,7 @@ const initialMeeting: Meeting = {
 };
 
 /**
- * Portfolios api context initialization
+ * Meetings api context initialization
  */
 export const MeetingsApiContext = React.createContext<MeetingsApiContextType>({
   createMeeting: async () => (initialMeeting),
@@ -23,7 +23,7 @@ export const MeetingsApiContext = React.createContext<MeetingsApiContextType>({
 });
 
 /**
- * Portfolios API provider component
+ * Meetings API provider component
  *
  * @param props component properties
  */
@@ -32,10 +32,10 @@ const MeetingsApiProvider: React.FC = ({ children }) => {
   const anonymousAuth = useAppSelector(selectAnonymousAuth);
 
   /**
-   * Lists portfolios with given request parameters
+   * Lists meetings with given request parameters
    *
    * @param params given request parameters
-   * @returns list of portfolios or promise reject
+   * @returns list of meetings or promise reject
    */
   const createMeeting = async (params: CreateMeetingRequest): Promise<Meeting> => {
     try {
@@ -50,10 +50,10 @@ const MeetingsApiProvider: React.FC = ({ children }) => {
   };
 
   /**
-   * Lists portfolios with given request parameters
+   * Lists meetings with given request parameters
    *
    * @param params given request parameters
-   * @returns list of portfolios or promise reject
+   * @returns list of meetings or promise reject
    */
   const listMeetingTimes = async (params: ListMeetingTimesRequest): Promise<MeetingTime[]> => {
     try {
