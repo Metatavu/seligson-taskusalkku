@@ -62,7 +62,7 @@ const CompanySelect: React.FC = () => {
               </Text>
             </View>
           ),
-          right: <TextInput.Icon name="tune" color="white"/>,
+          right: <TextInput.Icon name="account" color="white"/>,
           style: {
             backgroundColor: "transparent",
             borderColor: "transparent",

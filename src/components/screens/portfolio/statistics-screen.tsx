@@ -1,6 +1,6 @@
 import React from "react";
 import { GestureResponderEvent, ScrollView, View, ActivityIndicator, Text } from "react-native";
-import { Paragraph, Title } from "react-native-paper";
+import { Divider, Paragraph, Title } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -284,11 +284,12 @@ const StatisticsScreen: React.FC = () => {
         contentContainerStyle={ styles.scrollContentContainer }
         scrollEnabled={ scrollEnabled }
       >
-        <CompanySelect/>
         <View
           style={ styles.overview }
           onTouchStart={ toggleScroll(true) }
         >
+          <CompanySelect/>
+          <Divider style={{ backgroundColor: "white" }}/>
           <PortfolioSelect/>
           { renderTotalDetails() }
         </View>
