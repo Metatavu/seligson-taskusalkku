@@ -16,7 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ...config.extra,
     ...process.env
   },
-  version: "25.0.1",
+  version: "25.0.2",
   hooks: {
     postPublish: [
       {
