@@ -16,13 +16,15 @@ import BigNumber from "bignumber.js";
 import ChartUtils from "../../../utils/chart";
 import Calculations from "../../../utils/calculations";
 import { useHardwareGoBack } from "../../../app/hooks";
+import { CompanyContext } from "../../providers/company-provider";
 
 /**
  * Distributions screen component
  */
 const DistributionsScreen: React.FC = () => {
   useHardwareGoBack();
-  const { selectedPortfolio, portfolios } = React.useContext(PortfolioContext);
+  const { selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { selectedCompany } = React.useContext(CompanyContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const securityApiContext = React.useContext(SecuritiesApiContext);
   const fundsApiContext = React.useContext(FundsApiContext);
@@ -79,7 +81,7 @@ const DistributionsScreen: React.FC = () => {
    */
   const fetchAllPortfolioSecurities = async () => {
     try {
-      const categoryLists = await Promise.all((portfolios || []).map(fetchPortfolioSecurities));
+      const categoryLists = await Promise.all((getEffectivePortfolios(selectedCompany) || []).map(fetchPortfolioSecurities));
       const categoryList = categoryLists.reduce((prev, cur) => prev.concat(cur), []);
 
       return ChartUtils.aggregateSecurityCategories(categoryList);
@@ -104,8 +106,8 @@ const DistributionsScreen: React.FC = () => {
   /**
    * Effect that loads data
    */
-  React.useEffect(() => { loadData(); }, [ selectedPortfolio ]);
-  
+  React.useEffect(() => { loadData(); }, [ selectedPortfolio, selectedCompany ]);
+
   /**
    * Renders securities category
    *
