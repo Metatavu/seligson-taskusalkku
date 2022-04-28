@@ -118,7 +118,7 @@ const TransactionsScreen: React.FC = () => {
    */
   React.useEffect(() => {
     !!portfolios && loadSecuritiesAndTransactions();
-  }, [ portfolios, selectedPortfolio, startDate, endDate ]);
+  }, [ portfolios, selectedPortfolio, selectedCompany, startDate, endDate ]);
 
   /**
    * Renders date pickers

@@ -60,7 +60,7 @@ export interface PortfolioContextType {
 export interface CompanyContextType {
   companies?: Company[];
   selectedCompany?: Company;
-  onChange: (Company?: Company) => void;
+  onChange: (Company: Company) => void;
 }
 
 /**

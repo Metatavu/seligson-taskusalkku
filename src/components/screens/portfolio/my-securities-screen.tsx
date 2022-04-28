@@ -87,7 +87,7 @@ const MySecuritiesScreen: React.FC = () => {
   /**
    * Effect for loading my funds when portfolio context data changes
    */
-  React.useEffect(() => { loadMySecurities(); }, [ selectedPortfolio, portfolios ]);
+  React.useEffect(() => { loadMySecurities(); }, [ selectedPortfolio, portfolios, selectedCompany ]);
 
   /**
    * Renders portfolio security card

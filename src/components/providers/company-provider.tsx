@@ -26,7 +26,7 @@ export const CompanyContext = React.createContext<CompanyContextType>({
  */
 const CompanyProvider: React.FC = ({ children }) => {
   const auth = useAppSelector(selectAuth);
-  const { portfolios } = React.useContext(PortfolioContext);
+  const portfolioContext = React.useContext(PortfolioContext);
   const { listCompany } = React.useContext(CompaniesApiContext);
   const errorContext = React.useContext(ErrorContext);
   const [ companies, setCompanies ] = React.useState<Company[]>();
@@ -37,7 +37,7 @@ const CompanyProvider: React.FC = ({ children }) => {
    * Lists portfolios
    */
   const fetchCompany = async () => {
-    const companyIds = MySecurityUtils.getCompanyIds(portfolios || []);
+    const companyIds = MySecurityUtils.getCompanyIds(portfolioContext.portfolios || []);
     if (!companyIds.length) return;
 
     try {
@@ -55,7 +55,7 @@ const CompanyProvider: React.FC = ({ children }) => {
    */
   React.useEffect(() => {
     loggedIn && fetchCompany();
-  }, [ loggedIn, portfolios ]);
+  }, [ loggedIn, portfolioContext.portfolios ]);
 
   /**
    * Effect for setting logged in value when auth changes
@@ -76,11 +76,13 @@ const CompanyProvider: React.FC = ({ children }) => {
   /**
    * Event handler for on change selected portfolio
    *
-   * @param portfolio selected portfolio
+   * @param company selected company
    */
-  const onChange = (company: Company | undefined) => {
+  const onChange = (company: Company) => {
     if (company?.id !== selectedCompany?.id) {
       setSelectedCompany(company);
+      const effectivePortfolios = portfolioContext.portfolios?.filter(portfolio => portfolio.companyId === company.id) || [];
+      effectivePortfolios.length === 1 ? portfolioContext.onChange(effectivePortfolios[0]) : portfolioContext.onChange(undefined);
     }
   };
 

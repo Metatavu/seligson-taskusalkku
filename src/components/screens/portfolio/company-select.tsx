@@ -21,7 +21,8 @@ const CompanySelect: React.FC = () => {
    */
   const onSelectValueChange = (value: any) => {
     const companyId = value as string;
-    onChange(companies?.find(company => company.id === companyId));
+    const foundCompany = companies?.find(company => company.id === companyId);
+    foundCompany && onChange(foundCompany);
   };
 
   if (!companies?.length) {
