@@ -80,7 +80,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    * @param portfolio selected portfolio
    */
   const onChange = (portfolio: Portfolio | undefined) => {
-    if (portfolio?.id !== selectedPortfolio?.id) {
+    if (portfolio?.id !== selectedPortfolio?.id || !portfolio) {
       setSelectedPortfolio(portfolio);
     }
   };
