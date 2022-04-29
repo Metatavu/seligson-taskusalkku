@@ -40,6 +40,9 @@
     "portfolio": {
       "list": "Fel att lista portfölj historiken data."
     },
+    "company": {
+      "list": "Fel att lista kundinformation."
+    },
     "portfolioSecurities": {
       "list": "Fel att lista portfölj fonderna."
     },
