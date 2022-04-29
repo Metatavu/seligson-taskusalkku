@@ -15,6 +15,7 @@ import GenericUtils from "../../../utils/generic";
 import moment from "moment";
 import theme from "../../../theme";
 import { useHardwareGoBack } from "../../../app/hooks";
+import { CompanyContext } from "../../providers/company-provider";
 
 /**
  * Transactions screen component
@@ -26,7 +27,7 @@ const TransactionsScreen: React.FC = () => {
   const fundsContext = React.useContext(FundsApiContext);
   const securitiesContext = React.useContext(SecuritiesApiContext);
   const portfoliosContext = React.useContext(PortfoliosApiContext);
-
+  const { selectedCompany } = React.useContext(CompanyContext);
   const [ loading, setLoading ] = React.useState(true);
   const [ funds, setFunds ] = React.useState<Fund[]>([]);
   const [ securities, setSecurities ] = React.useState<Security[]>([]);
@@ -95,7 +96,7 @@ const TransactionsScreen: React.FC = () => {
    * Loads securities and transactions
    */
   const loadSecuritiesAndTransactions = async () => {
-    const effectivePortfolios = getEffectivePortfolios()?.filter(({ id }) => !!id);
+    const effectivePortfolios = getEffectivePortfolios(selectedCompany)?.filter(({ id }) => !!id);
 
     if (!effectivePortfolios) return;
 
@@ -117,7 +118,7 @@ const TransactionsScreen: React.FC = () => {
    */
   React.useEffect(() => {
     !!portfolios && loadSecuritiesAndTransactions();
-  }, [ portfolios, selectedPortfolio, startDate, endDate ]);
+  }, [ portfolios, selectedPortfolio, selectedCompany, startDate, endDate ]);
 
   /**
    * Renders date pickers

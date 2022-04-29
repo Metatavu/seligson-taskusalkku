@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Fund, FundGroup, SecurityHistoryValue, Portfolio, PortfolioHistoryValue, PortfolioSecurity, PortfolioSummary, PortfolioTransaction, Security, TransactionType } from "../generated/client";
+import { Fund, FundGroup, SecurityHistoryValue, Portfolio, PortfolioHistoryValue, PortfolioSecurity, PortfolioSummary, PortfolioTransaction, Security, TransactionType, CompanyAccessLevel, Company } from "../generated/client";
 import { ChartRange } from "../types";
 
 /**
@@ -196,6 +196,19 @@ namespace TestData {
   };
 
   /**
+   * Lists test company
+   *
+   * @param amount amount of companies to generate
+   */
+  export const listTestCompanies = (amount: number): Company[] => {
+    return [ ...Array(amount).keys() ].map((_, i) => ({
+      id: i.toString(),
+      name: `${i}`,
+      accessLevel: CompanyAccessLevel.Owned
+    }));
+  };
+
+  /**
    * Lists test portfolios
    *
    * @param amount amount of portfolios to generate
@@ -204,6 +217,7 @@ namespace TestData {
     return [ ...Array(amount).keys() ].map((_, i) => ({
       id: i.toString(),
       name: `${i}`,
+      accessLevel: CompanyAccessLevel.Owned,
       marketValueTotal: Math.floor((Math.random() * 1000)).toString(),
       purchaseTotal: Math.floor((Math.random() * 1000)).toString(),
       totalAmount: Math.floor((Math.random() * 10000)).toString()

@@ -7,6 +7,7 @@ import FundsApiProvider from "./src/components/providers/funds-api-provider";
 import MeetingsApiProvider from "./src/components/providers/meetings-api-provider";
 import SecuritiesApiProvider from "./src/components/providers/securities-api-provider";
 import PublicationsApiProvider from "./src/components/providers/publications-api-provider";
+import CompaniesApiProvider from "./src/components/providers/companies-api-provider";
 import { store } from "./src/app/store";
 import AuthRefresh from "./src/components/containers/auth-refresh";
 import ErrorHandler from "./src/components/error-handler/error-handler";
@@ -14,6 +15,7 @@ import theme from "./src/theme";
 import Root from "./src/root";
 import { StatusBar } from "expo-status-bar";
 import PortfolioProvider from "./src/components/providers/portfolio-provider";
+import CompanyProvider from "./src/components/providers/company-provider";
 
 /**
  * API context provides
@@ -23,7 +25,8 @@ const providers = [
   PortfoliosApiProvider,
   MeetingsApiProvider,
   SecuritiesApiProvider,
-  PublicationsApiProvider
+  PublicationsApiProvider,
+  CompaniesApiProvider
 ];
 
 /**
@@ -35,10 +38,12 @@ const App: React.FC = () => (
       <ErrorHandler>
         <ApiProvider providers={ providers }>
           <PortfolioProvider>
-            <AuthRefresh/>
-            {/* eslint-disable-next-line react/style-prop-object */}
-            <StatusBar style="auto"/>
-            <Root/>
+            <CompanyProvider>
+              <AuthRefresh/>
+              {/* eslint-disable-next-line react/style-prop-object */}
+              <StatusBar style="auto"/>
+              <Root/>
+            </CompanyProvider>
           </PortfolioProvider>
         </ApiProvider>
       </ErrorHandler>

@@ -1,4 +1,6 @@
 export * from './ChangeData';
+export * from './Company';
+export * from './CompanyAccessLevel';
 export * from './Fund';
 export * from './FundGroup';
 export * from './LocalizedValue';

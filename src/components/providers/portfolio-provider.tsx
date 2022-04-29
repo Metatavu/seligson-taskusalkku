@@ -2,7 +2,7 @@
 import React from "react";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
-import { Portfolio } from "../../generated/client";
+import { Company, Portfolio } from "../../generated/client";
 import strings from "../../localization/strings";
 import { PortfolioContextType } from "../../types";
 import { ErrorContext } from "../error-handler/error-handler";
@@ -30,11 +30,12 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>();
   const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
   const [ loggedIn, setLoggedIn ] = React.useState(false);
+
   /**
    * Returns effective portfolios
    */
-  const getEffectivePortfolios = () => (
-    portfolios?.filter(portfolio => !selectedPortfolio || portfolio.id === selectedPortfolio.id)
+  const getEffectivePortfolios = (company: Company | undefined) => (
+    portfolios?.filter(portfolio => (!company?.id || portfolio.companyId === company.id) && (!selectedPortfolio || portfolio.id === selectedPortfolio.id)) || []
   );
 
   /**
@@ -79,7 +80,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    * @param portfolio selected portfolio
    */
   const onChange = (portfolio: Portfolio | undefined) => {
-    if (portfolio?.id !== selectedPortfolio?.id) {
+    if (portfolio?.id !== selectedPortfolio?.id || !portfolio) {
       setSelectedPortfolio(portfolio);
     }
   };

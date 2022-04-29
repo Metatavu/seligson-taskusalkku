@@ -1,4 +1,4 @@
-import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, ListSecurityHistoryValuesRequest, SecurityHistoryValue } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, ListSecurityHistoryValuesRequest, SecurityHistoryValue, Company } from "../generated/client";
 
 /**
  * Parsed access token
@@ -50,8 +50,17 @@ export interface ErrorContextType {
 export interface PortfolioContextType {
   portfolios?: Portfolio[];
   selectedPortfolio?: Portfolio;
-  getEffectivePortfolios: () => Portfolio[] | undefined;
+  getEffectivePortfolios: (company: Company | undefined) => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
+}
+
+/**
+ * Interface for company context
+ */
+export interface CompanyContextType {
+  companies?: Company[];
+  selectedCompany?: Company;
+  onChange: (Company: Company) => void;
 }
 
 /**
@@ -81,6 +90,13 @@ export interface PortfoliosApiContextType {
   listPortfolioSecurities: (params: ListPortfolioSecuritiesRequest) => Promise<PortfolioSecurity[]>;
   listPortfolioTransactions: (params: ListPortfolioTransactionsRequest) => Promise<PortfolioTransaction[]>;
   findPortfolioTransaction: (params: FindPortfolioTransactionRequest) => Promise<PortfolioTransaction>;
+}
+
+/**
+ * Interface for company API context
+ */
+export interface CompanyApiContextType {
+  listCompany: (companyIds: string[]) => Promise<Company[]>;
 }
 
 /**

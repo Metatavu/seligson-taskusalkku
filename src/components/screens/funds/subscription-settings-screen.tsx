@@ -7,7 +7,6 @@ import theme from "../../../theme";
 import strings from "../../../localization/strings";
 import GenericUtils from "../../../utils/generic";
 import { PORTFOLIO_REFERENCE_TYPE, SubscriptionOption, SubscriptionSettings } from "../../../types";
-import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BasicModal from "../../generic/basic-modal";
@@ -20,6 +19,7 @@ import CopyText from "../../generic/copy-text";
 import BackButton from "../../generic/back-button";
 import { useHardwareGoBack } from "../../../app/hooks";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 
 /**
  * Component properties
@@ -42,7 +42,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const navigation = useNavigation();
   const route = useRoute<Route<"", { fund: Fund }>>();
   const { fund } = route.params;
-  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
+  const { portfolios } = React.useContext(PortfolioContext);
   const errorContext = React.useContext(ErrorContext);
 
   const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
@@ -51,7 +51,6 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ reference, setReference ] = React.useState<SubscriptionOption>();
-  const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
   const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
     fund: fund,
     dueDate: new Date(),
@@ -80,7 +79,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * @param portfolioOption portfolio option
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
-    const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
+    const foundPortfolio = (portfolios || []).find(p => p.id === portfolioOption.key);
 
     if (!foundPortfolio) return;
 
@@ -126,16 +125,13 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    */
   const loadData = async () => {
     try {
-      const fetchedPortfolios = await portfoliosApiContext.listPortfolios();
-
-      setPortfolios(fetchedPortfolios);
-      const fetchedPortfolioOptions: SubscriptionOption[] = fetchedPortfolios.map(portfolio => ({
+      const loadedPortfolioOptions = (portfolios || []).map(portfolio => ({
         key: portfolio.id || "",
         label: portfolio.name,
         value: portfolio.name
       }));
 
-      setPortfolioOptions(fetchedPortfolioOptions);
+      setPortfolioOptions(loadedPortfolioOptions);
 
       const fundBankOptions = (fund.subscriptionBankAccounts || []).reduce<SubscriptionOption[]>((options, { iBAN, bankAccountName }) => {
         const bankName = bankAccountName?.split("/ ")[1];
@@ -152,7 +148,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
       }, []);
 
       setBankOptions(fundBankOptions);
-      selectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
+      selectDefaultOptions(fundBankOptions[0], (portfolios || [])[0]);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }

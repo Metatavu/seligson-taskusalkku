@@ -14,6 +14,7 @@ import { FundsApiContext } from "../../providers/funds-api-provider";
 import { useHardwareGoBack } from "../../../app/hooks";
 import { MySecurityInfo } from "../../../types";
 import MySecurityUtils from "../../../utils/my-securities";
+import { CompanyContext } from "../../providers/company-provider";
 
 /**
  * My securities screen component
@@ -22,6 +23,7 @@ const MySecuritiesScreen: React.FC = () => {
   useHardwareGoBack();
   const errorContext = React.useContext(ErrorContext);
   const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { selectedCompany } = React.useContext(CompanyContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const securitiesApiContext = React.useContext(SecuritiesApiContext);
   const fundsApiContext = React.useContext(FundsApiContext);
@@ -55,7 +57,7 @@ const MySecuritiesScreen: React.FC = () => {
     try {
       if (!portfolios) return;
 
-      const effectivePortfolios = getEffectivePortfolios()?.filter(({ id }) => !!id);
+      const effectivePortfolios = getEffectivePortfolios(selectedCompany)?.filter(({ id }) => !!id);
 
       if (!effectivePortfolios) return;
 
@@ -85,7 +87,7 @@ const MySecuritiesScreen: React.FC = () => {
   /**
    * Effect for loading my funds when portfolio context data changes
    */
-  React.useEffect(() => { loadMySecurities(); }, [ selectedPortfolio, portfolios ]);
+  React.useEffect(() => { loadMySecurities(); }, [ selectedPortfolio, portfolios, selectedCompany ]);
 
   /**
    * Renders portfolio security card
