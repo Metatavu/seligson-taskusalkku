@@ -14,7 +14,15 @@
     "copied": "Kopierade till urklipp.",
     "saveAndProceed": "Spara och fortsätt.",
     "ok": "Ok",
+    "okay": "Klar!",
     "pressAgainToExit": "Tryck igen för att avsluta"
+  },
+
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
   },
 
   "errorHandling": {
@@ -84,7 +92,7 @@
     "others": "Övrig",
     "statistics": "Översikt",
     "distributions": "Fördelning",
-    "ownFunds": "Fonder",
+    "ownFunds": "Mina fonder",
     "transactions": "Händelser",
     "passiveFunds": "Passiva aktiefonder",
     "activeFunds": "Aktiva aktiefonder",
@@ -102,7 +110,8 @@
     "historyFiveYears": "5 år",
     "historyTenYears": "10 år",
     "historyTwentyYears": "20 år",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Stängt, värdet på andelen baseras på fondens senaste värde från 25. 02. 2022. Nuvarande värde är okänt.)"
   },
 
   "fundDetailsScreen": {
@@ -150,6 +159,11 @@
       "guideLink": "i Fondplacerarens guide (s. 25) ",
       "videoBlog": "samt vår videoblogg ",
       "videoBlogLink": "ETF eller 'vanlig'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -163,7 +177,8 @@
       "subscriptions": "Teckningar",
       "securities": "Byten av andelsslag",
       "total": "Totalt",
-      "changeInGivenRange": "Datumintervall"
+      "changeInGivenRange": "Datumintervall",
+      "noSecurities": "Inga fonder"
     },
     "portfolioSecurities": {
       "title": "Egna fonderna"
@@ -182,11 +197,13 @@
       "value": "Kurs",
       "totalValue": "Värde totalt",
       "provision": "Provision",
-      "paidTotal": "Betalning totalt",
-      "targetSecurity": ""
+      "paidTotal": "Betalning totalt"
     },
     "distribution": {
-      "shareInterest": "Aktier, ränta"
+      "shareInterest": "Aktier, ränta",
+      "equityFunds": "Aktiefonder",
+      "fixedIncomeFunds": "Räntefonder",
+      "combinationFunds": "Blandfonder"
     }
   },
 
@@ -200,6 +217,13 @@
         "noAppointment": "Inga lediga tider för den här dagen.",
         "startDate": "start datum",
         "endDate": "Slut datum"
+      },
+      "meetingCreatedDialog": {
+        "title": "Din bokning har registrerats",
+        "date": "Datum och tid",
+        "info1": "Personen som tar emot dig bekräftar ännu själv bokningen och frågar vid behov om mera information.",
+        "info2": "Normalt får du den personliga bekräftelsen inom en vardag efter att du bokat.",
+        "info3": "Om du inte får en bekräftelse, eller om du har andra frågor, kontakta oss direkt per e-post info@seligson.fi."
       }
     },
     "newMeeting": {
@@ -218,7 +242,8 @@
         "firstName": "Förnamn",
         "lastName": "Efternamn",
         "email": "E-post",
-        "phone": "Telefonnummer"
+        "phone": "Telefonnummer",
+        "emailIsInvalid": "Kontrollera stavningen av mejlet"
       },
       "additionalInformation": "Ytterligare information"
     }
@@ -227,7 +252,7 @@
   "settingsScreen": {
     "initialRoute": "Välj startinnehåll",
     "preferredLogin": "Välj inloggningssätt",
-    "language": "Appens språk",
+    "language": "Välj appens språk",
     "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade."
   },
 

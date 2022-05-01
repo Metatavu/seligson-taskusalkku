@@ -119,7 +119,7 @@ const SettingsScreen: React.FC = () => {
   const onLanguageChange = async (language: Language) => {
     await Config.setLocalValue("@language", language);
     dispatch(setLanguage(language));
-    
+
     navigation.dispatch(state => CommonActions.reset(constructNewNavigationState(state)));
   };
 
@@ -128,7 +128,7 @@ const SettingsScreen: React.FC = () => {
    */
   const onLogout = async () => {
     dispatch(logout());
-    navigation.replace("authentication", { screen: "welcome" });
+    navigation.reset({ routes: [{ name: "authentication" }] });
   };
 
   /**
@@ -238,7 +238,7 @@ const SettingsScreen: React.FC = () => {
           { renderCards(renderLanguageOptions, strings.settingsScreen.language) }
         </View>
         { auth &&
-          <Button onPress={ onLogout } style={ styles.logOutButton }>
+          <Button onPress={ onLogout } style={ styles.logoutButton }>
             <Text style={ styles.buttonText }>
               { strings.generic.logout }
             </Text>

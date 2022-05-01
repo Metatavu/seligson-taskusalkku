@@ -14,7 +14,15 @@
     "copied": "Kopioitu leikepöydälle",
     "saveAndProceed": "Tallenna ja jatka",
     "ok": "Ok",
+    "okay": "Selvä!",
     "pressAgainToExit": "Sulje painamalla uudelleen"
+  },
+
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
   },
 
   "errorHandling": {
@@ -30,10 +38,10 @@
       "find": "Virhe haettaessa rahastotietoja"
     },
     "portfolio": {
-      "list": "Virhe listattaessa portfolion historiatietoja"
+      "list": "Virhe listattaessa salkun historiatietoja"
     },
     "portfolioSecurities": {
-      "list": "Virhe listattaessa oman portfolion rahastoja"
+      "list": "Virhe listattaessa salkun rahastoja"
     },
     "auth": {
       "login": "Kirjautumisessa tapahtui virhe",
@@ -46,7 +54,7 @@
       "create": "Virhe ajanvarausta luodessa"
     },
     "portfolioTransactions": {
-      "list": "Virhe listattaessa oman portfolion tapahtumia"
+      "list": "Virhe listattaessa salkun tapahtumia"
     },
     "publications": {
       "list": "Virhe listattaessa julkaisuja",
@@ -74,9 +82,9 @@
 
   "screenTitles": {
     "portfolio": "Salkku",
-    "funds": "Rahastot",
+    "funds": "Rahastovalikoima",
     "publications": "Julkaisut",
-    "meetings": "Tapaamiset",
+    "meetings": "Ajanvaraus",
     "reviews": "Katsaukset",
     "topical": "Ajankohtaista",
     "questions": "Kysymykset",
@@ -84,7 +92,7 @@
     "others": "Muut",
     "statistics": "Yleisnäkymä",
     "distributions": "Jakaumat",
-    "ownFunds": "Omat rahastot",
+    "ownFunds": "Salkun rahastot",
     "transactions": "Tapahtumat",
     "passiveFunds": "Passiiviset osakerahastot",
     "activeFunds": "Aktiiviset osakerahastot",
@@ -102,7 +110,8 @@
     "historyFiveYears": "5v",
     "historyTenYears": "10v",
     "historyTwentyYears": "20v",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Suljettu, osuuden arvo perustuu rahaston viimeisempään 25.02.2022 laskettuun arvoon. Nykyinen arvo ei ole tiedossa.)"
   },
 
   "fundDetailsScreen": {
@@ -150,6 +159,11 @@
       "guideLink": "Rahastosijoittajan oppaasta (s. 25) ",
       "videoBlog": "sekä videoblogistamme ",
       "videoBlogLink": "ETF vai 'tavallinen'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -163,13 +177,14 @@
       "subscriptions": "Merkinnät",
       "securities": "Osuuslajien vaihdot",
       "total": "Yhteensä",
-      "changeInGivenRange": "Ajanjakso"
+      "changeInGivenRange": "Ajanjakso",
+      "noSecurities": "Ei rahastoja"
     },
     "portfolioSecurities": {
-      "title": "Omat rahastot"
+      "title": "Salkun rahastot"
     },
     "select": {
-      "all": "Kaikki portfoliot"
+      "all": "Kaikki salkut"
     },
     "transactions": {
       "type": "Tapahtumatyyppi",
@@ -185,7 +200,10 @@
       "paidTotal": "Maksettu yhteensä"
     },
     "distribution": {
-      "shareInterest": "Osakkeet, korot"
+      "shareInterest": "Osakkeet, korot",
+      "equityFunds": "Osakerahastot",
+      "fixedIncomeFunds": "Korkorahastot",
+      "combinationFunds": "Yhdistelmärahastot"
     }
   },
 
@@ -199,6 +217,13 @@
         "noAppointment": "Tälle päivälle ei ole varattavia aikoja.",
         "startDate": "Aloituspäivämäärä",
         "endDate": "Päättymispäivä"
+      },
+      "meetingCreatedDialog": {
+        "title": "Varauksesi on tallennettu",
+        "date": "Ajankohta",
+        "info1": "Vastaanottava henkilö vahvistaa varauksen vielä omasta puolestaan ja kysyy tarvittaessa lisätietoja.",
+        "info2": "Henkilökohtainen vahvistus tulee normaalisti viimeistään varausta seuraavana arkipäivänä.",
+        "info3": "Mikäli et saa vahvistusta tai sinulla on kysymyksiä, voit ottaa yhteyttä myös suoraan sähköpostilla: info@seligson.fi."
       }
     },
     "newMeeting": {
@@ -217,7 +242,8 @@
         "firstName": "Etunimi",
         "lastName": "Sukunimi",
         "email": "Sähköposti",
-        "phone": "Puhelinnumero"
+        "phone": "Puhelinnumero",
+        "emailIsInvalid": "Tarkasta sähköpostin kirjoitusasu"
       },
       "additionalInformation": "Lisätiedot"
     }
@@ -226,7 +252,7 @@
   "settingsScreen": {
     "initialRoute": "Valitse aloitussisältö",
     "preferredLogin": "Valitse kirjautumistapa",
-    "language": "Sovelluksen kieli",
+    "language": "Valitse sovelluksen kieli",
     "loginRequired": "Biometrinen tunnistus ja PIN-koodi eivät ole valittavissa ilman sisäänkirjautumista"
   },
 
@@ -259,7 +285,7 @@
       "description": "Rahastosalkkusi näytetään heti, kun avaat sovelluksen (Vaatii kirjautumisen tai lukituksen avaamisen)"
     },
     "funds": {
-      "title": "Rahastot",
+      "title": "Rahastovalikoima",
       "description": "Näet uusimmat rahastoarvot heti ilman kirjautumista tai lukituksen avaamista"
     }
   },

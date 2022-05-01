@@ -1,17 +1,16 @@
 import moment from "moment";
 import React from "react";
 import { View, Text, ActivityIndicator } from "react-native";
-import { Button, Card } from "react-native-paper";
+import { Button, Card, Dialog, Paragraph, Portal } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
 import { MeetingsApiContext } from "../../providers/meetings-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
 import MeetingNavigator from "../../../types/navigators/meeting";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/meeting-times-screen";
 import theme from "../../../theme";
-import { FlatGrid } from "react-native-super-grid";
 import DatePicker from "../../generic/date-picker";
 import { useHardwareGoBack } from "../../../app/hooks";
 
@@ -21,12 +20,14 @@ import { useHardwareGoBack } from "../../../app/hooks";
 const MeetingTimesScreen: React.FC = () => {
   useHardwareGoBack();
   const meetingsApiContext = React.useContext(MeetingsApiContext);
-  const navigation = useNavigation<MeetingNavigator.NavigationProps>();
+  const navigation = useNavigation<MeetingNavigator.NavigationProps<"meetingTimes">>();
+  const { createdMeeting } = useRoute<MeetingNavigator.RouteProps<"meetingTimes">>().params || {};
   const errorContext = React.useContext(ErrorContext);
 
   const [ loading, setLoading ] = React.useState(true);
   const [ selectedDate, setSelectedSDate ] = React.useState<Date>(moment().add(1, "day").toDate());
   const [ meetingTimes, setMeetingTimes ] = React.useState<MeetingTime[]>([]);
+  const [ meetingNotificationVisible, setMeetingNotificationVisible ] = React.useState(false);
 
   /**
    * Fetches meeting times
@@ -58,6 +59,11 @@ const MeetingTimesScreen: React.FC = () => {
   }, [ selectedDate ]);
 
   /**
+   * Effect that opens created meeting notification modal if meeting was created
+   */
+  React.useEffect(() => setMeetingNotificationVisible(!!createdMeeting), [ createdMeeting ]);
+
+  /**
    * Handler for start date picker date change
    *
    * @param pickedDate picked date
@@ -74,15 +80,41 @@ const MeetingTimesScreen: React.FC = () => {
    * @param meetingTime meeting time
    * @param index index of the meeting time
    */
-  const renderMeetingTime = (meetingTime: MeetingTime, index: number) => (
+  const renderMeetingTime = (meetingTime: MeetingTime) => (
     <Button
-      key={ index }
+      key={ meetingTime.startTime.getTime() }
       style={ styles.meetingTime }
       onPress={ () => navigation.navigate("newMeeting", { meetingTime: meetingTime }) }
     >
-      <Text>{ moment.utc(meetingTime.startTime).format("HH:mm") }</Text>
+      <Text>{ moment(meetingTime.startTime).format("HH:mm") }</Text>
     </Button>
   );
+
+  /**
+   * Renders meeting times
+   */
+  const renderMeetingTimes = () => {
+    if (!meetingTimes.length) {
+      return (
+        <Text style={ styles.noAvailableTime }>
+          { strings.meetings.newMeeting.noAvailableTime }
+        </Text>
+      );
+    }
+
+    const items = [ ...meetingTimes ];
+    const rows: React.ReactNode[] = [];
+
+    while (items.length) {
+      rows.push(
+        <View key={ items.length } style={ styles.meetingTimeRow }>
+          { items.splice(0, 2).map(renderMeetingTime) }
+        </View>
+      );
+    }
+
+    return rows;
+  };
 
   /**
    * Renders content
@@ -104,18 +136,77 @@ const MeetingTimesScreen: React.FC = () => {
           onDateChange={ datePickerChange }
           minimumDate={ moment().add(1, "day").toDate() }
         />
-        { meetingTimes.length <= 0 &&
-          <Text style={ styles.noAvailableTime }>
-            { strings.meetings.newMeeting.noAvailableTime }
-          </Text>
-        }
-        <FlatGrid
-          disableVirtualization
-          itemDimension={ 130 }
-          data={ meetingTimes }
-          renderItem={ ({ item, index }) => renderMeetingTime(item, index) }
-        />
+        <View style={{ paddingTop: theme.spacing(2) }}>
+          { renderMeetingTimes() }
+        </View>
       </Card>
+    );
+  };
+
+  /**
+   * Renders dialog meeting time
+   *
+   * @param label label
+   * @param meetingTime meeting time
+   */
+  const renderDialogMeetingTime = (label: string, meetingTime: Date) => (
+    <>
+      <Paragraph style={ styles.dialogMeetingTimeLabel }>
+        { label }
+      </Paragraph>
+      <Paragraph style={{ marginBottom: theme.spacing(2) }}>
+        { moment(meetingTime).format("DD.MM.YYYY HH.mm") }
+      </Paragraph>
+    </>
+  );
+
+  /**
+   * Renders modal info text
+   *
+   * @param text text
+   */
+  const renderModalInfoText = (text: string) => (
+    <Paragraph style={ styles.dialogParagraph }>
+      { text }
+    </Paragraph>
+  );
+
+  /**
+   * Renders meeting created modal if meeting was created before navigating to this screen
+   */
+  const renderMeetingCreatedModal = () => {
+    const localized = strings.meetings.meetingTimes.meetingCreatedDialog;
+
+    return (
+      <Portal>
+        <Dialog
+          visible={ meetingNotificationVisible }
+          dismissable={ false }
+          style={{ borderRadius: theme.spacing(2) }}
+        >
+          <Dialog.Title style={ styles.dialogTitle }>
+            { localized.title }
+          </Dialog.Title>
+          <Dialog.Content>
+            { createdMeeting?.time &&
+              renderDialogMeetingTime(localized.date, createdMeeting.time)
+            }
+            { [ localized.info1, localized.info2, localized.info3 ].map(renderModalInfoText) }
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button
+              mode="contained"
+              uppercase={ false }
+              labelStyle={{ color: "white" }}
+              contentStyle={{ paddingHorizontal: theme.spacing(2) }}
+              style={{ borderRadius: theme.spacing(6) }}
+              onPress={ () => setMeetingNotificationVisible(false) }
+            >
+              { strings.generic.okay }
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     );
   };
 
@@ -124,6 +215,7 @@ const MeetingTimesScreen: React.FC = () => {
    */
   return (
     <ScrollView>
+      { createdMeeting && renderMeetingCreatedModal() }
       <View style={ styles.meetingTimes }>
         <Card style={ styles.meetingCard }>
           <Text style={[ theme.fonts.medium, styles.meetingTitle ]}>

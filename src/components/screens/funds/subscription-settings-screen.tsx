@@ -48,10 +48,9 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
   const [ bankOptionVisible, setBankOptionVisible ] = React.useState(false);
   const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
-  const [ referenceOptionVisible, setReferenceOptionVisible ] = React.useState(false);
   const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
-  const [ referenceOptions, setReferenceOptions ] = React.useState<SubscriptionOption[]>([]);
+  const [ reference, setReference ] = React.useState<SubscriptionOption>();
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>([]);
   const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
     fund: fund,
@@ -66,28 +65,13 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * @param bankOption bank option
    */
   const onBankOptionSelect = (bankOption: SubscriptionOption) => {
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.bankName = bankOption.label;
-      draft.iBAN = bankOption.value;
+    setSubscriptionSettings({
+      ...subscriptionSettings,
+      bankName: bankOption.label,
+      iBAN: bankOption.value
     });
 
-    setSubscriptionSettings(updatedSubscriptionSettings);
     setBankOptionVisible(false);
-  };
-
-  /**
-   * Reference options select handler
-   *
-   * @param referenceOption reference option
-   */
-  const onReferenceOptionSelect = (referenceOption: SubscriptionOption) => {
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.referenceNumber = referenceOption.value;
-      draft.shareType = referenceOption.key as PORTFOLIO_REFERENCE_TYPE;
-    });
-
-    setSubscriptionSettings(updatedSubscriptionSettings);
-    setReferenceOptionVisible(false);
   };
 
   /**
@@ -97,41 +81,28 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
     const foundPortfolio = portfolios.find(p => p.id === portfolioOption.key);
-    if (!foundPortfolio) {
-      return;
-    }
 
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.portfolio = foundPortfolio;
+    if (!foundPortfolio) return;
+
+    setSubscriptionSettings({
+      ...subscriptionSettings,
+      portfolio: foundPortfolio
     });
-
-    setSubscriptionSettings(updatedSubscriptionSettings);
     setPortfolioOptionVisible(false);
   };
 
   /**
-   * Update reference options handler
+   * Update reference handler
    *
    * @param portfolio portfolio
    */
-  const updateReferenceOptions = (portfolio: Portfolio) => {
-    const options: SubscriptionOption[] = [
-      {
-        label: strings.subscription.shares.a.title,
-        description: strings.subscription.shares.a.description,
-        key: PORTFOLIO_REFERENCE_TYPE.A,
-        value: portfolio.aReference || ""
-      },
-      {
-        label: strings.subscription.shares.b.title,
-        description: strings.subscription.shares.b.description,
-        key: PORTFOLIO_REFERENCE_TYPE.B,
-        value: portfolio.bReference || ""
-      }
-    ];
-
-    setReferenceOptions(options);
-    onReferenceOptionSelect(options[0]);
+  const updateReference = (portfolio: Portfolio) => {
+    setReference({
+      label: strings.subscription.shares.a.title,
+      description: strings.subscription.shares.a.description,
+      key: PORTFOLIO_REFERENCE_TYPE.A,
+      value: portfolio.aReference || ""
+    });
   };
 
   /**
@@ -140,14 +111,14 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * @param bankOption bank option
    * @param portfolio portfolio
    */
-  const SelectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
-    const updatedSubscriptionSettings = produce(subscriptionSettings, draft => {
-      draft.bankName = bankOption?.label;
-      draft.iBAN = bankOption?.value;
-      draft.portfolio = portfolio;
+  const selectDefaultOptions = (bankOption?: SubscriptionOption, portfolio?: Portfolio) => {
+    setSubscriptionSettings({
+      ...subscriptionSettings,
+      bankName: bankOption?.label,
+      iBAN: bankOption?.value,
+      portfolio: portfolio,
+      referenceNumber: portfolio?.aReference
     });
-
-    setSubscriptionSettings(updatedSubscriptionSettings);
   };
 
   /**
@@ -166,14 +137,22 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
 
       setPortfolioOptions(fetchedPortfolioOptions);
 
-      const fundBankOptions: SubscriptionOption[] = fund.subscriptionBankAccounts?.map(subscriptionBankAccount => ({
-        key: subscriptionBankAccount.iBAN || "",
-        label: subscriptionBankAccount.bankAccountName?.split("/ ")[1] || "",
-        value: subscriptionBankAccount.iBAN || ""
-      })) || [];
+      const fundBankOptions = (fund.subscriptionBankAccounts || []).reduce<SubscriptionOption[]>((options, { iBAN, bankAccountName }) => {
+        const bankName = bankAccountName?.split("/ ")[1];
+
+        if (iBAN && bankName) {
+          options.push({
+            key: iBAN,
+            label: strings.subscription.bankNames[bankName as keyof typeof strings.subscription.bankNames] || "",
+            value: iBAN
+          });
+        }
+
+        return options;
+      }, []);
 
       setBankOptions(fundBankOptions);
-      SelectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
+      selectDefaultOptions(fundBankOptions[0], fetchedPortfolios[0]);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
@@ -188,7 +167,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * Effect for updating reference options
    */
   React.useEffect(() => {
-    subscriptionSettings.portfolio && updateReferenceOptions(subscriptionSettings.portfolio);
+    subscriptionSettings.portfolio && updateReference(subscriptionSettings.portfolio);
   }, [ subscriptionSettings.portfolio ]);
 
   /**
@@ -493,14 +472,17 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
         )
       }
       <Divider style={{ marginBottom: theme.spacing(2) }}/>
+      <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
+        { strings.subscription.referenceNumber }
+      </Text>
       {
-        renderSelectWithLabel(
-          strings.subscription.referenceNumber,
-          referenceOptionVisible,
-          setReferenceOptionVisible,
-          referenceOptions,
-          onReferenceOptionSelect,
-          referenceOptions.find(option => option.key === subscriptionSettings.shareType)
+        renderDataRow(
+          () => (
+            <Text style={ theme.fonts.medium }>
+              { strings.subscription.shares.a.title }
+            </Text>
+          ),
+          () => renderCopyText(reference?.value || "")
         )
       }
       <Divider/>

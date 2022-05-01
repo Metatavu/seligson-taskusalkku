@@ -25,7 +25,18 @@ export interface Strings extends LocalizedStringsMethods {
     copied: string;
     saveAndProceed: string;
     ok: string;
+    okay: string;
     pressAgainToExit: string;
+  };
+
+  /**
+   * Translations for currencies
+   */
+  currency: {
+    symbol: {
+      EUR: string;
+      SEK: string;
+    }
   };
 
   /**
@@ -126,6 +137,7 @@ export interface Strings extends LocalizedStringsMethods {
     historyTenYears: string;
     historyTwentyYears: string;
     historyMax: string;
+    closed: string;
   };
 
   /**
@@ -178,6 +190,11 @@ export interface Strings extends LocalizedStringsMethods {
       videoBlog: string;
       videoBlogLink: string;
     };
+    bankNames: {
+      OP: string;
+      NORDEA: string;
+      "S-PANKKI": string;
+    }
   };
 
   /**
@@ -194,6 +211,7 @@ export interface Strings extends LocalizedStringsMethods {
       securities: string;
       total: string;
       changeInGivenRange: string;
+      noSecurities: string;
     };
     portfolioSecurities: {
       title: string;
@@ -213,10 +231,12 @@ export interface Strings extends LocalizedStringsMethods {
       totalValue: string;
       provision: string;
       paidTotal: string;
-      targetSecurity: string;
     };
     distribution: {
       shareInterest: string;
+      equityFunds: string;
+      fixedIncomeFunds: string;
+      combinationFunds: string;
     };
   };
 
@@ -233,6 +253,13 @@ export interface Strings extends LocalizedStringsMethods {
         noAppointment: string;
         startDate: string;
         endDate: string;
+      };
+      meetingCreatedDialog: {
+        title: string;
+        date: string;
+        info1: string;
+        info2: string;
+        info3: string;
       };
     };
     newMeeting: {
@@ -252,6 +279,7 @@ export interface Strings extends LocalizedStringsMethods {
         lastName: string;
         email: string;
         phone: string;
+        emailIsInvalid: string;
       },
       additionalInformation: string;
     };
@@ -322,6 +350,6 @@ const strings: Strings = new LocalizedStrings({
   en: en,
   fi: fi,
   sv: sv
-});
+}, { customLanguageInterface: () => "fi" });
 
 export default strings;

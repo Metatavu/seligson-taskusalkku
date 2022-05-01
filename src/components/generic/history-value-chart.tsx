@@ -6,13 +6,14 @@ import { PortfolioHistoryValue, SecurityHistoryValue } from "../../generated/cli
 import ChartUtils from "../../utils/chart";
 import Injectables from "../../utils/injectables";
 import styles from "../../styles/generic/history-value-chart";
+import { Currency } from "../../types";
 
 /**
  * Component properties
  */
 interface Props {
   historyValues: SecurityHistoryValue[] | PortfolioHistoryValue[];
-  currency?: string;
+  currency?: Currency;
   color?: string;
   onChartTouch?: (event: GestureResponderEvent) => void;
 }

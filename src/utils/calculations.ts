@@ -1,7 +1,8 @@
 import BigNumber from "bignumber.js";
 import moment from "moment";
 import { Portfolio, PortfolioSummary, SecurityHistoryValue } from "../generated/client";
-import { ChartRange } from "../types";
+import strings from "../localization/strings";
+import { ChartRange, Currency } from "../types";
 import DateUtils from "./date-utils";
 
 /**
@@ -46,11 +47,13 @@ namespace Calculations {
       return "0";
     }
 
-    return new BigNumber(totalValue)
-      .multipliedBy(100)
-      .dividedBy(purchaseValue)
-      .minus(100)
-      .toFormat(2);
+    return (
+      new BigNumber(totalValue)
+        .multipliedBy(100)
+        .dividedBy(purchaseValue)
+        .minus(100)
+        .toFormat(2)
+    );
   };
 
   /**
@@ -105,15 +108,15 @@ namespace Calculations {
    * @param portfolios list of portfolios
    * @returns object that contains market value total, purchase total, total change (in cents) and total change percentage
    */
-  export const getTotalPortfolioInfo = (portfolios: Portfolio[]) => {
+  export const getTotalPortfolioInfo = (portfolios: Portfolio[], currency: Currency = "EUR") => {
     const [ marketValueTotal, purchaseTotal ] = calculateTotals(portfolios);
     const totalChange = calculatePortfoliosTotalChange(portfolios);
     const totalChangePercentage = calculatePortfoliosTotalChangePercentage(portfolios);
 
     return {
-      marketValueTotal: Calculations.formatEuroNumberStr(marketValueTotal),
-      purchaseTotal: Calculations.formatEuroNumberStr(purchaseTotal),
-      totalChangeAmount: Calculations.formatEuroNumberStr(totalChange),
+      marketValueTotal: Calculations.formatCurrency(marketValueTotal, currency),
+      purchaseTotal: Calculations.formatCurrency(purchaseTotal, currency),
+      totalChangeAmount: Calculations.formatCurrency(totalChange, currency),
       totalChangePercentage: Calculations.formatNumberStr(totalChangePercentage, 2, { suffix: " %" })
     };
   };
@@ -172,7 +175,10 @@ namespace Calculations {
    * @param summaries list of summaries
    * @returns object that contains sum of subscriptions and redemptions
    */
-  export const getPortfolioSummaryInfo = (summaries: PortfolioSummary[]): { subscriptionsTotal: string, redemptionsTotal: string, difference: string } => {
+  export const getPortfolioSummaryInfo = (
+    summaries: PortfolioSummary[],
+    currency: Currency = "EUR"
+  ): { subscriptionsTotal: string, redemptionsTotal: string, difference: string } => {
     let subscriptionsTotal: string = "0";
     let redemptionsTotal: string = "0";
 
@@ -184,9 +190,9 @@ namespace Calculations {
     const difference = new BigNumber(subscriptionsTotal).minus(redemptionsTotal).toString();
 
     return {
-      subscriptionsTotal: Calculations.formatEuroNumberStr(subscriptionsTotal),
-      redemptionsTotal: Calculations.formatEuroNumberStr(redemptionsTotal),
-      difference: Calculations.formatEuroNumberStr(difference)
+      subscriptionsTotal: Calculations.formatCurrency(subscriptionsTotal, currency),
+      redemptionsTotal: Calculations.formatCurrency(redemptionsTotal, currency),
+      difference: Calculations.formatCurrency(difference, currency)
     };
   };
 
@@ -207,13 +213,14 @@ namespace Calculations {
   );
 
   /**
-   * Formats euro number string
+   * Formats currency number string
    * 
    * @param number number to be formatted
+   * @param currency currency
    * @param decimalPlaces number of decimal places, default to 2
    */
-  export const formatEuroNumberStr = (number: string | BigNumber, decimalPlaces: number = 2) => (
-    Calculations.formatNumberStr(number, decimalPlaces, { suffix: " €" })
+  export const formatCurrency = (number: string | BigNumber, currency: Currency, decimalPlaces: number = 2) => (
+    Calculations.formatNumberStr(number, decimalPlaces, { suffix: ` ${strings.currency.symbol[currency]}` })
   );
 
   /**

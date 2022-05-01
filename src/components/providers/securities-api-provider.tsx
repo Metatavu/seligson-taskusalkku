@@ -48,9 +48,11 @@ const SecuritiesApiProvider: React.FC = ({ children }) => {
         throw new Error("No access token");
       }
 
-      return AuthUtils.isDemoUser(auth || anonymousAuth) ?
+      const result = AuthUtils.isDemoUser(auth || anonymousAuth) ?
         TestData.listTestSecurities(20) :
         await Api.getSecuritiesApi(auth || anonymousAuth).listSecurities(params);
+
+      return result;
     } catch (error) {
       return Promise.reject(error);
     }

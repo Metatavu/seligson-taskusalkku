@@ -48,9 +48,9 @@ export interface ErrorContextType {
  * Interface for portfolio context
  */
 export interface PortfolioContextType {
-  portfolios: Portfolio[];
+  portfolios?: Portfolio[];
   selectedPortfolio?: Portfolio;
-  getEffectivePortfolios: () => Portfolio[];
+  getEffectivePortfolios: () => Portfolio[] | undefined;
   onChange: (portfolio?: Portfolio) => void;
 }
 
@@ -219,4 +219,16 @@ export interface DatePickerEvent {
     timestamp: string;
   };
   type: string;
+}
+
+export type Currency = "EUR" | "SEK";
+
+/**
+ * My security info
+ */
+export interface MySecurityInfo {
+  portfolioId: string;
+  portfolioSecurity: PortfolioSecurity;
+  security: Security;
+  fund: Fund;
 }

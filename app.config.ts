@@ -10,13 +10,13 @@ import "dotenv/config";
  */
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: config.name || "Taskusalkku",
-  slug: config.slug || "taskusalkku",
+  name: config.name || "Seligson & Co",
+  slug: config.slug || "seligson-co",
   extra: {
     ...config.extra,
     ...process.env
   },
-  version: "1.0.8",
+  version: "25.0.2",
   hooks: {
     postPublish: [
       {

@@ -15,6 +15,7 @@ import PortfolioNavigator from "../../../types/navigators/portfolio";
 import { useHardwareGoBack } from "../../../app/hooks";
 import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
+import { Currency } from "../../../types";
 
 /**
  * Type for detail row
@@ -40,7 +41,7 @@ const TransactionDetailsScreen: React.FC = () => {
   }
 
   const { fund, security, portfolioTransaction } = params;
-  const { name } = security;
+  const { name, currency } = security;
   const { transactionType, valueDate, paymentDate, provision, shareAmount, marketValue, totalValue, targetSecurityId, value } = portfolioTransaction;
 
   /**
@@ -127,19 +128,19 @@ const TransactionDetailsScreen: React.FC = () => {
       },
       {
         label: localized.value,
-        detailValue: Calculations.formatEuroNumberStr(marketValue, 4)
+        detailValue: Calculations.formatCurrency(marketValue, currency as Currency, 4)
       },
       {
         label: localized.totalValue,
-        detailValue: Calculations.formatEuroNumberStr(totalValueByTransactionType())
+        detailValue: Calculations.formatCurrency(totalValueByTransactionType(), currency as Currency)
       },
       {
         label: localized.provision,
-        detailValue: Calculations.formatEuroNumberStr(provision)
+        detailValue: Calculations.formatCurrency(provision, currency as Currency)
       },
       {
         label: localized.paidTotal,
-        detailValue: Calculations.formatEuroNumberStr(paidTotal)
+        detailValue: Calculations.formatCurrency(paidTotal, currency as Currency)
       }
     ];
 
@@ -157,7 +158,7 @@ const TransactionDetailsScreen: React.FC = () => {
         <View style={ styles.detailsWrapper }>
           <Text style={[ theme.fonts.medium, styles.transactionTitle ]}>
             { GenericUtils.getLocalizedValue(name) }
-            { targetSecurity !== undefined && ` - > ${GenericUtils.getLocalizedValue(targetSecurity?.name).slice(-3)}`}
+            { targetSecurity !== undefined && transactionType === "SECURITY" && ` - > ${GenericUtils.getLocalizedValue(targetSecurity?.name).slice(-3)}`}
           </Text>
           <Divider style={{ marginVertical: 5 }}/>
           { renderDetailRows() }

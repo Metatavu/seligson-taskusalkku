@@ -14,7 +14,7 @@ export interface LocaleState {
 /**
  * Initial locale state
  */
-const initialState: LocaleState = { language: Language.EN };
+const initialState: LocaleState = { language: Language.FI };
 
 /**
  * Locale slice of Redux store

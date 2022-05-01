@@ -6,7 +6,13 @@ import { selectAnonymousAuth, selectAuth } from "../../features/auth/auth-slice"
 import { CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, MeetingType } from "../../generated/client";
 import { MeetingsApiContextType } from "../../types";
 
-const initialMeeting: Meeting = { contact: { firstName: "", lastName: "" }, type: MeetingType.Meeting, language: "fi", participantCount: 0, time: new Date() };
+const initialMeeting: Meeting = {
+  contact: { firstName: "", lastName: "" },
+  type: MeetingType.Meeting,
+  language: "fi",
+  participantCount: 0,
+  time: new Date()
+};
 
 /**
  * Portfolios api context initialization

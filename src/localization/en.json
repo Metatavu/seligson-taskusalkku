@@ -14,7 +14,15 @@
     "copied": "Copied to clipboard",
     "saveAndProceed": "Save and proceed",
     "ok": "Ok",
+    "okay": "Okay!",
     "pressAgainToExit": "Press again to exit"
+  },
+
+  "currency": {
+    "symbol": {
+      "EUR": "€",
+      "SEK": "kr"
+    }
   },
 
   "errorHandling": {
@@ -83,8 +91,8 @@
     "phoebus": "Phoebus",
     "others": "Others",
     "statistics": "Overview",
-    "distributions": "Distributions",
-    "ownFunds": "Own funds",
+    "distributions": "Diversification",
+    "ownFunds": "My funds",
     "transactions": "Transactions",
     "passiveFunds": "Passive equity funds",
     "activeFunds": "Active\nfunds",
@@ -102,7 +110,9 @@
     "historyFiveYears": "5y",
     "historyTenYears": "10y",
     "historyTwentyYears": "20y",
-    "historyMax": "max"
+    "historyMax": "max",
+    "closed": "(Closed, share value is based on the last value from 25.02.2022. Current value is unknown.)"
+
   },
 
   "fundDetailsScreen": {
@@ -150,6 +160,11 @@
       "guideLink": "Fund investor guide (p. 25) ",
       "videoBlog": "Our video blog ",
       "videoBlogLink": "ETF or 'regular'"
+    },
+    "bankNames": {
+      "OP": "OP",
+      "NORDEA": "Nordea",
+      "S-PANKKI": "S-Pankki"
     }
   },
 
@@ -163,7 +178,8 @@
       "subscriptions": "Subscriptions",
       "securities": "Fund unit changes",
       "total": "Total",
-      "changeInGivenRange": "Date range"
+      "changeInGivenRange": "Date range",
+      "noSecurities": "No funds"
     },
     "portfolioSecurities": {
       "title": "Own funds"
@@ -185,7 +201,10 @@
       "paidTotal": "Total paid"
     },
     "distribution": {
-      "shareInterest": "Shares, interest"
+      "shareInterest": "Shares, interest",
+      "equityFunds": "Equity funds",
+      "fixedIncomeFunds": "Fixed income funds",
+      "combinationFunds": "Combination funds"
     }
   },
 
@@ -199,6 +218,13 @@
         "noAppointment": "There is no available meeting for this day",
         "startDate": "Start date",
         "endDate": "End date"
+      },
+      "meetingCreatedDialog": {
+        "title": "Your reservation has been saved",
+        "date": "Date",
+        "info1": "The recipient of the reservation will confirm the booking on their own behalf and will ask for further information if necessary.",
+        "info2": "Personal confirmation will normally be received no later than the working day following the booking.",
+        "info3": "If you do not receive confirmation or have questions, you can also contact us directly by email: info@seligson.fi."
       }
     },
     "newMeeting": {
@@ -217,7 +243,8 @@
         "firstName": "First name",
         "lastName": "Last name",
         "email": "Email",
-        "phone": "Phone"
+        "phone": "Phone",
+        "emailIsInvalid": "Check email format"
       },
       "additionalInformation": "Additional information"
     }
@@ -226,7 +253,7 @@
   "settingsScreen": {
     "initialRoute": "Select default login route",
     "preferredLogin": "Select preferred login",
-    "language": "Application language",
+    "language": "Select application language",
     "loginRequired": "Biometric authentication and PIN-code are not available until you login."
   },
 
