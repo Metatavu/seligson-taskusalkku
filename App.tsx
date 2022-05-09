@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Provider as PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from "react-redux";
 import ApiProvider from "./src/components/providers/api-provider";
@@ -16,6 +16,8 @@ import Root from "./src/root";
 import { StatusBar } from "expo-status-bar";
 import PortfolioProvider from "./src/components/providers/portfolio-provider";
 import CompanyProvider from "./src/components/providers/company-provider";
+import { useInterval } from "./src/app/hooks";
+import * as Updates from "expo-updates";
 
 /**
  * API context provides
@@ -32,23 +34,54 @@ const providers = [
 /**
  * App component
  */
-const App: React.FC = () => (
-  <StoreProvider store={ store }>
-    <PaperProvider theme={ theme }>
-      <ErrorHandler>
-        <ApiProvider providers={ providers }>
-          <PortfolioProvider>
-            <CompanyProvider>
-              <AuthRefresh/>
-              {/* eslint-disable-next-line react/style-prop-object */}
-              <StatusBar style="auto"/>
-              <Root/>
-            </CompanyProvider>
-          </PortfolioProvider>
-        </ApiProvider>
-      </ErrorHandler>
-    </PaperProvider>
-  </StoreProvider>
-);
+const App: React.FC = () => {
+  /**
+   * Checks for app update from release channel
+   */
+  const checkAppUpdates = async () => {
+    try {
+      const { isAvailable } = await Updates.checkForUpdateAsync();
+      if (isAvailable) {
+        const { isNew } = await Updates.fetchUpdateAsync();
+        isNew && await Updates.reloadAsync();
+      }
+    } catch (error) {
+      console.log("Error while updating software", error);
+    }
+  };
+
+  /**
+   * Interval for checking updates from release channel
+   */
+  useInterval(() => {
+    checkAppUpdates();
+  }, 5 * 60 * 1000);
+
+  /**
+   * Effect for checking updates from release channel when component mounts
+   */
+  useEffect(() => {
+    checkAppUpdates();
+  }, []);
+
+  return (
+    <StoreProvider store={ store }>
+      <PaperProvider theme={ theme }>
+        <ErrorHandler>
+          <ApiProvider providers={ providers }>
+            <PortfolioProvider>
+              <CompanyProvider>
+                <AuthRefresh/>
+                {/* eslint-disable-next-line react/style-prop-object */}
+                <StatusBar style="auto"/>
+                <Root/>
+              </CompanyProvider>
+            </PortfolioProvider>
+          </ApiProvider>
+        </ErrorHandler>
+      </PaperProvider>
+    </StoreProvider>
+  );
+};
 
 export default App;
