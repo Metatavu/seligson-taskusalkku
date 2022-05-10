@@ -20,7 +20,6 @@ import RadioButtonOptionItem from "../generic/radio-button-option-item";
 import BiometricAuth from "../../utils/biometric-auth";
 import theme from "../../theme";
 import * as Updates from "expo-updates";
-import { Manifest } from "expo-updates";
 import { AppManifest } from "expo-constants/build/Constants.types";
 
 /**
