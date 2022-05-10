@@ -237,7 +237,7 @@ const SettingsScreen: React.FC = () => {
     const { version } = Updates.manifest as AppManifest;
 
     return (
-      <View>
+      <View style={ styles.versionRow }>
         <Text style={ styles.versionText }>
           { `${strings.settingsScreen.version}: ${version}` }
         </Text>
@@ -266,9 +266,7 @@ const SettingsScreen: React.FC = () => {
             </Text>
           </Button>
         }
-        <View style={ styles.container }>
-          { renderVersionInfo() }
-        </View>
+        { renderVersionInfo() }
       </ScrollView>
       <PinInput
         inputOpen={ pinInputOpen }
