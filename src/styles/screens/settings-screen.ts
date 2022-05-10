@@ -39,6 +39,10 @@ export default StyleSheet.create({
 
   buttonText: {
     color: "#fff"
+  },
+
+  versionText: {
+    fontSize: 10
   }
 
 });

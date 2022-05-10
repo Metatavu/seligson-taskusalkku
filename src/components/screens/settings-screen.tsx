@@ -19,6 +19,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import RadioButtonOptionItem from "../generic/radio-button-option-item";
 import BiometricAuth from "../../utils/biometric-auth";
 import theme from "../../theme";
+import * as Updates from "expo-updates";
+import { Manifest } from "expo-updates";
+import { AppManifest } from "expo-constants/build/Constants.types";
 
 /**
  * Custom navigation prop type for SettingsScreen. Consists of HomeNavigator and RootNavigator
@@ -227,6 +230,26 @@ const SettingsScreen: React.FC = () => {
   );
 
   /**
+   *
+   */
+  const renderVersionInfo = () => {
+    if (!Updates) return null;
+
+    const { version } = Updates.manifest as AppManifest;
+
+    return (
+      <View>
+        <Text style={ styles.versionText }>
+          { `${strings.settingsScreen.version}: ${version}` }
+        </Text>
+        <Text style={ styles.versionText }>
+          { `${strings.settingsScreen.releaseChannel}: ${Updates.releaseChannel}` }
+        </Text>
+      </View>
+    );
+  };
+
+  /**
    * Component render
    */
   return (
@@ -244,6 +267,9 @@ const SettingsScreen: React.FC = () => {
             </Text>
           </Button>
         }
+        <View style={ styles.container }>
+          { renderVersionInfo() }
+        </View>
       </ScrollView>
       <PinInput
         inputOpen={ pinInputOpen }

@@ -296,6 +296,8 @@ export interface Strings extends LocalizedStringsMethods {
     preferredLogin: string;
     language: string;
     loginRequired: string;
+    releaseChannel: string;
+    version: string;
   };
 
   /**

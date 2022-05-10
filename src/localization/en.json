@@ -257,7 +257,9 @@
     "initialRoute": "Select default login route",
     "preferredLogin": "Select preferred login",
     "language": "Select application language",
-    "loginRequired": "Biometric authentication and PIN-code are not available until you login."
+    "loginRequired": "Biometric authentication and PIN-code are not available until you login.",
+    "releaseChannel": "Release channel",
+    "version": "App version"
   },
 
   "loginOptions": {
