@@ -39,6 +39,17 @@ export default StyleSheet.create({
 
   buttonText: {
     color: "#fff"
+  },
+
+  versionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: theme.spacing(2)
+  },
+
+  versionText: {
+    fontSize: 10,
+    color: theme.colors.grey[500]
   }
 
 });

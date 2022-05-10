@@ -27,6 +27,9 @@
 
   "errorHandling": {
     "title": "Virhe",
+    "generic": {
+      "copy": "Virhe kopioidessa leikepöydälle"
+    },
     "funds": {
       "list": "Virhe listattaessa rahastoja"
     },
@@ -256,7 +259,9 @@
     "initialRoute": "Valitse aloitussisältö",
     "preferredLogin": "Valitse kirjautumistapa",
     "language": "Valitse sovelluksen kieli",
-    "loginRequired": "Biometrinen tunnistus ja PIN-koodi eivät ole valittavissa ilman sisäänkirjautumista"
+    "loginRequired": "Biometrinen tunnistus ja PIN-koodi eivät ole valittavissa ilman sisäänkirjautumista",
+    "releaseChannel": "Julkaisukanava",
+    "version": "Sovellusversio"
   },
 
   "loginOptions": {

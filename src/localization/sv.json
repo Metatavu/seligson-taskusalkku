@@ -27,6 +27,9 @@
 
   "errorHandling": {
     "title": "Fel",
+    "generic": {
+      "copy": "Fel vid kopiering till urklipp"
+    },
     "funds": {
       "list": "Fel att lista fonderna."
     },
@@ -256,7 +259,9 @@
     "initialRoute": "Välj startinnehåll",
     "preferredLogin": "Välj inloggningssätt",
     "language": "Välj appens språk",
-    "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade."
+    "loginRequired": "Biometrisk identifiering och PIN-koden kan inte väljas utan inloggade.",
+    "releaseChannel": "Släppkanal",
+    "version": "Applikationsversion"
   },
 
   "loginOptions": {

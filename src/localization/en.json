@@ -27,6 +27,9 @@
 
   "errorHandling": {
     "title": "Error",
+    "generic": {
+      "copy": "Error while copying to clipboard"
+    },
     "funds": {
       "list": "Error while loading fund list"
     },
@@ -257,7 +260,9 @@
     "initialRoute": "Select default login route",
     "preferredLogin": "Select preferred login",
     "language": "Select application language",
-    "loginRequired": "Biometric authentication and PIN-code are not available until you login."
+    "loginRequired": "Biometric authentication and PIN-code are not available until you login.",
+    "releaseChannel": "Release channel",
+    "version": "App version"
   },
 
   "loginOptions": {

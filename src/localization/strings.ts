@@ -44,6 +44,9 @@ export interface Strings extends LocalizedStringsMethods {
    */
   errorHandling: {
     title: string;
+    generic: {
+      copy: string;
+    };
     funds: {
       list: string;
     };
@@ -296,6 +299,8 @@ export interface Strings extends LocalizedStringsMethods {
     preferredLogin: string;
     language: string;
     loginRequired: string;
+    releaseChannel: string;
+    version: string;
   };
 
   /**
