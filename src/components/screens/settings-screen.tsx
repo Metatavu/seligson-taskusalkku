@@ -230,9 +230,8 @@ const SettingsScreen: React.FC = () => {
    */
   const renderVersionInfo = () => {
     if (!Updates || !Constants.platform) return null;
-    const { platform } = Constants;
-
-    const version = Platform.OS === "ios" ? platform.ios?.buildNumber : platform.android?.versionCode;
+    const { manifest } = Constants;
+    const version = Platform.OS === "ios" ? manifest?.ios?.buildNumber : manifest?.android?.versionCode;
 
     return (
       <View style={ styles.versionRow }>
