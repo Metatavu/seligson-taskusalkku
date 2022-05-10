@@ -27,6 +27,9 @@
 
   "errorHandling": {
     "title": "Fel",
+    "generic": {
+      "copy": "Fel vid kopiering till urklipp"
+    },
     "funds": {
       "list": "Fel att lista fonderna."
     },

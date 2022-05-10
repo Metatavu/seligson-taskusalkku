@@ -229,7 +229,7 @@ const SettingsScreen: React.FC = () => {
   );
 
   /**
-   *
+   * Renders version info
    */
   const renderVersionInfo = () => {
     if (!Updates) return null;

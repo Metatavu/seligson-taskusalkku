@@ -27,6 +27,9 @@
 
   "errorHandling": {
     "title": "Virhe",
+    "generic": {
+      "copy": "Virhe kopioidessa leikepöydälle"
+    },
     "funds": {
       "list": "Virhe listattaessa rahastoja"
     },

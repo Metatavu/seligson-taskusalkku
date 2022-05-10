@@ -44,6 +44,9 @@ export interface Strings extends LocalizedStringsMethods {
    */
   errorHandling: {
     title: string;
+    generic: {
+      copy: string;
+    };
     funds: {
       list: string;
     };
