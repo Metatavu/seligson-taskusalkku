@@ -1,8 +1,5 @@
 {
   "expo": {
-    "name": "Seligson & Co",
-    "slug": "seligson-co",
-    "version": "25.0.2",
     "orientation": "portrait",
     "entryPoint": "./index.tsx",
     "icon": "./assets/app-icon.png",
@@ -20,21 +17,17 @@
     "ios": {
       "supportsTablet": false,
       "icon": "./assets/app-icon.png",
-      "buildNumber": "25.0.2",
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app optionally uses the camera (Face ID) to authenticate users."
-      },
-      "bundleIdentifier": "fi.seligson"
+      }
     },
     "android": {
       "icon": "./assets/app-icon.png",
-      "versionCode": 2500002,
       "permissions": [ "CAMERA", "USE_BIOMETRIC", "USE_FINGERPRINT" ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/app-icon-adaptive.png",
         "backgroundColor": "#899c35"
-      },
-      "package": "fi.seligson"
+      }
     },
     "androidNavigationBar": {
       "barStyle": "dark-content",
