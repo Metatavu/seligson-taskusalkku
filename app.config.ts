@@ -27,23 +27,23 @@ const getAndroidVersionCode = () => {
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   version: version,
-  name: process.env.EXPO_APP_NAME || "Seligson & Co",
-  slug: process.env.EXPO_APP_SLUG || "seligson-co",
+  name: process.env.REACT_APP_EXPO_APP_NAME || "Seligson & Co",
+  slug: process.env.REACT_APP_EXPO_APP_SLUG || "seligson-co",
   ios: {
     ...config.ios,
-    bundleIdentifier: process.env.EXPO_IOS_BUNDLE_IDENTIFIER || "fi.seligson",
+    bundleIdentifier: process.env.REACT_APP_EXPO_IOS_BUNDLE_IDENTIFIER || "fi.seligson",
     buildNumber: version
   },
   android: {
     ...config.android,
-    package: process.env.EXPO_ANDROID_PACKAGE || "fi.seligson",
+    package: process.env.REACT_APP_EXPO_ANDROID_PACKAGE || "fi.seligson",
     versionCode: getAndroidVersionCode()
   },
   extra: {
     ...config.extra,
     ...process.env
   },
-  scheme: process.env.EXPO_SCHEME || "fi.seligson",
+  scheme: process.env.REACT_APP_EXPO_SCHEME || "fi.seligson",
   hooks: {
     postPublish: [
       {
