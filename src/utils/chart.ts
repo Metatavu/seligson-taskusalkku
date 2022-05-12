@@ -29,12 +29,19 @@ namespace ChartUtils {
    * @param historicValues list of historical values
    * @returns list of ChartData objects
    */
-  export const convertToChartData = (historicValues: SecurityHistoryValue[]): ChartData[] => (
-    historicValues.filter(value => value.value !== "0").map(value => ({
+  export const convertToChartData = (historicValues: SecurityHistoryValue[]): ChartData[] => {
+    var valueEncountered = false;
+
+    return historicValues.filter(value => {
+      const result = value.value !== "0";
+
+      result && (valueEncountered = true);
+      return valueEncountered || result;
+    }).map(value => ({
       x: value.date || new Date(),
       y: new BigNumber(value.value || 0).toNumber()
     }))
-  );
+  };
 
   /**
    * Returns string key from given date
