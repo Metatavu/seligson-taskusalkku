@@ -29,7 +29,7 @@ const CompaniesApiProvider: React.FC = ({ children }) => {
    * @param params given request parameters
    * @returns list of companies or promise reject
    */
-  const listCompany = async (companyIds: string[]): Promise<Company[]> => {
+  const listCompany = async (): Promise<Company[]> => {
     try {
       if (!auth) {
         throw new Error("No access token");
@@ -37,7 +37,7 @@ const CompaniesApiProvider: React.FC = ({ children }) => {
 
       const result = AuthUtils.isDemoUser(auth) ?
         TestData.listTestCompanies(8) :
-        await Promise.all(companyIds.map(companyId => Api.getCompaniesApi(auth).findCompany({ companyId: companyId })));
+        await Api.getCompaniesApi(auth).listCompanies();
 
       return result;
     } catch (error) {

@@ -69,4 +69,40 @@ export class CompaniesApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     * Lists companies
+     * Lists companies
+     */
+    async listCompaniesRaw(): Promise<runtime.ApiResponse<Array<Company>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/v1/companies`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CompanyFromJSON));
+    }
+
+    /**
+     * Lists companies
+     * Lists companies
+     */
+    async listCompanies(): Promise<Array<Company>> {
+        const response = await this.listCompaniesRaw();
+        return await response.value();
+    }
+
 }

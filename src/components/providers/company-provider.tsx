@@ -37,12 +37,9 @@ const CompanyProvider: React.FC = ({ children }) => {
    * Lists portfolios
    */
   const fetchCompany = async () => {
-    const companyIds = MySecurityUtils.getCompanyIds(portfolioContext.portfolios || []);
-    if (!companyIds.length) return;
-
     try {
       setSelectedCompany(undefined);
-      const loadedCompanies = await listCompany(companyIds);
+      const loadedCompanies = await listCompany();
       setCompanies(loadedCompanies);
       setSelectedCompany(loadedCompanies.find(company => company.accessLevel === CompanyAccessLevel.Owned) || loadedCompanies[0]);
     } catch (error) {
@@ -55,7 +52,7 @@ const CompanyProvider: React.FC = ({ children }) => {
    */
   React.useEffect(() => {
     loggedIn && fetchCompany();
-  }, [ loggedIn, portfolioContext.portfolios ]);
+  }, [ loggedIn ]);
 
   /**
    * Effect for setting logged in value when auth changes

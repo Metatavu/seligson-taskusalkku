@@ -3,7 +3,7 @@ import React from "react";
 import Api from "../../api/api";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
-import { FindPortfolioTransactionRequest, GetPortfolioSummaryRequest, ListPortfolioHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSummary, PortfolioTransaction, TransactionType } from "../../generated/client";
+import { FindPortfolioTransactionRequest, GetPortfolioSummaryRequest, ListPortfolioHistoryValuesRequest, ListPortfolioSecuritiesRequest, ListPortfoliosRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSummary, PortfolioTransaction, TransactionType } from "../../generated/client";
 import TestData from "../../resources/test-data";
 import { PortfoliosApiContextType } from "../../types";
 import AuthUtils from "../../utils/auth";
@@ -48,10 +48,10 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
   /**
    * Lists portfolios with given request parameters
    *
-   * @param params given request parameters
+   * @param companyId company id
    * @returns list of portfolios or promise reject
    */
-  const listPortfolios = async (): Promise<Portfolio[]> => {
+  const listPortfolios = async (params: ListPortfoliosRequest): Promise<Portfolio[]> => {
     try {
       if (!auth) {
         throw new Error("No access token");
@@ -59,7 +59,7 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
 
       const result = AuthUtils.isDemoUser(auth) ?
         TestData.listTestPortfolios(8) :
-        await Api.getPortfoliosApi(auth).listPortfolios();
+        await Api.getPortfoliosApi(auth).listPortfolios(params);
 
       return result;
     } catch (error) {
