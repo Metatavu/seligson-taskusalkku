@@ -48,7 +48,7 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
   /**
    * Lists portfolios with given request parameters
    *
-   * @param companyId company id
+   * @param params given request parameters
    * @returns list of portfolios or promise reject
    */
   const listPortfolios = async (params: ListPortfoliosRequest): Promise<Portfolio[]> => {
