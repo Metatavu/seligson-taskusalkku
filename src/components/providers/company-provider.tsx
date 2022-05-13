@@ -5,7 +5,6 @@ import { selectAuth } from "../../features/auth/auth-slice";
 import { Company, CompanyAccessLevel, Portfolio } from "../../generated/client";
 import strings from "../../localization/strings";
 import { CompanyContextType } from "../../types";
-import MySecurityUtils from "../../utils/my-securities";
 import { ErrorContext } from "../error-handler/error-handler";
 import { CompaniesApiContext } from "./companies-api-provider";
 import { PortfolioContext } from "./portfolio-provider";
