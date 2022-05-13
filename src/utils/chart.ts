@@ -30,14 +30,14 @@ namespace ChartUtils {
    * @returns list of ChartData objects
    */
   export const convertToChartData = (historicValues: SecurityHistoryValue[]): ChartData[] => {
-    var valueEncountered = false;
+    var zeroLength = 0;
+    const filteredHistoricValues = [ ...historicValues ]
+    while (filteredHistoricValues[zeroLength].value === "0" && zeroLength <= historicValues.length - 1) {
+      zeroLength += 1;
+    }
 
-    return historicValues.filter(value => {
-      const result = value.value !== "0";
-
-      result && (valueEncountered = true);
-      return valueEncountered || result;
-    }).map(value => ({
+    filteredHistoricValues.splice(0, zeroLength);
+    return filteredHistoricValues.map(value => ({
       x: value.date || new Date(),
       y: new BigNumber(value.value || 0).toNumber()
     }))
