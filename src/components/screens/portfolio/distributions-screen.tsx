@@ -23,7 +23,7 @@ import { CompanyContext } from "../../providers/company-provider";
  */
 const DistributionsScreen: React.FC = () => {
   useHardwareGoBack();
-  const { selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { selectedPortfolio, getEffectivePortfolios, portfolios } = React.useContext(PortfolioContext);
   const { selectedCompany } = React.useContext(CompanyContext);
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const securityApiContext = React.useContext(SecuritiesApiContext);
@@ -106,7 +106,7 @@ const DistributionsScreen: React.FC = () => {
   /**
    * Effect that loads data
    */
-  React.useEffect(() => { loadData(); }, [ selectedPortfolio, selectedCompany ]);
+  React.useEffect(() => { loadData(); }, [ selectedPortfolio, selectedCompany, portfolios ]);
 
   /**
    * Renders securities category

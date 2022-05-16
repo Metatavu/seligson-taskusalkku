@@ -6,7 +6,7 @@ import { PortfolioHistoryValue, SecurityHistoryValue } from "../../generated/cli
 import ChartUtils from "../../utils/chart";
 import Injectables from "../../utils/injectables";
 import styles from "../../styles/generic/history-value-chart";
-import { Currency } from "../../types";
+import { ChartData, Currency } from "../../types";
 
 /**
  * Component properties
@@ -34,15 +34,19 @@ const HistoryValueChart: React.FC<Props> = ({
   const webViewRef = React.useRef<WebView>(null);
   const [ webViewReady, setWebViewReady ] = React.useState(false);
   const [ viewReady, setViewReady ] = React.useState(false);
+  const [ chartData, setChartData ] = React.useState<ChartData[]>([]);
 
   /**
    * Effect that updated webview script when webview is ready or data is changed
    */
   React.useEffect(() => {
     setTimeout(() => {
+      const chartData = ChartUtils.convertToChartData(historyValues);
+      setChartData(chartData);
+
       webViewRef.current?.injectJavaScript(
         Injectables.getChartScript(
-          ChartUtils.convertToChartData(historyValues),
+          chartData,
           currency,
           color
         )
@@ -57,21 +61,23 @@ const HistoryValueChart: React.FC<Props> = ({
    */
   return (
     <View style={{ opacity: Number(viewReady) }}>
-      <WebView
-        ref={ webViewRef }
-        originWhitelist={[ "*" ]}
-        scrollEnabled={ false }
-        overScrollMode="never"
-        bounces={ false }
-        source={{ html: Injectables.getChartHtml(theme.colors.surface) }}
-        containerStyle={{ backgroundColor: theme.colors.surface }}
-        injectedJavaScriptBeforeContentLoaded={ Injectables.getErrorHandlerScript() }
-        onTouchStart={ onChartTouch }
-        // eslint-disable-next-line no-console
-        onMessage={ event => console.error(event.nativeEvent.data) }
-        onLoad={ () => setWebViewReady(true) }
-        style={ styles.webView }
-      />
+      {
+        !!chartData.length && <WebView
+          ref={ webViewRef }
+          originWhitelist={[ "*" ]}
+          scrollEnabled={ false }
+          overScrollMode="never"
+          bounces={ false }
+          source={{ html: Injectables.getChartHtml(theme.colors.surface) }}
+          containerStyle={{ backgroundColor: theme.colors.surface }}
+          injectedJavaScriptBeforeContentLoaded={ Injectables.getErrorHandlerScript() }
+          onTouchStart={ onChartTouch }
+          // eslint-disable-next-line no-console
+          onMessage={ event => console.error(event.nativeEvent.data) }
+          onLoad={ () => setWebViewReady(true) }
+          style={ styles.webView }
+        />
+      }
     </View>
   );
 };
