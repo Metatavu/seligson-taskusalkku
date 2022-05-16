@@ -18,6 +18,6 @@ export default StyleSheet.create({
     color: "white",
     paddingLeft: 10,
     fontSize: 14
-  },
+  }
 
 });
