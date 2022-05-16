@@ -33,20 +33,8 @@ const PortfolioSelect: React.FC = () => {
     onChange((portfolios || []).find(portfolio => portfolio.id === portfolioId));
   };
 
-  if (!portfolios?.length) {
-    return <View style={{ height: CONTAINER_HEIGHT }}/>;
-  }
-
-  if (effectivePortfolios.length === 1) {
-    return (
-      <View style={ styles.root }>
-        <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-          <Text style={ styles.singlePortfolioText }>
-            { effectivePortfolios[0].name }
-          </Text>
-        </View>
-      </View>
-    );
+  if (!effectivePortfolios?.length || effectivePortfolios.length === 1) {
+    return null;
   }
 
   /**
