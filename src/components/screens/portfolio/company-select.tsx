@@ -2,8 +2,10 @@ import React from "react";
 import { View, Text } from "react-native";
 import { TextInput } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
+import { Portfolio } from "../../../generated/client";
 import styles from "../../../styles/screens/portfolio/company-select";
 import { CompanyContext } from "../../providers/company-provider";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 
 const CONTAINER_HEIGHT = 48;
 
@@ -13,6 +15,12 @@ const CONTAINER_HEIGHT = 48;
 const CompanySelect: React.FC = () => {
   const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
+  const { portfolios, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const [ effectivePortfolios, setEffectivePortfolios ] = React.useState<Portfolio[]>([]);
+
+  React.useEffect(() => {
+    setEffectivePortfolios(getEffectivePortfolios(selectedCompany));
+  }, [ selectedCompany, portfolios, companies ]);
 
   /**
    * Event handler for select value change
@@ -26,6 +34,17 @@ const CompanySelect: React.FC = () => {
   };
 
   if (!companies?.length || companies.length === 1) {
+    if (!effectivePortfolios?.length || effectivePortfolios.length == 1) {
+      return (
+        <View style={ styles.root }>
+          <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
+            <Text style={ styles.singleCompanyText }>
+              { (companies && companies[0].name) ? companies[0]?.name : "" }
+            </Text>
+          </View>
+        </View>
+      );
+    }
     return null;
   }
 
