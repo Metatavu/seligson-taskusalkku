@@ -25,20 +25,8 @@ const CompanySelect: React.FC = () => {
     foundCompany && onChange(foundCompany);
   };
 
-  if (!companies?.length) {
+  if (!companies?.length || companies.length === 1) {
     return null;
-  }
-
-  if (companies.length === 1) {
-    return (
-      <View style={ styles.root }>
-        <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-          <Text style={ styles.singleCompanyText }>
-            { companies[0].name }
-          </Text>
-        </View>
-      </View>
-    );
   }
 
   /**

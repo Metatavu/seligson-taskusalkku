@@ -67,6 +67,10 @@ export interface ListPortfolioTransactionsRequest {
     transactionType?: TransactionType;
 }
 
+export interface ListPortfoliosRequest {
+    companyId?: string;
+}
+
 /**
  * 
  */
@@ -364,8 +368,12 @@ export class PortfoliosApi extends runtime.BaseAPI {
      * Lists portfolios logged user has access to
      * List portfolios.
      */
-    async listPortfoliosRaw(): Promise<runtime.ApiResponse<Array<Portfolio>>> {
+    async listPortfoliosRaw(requestParameters: ListPortfoliosRequest): Promise<runtime.ApiResponse<Array<Portfolio>>> {
         const queryParameters: any = {};
+
+        if (requestParameters.companyId !== undefined) {
+            queryParameters['companyId'] = requestParameters.companyId;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -391,8 +399,8 @@ export class PortfoliosApi extends runtime.BaseAPI {
      * Lists portfolios logged user has access to
      * List portfolios.
      */
-    async listPortfolios(): Promise<Array<Portfolio>> {
-        const response = await this.listPortfoliosRaw();
+    async listPortfolios(requestParameters: ListPortfoliosRequest): Promise<Array<Portfolio>> {
+        const response = await this.listPortfoliosRaw(requestParameters);
         return await response.value();
     }
 

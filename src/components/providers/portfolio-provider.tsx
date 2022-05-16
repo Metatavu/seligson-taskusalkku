@@ -44,7 +44,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const fetchPortfolios = async () => {
     try {
       setPortfolios(undefined);
-      const loadedPortfolios = await portfoliosApiContext.listPortfolios();
+      const loadedPortfolios = await portfoliosApiContext.listPortfolios({});
       setPortfolios(loadedPortfolios);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);

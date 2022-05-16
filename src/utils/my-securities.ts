@@ -56,14 +56,6 @@ namespace MySecurityUtils {
     ...getLtFunds(mySecurities).sort(MySecurityUtils.sortMySecuritiesByName)
   ];
 
-  /**
-   * Gets company ids
-   *
-   * @param portfolios portfolios
-   */
-  export const getCompanyIds = (portfolios: Portfolio[]) =>
-    portfolios?.map(portfolio => portfolio.companyId).sort().filter((item, index, array) => !index || item !== array[index - 1]) as string[] || [];
-
 }
 
 export default MySecurityUtils;

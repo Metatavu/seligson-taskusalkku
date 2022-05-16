@@ -14,14 +14,14 @@ const CONTAINER_HEIGHT = 48;
  * Portfolio select component
  */
 const PortfolioSelect: React.FC = () => {
-  const { selectedCompany } = React.useContext(CompanyContext);
+  const { selectedCompany, companies } = React.useContext(CompanyContext);
   const { portfolios, onChange, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
   const [ effectivePortfolios, setEffectivePortfolios ] = React.useState<Portfolio[]>([]);
 
   React.useEffect(() => {
     setEffectivePortfolios(getEffectivePortfolios(selectedCompany));
-  }, [ selectedCompany ]);
+  }, [ selectedCompany, portfolios, companies ]);
 
   /**
    * Event handler for select value change
