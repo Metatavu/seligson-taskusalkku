@@ -1,10 +1,12 @@
 /* eslint-disable object-shorthand */
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
-import { Company, Portfolio } from "../../generated/client";
+import { Company, Portfolio, PortfolioSummary, SecurityHistoryValue } from "../../generated/client";
 import strings from "../../localization/strings";
-import { PortfolioContextType } from "../../types";
+import { StatisticsLoaderParams, PortfolioContextType } from "../../types";
+import ChartUtils from "../../utils/chart";
+import DateUtils from "../../utils/date-utils";
 import { ErrorContext } from "../error-handler/error-handler";
 import { PortfoliosApiContext } from "./portfolios-api-provider";
 
@@ -15,7 +17,13 @@ export const PortfolioContext = React.createContext<PortfolioContextType>({
   portfolios: undefined,
   selectedPortfolio: undefined,
   getEffectivePortfolios: () => [],
-  onChange: async () => {}
+  onChange: async () => {},
+  setStatisticsLoaderParams: () => {},
+  savedHistoryValues: [],
+  savedSummaries: [],
+  saveHistoryValues: () => {},
+  saveSummaries: () => {},
+  statisticsLoaderParams: undefined
 });
 
 /**
@@ -30,6 +38,11 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const [ portfolios, setPortfolios ] = React.useState<Portfolio[]>();
   const [ selectedPortfolio, setSelectedPortfolio ] = React.useState<Portfolio>();
   const [ loggedIn, setLoggedIn ] = React.useState(false);
+  const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
+  const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>([]);
+
+  const [ statisticsLoaderParams, setStatisticsLoaderParams ] = React.useState<StatisticsLoaderParams>();
+  const historyLoader = useRef<NodeJS.Timeout>();
 
   /**
    * Returns effective portfolios
@@ -50,6 +63,53 @@ const PortfolioProvider: React.FC = ({ children }) => {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
   };
+
+  /**
+   * Sets the history loader
+   */
+  const setHistoryLoader = async () => {
+    historyLoader.current = setInterval(async () => {
+      try {
+        if (!statisticsLoaderParams) {
+          return;
+        }
+
+        const { effectivePortfolios, range } = statisticsLoaderParams;
+        const { startDate, endDate } = DateUtils.getDateFilters(range);
+        const portfolioHistoryValues = await Promise.all(effectivePortfolios.map(portfolio => (
+          portfoliosApiContext.listPortfolioHistoryValues({
+            portfolioId: portfolio.id!,
+            startDate: startDate,
+            endDate: endDate
+          })
+        )));
+
+        const portfolioSummaries = await Promise.all(
+          effectivePortfolios.map(({ id }) => (
+            portfoliosApiContext.getPortfolioSummary({
+              portfolioId: id!,
+              ...DateUtils.getDateFilters(range)
+            })
+          ))
+        );
+        
+        setSummaries(portfolioSummaries);
+        setHistoryValues(ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues));
+      } catch (error) {
+        errorContext.setError(strings.errorHandling.fundHistory.list, error);
+      }
+    }, 10000);
+  };
+
+  /**
+   * Sets loaders
+   */
+  useEffect(() => {
+    historyLoader.current && clearInterval(historyLoader.current);
+    setHistoryLoader();
+
+    return () => historyLoader.current && clearInterval(historyLoader.current);
+  }, []);
 
   /**
    * Effect for fetching portfolios when loggedIn changes
@@ -94,7 +154,13 @@ const PortfolioProvider: React.FC = ({ children }) => {
         portfolios,
         selectedPortfolio,
         getEffectivePortfolios,
-        onChange
+        onChange,
+        setStatisticsLoaderParams: setStatisticsLoaderParams,
+        savedHistoryValues: historyValues,
+        savedSummaries: summaries,
+        saveHistoryValues: setHistoryValues,
+        saveSummaries: setSummaries,
+        statisticsLoaderParams: statisticsLoaderParams
       }}
     >
       { children }

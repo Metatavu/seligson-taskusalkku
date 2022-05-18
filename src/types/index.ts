@@ -45,6 +45,14 @@ export interface ErrorContextType {
 }
 
 /**
+ * Statistics loader params
+ */
+export interface StatisticsLoaderParams {
+  effectivePortfolios: Portfolio[];
+  range: Date[] | ChartRange;
+}
+
+/**
  * Interface for portfolio context
  */
 export interface PortfolioContextType {
@@ -52,6 +60,12 @@ export interface PortfolioContextType {
   selectedPortfolio?: Portfolio;
   getEffectivePortfolios: (company: Company | undefined) => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
+  statisticsLoaderParams?: StatisticsLoaderParams;
+  setStatisticsLoaderParams: (params: StatisticsLoaderParams) => void;
+  savedHistoryValues: SecurityHistoryValue[];
+  savedSummaries: PortfolioSummary[];
+  saveHistoryValues: (historyValues: SecurityHistoryValue[]) => void;
+  saveSummaries: (summaries: PortfolioSummary[]) => void;
 }
 
 /**

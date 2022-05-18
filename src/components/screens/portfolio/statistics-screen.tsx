@@ -29,7 +29,19 @@ const StatisticsScreen: React.FC = () => {
   useHardwareGoBack();
   const errorContext = React.useContext(ErrorContext);
   const { selectedCompany } = React.useContext(CompanyContext);
-  const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+
+  const {
+    portfolios,
+    selectedPortfolio,
+    getEffectivePortfolios,
+    setStatisticsLoaderParams,
+    savedHistoryValues,
+    savedSummaries,
+    saveHistoryValues,
+    saveSummaries,
+    statisticsLoaderParams
+  } = React.useContext(PortfolioContext);
+
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const focus = useIsFocused();
 
@@ -37,13 +49,17 @@ const StatisticsScreen: React.FC = () => {
   const [ historyLoading, setHistoryLoading ] = React.useState(false);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
   const [ historyValues, setHistoryValues ] = React.useState<PortfolioHistoryValue[]>();
-  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(statisticsLoaderParams?.range || ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   /**
    * Loads history data
    */
   const loadHistoryData = async () => {
+    if (savedHistoryValues.length > 0) {
+      return savedHistoryValues;
+    }
+
     const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
@@ -76,6 +92,10 @@ const StatisticsScreen: React.FC = () => {
    * Load portfolio summaries
    */
   const loadSummaries = async () => {
+    if (savedSummaries.length > 0) {
+      return savedSummaries;
+    }
+
     const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
@@ -110,6 +130,7 @@ const StatisticsScreen: React.FC = () => {
    * Fetch component data
    */
   const fetchData = async () => {
+    setStatisticsLoaderParams({ range: selectedRange, effectivePortfolios: getEffectivePortfolios(selectedCompany) });
     !summaries && setLoading(true);
     setHistoryLoading(true);
 
@@ -119,11 +140,13 @@ const StatisticsScreen: React.FC = () => {
     ]);
 
     if (portfolioHistoryValues) {
+      saveHistoryValues(portfolioHistoryValues);
       setHistoryValues(portfolioHistoryValues);
       setHistoryLoading(false);
     }
 
     if (portfolioSummaries) {
+      saveSummaries(portfolioSummaries);
       setSummaries(portfolioSummaries);
       setLoading(false);
     }
@@ -211,6 +234,17 @@ const StatisticsScreen: React.FC = () => {
   };
 
   /**
+   * Handles updating selected range
+   * 
+   * @param range 
+   */
+  const onRangeUpdate = (range: ChartRange | Date[]) => {
+    saveSummaries([]);
+    saveHistoryValues([]);
+    setSelectedRange(range);
+  };
+
+  /**
    * Renders chart container
    */
   const renderChartContainer = () => {
@@ -229,7 +263,7 @@ const StatisticsScreen: React.FC = () => {
         <ChartRangeSelector
           selectedRange={ selectedRange }
           loading={ loading }
-          onDateRangeChange={ setSelectedRange }
+          onDateRangeChange={ range => onRangeUpdate(range) }
         />
         { renderChart() }
       </>
