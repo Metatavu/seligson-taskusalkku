@@ -11,9 +11,16 @@ import { Portfolio } from "../../../generated/client";
 const CONTAINER_HEIGHT = 48;
 
 /**
+ * Component properties
+ */
+interface Props {
+  loading?: boolean;
+}
+
+/**
  * Portfolio select component
  */
-const PortfolioSelect: React.FC = () => {
+const PortfolioSelect: React.FC<Props> = ({ loading }) => {
   const { selectedCompany, companies } = React.useContext(CompanyContext);
   const { portfolios, onChange, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
@@ -50,19 +57,19 @@ const PortfolioSelect: React.FC = () => {
         onDismiss={ () => setShowDropDown(false) }
         value={ selectedPortfolio?.id || "" }
         setValue={ onSelectValueChange }
-        showDropDown={ () => setShowDropDown(true) }
+        showDropDown={ () => !loading && setShowDropDown(true) }
         visible={ showDropDown }
         mode="flat"
         dropDownContainerMaxHeight={ 500 }
         inputProps={{
           render: ({ value }) => (
             <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-              <Text style={ styles.portfolioSelectInputText }>
+              <Text style={[ styles.portfolioSelectInputText, loading && { opacity: 0.5 } ]}>
                 { value }
               </Text>
             </View>
           ),
-          right: <TextInput.Icon name="tune" color="white"/>,
+          right: <TextInput.Icon name="tune" color="white" style={ loading && { opacity: 0.5 } }/>,
           style: {
             backgroundColor: "transparent",
             borderColor: "transparent",
