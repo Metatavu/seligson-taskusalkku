@@ -4,7 +4,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
 import { Company, Portfolio, PortfolioSummary, SecurityHistoryValue } from "../../generated/client";
 import strings from "../../localization/strings";
-import { StatisticsLoaderParams, PortfolioContextType } from "../../types";
+import { StatisticsLoaderParams, PortfolioContextType, PortfolioSecurityCategory, CategoriesLoaderParams } from "../../types";
 import ChartUtils from "../../utils/chart";
 import DateUtils from "../../utils/date-utils";
 import { ErrorContext } from "../error-handler/error-handler";
@@ -23,7 +23,11 @@ export const PortfolioContext = React.createContext<PortfolioContextType>({
   savedSummaries: [],
   saveHistoryValues: () => {},
   saveSummaries: () => {},
-  statisticsLoaderParams: undefined
+  statisticsLoaderParams: undefined,
+  categoriesLoaderParams: undefined,
+  setCategoriesLoaderParams: () => {},
+  savedCategories: [],
+  saveCategories: () => {}
 });
 
 /**
@@ -42,6 +46,9 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>([]);
 
   const [ statisticsLoaderParams, setStatisticsLoaderParams ] = React.useState<StatisticsLoaderParams>();
+  const [ categories, setCategories ] = React.useState<PortfolioSecurityCategory[]>([]);
+
+  const [ categoriesLoaderParams, setCategoriesLoaderParams ] = React.useState<CategoriesLoaderParams>();
   const historyLoader = useRef<NodeJS.Timeout>();
   const securitiesLoader = useRef<NodeJS.Timeout>();
 
@@ -175,7 +182,11 @@ const PortfolioProvider: React.FC = ({ children }) => {
         savedSummaries: summaries,
         saveHistoryValues: setHistoryValues,
         saveSummaries: setSummaries,
-        statisticsLoaderParams: statisticsLoaderParams
+        statisticsLoaderParams: statisticsLoaderParams,
+        categoriesLoaderParams: categoriesLoaderParams,
+        setCategoriesLoaderParams: setCategoriesLoaderParams,
+        saveCategories: setCategories,
+        savedCategories: categories
       }}
     >
       { children }

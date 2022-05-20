@@ -53,6 +53,14 @@ export interface StatisticsLoaderParams {
 }
 
 /**
+ * Categories loader params
+ */
+export interface CategoriesLoaderParams {
+  effectivePortfolios: Portfolio[];
+  portfolioId?: string;
+}
+
+/**
  * Interface for portfolio context
  */
 export interface PortfolioContextType {
@@ -66,6 +74,10 @@ export interface PortfolioContextType {
   savedSummaries: PortfolioSummary[];
   saveHistoryValues: (historyValues: SecurityHistoryValue[]) => void;
   saveSummaries: (summaries: PortfolioSummary[]) => void;
+  categoriesLoaderParams?: CategoriesLoaderParams;
+  setCategoriesLoaderParams: (params: CategoriesLoaderParams) => void;
+  saveCategories: (categories: PortfolioSecurityCategory[]) => void;
+  savedCategories: PortfolioSecurityCategory[];
 }
 
 /**
