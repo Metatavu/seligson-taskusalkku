@@ -56,7 +56,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
 
   const [ categoriesLoaderParams, setCategoriesLoaderParams ] = React.useState<CategoriesLoaderParams>();
   const historyLoader = useRef<NodeJS.Timeout>();
-  const securitiesLoader = useRef<NodeJS.Timeout>();
+  const categoriesLoader = useRef<NodeJS.Timeout>();
   
   const securityApiContext = React.useContext(SecuritiesApiContext);
   const fundsApiContext = React.useContext(FundsApiContext);
@@ -119,64 +119,6 @@ const PortfolioProvider: React.FC = ({ children }) => {
   };
 
   /**
-   * Sets the securities loader
-   */
-  const setSecuritiesLoader = () => {
-    securitiesLoader.current = setInterval(async () => {
-      try {
-        //
-      } catch (error) {
-        errorContext.setError(strings.errorHandling.fundHistory.list, error);
-      }
-    }, 10000);
-  };
-
-  /**
-   * Sets loaders
-   */
-  useEffect(() => {
-    historyLoader.current && clearInterval(historyLoader.current);
-    setHistoryLoader();
-    setSecuritiesLoader();
-
-    return () => historyLoader.current && clearInterval(historyLoader.current);
-  }, []);
-
-  /**
-   * Effect for fetching portfolios when loggedIn changes
-   */
-  React.useEffect(() => {
-    loggedIn && fetchPortfolios();
-  }, [ loggedIn ]);
-
-  /**
-   * Effect for setting logged in value when auth changes
-   */
-  React.useEffect(() => {
-    auth ? !loggedIn && setLoggedIn(true) : loggedIn && setLoggedIn(false);
-  }, [ auth ]);
-
-  /**
-   * Effect for removing portfolios when auth is removed
-   */
-  React.useEffect(() => {
-    if (auth) return;
-    setSelectedPortfolio(undefined);
-    setPortfolios(undefined);
-  }, [ auth ]);
-
-  /**
-   * Event handler for on change selected portfolio
-   *
-   * @param portfolio selected portfolio
-   */
-  const onChange = (portfolio: Portfolio | undefined) => {
-    if (portfolio?.id !== selectedPortfolio?.id || !portfolio) {
-      setSelectedPortfolio(portfolio);
-    }
-  };
-
-  /**
    * Fetch and preprocess a security
    *
    * @param totalValue total value
@@ -217,6 +159,82 @@ const PortfolioProvider: React.FC = ({ children }) => {
     }
 
     return [];
+  };
+
+  /**
+   * Fetch securities of a portfolio
+   */
+  const fetchAllPortfolioSecurities = async () => {
+    try {
+      const categoryLists = await Promise.all((categoriesLoaderParams?.effectivePortfolios || []).map(fetchPortfolioSecurities));
+      const categoryList = categoryLists.reduce((prev, cur) => prev.concat(cur), []);
+
+      return ChartUtils.aggregateSecurityCategories(categoryList);
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.portfolio.list, error);
+    }
+
+    return [];
+  };
+
+  /**
+   * Sets the categories loader
+   */
+  const setCategoriesLoader = () => {
+    categoriesLoader.current = setInterval(async () => {
+      try {
+        const fetchedPortfolioSecurities = selectedPortfolio ? await fetchPortfolioSecurities(selectedPortfolio) : await fetchAllPortfolioSecurities();
+
+        setCategories(fetchedPortfolioSecurities.sort(ChartUtils.compareSecurityCategory).reverse());
+      } catch (error) {
+        errorContext.setError(strings.errorHandling.portfolio.list, error);
+      }
+    }, 10000);
+  };
+
+  /**
+   * Sets loaders
+   */
+  useEffect(() => {
+    historyLoader.current && clearInterval(historyLoader.current);
+    setHistoryLoader();
+    setCategoriesLoader();
+
+    return () => historyLoader.current && clearInterval(historyLoader.current);
+  }, []);
+
+  /**
+   * Effect for fetching portfolios when loggedIn changes
+   */
+  React.useEffect(() => {
+    loggedIn && fetchPortfolios();
+  }, [ loggedIn ]);
+
+  /**
+   * Effect for setting logged in value when auth changes
+   */
+  React.useEffect(() => {
+    auth ? !loggedIn && setLoggedIn(true) : loggedIn && setLoggedIn(false);
+  }, [ auth ]);
+
+  /**
+   * Effect for removing portfolios when auth is removed
+   */
+  React.useEffect(() => {
+    if (auth) return;
+    setSelectedPortfolio(undefined);
+    setPortfolios(undefined);
+  }, [ auth ]);
+
+  /**
+   * Event handler for on change selected portfolio
+   *
+   * @param portfolio selected portfolio
+   */
+  const onChange = (portfolio: Portfolio | undefined) => {
+    if (portfolio?.id !== selectedPortfolio?.id || !portfolio) {
+      setSelectedPortfolio(portfolio);
+    }
   };
 
   /**

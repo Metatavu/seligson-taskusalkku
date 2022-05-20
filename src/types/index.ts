@@ -57,7 +57,6 @@ export interface StatisticsLoaderParams {
  */
 export interface CategoriesLoaderParams {
   effectivePortfolios: Portfolio[];
-  portfolio: Portfolio;
 }
 
 /**
