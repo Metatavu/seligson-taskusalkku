@@ -4,6 +4,7 @@ import { TextInput } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import styles from "../../../styles/screens/portfolio/company-select";
 import { CompanyContext } from "../../providers/company-provider";
+import { PortfolioContext } from "../../providers/portfolio-provider";
 
 const CONTAINER_HEIGHT = 48;
 
@@ -11,6 +12,11 @@ const CONTAINER_HEIGHT = 48;
  * Company select component
  */
 const CompanySelect: React.FC = () => {
+  const {
+    saveHistoryValues,
+    saveSummaries
+  } = React.useContext(PortfolioContext);
+
   const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
 
@@ -22,6 +28,8 @@ const CompanySelect: React.FC = () => {
   const onSelectValueChange = (value: any) => {
     const companyId = value as string;
     const foundCompany = companies?.find(company => company.id === companyId);
+    saveHistoryValues([]);
+    saveSummaries([]);
     foundCompany && onChange(foundCompany);
   };
 
