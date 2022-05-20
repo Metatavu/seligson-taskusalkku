@@ -14,7 +14,8 @@ const CONTAINER_HEIGHT = 48;
 const CompanySelect: React.FC = () => {
   const {
     saveHistoryValues,
-    saveSummaries
+    saveSummaries,
+    saveCategories
   } = React.useContext(PortfolioContext);
 
   const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
@@ -30,6 +31,7 @@ const CompanySelect: React.FC = () => {
     const foundCompany = companies?.find(company => company.id === companyId);
     saveHistoryValues([]);
     saveSummaries([]);
+    saveCategories([]);
     foundCompany && onChange(foundCompany);
   };
 

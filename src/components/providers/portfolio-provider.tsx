@@ -185,7 +185,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
       try {
         const fetchedPortfolioSecurities = selectedPortfolio ? await fetchPortfolioSecurities(selectedPortfolio) : await fetchAllPortfolioSecurities();
 
-        setCategories(fetchedPortfolioSecurities.sort(ChartUtils.compareSecurityCategory).reverse());
+        setCategories(fetchedPortfolioSecurities);
       } catch (error) {
         errorContext.setError(strings.errorHandling.portfolio.list, error);
       }
@@ -197,10 +197,15 @@ const PortfolioProvider: React.FC = ({ children }) => {
    */
   useEffect(() => {
     historyLoader.current && clearInterval(historyLoader.current);
+    categoriesLoader.current && clearInterval(categoriesLoader.current);
+
     setHistoryLoader();
     setCategoriesLoader();
 
-    return () => historyLoader.current && clearInterval(historyLoader.current);
+    return () => {
+      historyLoader.current && clearInterval(historyLoader.current);
+      categoriesLoader.current && clearInterval(categoriesLoader.current);
+    };
   }, []);
 
   /**
@@ -233,6 +238,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    */
   const onChange = (portfolio: Portfolio | undefined) => {
     if (portfolio?.id !== selectedPortfolio?.id || !portfolio) {
+      setCategories([]);
       setSelectedPortfolio(portfolio);
     }
   };

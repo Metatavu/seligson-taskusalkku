@@ -16,7 +16,14 @@ import { CompanyContext } from "../../providers/company-provider";
  */
 const DistributionsScreen: React.FC = () => {
   useHardwareGoBack();
-  const { selectedPortfolio, getEffectivePortfolios, fetchPortfolioSecurities } = React.useContext(PortfolioContext);
+  const {
+    selectedPortfolio,
+    getEffectivePortfolios,
+    fetchPortfolioSecurities,
+    saveCategories,
+    savedCategories,
+    setCategoriesLoaderParams
+  } = React.useContext(PortfolioContext);
   const { selectedCompany } = React.useContext(CompanyContext);
   const errorContext = React.useContext(ErrorContext);
 
@@ -40,12 +47,24 @@ const DistributionsScreen: React.FC = () => {
   };
 
   /**
+   * Get securities
+   */
+  const getSecurities = async () => {
+    if (savedCategories.length > 0) {
+      return savedCategories;
+    }
+
+    return selectedPortfolio ? fetchPortfolioSecurities(selectedPortfolio) : fetchAllPortfolioSecurities();
+  };
+
+  /**
    * Fetch securities of a portfolio
    */
   const loadData = async () => {
+    setCategoriesLoaderParams({ effectivePortfolios: getEffectivePortfolios(selectedCompany) });
     setLoading(true);
-    const fetchedPortfolioSecurities = selectedPortfolio ? await fetchPortfolioSecurities(selectedPortfolio) : await fetchAllPortfolioSecurities();
-
+    const fetchedPortfolioSecurities = await getSecurities();
+    saveCategories(fetchedPortfolioSecurities);
     setPortfolioSecurityCategories(fetchedPortfolioSecurities.sort(ChartUtils.compareSecurityCategory).reverse());
     setLoading(false);
   };
