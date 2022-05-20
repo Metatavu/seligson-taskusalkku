@@ -1,14 +1,19 @@
 /* eslint-disable object-shorthand */
+import BigNumber from "bignumber.js";
 import React, { useEffect, useRef } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
-import { Company, Portfolio, PortfolioSummary, SecurityHistoryValue } from "../../generated/client";
+import { Company, Portfolio, PortfolioSecurity, PortfolioSummary, SecurityHistoryValue } from "../../generated/client";
 import strings from "../../localization/strings";
 import { StatisticsLoaderParams, PortfolioContextType, PortfolioSecurityCategory, CategoriesLoaderParams } from "../../types";
+import Calculations from "../../utils/calculations";
 import ChartUtils from "../../utils/chart";
 import DateUtils from "../../utils/date-utils";
+import GenericUtils from "../../utils/generic";
 import { ErrorContext } from "../error-handler/error-handler";
+import { FundsApiContext } from "./funds-api-provider";
 import { PortfoliosApiContext } from "./portfolios-api-provider";
+import { SecuritiesApiContext } from "./securities-api-provider";
 
 /**
  * Portfolio context initialization
@@ -27,7 +32,8 @@ export const PortfolioContext = React.createContext<PortfolioContextType>({
   categoriesLoaderParams: undefined,
   setCategoriesLoaderParams: () => {},
   savedCategories: [],
-  saveCategories: () => {}
+  saveCategories: () => {},
+  fetchPortfolioSecurities: async () => []
 });
 
 /**
@@ -51,6 +57,9 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const [ categoriesLoaderParams, setCategoriesLoaderParams ] = React.useState<CategoriesLoaderParams>();
   const historyLoader = useRef<NodeJS.Timeout>();
   const securitiesLoader = useRef<NodeJS.Timeout>();
+  
+  const securityApiContext = React.useContext(SecuritiesApiContext);
+  const fundsApiContext = React.useContext(FundsApiContext);
 
   /**
    * Returns effective portfolios
@@ -168,6 +177,49 @@ const PortfolioProvider: React.FC = ({ children }) => {
   };
 
   /**
+   * Fetch and preprocess a security
+   *
+   * @param totalValue total value
+   */
+  const fetchSecurityFund = (totalValue: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
+    const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
+    const fund = await fundsApiContext.findFund({ fundId: security.fundId });
+    const percentage = new BigNumber(portfolioSecurity.totalValue).dividedBy(totalValue).multipliedBy(100);
+    const name = GenericUtils.getLocalizedValue(fund.shortName);
+
+    return {
+      fundId: security.fundId,
+      name: name,
+      currency: security.currency,
+      color: fund.color || "",
+      totalValue: portfolioSecurity.totalValue,
+      percentage: Calculations.formatPercentageNumberStr(percentage),
+      groupColor: GenericUtils.getFundGroupColor(fund.group)
+    };
+  };
+
+  /**
+   * Fetch securities of a portfolio
+   *
+   * @param portfolio portfolio
+   */
+  const fetchPortfolioSecurities = async (portfolio: Portfolio): Promise<PortfolioSecurityCategory[]> => {
+    if (!portfolio.id) {
+      return [];
+    }
+
+    try {
+      const portfolioSecurities = await portfoliosApiContext.listPortfolioSecurities({ portfolioId: portfolio?.id });
+      const totalValue = portfolioSecurities.reduce((prev, cur) => (new BigNumber(cur.totalValue)).plus(prev), new BigNumber("0"));
+      return await Promise.all(portfolioSecurities.map(fetchSecurityFund(totalValue)));
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);
+    }
+
+    return [];
+  };
+
+  /**
    * Component render
    */
   return (
@@ -186,7 +238,8 @@ const PortfolioProvider: React.FC = ({ children }) => {
         categoriesLoaderParams: categoriesLoaderParams,
         setCategoriesLoaderParams: setCategoriesLoaderParams,
         saveCategories: setCategories,
-        savedCategories: categories
+        savedCategories: categories,
+        fetchPortfolioSecurities: fetchPortfolioSecurities
       }}
     >
       { children }

@@ -1,20 +1,13 @@
 import React from "react";
 import { ScrollView, View, Text, ActivityIndicator } from "react-native";
 import styles from "../../../styles/screens/portfolio/distribution-screen";
-import { Portfolio, PortfolioSecurity } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
 import { PortfolioContext } from "../../providers/portfolio-provider";
-import { PortfoliosApiContext } from "../../providers/portfolios-api-provider";
-import { SecuritiesApiContext } from "../../providers/securities-api-provider";
 import { PortfolioSecurityCategory } from "../../../types";
-import GenericUtils from "../../../utils/generic";
 import { Card } from "react-native-paper";
-import { FundsApiContext } from "../../providers/funds-api-provider";
 import theme from "../../../theme";
-import BigNumber from "bignumber.js";
 import ChartUtils from "../../../utils/chart";
-import Calculations from "../../../utils/calculations";
 import { useHardwareGoBack } from "../../../app/hooks";
 import { CompanyContext } from "../../providers/company-provider";
 
@@ -23,58 +16,12 @@ import { CompanyContext } from "../../providers/company-provider";
  */
 const DistributionsScreen: React.FC = () => {
   useHardwareGoBack();
-  const { selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { selectedPortfolio, getEffectivePortfolios, fetchPortfolioSecurities } = React.useContext(PortfolioContext);
   const { selectedCompany } = React.useContext(CompanyContext);
-  const portfoliosApiContext = React.useContext(PortfoliosApiContext);
-  const securityApiContext = React.useContext(SecuritiesApiContext);
-  const fundsApiContext = React.useContext(FundsApiContext);
   const errorContext = React.useContext(ErrorContext);
 
   const [ portfolioSecurityCategories, setPortfolioSecurityCategories ] = React.useState<PortfolioSecurityCategory[]>([]);
   const [ loading, setLoading ] = React.useState(true);
-
-  /**
-   * Fetch and preprocess a security
-   *
-   * @param totalValue total value
-   */
-  const fetchSecurityFund = (totalValue: BigNumber) => async (portfolioSecurity: PortfolioSecurity): Promise<PortfolioSecurityCategory> => {
-    const security = await securityApiContext.findSecurity({ securityId: portfolioSecurity.id });
-    const fund = await fundsApiContext.findFund({ fundId: security.fundId });
-    const percentage = new BigNumber(portfolioSecurity.totalValue).dividedBy(totalValue).multipliedBy(100);
-    const name = GenericUtils.getLocalizedValue(fund.shortName);
-
-    return {
-      fundId: security.fundId,
-      name: name,
-      currency: security.currency,
-      color: fund.color || "",
-      totalValue: portfolioSecurity.totalValue,
-      percentage: Calculations.formatPercentageNumberStr(percentage),
-      groupColor: GenericUtils.getFundGroupColor(fund.group)
-    };
-  };
-
-  /**
-   * Fetch securities of a portfolio
-   *
-   * @param portfolio portfolio
-   */
-  const fetchPortfolioSecurities = async (portfolio: Portfolio): Promise<PortfolioSecurityCategory[]> => {
-    if (!portfolio.id) {
-      return [];
-    }
-
-    try {
-      const portfolioSecurities = await portfoliosApiContext.listPortfolioSecurities({ portfolioId: portfolio?.id });
-      const totalValue = portfolioSecurities.reduce((prev, cur) => (new BigNumber(cur.totalValue)).plus(prev), new BigNumber("0"));
-      return await Promise.all(portfolioSecurities.map(fetchSecurityFund(totalValue)));
-    } catch (error) {
-      errorContext.setError(strings.errorHandling.portfolioSecurities.list, error);
-    }
-
-    return [];
-  };
 
   /**
    * Fetch securities of a portfolio

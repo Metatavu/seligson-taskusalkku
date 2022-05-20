@@ -57,7 +57,7 @@ export interface StatisticsLoaderParams {
  */
 export interface CategoriesLoaderParams {
   effectivePortfolios: Portfolio[];
-  portfolioId?: string;
+  portfolio: Portfolio;
 }
 
 /**
@@ -78,6 +78,7 @@ export interface PortfolioContextType {
   setCategoriesLoaderParams: (params: CategoriesLoaderParams) => void;
   saveCategories: (categories: PortfolioSecurityCategory[]) => void;
   savedCategories: PortfolioSecurityCategory[];
+  fetchPortfolioSecurities: (portfolio: Portfolio) => Promise<PortfolioSecurityCategory[]>
 }
 
 /**
