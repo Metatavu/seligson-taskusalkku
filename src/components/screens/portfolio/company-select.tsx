@@ -10,9 +10,16 @@ import { PortfolioContext } from "../../providers/portfolio-provider";
 const CONTAINER_HEIGHT = 48;
 
 /**
+ * Component properties
+ */
+interface Props {
+  loading?: boolean;
+}
+
+/**
  * Company select component
  */
-const CompanySelect: React.FC = () => {
+const CompanySelect: React.FC<Props> = ({ loading }) => {
   const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
   const { portfolios, getCompanyPortfolios } = React.useContext(PortfolioContext);
@@ -54,23 +61,23 @@ const CompanySelect: React.FC = () => {
   return (
     <View style={ styles.root }>
       <DropDown
-        list={(companies || []).map(company => ({ label: company.name || "", value: company.id || "" }))}
+        list={ (companies || []).map(company => ({ label: company.name || "", value: company.id || "" })) }
         onDismiss={ () => setShowDropDown(false) }
         value={ selectedCompany?.id || "" }
         setValue={ onSelectValueChange }
-        showDropDown={ () => setShowDropDown(true) }
+        showDropDown={ () => !loading && setShowDropDown(true) }
         visible={ showDropDown }
         mode="flat"
         dropDownContainerMaxHeight={ 500 }
         inputProps={{
           render: ({ value }) => (
             <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-              <Text style={ styles.companySelectInputText }>
+              <Text style={[ styles.companySelectInputText, loading && { opacity: 0.5 } ]}>
                 { value }
               </Text>
             </View>
           ),
-          right: <TextInput.Icon name="account" color="white"/>,
+          right: <TextInput.Icon name="account" color="white" style={ loading && { opacity: 0.5 } }/>,
           style: {
             backgroundColor: "transparent",
             borderColor: "transparent",
