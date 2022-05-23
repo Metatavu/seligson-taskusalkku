@@ -22,12 +22,12 @@ interface Props {
  */
 const PortfolioSelect: React.FC<Props> = ({ loading }) => {
   const { selectedCompany, companies } = React.useContext(CompanyContext);
-  const { portfolios, onChange, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { portfolios, onChange, selectedPortfolio, getCompanyPortfolios } = React.useContext(PortfolioContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
-  const [ effectivePortfolios, setEffectivePortfolios ] = React.useState<Portfolio[]>([]);
+  const [ companyPortfolios, setCompanyPortfolios ] = React.useState<Portfolio[]>([]);
 
   React.useEffect(() => {
-    setEffectivePortfolios(getEffectivePortfolios(selectedCompany));
+    setCompanyPortfolios(getCompanyPortfolios(selectedCompany));
   }, [ selectedCompany, portfolios, companies ]);
 
   /**
@@ -40,7 +40,7 @@ const PortfolioSelect: React.FC<Props> = ({ loading }) => {
     onChange((portfolios || []).find(portfolio => portfolio.id === portfolioId));
   };
 
-  if (!effectivePortfolios?.length || effectivePortfolios.length === 1) {
+  if (!companyPortfolios?.length || companyPortfolios.length === 1) {
     return null;
   }
 
@@ -52,7 +52,7 @@ const PortfolioSelect: React.FC<Props> = ({ loading }) => {
       <DropDown
         list={[
           { label: strings.portfolio.select.all, value: "" },
-          ...effectivePortfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
+          ...companyPortfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
         ]}
         onDismiss={ () => setShowDropDown(false) }
         value={ selectedPortfolio?.id || "" }

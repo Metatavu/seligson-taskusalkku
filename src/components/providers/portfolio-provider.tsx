@@ -15,6 +15,7 @@ export const PortfolioContext = React.createContext<PortfolioContextType>({
   portfolios: undefined,
   selectedPortfolio: undefined,
   getEffectivePortfolios: () => [],
+  getCompanyPortfolios: () => [],
   onChange: async () => {}
 });
 
@@ -36,6 +37,13 @@ const PortfolioProvider: React.FC = ({ children }) => {
    */
   const getEffectivePortfolios = (company: Company | undefined) => (
     portfolios?.filter(portfolio => (!company?.id || portfolio.companyId === company.id) && (!selectedPortfolio || portfolio.id === selectedPortfolio.id)) || []
+  );
+
+  /**
+   * Returns company portfolios
+   */
+  const getCompanyPortfolios = (company: Company | undefined) => (
+    portfolios?.filter(portfolio => (!company?.id || portfolio.companyId === company.id)) || []
   );
 
   /**
@@ -94,6 +102,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
         portfolios,
         selectedPortfolio,
         getEffectivePortfolios,
+        getCompanyPortfolios,
         onChange
       }}
     >

@@ -22,11 +22,11 @@ interface Props {
 const CompanySelect: React.FC<Props> = ({ loading }) => {
   const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
-  const { portfolios, getEffectivePortfolios } = React.useContext(PortfolioContext);
-  const [ effectivePortfolios, setEffectivePortfolios ] = React.useState<Portfolio[]>([]);
+  const { portfolios, getCompanyPortfolios } = React.useContext(PortfolioContext);
+  const [ companyPortfolios, setCompanyPortfolios ] = React.useState<Portfolio[]>([]);
 
   React.useEffect(() => {
-    setEffectivePortfolios(getEffectivePortfolios(selectedCompany));
+    setCompanyPortfolios(getCompanyPortfolios(selectedCompany));
   }, [ selectedCompany, portfolios, companies ]);
 
   /**
@@ -41,7 +41,7 @@ const CompanySelect: React.FC<Props> = ({ loading }) => {
   };
 
   if (!companies?.length || companies.length === 1) {
-    if (!effectivePortfolios?.length || effectivePortfolios.length == 1) {
+    if (!companyPortfolios?.length || companyPortfolios.length == 1) {
       return (
         <View style={ styles.root }>
           <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
