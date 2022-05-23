@@ -97,7 +97,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    */
   useEffect(() => {
     loadHistoryValues();
-  });
+  }, [ statisticsLoaderParams ]);
 
   /**
    * Sets the history loader interval
@@ -109,21 +109,21 @@ const PortfolioProvider: React.FC = ({ children }) => {
   /**
    * Effect for fetching portfolios when loggedIn changes
    */
-  React.useEffect(() => {
+  useEffect(() => {
     loggedIn && fetchPortfolios();
   }, [ loggedIn ]);
 
   /**
    * Effect for setting logged in value when auth changes
    */
-  React.useEffect(() => {
+  useEffect(() => {
     auth ? !loggedIn && setLoggedIn(true) : loggedIn && setLoggedIn(false);
   }, [ auth ]);
 
   /**
    * Effect for removing portfolios when auth is removed
    */
-  React.useEffect(() => {
+  useEffect(() => {
     if (auth) return;
     setSelectedPortfolio(undefined);
     setPortfolios(undefined);
