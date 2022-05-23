@@ -21,6 +21,7 @@ import BiometricAuth from "../../utils/biometric-auth";
 import theme from "../../theme";
 import * as Updates from "expo-updates";
 import Constants from "expo-constants";
+import { PortfolioContext } from "../providers/portfolio-provider";
 
 /**
  * Custom navigation prop type for SettingsScreen. Consists of HomeNavigator and RootNavigator
@@ -40,6 +41,10 @@ const SettingsScreen: React.FC = () => {
   const [ selectedInitialRoute, setSelectedInitialRoute ] = React.useState<keyof HomeNavigator.Routes | undefined>();
   const [ selectedLoginOption, setSelectedLoginOption ] = React.useState<string>();
   const [ pinInputOpen, setPinInputOpen ] = React.useState(false);
+  const {
+    setStatisticsLoaderParams,
+    saveHistoryValues
+  } = React.useContext(PortfolioContext);
   const [ deviceSupportsBiometric, setDeviceSupportsBiometric ] = React.useState(false);
 
   /**
@@ -129,6 +134,8 @@ const SettingsScreen: React.FC = () => {
    * Event handler for log out press
    */
   const onLogout = async () => {
+    setStatisticsLoaderParams(undefined);
+    saveHistoryValues([]);
     dispatch(logout());
     navigation.reset({ routes: [{ name: "authentication" }] });
   };

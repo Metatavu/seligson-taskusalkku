@@ -70,7 +70,7 @@ export interface PortfolioContextType {
   getCompanyPortfolios: (company: Company | undefined) => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
   statisticsLoaderParams?: StatisticsLoaderParams;
-  setStatisticsLoaderParams: (params: StatisticsLoaderParams) => void;
+  setStatisticsLoaderParams: (params?: StatisticsLoaderParams) => void;
   savedHistoryValues: SecurityHistoryValue[];
   saveHistoryValues: (historyValues: SecurityHistoryValue[]) => void;
 }
