@@ -36,9 +36,7 @@ const StatisticsScreen: React.FC = () => {
     getEffectivePortfolios,
     setStatisticsLoaderParams,
     savedHistoryValues,
-    savedSummaries,
     saveHistoryValues,
-    saveSummaries,
     statisticsLoaderParams
   } = React.useContext(PortfolioContext);
 
@@ -92,10 +90,6 @@ const StatisticsScreen: React.FC = () => {
    * Load portfolio summaries
    */
   const loadSummaries = async () => {
-    if (savedSummaries.length > 0) {
-      return savedSummaries;
-    }
-
     const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
@@ -146,7 +140,6 @@ const StatisticsScreen: React.FC = () => {
     }
 
     if (portfolioSummaries) {
-      saveSummaries(portfolioSummaries);
       setSummaries(portfolioSummaries);
       setLoading(false);
     }
@@ -239,7 +232,6 @@ const StatisticsScreen: React.FC = () => {
    * @param range 
    */
   const onRangeUpdate = (range: ChartRange | Date[]) => {
-    saveSummaries([]);
     saveHistoryValues([]);
     setSelectedRange(range);
   };

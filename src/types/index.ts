@@ -72,13 +72,7 @@ export interface PortfolioContextType {
   statisticsLoaderParams?: StatisticsLoaderParams;
   setStatisticsLoaderParams: (params: StatisticsLoaderParams) => void;
   savedHistoryValues: SecurityHistoryValue[];
-  savedSummaries: PortfolioSummary[];
   saveHistoryValues: (historyValues: SecurityHistoryValue[]) => void;
-  saveSummaries: (summaries: PortfolioSummary[]) => void;
-  categoriesLoaderParams?: CategoriesLoaderParams;
-  setCategoriesLoaderParams: (params: CategoriesLoaderParams) => void;
-  saveCategories: (categories: PortfolioSecurityCategory[]) => void;
-  savedCategories: PortfolioSecurityCategory[];
 }
 
 /**

@@ -43,7 +43,7 @@ const CompanySelect: React.FC<Props> = ({ loading }) => {
   };
 
   if (!companies?.length || companies.length === 1) {
-    if (!companyPortfolios?.length || companyPortfolios.length == 1) {
+    if (!companyPortfolios?.length || companyPortfolios.length === 1) {
       return (
         <View style={ styles.root }>
           <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>

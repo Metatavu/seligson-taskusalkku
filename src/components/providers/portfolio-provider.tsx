@@ -40,7 +40,6 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
   const [ statisticsLoaderParams, setStatisticsLoaderParams ] = React.useState<StatisticsLoaderParams>();
   const historyLoader = useRef<NodeJS.Timeout>();
-  const securitiesLoader = useRef<NodeJS.Timeout>();
 
   /**
    * Returns effective portfolios
@@ -97,25 +96,11 @@ const PortfolioProvider: React.FC = ({ children }) => {
   };
 
   /**
-   * Sets the securities loader
-   */
-  const setSecuritiesLoader = () => {
-    securitiesLoader.current = setInterval(async () => {
-      try {
-        //
-      } catch (error) {
-        errorContext.setError(strings.errorHandling.fundHistory.list, error);
-      }
-    }, 10000);
-  };
-
-  /**
    * Sets loaders
    */
   useEffect(() => {
     historyLoader.current && clearInterval(historyLoader.current);
     setHistoryLoader();
-    setSecuritiesLoader();
 
     return () => historyLoader.current && clearInterval(historyLoader.current);
   }, []);
