@@ -104,7 +104,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    */
   useInterval(() => {
     loadHistoryValues();
-  }, 10000);
+  }, 3600000);
 
   /**
    * Effect for fetching portfolios when loggedIn changes
