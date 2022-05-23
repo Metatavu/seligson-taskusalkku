@@ -215,7 +215,7 @@ const StatisticsScreen: React.FC = () => {
    * Renders chart
    */
   const renderChart = () => {
-    if (historyLoading) {
+    if (historyLoading || loading) {
       return (
         <View style={ styles.chartLoaderContainer }>
           <ActivityIndicator size="large" color={ theme.colors.primary }/>
@@ -304,14 +304,6 @@ const StatisticsScreen: React.FC = () => {
    * Renders content
    */
   const renderContent = () => {
-    if (loading) {
-      return (
-        <View style={ styles.loaderContainer }>
-          <ActivityIndicator size="large" color={ theme.colors.primary }/>
-        </View>
-      );
-    }
-
     return (
       <ScrollView
         style={ styles.scrollView }
@@ -322,9 +314,9 @@ const StatisticsScreen: React.FC = () => {
           style={ styles.overview }
           onTouchStart={ toggleScroll(true) }
         >
-          <CompanySelect/>
+          <CompanySelect loading={ historyLoading }/>
           <Divider style={{ backgroundColor: "white" }}/>
-          <PortfolioSelect/>
+          <PortfolioSelect loading={ historyLoading }/>
           { renderTotalDetails() }
         </View>
         <View style={ styles.chartAndDetailsWrapper }>

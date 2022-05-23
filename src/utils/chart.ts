@@ -32,8 +32,9 @@ namespace ChartUtils {
   export const convertToChartData = (historicValues: SecurityHistoryValue[]): ChartData[] => {
     var zeroLength = 0;
     const filteredHistoricValues = [ ...historicValues ]
-    while (filteredHistoricValues[zeroLength].value === "0" && zeroLength <= historicValues.length - 1) {
+    while (filteredHistoricValues[zeroLength].value === "0") {
       zeroLength += 1;
+      if (zeroLength >= historicValues.length) break;
     }
 
     filteredHistoricValues.splice(0, zeroLength);

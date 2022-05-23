@@ -11,16 +11,23 @@ import { Portfolio } from "../../../generated/client";
 const CONTAINER_HEIGHT = 48;
 
 /**
+ * Component properties
+ */
+interface Props {
+  loading?: boolean;
+}
+
+/**
  * Portfolio select component
  */
-const PortfolioSelect: React.FC = () => {
+const PortfolioSelect: React.FC<Props> = ({ loading }) => {
   const { selectedCompany, companies } = React.useContext(CompanyContext);
-  const { portfolios, onChange, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { portfolios, onChange, selectedPortfolio, getCompanyPortfolios } = React.useContext(PortfolioContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
-  const [ effectivePortfolios, setEffectivePortfolios ] = React.useState<Portfolio[]>([]);
+  const [ companyPortfolios, setCompanyPortfolios ] = React.useState<Portfolio[]>([]);
 
   React.useEffect(() => {
-    setEffectivePortfolios(getEffectivePortfolios(selectedCompany));
+    setCompanyPortfolios(getCompanyPortfolios(selectedCompany));
   }, [ selectedCompany, portfolios, companies ]);
 
   /**
@@ -33,20 +40,8 @@ const PortfolioSelect: React.FC = () => {
     onChange((portfolios || []).find(portfolio => portfolio.id === portfolioId));
   };
 
-  if (!portfolios?.length) {
-    return <View style={{ height: CONTAINER_HEIGHT }}/>;
-  }
-
-  if (effectivePortfolios.length === 1) {
-    return (
-      <View style={ styles.root }>
-        <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-          <Text style={ styles.singlePortfolioText }>
-            { effectivePortfolios[0].name }
-          </Text>
-        </View>
-      </View>
-    );
+  if (!companyPortfolios?.length || companyPortfolios.length === 1) {
+    return null;
   }
 
   /**
@@ -57,24 +52,24 @@ const PortfolioSelect: React.FC = () => {
       <DropDown
         list={[
           { label: strings.portfolio.select.all, value: "" },
-          ...effectivePortfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
+          ...companyPortfolios.map(portfolio => ({ label: portfolio.name || "", value: portfolio.id || "" }))
         ]}
         onDismiss={ () => setShowDropDown(false) }
         value={ selectedPortfolio?.id || "" }
         setValue={ onSelectValueChange }
-        showDropDown={ () => setShowDropDown(true) }
+        showDropDown={ () => !loading && setShowDropDown(true) }
         visible={ showDropDown }
         mode="flat"
         dropDownContainerMaxHeight={ 500 }
         inputProps={{
           render: ({ value }) => (
             <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
-              <Text style={ styles.portfolioSelectInputText }>
+              <Text style={[ styles.portfolioSelectInputText, loading && { opacity: 0.5 } ]}>
                 { value }
               </Text>
             </View>
           ),
-          right: <TextInput.Icon name="tune" color="white"/>,
+          right: <TextInput.Icon name="tune" color="white" style={ loading && { opacity: 0.5 } }/>,
           style: {
             backgroundColor: "transparent",
             borderColor: "transparent",

@@ -73,7 +73,7 @@ const App: React.FC = () => {
               <CompanyProvider>
                 <AuthRefresh/>
                 {/* eslint-disable-next-line react/style-prop-object */}
-                <StatusBar style="auto"/>
+                <StatusBar style="dark"/>
                 <Root/>
               </CompanyProvider>
             </PortfolioProvider>
