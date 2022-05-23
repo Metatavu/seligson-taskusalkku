@@ -97,7 +97,7 @@ const PortfolioProvider: React.FC = ({ children }) => {
    */
   useEffect(() => {
     loadHistoryValues();
-  }, [ statisticsLoaderParams ]);
+  }, [ ]);
 
   /**
    * Sets the history loader interval

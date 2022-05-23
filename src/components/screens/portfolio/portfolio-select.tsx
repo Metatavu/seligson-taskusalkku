@@ -22,7 +22,7 @@ interface Props {
  */
 const PortfolioSelect: React.FC<Props> = ({ loading }) => {
   const { selectedCompany, companies } = React.useContext(CompanyContext);
-  const { portfolios, onChange, selectedPortfolio, getCompanyPortfolios } = React.useContext(PortfolioContext);
+  const { portfolios, onChange, selectedPortfolio, getCompanyPortfolios, saveHistoryValues } = React.useContext(PortfolioContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
   const [ companyPortfolios, setCompanyPortfolios ] = React.useState<Portfolio[]>([]);
 
@@ -36,6 +36,7 @@ const PortfolioSelect: React.FC<Props> = ({ loading }) => {
    * @param value value from DropDown
    */
   const onSelectValueChange = (value: any) => {
+    saveHistoryValues([]);
     const portfolioId = value as string;
     onChange((portfolios || []).find(portfolio => portfolio.id === portfolioId));
   };
