@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppSelector, useInterval } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
 import { Company, Portfolio, SecurityHistoryValue } from "../../generated/client";
@@ -68,9 +68,9 @@ const PortfolioProvider: React.FC = ({ children }) => {
   };
 
   /**
-   * Sets the history loader
+   * Loads history values
    */
-  useInterval(async () => {
+  const loadHistoryValues = async () => {
     try {
       if (!statisticsLoaderParams) {
         return;
@@ -90,6 +90,20 @@ const PortfolioProvider: React.FC = ({ children }) => {
     } catch (error) {
       errorContext.setError(strings.errorHandling.fundHistory.list, error);
     }
+  };
+
+  /**
+   * Loads initial history values
+   */
+  useEffect(() => {
+    loadHistoryValues();
+  });
+
+  /**
+   * Sets the history loader interval
+   */
+  useInterval(() => {
+    loadHistoryValues();
   }, 10000);
 
   /**
