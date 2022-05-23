@@ -1,6 +1,6 @@
 /* eslint-disable object-shorthand */
-import React, { useEffect, useRef } from "react";
-import { useAppSelector } from "../../app/hooks";
+import React from "react";
+import { useAppSelector, useInterval } from "../../app/hooks";
 import { selectAuth } from "../../features/auth/auth-slice";
 import { Company, Portfolio, SecurityHistoryValue } from "../../generated/client";
 import strings from "../../localization/strings";
@@ -39,7 +39,6 @@ const PortfolioProvider: React.FC = ({ children }) => {
   const [ loggedIn, setLoggedIn ] = React.useState(false);
   const [ historyValues, setHistoryValues ] = React.useState<SecurityHistoryValue[]>([]);
   const [ statisticsLoaderParams, setStatisticsLoaderParams ] = React.useState<StatisticsLoaderParams>();
-  const historyLoader = useRef<NodeJS.Timeout>();
 
   /**
    * Returns effective portfolios
@@ -71,39 +70,27 @@ const PortfolioProvider: React.FC = ({ children }) => {
   /**
    * Sets the history loader
    */
-  const setHistoryLoader = () => {
-    historyLoader.current = setInterval(async () => {
-      try {
-        if (!statisticsLoaderParams) {
-          return;
-        }
-
-        const { effectivePortfolios, range } = statisticsLoaderParams;
-        const { startDate, endDate } = DateUtils.getDateFilters(range);
-        const portfolioHistoryValues = await Promise.all(effectivePortfolios.map(portfolio => (
-          portfoliosApiContext.listPortfolioHistoryValues({
-            portfolioId: portfolio.id!,
-            startDate: startDate,
-            endDate: endDate
-          })
-        )));
-
-        setHistoryValues(ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues));
-      } catch (error) {
-        errorContext.setError(strings.errorHandling.fundHistory.list, error);
+  useInterval(async () => {
+    try {
+      if (!statisticsLoaderParams) {
+        return;
       }
-    }, 10000);
-  };
 
-  /**
-   * Sets loaders
-   */
-  useEffect(() => {
-    historyLoader.current && clearInterval(historyLoader.current);
-    setHistoryLoader();
+      const { effectivePortfolios, range } = statisticsLoaderParams;
+      const { startDate, endDate } = DateUtils.getDateFilters(range);
+      const portfolioHistoryValues = await Promise.all(effectivePortfolios.map(portfolio => (
+        portfoliosApiContext.listPortfolioHistoryValues({
+          portfolioId: portfolio.id!,
+          startDate: startDate,
+          endDate: endDate
+        })
+      )));
 
-    return () => historyLoader.current && clearInterval(historyLoader.current);
-  }, []);
+      setHistoryValues(ChartUtils.getAggregatedHistoryValues(portfolioHistoryValues));
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.fundHistory.list, error);
+    }
+  }, 10000);
 
   /**
    * Effect for fetching portfolios when loggedIn changes
