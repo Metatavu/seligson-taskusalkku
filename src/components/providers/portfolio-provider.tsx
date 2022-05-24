@@ -71,13 +71,15 @@ const PortfolioProvider: React.FC = ({ children }) => {
    * Loads history values
    */
   const loadHistoryValues = async () => {
-    try {
-      if (!statisticsLoaderParams) {
-        return;
-      }
+    if (!statisticsLoaderParams) {
+      return;
+    }
 
-      const { effectivePortfolios, range } = statisticsLoaderParams;
-      const { startDate, endDate } = DateUtils.getDateFilters(range);
+    const { effectivePortfolios, range } = statisticsLoaderParams;
+    const { startDate, endDate } = DateUtils.getDateFilters(range);
+    
+    try {
+
       const portfolioHistoryValues = await Promise.all(effectivePortfolios.map(portfolio => (
         portfoliosApiContext.listPortfolioHistoryValues({
           portfolioId: portfolio.id!,
