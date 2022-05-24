@@ -20,6 +20,7 @@ interface Props {
  * Company select component
  */
 const CompanySelect: React.FC<Props> = ({ loading }) => {
+  const { saveHistoryValues } = React.useContext(PortfolioContext);
   const { selectedCompany, onChange, companies } = React.useContext(CompanyContext);
   const [ showDropDown, setShowDropDown ] = React.useState(false);
   const { portfolios, getCompanyPortfolios } = React.useContext(PortfolioContext);
@@ -37,11 +38,12 @@ const CompanySelect: React.FC<Props> = ({ loading }) => {
   const onSelectValueChange = (value: any) => {
     const companyId = value as string;
     const foundCompany = companies?.find(company => company.id === companyId);
+    saveHistoryValues([]);
     foundCompany && onChange(foundCompany);
   };
 
   if (!companies?.length || companies.length === 1) {
-    if (!companyPortfolios?.length || companyPortfolios.length == 1) {
+    if (!companyPortfolios?.length || companyPortfolios.length === 1) {
       return (
         <View style={ styles.root }>
           <View style={{ height: CONTAINER_HEIGHT, justifyContent: "center" }}>
