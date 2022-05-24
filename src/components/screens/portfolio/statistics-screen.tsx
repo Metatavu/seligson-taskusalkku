@@ -259,7 +259,7 @@ const StatisticsScreen: React.FC = () => {
         <ChartRangeSelector
           selectedRange={ selectedRange }
           loading={ loading }
-          onDateRangeChange={ range => onRangeUpdate(range) }
+          onDateRangeChange={ onRangeUpdate }
         />
         { renderChart() }
       </>
