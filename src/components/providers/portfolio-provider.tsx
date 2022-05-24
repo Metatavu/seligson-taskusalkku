@@ -77,9 +77,8 @@ const PortfolioProvider: React.FC = ({ children }) => {
 
     const { effectivePortfolios, range } = statisticsLoaderParams;
     const { startDate, endDate } = DateUtils.getDateFilters(range);
-    
-    try {
 
+    try {
       const portfolioHistoryValues = await Promise.all(effectivePortfolios.map(portfolio => (
         portfoliosApiContext.listPortfolioHistoryValues({
           portfolioId: portfolio.id!,
