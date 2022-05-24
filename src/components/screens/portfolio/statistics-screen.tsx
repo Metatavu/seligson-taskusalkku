@@ -149,6 +149,10 @@ const StatisticsScreen: React.FC = () => {
    * Effect for loading own funds when this screen gets focused
    */
   React.useLayoutEffect(() => {
+    if (!selectedCompany) {
+      return;
+    }
+
     focus && fetchData();
   }, [ focus, portfolios, selectedPortfolio, selectedRange, selectedCompany ]);
 
@@ -194,11 +198,11 @@ const StatisticsScreen: React.FC = () => {
               style={ styles.totalIcon }
             />
             <Title style={{ color: theme.colors.primary }}>
-              { marketValueTotal }
+              { selectedCompany ? marketValueTotal : "€" }
             </Title>
           </View>
-          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, purchaseTotal) }
-          { renderDetailRow(strings.portfolio.statistics.change, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, selectedCompany ? purchaseTotal : "€") }
+          { renderDetailRow(strings.portfolio.statistics.change, `${selectedCompany ? totalChangeAmount : "€"}  |  ${selectedCompany ? totalChangePercentage : "%"}`) }
         </View>
       </View>
     );
