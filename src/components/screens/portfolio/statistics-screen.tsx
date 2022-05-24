@@ -233,7 +233,7 @@ const StatisticsScreen: React.FC = () => {
   /**
    * Handles updating selected range
    * 
-   * @param range 
+   * @param range new range
    */
   const onRangeUpdate = (range: ChartRange | Date[]) => {
     saveHistoryValues([]);
