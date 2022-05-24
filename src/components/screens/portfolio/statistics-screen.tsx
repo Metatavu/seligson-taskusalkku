@@ -198,11 +198,11 @@ const StatisticsScreen: React.FC = () => {
               style={ styles.totalIcon }
             />
             <Title style={{ color: theme.colors.primary }}>
-              { selectedCompany ? marketValueTotal : "€" }
+              { selectedCompany ? marketValueTotal : "0,00 €" }
             </Title>
           </View>
-          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, selectedCompany ? purchaseTotal : "€") }
-          { renderDetailRow(strings.portfolio.statistics.change, `${selectedCompany ? totalChangeAmount : "€"}  |  ${selectedCompany ? totalChangePercentage : "%"}`) }
+          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, selectedCompany ? purchaseTotal : "0,00 €") }
+          { renderDetailRow(strings.portfolio.statistics.change, `${selectedCompany ? totalChangeAmount : "0,00 €"}  |  ${selectedCompany ? totalChangePercentage : "0,00 %"}`) }
         </View>
       </View>
     );
