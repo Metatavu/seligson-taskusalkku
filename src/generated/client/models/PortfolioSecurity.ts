@@ -43,6 +43,12 @@ export interface PortfolioSecurity {
      * @memberof PortfolioSecurity
      */
     readonly totalValue: string;
+    /**
+     * Rate date
+     * @type {Date}
+     * @memberof PortfolioSecurity
+     */
+    readonly rateDate?: Date;
 }
 
 export function PortfolioSecurityFromJSON(json: any): PortfolioSecurity {
@@ -59,6 +65,7 @@ export function PortfolioSecurityFromJSONTyped(json: any, ignoreDiscriminator: b
         'amount': json['amount'],
         'purchaseValue': json['purchaseValue'],
         'totalValue': json['totalValue'],
+        'rateDate': !exists(json, 'rateDate') ? undefined : (new Date(json['rateDate'])),
     };
 }
 
