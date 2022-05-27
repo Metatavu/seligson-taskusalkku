@@ -39,6 +39,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
   const theme = useTheme();
   const styles = fundCardStyles(theme, color || "#FFF");
   const navigation = useNavigation<PortfolioNavigator.NavigationProps>();
+  const rateDate = portfolioSecurity.rateDate || priceDate;
 
   /**
    * Renders risk meter
@@ -99,7 +100,7 @@ const PortfolioSecurityCard: React.FC<Props> = ({ portfolioSecurity, security, f
         { renderRiskMeter() }
         <Icon name="calendar" size={ 12 } color={ theme.colors.grey[600] }/>
         <Text style={ styles.lastUpdated }>
-          { priceDate && DateUtils.formatToFinnishDate(priceDate) }
+          { rateDate && DateUtils.formatToFinnishDate(rateDate) }
         </Text>
       </View>
     </View>
