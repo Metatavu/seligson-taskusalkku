@@ -9,7 +9,7 @@ import "dotenv/config";
  * !!! DO NOT PUT ANY SECRETS TO ENVIRONMENT VARIABLES !!!
  */
 
-const version = "25.1.3";
+const version = "25.1.4";
 
 /**
  * Generates Android version code from version string

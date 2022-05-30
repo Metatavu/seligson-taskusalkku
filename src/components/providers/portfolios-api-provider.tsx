@@ -59,7 +59,7 @@ const PortfoliosApiProvider: React.FC = ({ children }) => {
 
       const result = AuthUtils.isDemoUser(auth) ?
         TestData.listTestPortfolios(8) :
-        await Api.getPortfoliosApi(auth).listPortfolios(params);
+        await Api.getPortfoliosApi(auth).listPortfoliosV2(params);
 
       return result;
     } catch (error) {
