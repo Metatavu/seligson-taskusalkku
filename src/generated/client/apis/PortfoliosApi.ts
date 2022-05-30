@@ -67,7 +67,7 @@ export interface ListPortfolioTransactionsRequest {
     transactionType?: TransactionType;
 }
 
-export interface ListPortfoliosRequest {
+export interface ListPortfoliosV2Request {
     companyId?: string;
 }
 
@@ -368,12 +368,8 @@ export class PortfoliosApi extends runtime.BaseAPI {
      * Lists portfolios logged user has access to
      * List portfolios.
      */
-    async listPortfoliosRaw(requestParameters: ListPortfoliosRequest): Promise<runtime.ApiResponse<Array<Portfolio>>> {
+    async listPortfoliosRaw(): Promise<runtime.ApiResponse<Array<Portfolio>>> {
         const queryParameters: any = {};
-
-        if (requestParameters.companyId !== undefined) {
-            queryParameters['companyId'] = requestParameters.companyId;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -399,8 +395,48 @@ export class PortfoliosApi extends runtime.BaseAPI {
      * Lists portfolios logged user has access to
      * List portfolios.
      */
-    async listPortfolios(requestParameters: ListPortfoliosRequest): Promise<Array<Portfolio>> {
-        const response = await this.listPortfoliosRaw(requestParameters);
+    async listPortfolios(): Promise<Array<Portfolio>> {
+        const response = await this.listPortfoliosRaw();
+        return await response.value();
+    }
+
+    /**
+     * Lists portfolios logged user has access to
+     * List portfolios.
+     */
+    async listPortfoliosV2Raw(requestParameters: ListPortfoliosV2Request): Promise<runtime.ApiResponse<Array<Portfolio>>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.companyId !== undefined) {
+            queryParameters['companyId'] = requestParameters.companyId;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/v2/portfolios`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PortfolioFromJSON));
+    }
+
+    /**
+     * Lists portfolios logged user has access to
+     * List portfolios.
+     */
+    async listPortfoliosV2(requestParameters: ListPortfoliosV2Request): Promise<Array<Portfolio>> {
+        const response = await this.listPortfoliosV2Raw(requestParameters);
         return await response.value();
     }
 
