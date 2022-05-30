@@ -1,3 +1,4 @@
+apis/CompaniesApi.ts
 apis/FundsApi.ts
 apis/MeetingsApi.ts
 apis/PortfoliosApi.ts
@@ -6,6 +7,8 @@ apis/SystemApi.ts
 apis/index.ts
 index.ts
 models/ChangeData.ts
+models/Company.ts
+models/CompanyAccessLevel.ts
 models/Fund.ts
 models/FundGroup.ts
 models/LocalizedValue.ts

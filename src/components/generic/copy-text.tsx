@@ -1,8 +1,9 @@
-import React from "react";
-import { Text, View } from "react-native";
-import * as Clipboard from "expo-clipboard";
+import React, { useContext } from "react";
+import { Text, View, Clipboard } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
+import strings from "../../localization/strings";
 import styles from "../../styles/generic/copy-text";
+import { ErrorContext } from "../error-handler/error-handler";
 
 /**
  * Component properties
@@ -26,6 +27,7 @@ const CopyText: React.FC<Props> = ({
   callback
 }) => {
   const { colors } = useTheme();
+  const errorContext = useContext(ErrorContext);
 
   /**
    * Copies the string into clipboard 
@@ -33,8 +35,12 @@ const CopyText: React.FC<Props> = ({
    * @param value value to be copied
    */
   const copyToClipBoard = async (value: string) => {
-    await Clipboard.setString(value);
-    callback && callback();
+    try {
+      await Clipboard.setString(value);
+      callback && callback();
+    } catch (error) {
+      errorContext.setError(strings.errorHandling.generic.copy, error);
+    }
   };
 
   /**

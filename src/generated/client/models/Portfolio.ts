@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    CompanyAccessLevel,
+    CompanyAccessLevelFromJSON,
+    CompanyAccessLevelFromJSONTyped,
+    CompanyAccessLevelToJSON,
+} from './';
+
 /**
  * Portfolio object
  * @export
@@ -30,7 +37,19 @@ export interface Portfolio {
      * @type {string}
      * @memberof Portfolio
      */
+    readonly companyId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Portfolio
+     */
     name: string;
+    /**
+     * 
+     * @type {CompanyAccessLevel}
+     * @memberof Portfolio
+     */
+    accessLevel: CompanyAccessLevel;
     /**
      * Total amount in euros
      * @type {string}
@@ -74,7 +93,9 @@ export function PortfolioFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'companyId': !exists(json, 'companyId') ? undefined : json['companyId'],
         'name': json['name'],
+        'accessLevel': CompanyAccessLevelFromJSON(json['accessLevel']),
         'totalAmount': !exists(json, 'totalAmount') ? undefined : json['totalAmount'],
         'marketValueTotal': !exists(json, 'marketValueTotal') ? undefined : json['marketValueTotal'],
         'purchaseTotal': !exists(json, 'purchaseTotal') ? undefined : json['purchaseTotal'],
@@ -93,6 +114,7 @@ export function PortfolioToJSON(value?: Portfolio | null): any {
     return {
         
         'name': value.name,
+        'accessLevel': CompanyAccessLevelToJSON(value.accessLevel),
     };
 }
 

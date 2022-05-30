@@ -1,6 +1,6 @@
 import React from "react";
 import { GestureResponderEvent, ScrollView, View, ActivityIndicator, Text } from "react-native";
-import { Paragraph, Title } from "react-native-paper";
+import { Divider, Paragraph, Title } from "react-native-paper";
 import { PortfolioHistoryValue, PortfolioSummary } from "../../../generated/client";
 import strings from "../../../localization/strings";
 import { ErrorContext } from "../../error-handler/error-handler";
@@ -19,6 +19,8 @@ import theme from "../../../theme";
 import HistoryValueChart from "../../generic/history-value-chart";
 import DateUtils from "../../../utils/date-utils";
 import { useHardwareGoBack } from "../../../app/hooks";
+import CompanySelect from "./company-select";
+import { CompanyContext } from "../../providers/company-provider";
 
 /**
  * Statistics screen component
@@ -26,7 +28,18 @@ import { useHardwareGoBack } from "../../../app/hooks";
 const StatisticsScreen: React.FC = () => {
   useHardwareGoBack();
   const errorContext = React.useContext(ErrorContext);
-  const { portfolios, selectedPortfolio, getEffectivePortfolios } = React.useContext(PortfolioContext);
+  const { selectedCompany } = React.useContext(CompanyContext);
+
+  const {
+    portfolios,
+    selectedPortfolio,
+    getEffectivePortfolios,
+    setStatisticsLoaderParams,
+    savedHistoryValues,
+    saveHistoryValues,
+    statisticsLoaderParams
+  } = React.useContext(PortfolioContext);
+
   const portfoliosApiContext = React.useContext(PortfoliosApiContext);
   const focus = useIsFocused();
 
@@ -34,14 +47,18 @@ const StatisticsScreen: React.FC = () => {
   const [ historyLoading, setHistoryLoading ] = React.useState(false);
   const [ summaries, setSummaries ] = React.useState<PortfolioSummary[]>();
   const [ historyValues, setHistoryValues ] = React.useState<PortfolioHistoryValue[]>();
-  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(ChartRange.MAX);
+  const [ selectedRange, setSelectedRange ] = React.useState<Date[] | ChartRange>(statisticsLoaderParams?.range || ChartRange.MAX);
   const [ scrollEnabled, setScrollEnabled ] = React.useState(true);
 
   /**
    * Loads history data
    */
   const loadHistoryData = async () => {
-    const effectivePortfolios = getEffectivePortfolios();
+    if (savedHistoryValues.length > 0) {
+      return savedHistoryValues;
+    }
+
+    const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
 
@@ -73,7 +90,7 @@ const StatisticsScreen: React.FC = () => {
    * Load portfolio summaries
    */
   const loadSummaries = async () => {
-    const effectivePortfolios = getEffectivePortfolios();
+    const effectivePortfolios = getEffectivePortfolios(selectedCompany);
 
     if (!effectivePortfolios) return;
 
@@ -107,6 +124,7 @@ const StatisticsScreen: React.FC = () => {
    * Fetch component data
    */
   const fetchData = async () => {
+    setStatisticsLoaderParams({ range: selectedRange, effectivePortfolios: getEffectivePortfolios(selectedCompany) });
     !summaries && setLoading(true);
     setHistoryLoading(true);
 
@@ -116,6 +134,7 @@ const StatisticsScreen: React.FC = () => {
     ]);
 
     if (portfolioHistoryValues) {
+      saveHistoryValues(portfolioHistoryValues);
       setHistoryValues(portfolioHistoryValues);
       setHistoryLoading(false);
     }
@@ -130,8 +149,12 @@ const StatisticsScreen: React.FC = () => {
    * Effect for loading own funds when this screen gets focused
    */
   React.useLayoutEffect(() => {
+    if (!selectedCompany) {
+      return;
+    }
+
     focus && fetchData();
-  }, [ focus, portfolios, selectedPortfolio, selectedRange ]);
+  }, [ focus, portfolios, selectedPortfolio, selectedRange, selectedCompany ]);
 
   /**
    * Renders info row
@@ -159,7 +182,7 @@ const StatisticsScreen: React.FC = () => {
       purchaseTotal,
       totalChangeAmount,
       totalChangePercentage
-    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios() || []);
+    } = Calculations.getTotalPortfolioInfo(getEffectivePortfolios(selectedCompany) || []);
 
     return (
       <View>
@@ -175,11 +198,11 @@ const StatisticsScreen: React.FC = () => {
               style={ styles.totalIcon }
             />
             <Title style={{ color: theme.colors.primary }}>
-              { marketValueTotal }
+              { selectedCompany ? marketValueTotal : "0,00 €" }
             </Title>
           </View>
-          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, purchaseTotal) }
-          { renderDetailRow(strings.portfolio.statistics.change, `${totalChangeAmount}  |  ${totalChangePercentage}`) }
+          { renderDetailRow(strings.portfolio.statistics.purchaseTotal, selectedCompany ? purchaseTotal : "0,00 €") }
+          { renderDetailRow(strings.portfolio.statistics.change, `${selectedCompany ? totalChangeAmount : "0,00 €"}  |  ${selectedCompany ? totalChangePercentage : "0,00 %"}`) }
         </View>
       </View>
     );
@@ -189,7 +212,7 @@ const StatisticsScreen: React.FC = () => {
    * Renders chart
    */
   const renderChart = () => {
-    if (historyLoading) {
+    if (historyLoading || loading) {
       return (
         <View style={ styles.chartLoaderContainer }>
           <ActivityIndicator size="large" color={ theme.colors.primary }/>
@@ -205,6 +228,16 @@ const StatisticsScreen: React.FC = () => {
         onChartTouch={ toggleScroll(false) }
       />
     );
+  };
+
+  /**
+   * Handles updating selected range
+   * 
+   * @param range new range
+   */
+  const onRangeUpdate = (range: ChartRange | Date[]) => {
+    saveHistoryValues([]);
+    setSelectedRange(range);
   };
 
   /**
@@ -226,7 +259,7 @@ const StatisticsScreen: React.FC = () => {
         <ChartRangeSelector
           selectedRange={ selectedRange }
           loading={ loading }
-          onDateRangeChange={ setSelectedRange }
+          onDateRangeChange={ onRangeUpdate }
         />
         { renderChart() }
       </>
@@ -267,14 +300,6 @@ const StatisticsScreen: React.FC = () => {
    * Renders content
    */
   const renderContent = () => {
-    if (loading) {
-      return (
-        <View style={ styles.loaderContainer }>
-          <ActivityIndicator size="large" color={ theme.colors.primary }/>
-        </View>
-      );
-    }
-
     return (
       <ScrollView
         style={ styles.scrollView }
@@ -285,7 +310,9 @@ const StatisticsScreen: React.FC = () => {
           style={ styles.overview }
           onTouchStart={ toggleScroll(true) }
         >
-          <PortfolioSelect/>
+          <CompanySelect loading={ historyLoading }/>
+          <Divider style={{ backgroundColor: "white" }}/>
+          <PortfolioSelect loading={ historyLoading }/>
           { renderTotalDetails() }
         </View>
         <View style={ styles.chartAndDetailsWrapper }>

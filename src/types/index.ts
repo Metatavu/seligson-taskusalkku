@@ -1,4 +1,4 @@
-import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, ListSecurityHistoryValuesRequest, SecurityHistoryValue } from "../generated/client";
+import { FindFundRequest, FindPortfolioTransactionRequest, Fund, GetPortfolioSummaryRequest, ListFundsRequest, ListPortfolioSecuritiesRequest, ListPortfolioHistoryValuesRequest, ListPortfolioTransactionsRequest, Portfolio, PortfolioSecurity, PortfolioHistoryValue, PortfolioSummary, PortfolioTransaction, ListSecuritiesRequest, Security, FindSecurityRequest, CreateMeetingRequest, ListMeetingTimesRequest, Meeting, MeetingTime, ListSecurityHistoryValuesRequest, SecurityHistoryValue, Company, ListPortfoliosRequest } from "../generated/client";
 
 /**
  * Parsed access token
@@ -45,13 +45,43 @@ export interface ErrorContextType {
 }
 
 /**
+ * Statistics loader params
+ */
+export interface StatisticsLoaderParams {
+  effectivePortfolios: Portfolio[];
+  range: Date[] | ChartRange;
+}
+
+/**
+ * Categories loader params
+ */
+export interface CategoriesLoaderParams {
+  effectivePortfolios: Portfolio[];
+  portfolioId?: string;
+}
+
+/**
  * Interface for portfolio context
  */
 export interface PortfolioContextType {
   portfolios?: Portfolio[];
   selectedPortfolio?: Portfolio;
-  getEffectivePortfolios: () => Portfolio[] | undefined;
+  getEffectivePortfolios: (company: Company | undefined) => Portfolio[];
+  getCompanyPortfolios: (company: Company | undefined) => Portfolio[];
   onChange: (portfolio?: Portfolio) => void;
+  statisticsLoaderParams?: StatisticsLoaderParams;
+  setStatisticsLoaderParams: (params?: StatisticsLoaderParams) => void;
+  savedHistoryValues: SecurityHistoryValue[];
+  saveHistoryValues: (historyValues: SecurityHistoryValue[]) => void;
+}
+
+/**
+ * Interface for company context
+ */
+export interface CompanyContextType {
+  companies?: Company[];
+  selectedCompany?: Company;
+  onChange: (Company: Company) => void;
 }
 
 /**
@@ -75,12 +105,19 @@ export interface SecuritiesApiContextType {
  * Interface for portfolios API context
  */
 export interface PortfoliosApiContextType {
-  listPortfolios: () => Promise<Portfolio[]>;
+  listPortfolios: (params: ListPortfoliosRequest) => Promise<Portfolio[]>;
   getPortfolioSummary: (params: GetPortfolioSummaryRequest) => Promise<PortfolioSummary>;
   listPortfolioHistoryValues: (params: ListPortfolioHistoryValuesRequest) => Promise<PortfolioHistoryValue[]>;
   listPortfolioSecurities: (params: ListPortfolioSecuritiesRequest) => Promise<PortfolioSecurity[]>;
   listPortfolioTransactions: (params: ListPortfolioTransactionsRequest) => Promise<PortfolioTransaction[]>;
   findPortfolioTransaction: (params: FindPortfolioTransactionRequest) => Promise<PortfolioTransaction>;
+}
+
+/**
+ * Interface for company API context
+ */
+export interface CompanyApiContextType {
+  listCompany: () => Promise<Company[]>;
 }
 
 /**

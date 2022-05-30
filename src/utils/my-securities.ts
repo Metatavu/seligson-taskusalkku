@@ -1,3 +1,4 @@
+import { Portfolio } from "../generated/client";
 import { MySecurityInfo } from "../types";
 import GenericUtils from "./generic";
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import { CommonActions, CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { Button } from "react-native-paper";
 import Config from "../../app/config";
 import { useAppDispatch, useAppSelector, useHardwareGoBack } from "../../app/hooks";
@@ -19,6 +19,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import RadioButtonOptionItem from "../generic/radio-button-option-item";
 import BiometricAuth from "../../utils/biometric-auth";
 import theme from "../../theme";
+import * as Updates from "expo-updates";
+import Constants from "expo-constants";
+import { PortfolioContext } from "../providers/portfolio-provider";
 
 /**
  * Custom navigation prop type for SettingsScreen. Consists of HomeNavigator and RootNavigator
@@ -38,6 +41,10 @@ const SettingsScreen: React.FC = () => {
   const [ selectedInitialRoute, setSelectedInitialRoute ] = React.useState<keyof HomeNavigator.Routes | undefined>();
   const [ selectedLoginOption, setSelectedLoginOption ] = React.useState<string>();
   const [ pinInputOpen, setPinInputOpen ] = React.useState(false);
+  const {
+    setStatisticsLoaderParams,
+    saveHistoryValues
+  } = React.useContext(PortfolioContext);
   const [ deviceSupportsBiometric, setDeviceSupportsBiometric ] = React.useState(false);
 
   /**
@@ -127,6 +134,8 @@ const SettingsScreen: React.FC = () => {
    * Event handler for log out press
    */
   const onLogout = async () => {
+    setStatisticsLoaderParams(undefined);
+    saveHistoryValues([]);
     dispatch(logout());
     navigation.reset({ routes: [{ name: "authentication" }] });
   };
@@ -170,10 +179,7 @@ const SettingsScreen: React.FC = () => {
    */
   const renderLoginOptions = () => (
     Object.values(LoginOptions).map(option => {
-      if (
-        (option === LoginOptions.DEMO && !Config.getStatic().developmentBuild) ||
-        (option === LoginOptions.BIOMETRIC && !deviceSupportsBiometric)
-      ) {
+      if (option === LoginOptions.BIOMETRIC && !deviceSupportsBiometric) {
         return null;
       }
 
@@ -227,6 +233,26 @@ const SettingsScreen: React.FC = () => {
   );
 
   /**
+   * Renders version info
+   */
+  const renderVersionInfo = () => {
+    if (!Updates || !Constants.platform) return null;
+    const { manifest } = Constants;
+    const version = Platform.OS === "ios" ? manifest?.ios?.buildNumber : manifest?.android?.versionCode;
+
+    return (
+      <View style={ styles.versionRow }>
+        <Text style={ styles.versionText }>
+          { `${strings.settingsScreen.version}: ${version}` }
+        </Text>
+        <Text style={ styles.versionText }>
+          { `${strings.settingsScreen.releaseChannel}: ${Updates.releaseChannel}` }
+        </Text>
+      </View>
+    );
+  };
+
+  /**
    * Component render
    */
   return (
@@ -244,6 +270,7 @@ const SettingsScreen: React.FC = () => {
             </Text>
           </Button>
         }
+        { renderVersionInfo() }
       </ScrollView>
       <PinInput
         inputOpen={ pinInputOpen }
