@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, View, Text, TextInput, Linking. TouchableOpacity } from "react-native";
+import { Platform, View, Text, TextInput, Linking, TouchableOpacity } from "react-native";
 import { Card, Button, useTheme, Snackbar, Divider } from "react-native-paper";
 import { NavigationProp, Route, useNavigation, useRoute } from "@react-navigation/native";
 import styles from "../../../styles/screens/funds/subscription-settings";
