@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, View, Text, TextInput, Linking } from "react-native";
+import { Platform, View, Text, TextInput, Linking. TouchableOpacity } from "react-native";
 import { Card, Button, useTheme, Snackbar, Divider } from "react-native-paper";
 import { NavigationProp, Route, useNavigation, useRoute } from "@react-navigation/native";
 import styles from "../../../styles/screens/funds/subscription-settings";
@@ -8,7 +8,6 @@ import strings from "../../../localization/strings";
 import GenericUtils from "../../../utils/generic";
 import { PORTFOLIO_REFERENCE_TYPE, SubscriptionOption, SubscriptionSettings } from "../../../types";
 import { ErrorContext } from "../../error-handler/error-handler";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import BasicModal from "../../generic/basic-modal";
 import RadioButtonOptionItem from "../../generic/radio-button-option-item";
 import produce from "immer";

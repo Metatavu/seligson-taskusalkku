@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import { CommonActions, CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
 import Config from "../../app/config";
 import { useAppDispatch, useAppSelector, useHardwareGoBack } from "../../app/hooks";
@@ -15,7 +15,6 @@ import PinCodeAuth from "../../utils/pin-code-auth";
 import styles from "../../styles/screens/settings-screen";
 import strings from "../../localization/strings";
 import TranslationUtils from "../../utils/translations";
-import { ScrollView } from "react-native-gesture-handler";
 import RadioButtonOptionItem from "../generic/radio-button-option-item";
 import BiometricAuth from "../../utils/biometric-auth";
 import theme from "../../theme";

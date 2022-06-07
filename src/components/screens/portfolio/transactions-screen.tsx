@@ -1,7 +1,6 @@
 import React from "react";
-import { View, ActivityIndicator, Text } from "react-native";
+import { View, ActivityIndicator, Text, ScrollView } from "react-native";
 import TransactionsCard from "../../generic/transactions-card";
-import { ScrollView } from "react-native-gesture-handler";
 import { Fund, Portfolio, PortfolioTransaction, Security, TransactionType } from "../../../generated/client";
 import { ErrorContext } from "../../error-handler/error-handler";
 import strings from "../../../localization/strings";

@@ -1,11 +1,10 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import theme from "../../theme";
 import transactionsCardStyles from "../../styles/generic/transactions-card";
 import strings from "../../localization/strings";
 import { Fund, PortfolioTransaction, Security } from "../../generated/client";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import GenericUtils from "../../utils/generic";
 import { useNavigation } from "@react-navigation/native";
 import Calculations from "../../utils/calculations";
