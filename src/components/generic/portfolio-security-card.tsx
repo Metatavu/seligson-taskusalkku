@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import fundCardStyles from "../../styles/generic/fund-card";
@@ -9,13 +9,11 @@ import GenericUtils from "../../utils/generic";
 import BigNumber from "bignumber.js";
 import Calculations from "../../utils/calculations";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import DateUtils from "../../utils/date-utils";
 import { SeligsonLogoSmall } from "../../../assets/seligson-logo";
 import LahitapiolaLogoSmall from "../../../assets/lahitapiola-logo";
 import FundUtils from "../../utils/funds";
 import PortfolioNavigator from "../../types/navigators/portfolio";
-import { Currency } from "../../types";
 
 /**
  * Component properties

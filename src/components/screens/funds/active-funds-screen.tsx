@@ -1,8 +1,7 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, TouchableOpacity } from "react-native";
 import FundCard from "../../generic/fund-card";
 import { Fund } from "../../../generated/client/models/Fund";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FundsNavigator from "../../../types/navigators/funds";
 import styles from "../../../styles/screens/funds/active-funds";

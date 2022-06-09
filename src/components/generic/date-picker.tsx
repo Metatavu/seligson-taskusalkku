@@ -1,7 +1,6 @@
 import React, { CSSProperties } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Modal, Platform, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Modal, Platform, View, TouchableOpacity } from "react-native";
 import { IOSMode } from "../../types";
 import styles from "../../styles/generic/date-picker";
 import { Button } from "react-native-paper";
