@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, ScrollView } from "react-native";
 import { Button, Card, Dialog, Paragraph, Portal } from "react-native-paper";
 import strings from "../../../localization/strings";
 import { MeetingTime } from "../../../generated/client";
@@ -8,7 +8,6 @@ import { MeetingsApiContext } from "../../providers/meetings-api-provider";
 import { ErrorContext } from "../../error-handler/error-handler";
 import MeetingNavigator from "../../../types/navigators/meeting";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
 import styles from "../../../styles/screens/meeting/meeting-times-screen";
 import theme from "../../../theme";
 import DatePicker from "../../generic/date-picker";

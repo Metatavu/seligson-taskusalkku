@@ -9,7 +9,7 @@ import "dotenv/config";
  * !!! DO NOT PUT ANY SECRETS TO ENVIRONMENT VARIABLES !!!
  */
 
-const version = "25.1.4";
+const version = "26.0.0";
 
 /**
  * Generates Android version code from version string
@@ -32,7 +32,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     ...config.ios,
     bundleIdentifier: process.env.REACT_APP_EXPO_IOS_BUNDLE_IDENTIFIER || "fi.seligson",
-    buildNumber: version
+    buildNumber: version,
+    config: {
+      usesNonExemptEncryption: false
+    }
   },
   android: {
     ...config.android,
