@@ -19,6 +19,7 @@ import BackButton from "../../generic/back-button";
 import { useHardwareGoBack } from "../../../app/hooks";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { PortfolioContext } from "../../providers/portfolio-provider";
+import PortfolioUtils from "../../../utils/portfolio-utils";
 
 /**
  * Component properties
@@ -49,7 +50,6 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
   const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
-  const [ reference, setReference ] = React.useState<SubscriptionOption>();
   const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
     fund: fund,
     dueDate: new Date(),
@@ -90,20 +90,6 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   };
 
   /**
-   * Update reference handler
-   *
-   * @param portfolio portfolio
-   */
-  const updateReference = (portfolio: Portfolio) => {
-    setReference({
-      label: strings.subscription.shares.a.title,
-      description: strings.subscription.shares.a.description,
-      key: PORTFOLIO_REFERENCE_TYPE.A,
-      value: portfolio.aReference || ""
-    });
-  };
-
-  /**
    * Select default options
    *
    * @param bankOption bank option
@@ -114,8 +100,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
       ...subscriptionSettings,
       bankName: bankOption?.label,
       iBAN: bankOption?.value,
-      portfolio: portfolio,
-      referenceNumber: portfolio?.aReference
+      portfolio: portfolio
     });
   };
 
@@ -159,13 +144,6 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   React.useEffect(() => { loadData(); }, []);
 
   /**
-   * Effect for updating reference options
-   */
-  React.useEffect(() => {
-    subscriptionSettings.portfolio && updateReference(subscriptionSettings.portfolio);
-  }, [ subscriptionSettings.portfolio ]);
-
-  /**
    * On subscription sum change handler
    *
    * @param sum sum
@@ -204,7 +182,6 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const validateSettings = () => (
     !!subscriptionSettings.portfolio &&
     !!subscriptionSettings.iBAN &&
-    !!subscriptionSettings.referenceNumber &&
     validNumber(subscriptionSettings.sum)
   );
 
@@ -477,7 +454,7 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
               { strings.subscription.shares.a.title }
             </Text>
           ),
-          () => renderCopyText(reference?.value || "")
+          () => renderCopyText(PortfolioUtils.getReferenceNumber(subscriptionSettings) || "")
         )
       }
       <Divider/>
