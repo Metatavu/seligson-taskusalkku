@@ -20,6 +20,7 @@ import { useHardwareGoBack } from "../../../app/hooks";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { PortfolioContext } from "../../providers/portfolio-provider";
 import PortfolioUtils from "../../../utils/portfolio-utils";
+import { CompanyContext } from "../../providers/company-provider";
 
 /**
  * Component properties
@@ -42,13 +43,14 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
   const navigation = useNavigation();
   const route = useRoute<Route<"", { fund: Fund }>>();
   const { fund } = route.params;
-  const { portfolios } = React.useContext(PortfolioContext);
+  const { selectedCompany } = React.useContext(CompanyContext);
+  const { getCompanyPortfolios } = React.useContext(PortfolioContext);
+
   const errorContext = React.useContext(ErrorContext);
 
   const [ snackBarOpen, setSnackBarOpen ] = React.useState(false);
   const [ bankOptionVisible, setBankOptionVisible ] = React.useState(false);
   const [ portfolioOptionVisible, setPortfolioOptionVisible ] = React.useState(false);
-  const [ portfolioOptions, setPortfolioOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ bankOptions, setBankOptions ] = React.useState<SubscriptionOption[]>([]);
   const [ subscriptionSettings, setSubscriptionSettings ] = React.useState<SubscriptionSettings>({
     fund: fund,
@@ -56,6 +58,8 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
     shareType: PORTFOLIO_REFERENCE_TYPE.A,
     sum: ""
   });
+  
+  const companyPortfolios = getCompanyPortfolios(selectedCompany);
 
   /**
    * Reference options select handler
@@ -78,14 +82,13 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    * @param portfolioOption portfolio option
    */
   const onPortfolioOptionSelect = (portfolioOption: SubscriptionOption) => {
-    const foundPortfolio = (portfolios || []).find(p => p.id === portfolioOption.key);
-
-    if (!foundPortfolio) return;
+    const foundPortfolio = (companyPortfolios || []).find(p => p.id === portfolioOption.key);
 
     setSubscriptionSettings({
       ...subscriptionSettings,
       portfolio: foundPortfolio
     });
+
     setPortfolioOptionVisible(false);
   };
 
@@ -109,14 +112,6 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
    */
   const loadData = async () => {
     try {
-      const loadedPortfolioOptions = (portfolios || []).map(portfolio => ({
-        key: portfolio.id || "",
-        label: portfolio.name,
-        value: portfolio.name
-      }));
-
-      setPortfolioOptions(loadedPortfolioOptions);
-
       const fundBankOptions = (fund.subscriptionBankAccounts || []).reduce<SubscriptionOption[]>((options, { iBAN, bankAccountName }) => {
         const bankName = bankAccountName?.split("/ ")[1];
 
@@ -131,8 +126,9 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
         return options;
       }, []);
 
+      const defaultPortfolio = companyPortfolios?.length === 1 ? companyPortfolios[0] : undefined;
       setBankOptions(fundBankOptions);
-      selectDefaultOptions(fundBankOptions[0], (portfolios || [])[0]);
+      selectDefaultOptions(fundBankOptions[0], defaultPortfolio);
     } catch (error) {
       errorContext.setError(strings.errorHandling.portfolio.list, error);
     }
@@ -358,24 +354,64 @@ const SubscriptionSettingsScreen: React.FC<Props> = ({ onProceed }) => {
     label: string,
     visible: boolean,
     setVisible: (visible: boolean) => void
-  ) => (
-    <>
-      <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
-        { label }
-      </Text>
-      <View style={{ paddingVertical: theme.spacing(2) }}>
-        {
-          renderSelect(
-            visible,
-            setVisible,
-            portfolioOptions,
-            onPortfolioOptionSelect,
-            portfolioOptions.find(option => option.key === subscriptionSettings.portfolio?.id)
-          )
-        }
-      </View>
-    </>
-  );
+  ) => {
+    if (!companyPortfolios) {
+      return null;
+    }
+
+    if (companyPortfolios.length === 1) {
+      if (!subscriptionSettings.portfolio) {
+        return null;
+      }
+
+      return (
+        <>
+          <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
+            { label }
+          </Text>
+          <View style={{ paddingVertical: theme.spacing(2) }}>
+            <Text style={[ theme.fonts.medium ]}>
+              { subscriptionSettings.portfolio?.name }
+            </Text>
+          </View>
+        </>
+      );
+    }
+
+    const portfolioOptions = companyPortfolios.map(companyPortfolio => ({
+      key: companyPortfolio.id || "",
+      label: companyPortfolio.name,
+      value: companyPortfolio.id!!
+    }));
+
+    const options = [{
+      key: "undefined-portfolio",
+      label: strings.subscription.noPortfolioSelected,
+      value: ""
+    }].concat(portfolioOptions);
+
+    const selectedPortfolioId = subscriptionSettings.portfolio?.id;
+    const selectedOption = selectedPortfolioId ? options.find(option => option.key === selectedPortfolioId) : options[0];
+
+    return (
+      <>
+        <Text style={[ theme.fonts.medium, { color: theme.colors.primary } ]}>
+          { label }
+        </Text>
+        <View style={{ paddingVertical: theme.spacing(2) }}>
+          {
+            renderSelect(
+              visible,
+              setVisible,
+              options,
+              onPortfolioOptionSelect,
+              selectedOption
+            )
+          }
+        </View>
+      </>
+    );
+  };
 
   /**
    * Renders sum input

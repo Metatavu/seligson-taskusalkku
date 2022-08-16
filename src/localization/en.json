@@ -136,6 +136,7 @@
     "settingsDescription": "Below you can copy the fund's account number and your own reference number or create a virtual barcode to be entered in the online bank.",
     "accountNumber": "Account number",
     "recipient": "Recipient",
+    "noPortfolioSelected": "-- Select portfolio --",
     "portfolio": "Portfolio",
     "referenceNumber": "Reference number",
     "subscriptionAmount": "Subscription amount",

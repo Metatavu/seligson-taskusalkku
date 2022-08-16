@@ -168,6 +168,7 @@ export interface Strings extends LocalizedStringsMethods {
     accountNumber: string;
     recipient: string;
     portfolio: string;
+    noPortfolioSelected: string;
     referenceNumber: string;
     subscriptionAmount: string;
     dueDate: string;

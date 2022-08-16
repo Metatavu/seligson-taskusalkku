@@ -135,6 +135,7 @@
     "settingsDescription": "Alta voit kopioida rahaston tilinumeron ja oman viitenumerosi tai luoda verkkopankkiin syötettävän virtuaaliviivakoodin.",
     "accountNumber": "Tilinumero",
     "recipient": "Saaja",
+    "noPortfolioSelected": "-- Valitse portfolio --",
     "portfolio": "Salkku",
     "referenceNumber": "Viitenumero",
     "subscriptionAmount": "Merkintäsumma",
