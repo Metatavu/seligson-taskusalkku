@@ -5,6 +5,7 @@ import { SubscriptionSettings } from "../types";
 import * as IntentLauncher from "expo-intent-launcher";
 import * as FileSystem from "expo-file-system";
 import theme from "../theme";
+import PortfolioUtils from "./portfolio-utils";
 
 /**
  * Namespace for generic utility methods
@@ -67,8 +68,9 @@ namespace GenericUtils {
    * @param subscriptionSettings subscription settings
    */
   export const generateBarCode = (subscriptionSettings: SubscriptionSettings) => {
-    const { iBAN, dueDate, sum, referenceNumber } = subscriptionSettings;
+    const { iBAN, dueDate, sum } = subscriptionSettings;
 
+    const referenceNumber = PortfolioUtils.getReferenceNumber(subscriptionSettings);
     const formattedIban = iBAN?.replace("FI", "").replace(/\s/g, "");
     const barCodeCurrencyValue = getBarCodeCurrencyValue(sum);
     const formattedReferenceNumber = (`00000000000000000000${referenceNumber}`).slice(-20);

@@ -135,6 +135,7 @@
     "settingsDescription": "Nedan kan du kopiera fondens kontonummer och ditt eget referensnummer, eller skapa en virtuell streckkod som du matar in i din nätbank.",
     "accountNumber": "Kontonummer",
     "recipient": "Mottagare",
+    "noPortfolioSelected": "-- Välja en portfölj --",
     "portfolio": "Portfölj",
     "referenceNumber": "Referensnummer",
     "subscriptionAmount": "Teckningssumma",

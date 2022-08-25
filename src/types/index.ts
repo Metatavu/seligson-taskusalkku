@@ -235,7 +235,6 @@ export interface SubscriptionOption {
 export interface SubscriptionSettings {
   bankName?: string;
   iBAN?: string;
-  referenceNumber?: string;
   portfolio?: Portfolio;
   shareType: PORTFOLIO_REFERENCE_TYPE;
   dueDate: Date;
